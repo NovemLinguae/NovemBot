@@ -194,3 +194,5 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		logError($e->getMessage());
 	}
 }
+
+echoAndFlush('', 'complete');

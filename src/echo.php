@@ -24,6 +24,10 @@ function echoAndFlush(string $str, string $type): void {
 			$color = 'yellow';
 			$description = 'Starting new topic';
 			break;
+		case 'complete':
+			$color = 'yellow';
+			$description = 'Run complete';
+			break;
 	}
 	
 	if ( $SHORT_WIKICODE_IN_CONSOLE ) {
