@@ -133,17 +133,7 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		$objwiki->edit($countPageTitle, $countPageWikicode);
 		
 		// STEP 6 - ADD TO GOOD/FEATURED TOPIC PAGE ==================================================
-		// GT's and FT's have different categories
-		// some GT's have subpages
-		// the |topic= in the {{article history}} template appears to only be for good articles?
-		// https://en.wikipedia.org/wiki/Wikipedia:WikiProject_Good_articles/Project_quality_task_force#Good_article_topic_values
-		/*
-		$topicType = getTopicType($mainArticleTalkPageWikicode, $mainArticleTitle);
-		$listPageTitle = getListPageTitle($topicType, $goodOrFeatured);
-		$listPageWikicode = $objwiki->getpage($listPageTitle);
-		$listPageWikicode = addTopicToListPage($listPageWikicode, $listPageTitle, $mainArticleTitle);
-		$objwiki->edit($listPageTitle, $listPageWikicode);
-		*/
+		// Too complex. Human must do this.
 		
 		// STEP 7 - CREATE CHILD CATEGORIES =================================================
 		$goodArticleCount = getGoodArticleCount($topicBoxWikicode);
