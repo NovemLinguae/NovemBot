@@ -45,12 +45,12 @@ $FEATURED_TOPIC_TYPES = [];
 
 require_once('bootstrap.php');
 
-// Keep randos from running the bot in browser and in bash
+// Randos can only run the bot in read only test mode
 if (
 	($_GET['password'] ?? '') != $config['httpAndBashPassword'] &&
 	($argv[1] ?? '') != $config['httpAndBashPassword']
 ) {
-	die('Invalid password.');
+	$READ_ONLY_TEST_MODE = true;
 }
 
 // log in
