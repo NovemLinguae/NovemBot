@@ -11,10 +11,12 @@ class WikiAPIWrapper {
 	}
 
 	function getpage(string $namespace_and_title) {
+		global $SECONDS_BETWEEN_API_READS;
 		$output = $this->objwiki->getpage($namespace_and_title);
 		$message = "Read data from page: $namespace_and_title";
 		$message .= "\n\n$output";
 		echoAndFlush($message, 'api_read');
+		sleep($SECONDS_BETWEEN_API_READS);
 		return $output;
 	}
 	
