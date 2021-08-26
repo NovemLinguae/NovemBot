@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 
 class StringTest extends TestCase {
-	function testTemplateWithParameters() {
+	function test_insertCodeAtEndOfFirstTemplate_TemplateWithParameters() {
 		$templateNameRegEx = 'Article ?history';
 		$codeToInsert = '[inserted code]';
 		$wikicode = '{{Article history|test}}';
@@ -15,7 +15,7 @@ class StringTest extends TestCase {
 		, $result);
 	}
 	
-	function testCaseInsensitiveIsWorking() {
+	function test_insertCodeAtEndOfFirstTemplate_CaseInsensitiveIsWorking() {
 		$templateNameRegEx = 'Article ?history';
 		$codeToInsert = '[inserted code]';
 		$wikicode = '{{article history|test}}';
@@ -27,7 +27,7 @@ class StringTest extends TestCase {
 		, $result);
 	}
 	
-	function testRegExIsWorking() {
+	function test_insertCodeAtEndOfFirstTemplate_RegExIsWorking() {
 		$templateNameRegEx = 'Article ?history';
 		$codeToInsert = '[inserted code]';
 		$wikicode = '{{Articlehistory|test}}';
@@ -39,7 +39,7 @@ class StringTest extends TestCase {
 		, $result);
 	}
 		
-	function testTemplateWithNestedTemplate() {
+	function test_insertCodeAtEndOfFirstTemplate_TemplateWithNestedTemplate() {
 		$templateNameRegEx = 'Article ?history';
 		$codeToInsert = '[inserted code]';
 		$wikicode = '{{Article history|{{Nested template}}test}}';
@@ -53,7 +53,7 @@ class StringTest extends TestCase {
 	
 	// In wikicode, not allowed to have a {{template name}} split across multiple lines, so no need to test that.
 	
-	function testTemplateWithNoParameters() {
+	function test_insertCodeAtEndOfFirstTemplate_TemplateWithNoParameters() {
 		$templateNameRegEx = 'Article ?history';
 		$codeToInsert = '[inserted code]';
 		$wikicode = '{{Article history}}';
@@ -65,7 +65,7 @@ class StringTest extends TestCase {
 		, $result);
 	}
 	
-	function testTwoTemplatesWithSameName() {
+	function test_insertCodeAtEndOfFirstTemplate_TwoTemplatesWithSameName() {
 		$templateNameRegEx = 'Article ?history';
 		$codeToInsert = '[inserted code]';
 		$wikicode = 
