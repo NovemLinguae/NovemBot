@@ -1,7 +1,5 @@
 <?php
 
-class giveUpOnThisTopic extends Exception {}
-
 function sliceNovemBotPromoteTemplate($wikicode, $title) {
 	preg_match('/\{\{User:NovemBot\/Promote([^\}]*)\}\}/i', $wikicode, $matches);
 	if ( ! $matches ) {
