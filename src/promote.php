@@ -344,6 +344,7 @@ function getFeaturedArticleCount($topicBoxWikicode) {
 	return $count;
 }
 
+/*
 function addHeadingIfNeeded($talkPageWikicode, $talkPageTitle) {
 	$newWikicode = $talkPageWikicode;
 	$hasHeadings = ( strpos($talkPageWikicode, '==') !== false );
@@ -356,6 +357,7 @@ function addHeadingIfNeeded($talkPageWikicode, $talkPageTitle) {
 	}
 	return $newWikicode;
 }
+*/
 
 function writeSuccessOrError($nominationPageWikicode, $nominationPageTitle) {
 	
