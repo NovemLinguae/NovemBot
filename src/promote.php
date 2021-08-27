@@ -231,7 +231,7 @@ function addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle) {
 	return $talkPageWikicode;
 }
 
-/* Add wikicode right above the first ==Header== if present, or at bottom of page. */
+/** Add wikicode right above the first ==Header== if present, or at bottom of page. */
 function addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd) {
 	$hasHeadings = strpos($talkPageWikicode, '==');
 	if ( $hasHeadings !== false ) {
@@ -355,4 +355,8 @@ function addHeadingIfNeeded($talkPageWikicode, $talkPageTitle) {
 		}
 	}
 	return $newWikicode;
+}
+
+function writeSuccessOrError($nominationPageWikicode, $nominationPageTitle) {
+	
 }

@@ -187,6 +187,10 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		
 		// STEP 1 - CLOSE THE NOMINATION =============================================================
 		// Replace template invokation with Success. ~~~~ or Error. ~~~~
+		/*
+		$nominationPageWikicode = writeSuccessOrError($nominationPageWikicode, $nominationPageTitle);
+		$objwiki->edit($nominationPageTitle, $nominationPageWikicode);
+		*/
 	} catch (giveUpOnThisTopic $e) {
 		logError($e->getMessage());
 	}
