@@ -16,26 +16,32 @@ $TEST_PAGES = [
 		'goodOrFeatured' => 'good',
 	],
 	*/
+	/*
 	2 => [
 		'nominationPageTitle' => 'Wikipedia:Featured and good topic candidates/Tour Championship (snooker)/archive1',
 		'goodOrFeatured' => 'featured',
 	],
+	*/
 	/*
 	3 => [
 		'nominationPageTitle' => 'Wikipedia:Featured and good topic candidates/Dua Lipa (album)/archive1',
 		'goodOrFeatured' => 'good',
 	],
 	*/
+	4 => [
+		'nominationPageTitle' => 'Wikipedia:Featured and good topic candidates/Meet the Woo 2/archive1',
+		'goodOrFeatured' => 'good',
+	],
 ];
 
 // constants
-$MAX_PAGES_ALLOWED_IN_CATEGORY = 3;
+$MAX_TOPICS_ALLOWED_IN_BOT_RUN = 3;
 $MAX_ARTICLES_ALLOWED_IN_TOPIC = 30;
 $TRACKING_CATEGORY_NAME = 'Category:Good and featured topics to promote';
 $SECONDS_BETWEEN_API_READS = 0; // https://www.mediawiki.org/wiki/API:Etiquette "Making your requests in series rather than in parallel, by waiting for one request to finish before sending a new request, should result in a safe request rate."
 $SECONDS_BETWEEN_API_EDITS = 10; // https://en.wikipedia.org/wiki/Wikipedia:Bot_policy#Performance "Bots' editing speed should be regulated in some way; subject to approval, bots doing non-urgent tasks may edit approximately once every ten seconds, while bots doing more urgent tasks may edit approximately once every five seconds."
 $ARTICLE_HISTORY_MAX_ACTIONS = 15; // just a guess
-$SHORT_WIKICODE_IN_CONSOLE = true;
+$SHORT_WIKICODE_IN_CONSOLE = false;
 $CHARACTERS_TO_ECHO = 3000;
 /*
 $GOOD_TOPIC_TYPES = [];
@@ -74,7 +80,7 @@ if ( $TEST_PAGES ) {
 // a good security feature is that a page needs to have the featured topic template for the bot to do anything, else the bot will not do any exponential editing
 
 // check how many pages in tracking category. if too many, don't run. probably vandalism.
-if ( count($pagesToPromote) > $MAX_PAGES_ALLOWED_IN_CATEGORY ) {
+if ( count($pagesToPromote) > $MAX_TOPICS_ALLOWED_IN_BOT_RUN ) {
 	logError('Too many categories. Possible vandalism?');
 	die();
 }
