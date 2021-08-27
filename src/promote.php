@@ -71,8 +71,9 @@ function getTopicDescriptionWikicode($callerPageWikicode) {
 }
 
 function getTopicWikipediaPageTitle($mainArticleTitle, $goodOrFeatured) {
-	assert($goodOrFeatured == 'good' || $goodOrFeatured == 'featured');
-	return 'Wikipedia:' . ucfirst($goodOrFeatured) . ' topics/' . $mainArticleTitle;
+	// assert($goodOrFeatured == 'good' || $goodOrFeatured == 'featured');
+	// return 'Wikipedia:' . ucfirst($goodOrFeatured) . ' topics/' . $mainArticleTitle;
+	return "Wikipedia:Featured topics/$mainArticleTitle";
 }
 
 function getTopicWikipediaPageWikicode($topicDescriptionWikicode, $topicBoxWikicode) {
