@@ -105,6 +105,7 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		$topicBoxWikicode = cleanTopicBoxTitleParameter($topicBoxWikicode);
 		$mainArticleTitle = getMainArticleTitle($topicBoxWikicode, $nominationPageTitle);
 		$topicDescriptionWikicode = getTopicDescriptionWikicode($nominationPageWikicode);
+		$topicDescriptionWikicode = removeSignaturesFromTopicDescription($topicDescriptionWikicode);
 		$topicWikipediaPageTitle = getTopicWikipediaPageTitle($mainArticleTitle, $goodOrFeatured);
 		$topicWikipediaPageWikicode = getTopicWikipediaPageWikicode($topicDescriptionWikicode, $topicBoxWikicode);
 		$objwiki->edit($topicWikipediaPageTitle, $topicWikipediaPageWikicode);

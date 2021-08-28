@@ -115,4 +115,20 @@ class PromoteTest extends TestCase {
 		$result = cleanTopicBoxTitleParameter($topicBoxWikicode);
 		$this->assertSame('{{Featured topic box|title=Changes needed|column1=blah}}', $result);
 	}
+	
+	function test_removeSignaturesFromTopicDescription_signature() {
+		$topicDescriptionWikicode =
+"<noinclude>'''''[[Meet the Woo 2]]''''' is the second mixtape by American rapper [[Pop Smoke]]. It was released on February 7, 2020, less than two weeks before the rapper was shot and killed at the age of 20 during a home invasion in Los Angeles. After many months of bringing all the articles to GA; it is finally ready. [[User:Shoot for the Stars|You know I'm shooting for the stars, aiming for the moon 💫]] ([[User talk:Shoot for the Stars|talk]]) 08:25, 26 May 2021 (UTC)</noinclude>";
+		$result = removeSignaturesFromTopicDescription($topicDescriptionWikicode);
+		$this->assertSame(
+"<noinclude>'''''[[Meet the Woo 2]]''''' is the second mixtape by American rapper [[Pop Smoke]]. It was released on February 7, 2020, less than two weeks before the rapper was shot and killed at the age of 20 during a home invasion in Los Angeles. After many months of bringing all the articles to GA; it is finally ready.</noinclude>"
+		, $result);
+	}
+	
+	function test_removeSignaturesFromTopicDescription_noSignature() {
+		$topicDescriptionWikicode =
+"<!---<noinclude>--->The [[EFL League One play-offs]] are a series of play-off matches contested by the association football teams finishing from third to sixth in [[EFL League One]], the third tier of English football, and are part of the [[English Football League play-offs]]. As of 2021, the play-offs comprise two semi-finals, where the team finishing third plays the team finishing sixth, and the team finishing fourth plays the team finishing fifth, each conducted as a two-legged tie. The winners of the semi-finals progress to the final which is contested at [[Wembley Stadium]].<!---</noinclude>--->";
+		$result = removeSignaturesFromTopicDescription($topicDescriptionWikicode);
+		$this->assertSame($topicDescriptionWikicode, $result);
+	}
 }

@@ -382,3 +382,8 @@ function setTopicBoxViewParamterToYes($topicBoxWikicode) {
 function cleanTopicBoxTitleParameter($topicBoxWikicode) {
 	return preg_replace("/(\|\s*title\s*=\s*)''([^\|\}]*)''(\s*[\|\}])/is", '$1$2$3', $topicBoxWikicode);
 }
+
+/** Topic descriptions should not have user signatures. Strip these out. */
+function removeSignaturesFromTopicDescription($topicDescriptionWikicode) {
+	return preg_replace("/ \[\[User:.*\(UTC\)/is", '', $topicDescriptionWikicode);
+}
