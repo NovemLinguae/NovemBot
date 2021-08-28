@@ -25,4 +25,75 @@ class PromoteTest extends TestCase {
 }}'
 		, $result);
 	}
+	
+	function test_setTemplateBoxTemplateViewParamterToYes_inputContainsViewYes() {
+		$topicBoxWikicode = '{{Featured topic box|view=yes}}';
+		$result = setTemplateBoxTemplateViewParamterToYes($topicBoxWikicode);
+		$this->assertSame('{{Featured topic box|view=yes}}', $result);
+	}
+	
+	function test_setTemplateBoxTemplateViewParamterToYes_inputContainsViewYes2() {
+		$topicBoxWikicode = '{{Featured topic box | view = yes }}';
+		$result = setTemplateBoxTemplateViewParamterToYes($topicBoxWikicode);
+		$this->assertSame('{{Featured topic box | view = yes }}', $result);
+	}
+	
+	function test_setTemplateBoxTemplateViewParamterToYes_inputContainsViewYes3() {
+		$topicBoxWikicode =
+'{{Featured topic box
+| view = yes
+}}';
+		$result = setTemplateBoxTemplateViewParamterToYes($topicBoxWikicode);
+		$this->assertSame(
+'{{Featured topic box
+| view = yes
+}}'
+		, $result);
+	}
+	
+	function test_setTemplateBoxTemplateViewParamterToYes_inputContainsViewNo1() {
+		$topicBoxWikicode = '{{Featured topic box|view=no}}';
+		$result = setTemplateBoxTemplateViewParamterToYes($topicBoxWikicode);
+		$this->assertSame(
+'{{Featured topic box
+|view=yes
+}}'
+		, $result);
+	}
+	
+	function test_setTemplateBoxTemplateViewParamterToYes_inputContainsViewNo2() {
+		$topicBoxWikicode =
+'{{Featured topic box
+| view = no
+}}';
+		$result = setTemplateBoxTemplateViewParamterToYes($topicBoxWikicode);
+		$this->assertSame(
+'{{Featured topic box
+|view=yes
+}}'
+		, $result);
+	}
+	
+	function test_setTemplateBoxTemplateViewParamterToYes_inputIsJustTemplateName1() {
+		$topicBoxWikicode = '{{Featured topic box}}';
+		$result = setTemplateBoxTemplateViewParamterToYes($topicBoxWikicode);
+		$this->assertSame(
+'{{Featured topic box
+|view=yes
+}}'
+		, $result);
+	}
+	
+	function test_setTemplateBoxTemplateViewParamterToYes_inputIsJustTemplateName2() {
+		$topicBoxWikicode =
+'{{Featured topic box
+
+}}';
+		$result = setTemplateBoxTemplateViewParamterToYes($topicBoxWikicode);
+		$this->assertSame(
+'{{Featured topic box
+|view=yes
+}}'
+		, $result);
+	}
 }

@@ -363,3 +363,16 @@ function addHeadingIfNeeded($talkPageWikicode, $talkPageTitle) {
 function writeSuccessOrError($nominationPageWikicode, $nominationPageTitle) {
 	
 }
+
+/** In the {{Featured topic box}} template, makes sure that it has the parameter view=yes. For example, {{Featured topic box|view=yes}} */
+function setTemplateBoxTemplateViewParamterToYes($topicBoxWikicode) {
+	$hasViewYes = preg_match('/\|\s*view\s*=\s*yes\s*[\|\}]/si', $topicBoxWikicode);
+	if ( $hasViewYes ) return $topicBoxWikicode;
+	// delete view = anything
+	$topicBoxWikicode = preg_replace('/\|\s*view\s*=[^\|\}]*([\|\}])/si', '$1', $topicBoxWikicode);
+	// if the template ended up as {{Template\n}}, get rid of the \n
+	$topicBoxWikicode = preg_replace('/({{.*)\n{1,}(}})/i', '$1$2', $topicBoxWikicode);
+	// add view = yes
+	$topicBoxWikicode = insertCodeAtEndOfFirstTemplate($topicBoxWikicode, 'Featured topic box', '|view=yes');
+	return $topicBoxWikicode;
+}
