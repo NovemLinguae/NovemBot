@@ -366,7 +366,7 @@ function writeSuccessOrError($nominationPageWikicode, $nominationPageTitle) {
 }
 
 /** In the {{Featured topic box}} template, makes sure that it has the parameter view=yes. For example, {{Featured topic box|view=yes}} */
-function setTemplateBoxTemplateViewParamterToYes($topicBoxWikicode) {
+function setTopicBoxViewParamterToYes($topicBoxWikicode) {
 	$hasViewYes = preg_match('/\|\s*view\s*=\s*yes\s*[\|\}]/si', $topicBoxWikicode);
 	if ( $hasViewYes ) return $topicBoxWikicode;
 	// delete view = anything

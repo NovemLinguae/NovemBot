@@ -26,24 +26,24 @@ class PromoteTest extends TestCase {
 		, $result);
 	}
 	
-	function test_setTemplateBoxTemplateViewParamterToYes_inputContainsViewYes() {
+	function test_setTopicBoxViewParamterToYes_inputContainsViewYes() {
 		$topicBoxWikicode = '{{Featured topic box|view=yes}}';
-		$result = setTemplateBoxTemplateViewParamterToYes($topicBoxWikicode);
+		$result = setTopicBoxViewParamterToYes($topicBoxWikicode);
 		$this->assertSame('{{Featured topic box|view=yes}}', $result);
 	}
 	
-	function test_setTemplateBoxTemplateViewParamterToYes_inputContainsViewYes2() {
+	function test_setTopicBoxViewParamterToYes_inputContainsViewYes2() {
 		$topicBoxWikicode = '{{Featured topic box | view = yes }}';
-		$result = setTemplateBoxTemplateViewParamterToYes($topicBoxWikicode);
+		$result = setTopicBoxViewParamterToYes($topicBoxWikicode);
 		$this->assertSame('{{Featured topic box | view = yes }}', $result);
 	}
 	
-	function test_setTemplateBoxTemplateViewParamterToYes_inputContainsViewYes3() {
+	function test_setTopicBoxViewParamterToYes_inputContainsViewYes3() {
 		$topicBoxWikicode =
 '{{Featured topic box
 | view = yes
 }}';
-		$result = setTemplateBoxTemplateViewParamterToYes($topicBoxWikicode);
+		$result = setTopicBoxViewParamterToYes($topicBoxWikicode);
 		$this->assertSame(
 '{{Featured topic box
 | view = yes
@@ -51,9 +51,9 @@ class PromoteTest extends TestCase {
 		, $result);
 	}
 	
-	function test_setTemplateBoxTemplateViewParamterToYes_inputContainsViewNo1() {
+	function test_setTopicBoxViewParamterToYes_inputContainsViewNo1() {
 		$topicBoxWikicode = '{{Featured topic box|view=no}}';
-		$result = setTemplateBoxTemplateViewParamterToYes($topicBoxWikicode);
+		$result = setTopicBoxViewParamterToYes($topicBoxWikicode);
 		$this->assertSame(
 '{{Featured topic box
 |view=yes
@@ -61,12 +61,12 @@ class PromoteTest extends TestCase {
 		, $result);
 	}
 	
-	function test_setTemplateBoxTemplateViewParamterToYes_inputContainsViewNo2() {
+	function test_setTopicBoxViewParamterToYes_inputContainsViewNo2() {
 		$topicBoxWikicode =
 '{{Featured topic box
 | view = no
 }}';
-		$result = setTemplateBoxTemplateViewParamterToYes($topicBoxWikicode);
+		$result = setTopicBoxViewParamterToYes($topicBoxWikicode);
 		$this->assertSame(
 '{{Featured topic box
 |view=yes
@@ -74,9 +74,9 @@ class PromoteTest extends TestCase {
 		, $result);
 	}
 	
-	function test_setTemplateBoxTemplateViewParamterToYes_inputIsJustTemplateName1() {
+	function test_setTopicBoxViewParamterToYes_inputIsJustTemplateName1() {
 		$topicBoxWikicode = '{{Featured topic box}}';
-		$result = setTemplateBoxTemplateViewParamterToYes($topicBoxWikicode);
+		$result = setTopicBoxViewParamterToYes($topicBoxWikicode);
 		$this->assertSame(
 '{{Featured topic box
 |view=yes
@@ -84,12 +84,12 @@ class PromoteTest extends TestCase {
 		, $result);
 	}
 	
-	function test_setTemplateBoxTemplateViewParamterToYes_inputIsJustTemplateName2() {
+	function test_setTopicBoxViewParamterToYes_inputIsJustTemplateName2() {
 		$topicBoxWikicode =
 '{{Featured topic box
 
 }}';
-		$result = setTemplateBoxTemplateViewParamterToYes($topicBoxWikicode);
+		$result = setTopicBoxViewParamterToYes($topicBoxWikicode);
 		$this->assertSame(
 '{{Featured topic box
 |view=yes
