@@ -107,9 +107,8 @@ function insertStringIntoStringAtPosition($oldstr, $str_to_insert, $pos) {
 	return substr_replace($oldstr, $str_to_insert, $pos, 0);
 }
 
-function insertCodeAtEndOfFirstTemplate($wikicode, $templateNameRegEx, $codeToInsert) {
+function insertCodeAtEndOfFirstTemplate($wikicode, $templateNameRegExNoDelimiters, $codeToInsert) {
 	// This uses RegEx recursion (?2) to handle nested braces {{ }}.
 	// https://regex101.com/r/GmiY1z/1
-	// TODO: handle a template with no parameters
-	return preg_replace('/({{' . $templateNameRegEx . '\s*\|((?:(?!{{|}}).|{{(?2)}})*))(}})/is', "$1\n$codeToInsert\n$3", $wikicode, 1);
+	return preg_replace('/({{' . $templateNameRegExNoDelimiters . '\s*\|?((?:(?!{{|}}).|{{(?2)}})*))(}})/is', "$1\n$codeToInsert\n$3", $wikicode, 1);
 }
