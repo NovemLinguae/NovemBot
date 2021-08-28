@@ -73,8 +73,7 @@ class StringTest extends TestCase {
 {{Article history|parameter}}
 test
 {{Article history|parameter}}
-test'
-		;
+test';
 		$result = insertCodeAtEndOfFirstTemplate($wikicode, $templateNameRegEx, $codeToInsert);
 		$this->assertSame(
 'test
