@@ -131,7 +131,7 @@ function getTopicTalkPageTitle($mainArticleTitle, $goodOrFeatured) {
 }
 
 function getWikiProjectBanners($mainArticleTalkPageWikicode, $title) {
-	preg_match_all('/\{\{WikiProject [^\}]*\}\}/i', $mainArticleTalkPageWikicode, $matches);
+	preg_match_all('/\{\{WikiProject (?!banner)[^\}]*\}\}/i', $mainArticleTalkPageWikicode, $matches);
 	if ( ! $matches ) {
 		throw new giveUpOnThisTopic("On page $title, could not find WikiProject banners on main article's talk page.");
 	}
@@ -142,7 +142,7 @@ function getWikiProjectBanners($mainArticleTalkPageWikicode, $title) {
 	}
 	$bannerWikicode = substr($bannerWikicode, 0, -1); // chop off last \n
 	if ( count($matches[0]) > 1 ) {
-		$bannerWikicode = "{{WikiProjectBannerShell|1=\n".$bannerWikicode."\n}}";
+		$bannerWikicode = "{{WikiProject banner shell|1=\n".$bannerWikicode."\n}}";
 	}
 	//echoAndFlush($bannerWikicode, 'variable');
 	return $bannerWikicode;
