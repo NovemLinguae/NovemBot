@@ -96,4 +96,11 @@ class PromoteTest extends TestCase {
 }}'
 		, $result);
 	}
+	
+	function test_getTopicWikipediaPageWikicode_putOnlyOneLineBreak() {
+		$topicDescriptionWikicode = 'a';
+		$topicBoxWikicode = 'b';
+		$result = getTopicWikipediaPageWikicode($topicDescriptionWikicode, $topicBoxWikicode);
+		$this->assertSame("a\nb", $result);
+	}
 }

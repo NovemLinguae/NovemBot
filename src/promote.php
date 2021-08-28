@@ -77,7 +77,8 @@ function getTopicWikipediaPageTitle($mainArticleTitle, $goodOrFeatured) {
 }
 
 function getTopicWikipediaPageWikicode($topicDescriptionWikicode, $topicBoxWikicode) {
-	$output = trim($topicDescriptionWikicode . "\n\n" . $topicBoxWikicode);
+	// Put only one line break. More than one line break causes excess whitespace when the page is transcluded into other pages in step 6.
+	$output = trim($topicDescriptionWikicode . "\n" . $topicBoxWikicode);
 	return $output;
 }
 
