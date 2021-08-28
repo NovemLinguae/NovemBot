@@ -103,4 +103,16 @@ class PromoteTest extends TestCase {
 		$result = getTopicWikipediaPageWikicode($topicDescriptionWikicode, $topicBoxWikicode);
 		$this->assertSame("a\nb", $result);
 	}
+	
+	function test_cleanTopicBoxTitleParameter_noApostrophes() {
+		$topicBoxWikicode = '{{Featured topic box|title=No changes needed|column1=blah}}';
+		$result = cleanTopicBoxTitleParameter($topicBoxWikicode);
+		$this->assertSame($topicBoxWikicode, $result);
+	}
+	
+	function test_cleanTopicBoxTitleParameter_apostrophes() {
+		$topicBoxWikicode = "{{Featured topic box|title=''Changes needed''|column1=blah}}";
+		$result = cleanTopicBoxTitleParameter($topicBoxWikicode);
+		$this->assertSame('{{Featured topic box|title=Changes needed|column1=blah}}', $result);
+	}
 }

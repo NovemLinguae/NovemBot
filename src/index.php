@@ -102,7 +102,7 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		// STEP 2 - MAKE TOPIC PAGE ==================================================================
 		$topicBoxWikicode = getTopicBoxWikicode($nominationPageWikicode, $nominationPageTitle);
 		$topicBoxWikicode = setTopicBoxViewParamterToYes($topicBoxWikicode);
-		$topicBoxWikicode = 
+		$topicBoxWikicode = cleanTopicBoxTitleParameter($topicBoxWikicode);
 		$mainArticleTitle = getMainArticleTitle($topicBoxWikicode, $nominationPageTitle);
 		$topicDescriptionWikicode = getTopicDescriptionWikicode($nominationPageWikicode);
 		$topicWikipediaPageTitle = getTopicWikipediaPageTitle($mainArticleTitle, $goodOrFeatured);

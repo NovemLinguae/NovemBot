@@ -377,3 +377,8 @@ function setTopicBoxViewParamterToYes($topicBoxWikicode) {
 	$topicBoxWikicode = insertCodeAtEndOfFirstTemplate($topicBoxWikicode, 'Featured topic box', '|view=yes');
 	return $topicBoxWikicode;
 }
+
+/** In the {{Featured topic box}} template, makes sure that if the title parameter has something like |title=''Meet the Who 2'', that the '' is removed so that the "discuss" link isn't broken. */
+function cleanTopicBoxTitleParameter($topicBoxWikicode) {
+	return preg_replace("/(\|\s*title\s*=\s*)''([^\|\}]*)''(\s*[\|\}])/is", '$1$2$3', $topicBoxWikicode);
+}
