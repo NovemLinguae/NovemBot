@@ -42,13 +42,13 @@ $TEST_PAGES = [
 
 // constants
 $MAX_TOPICS_ALLOWED_IN_BOT_RUN = 3;
-$MAX_ARTICLES_ALLOWED_IN_TOPIC = 30;
+$MAX_ARTICLES_ALLOWED_IN_TOPIC = 50;
 $TRACKING_CATEGORY_NAME = 'Category:Good and featured topics to promote';
 $SECONDS_BETWEEN_API_READS = 0; // https://www.mediawiki.org/wiki/API:Etiquette "Making your requests in series rather than in parallel, by waiting for one request to finish before sending a new request, should result in a safe request rate."
 $SECONDS_BETWEEN_API_EDITS = 10; // https://en.wikipedia.org/wiki/Wikipedia:Bot_policy#Performance "Bots' editing speed should be regulated in some way; subject to approval, bots doing non-urgent tasks may edit approximately once every ten seconds, while bots doing more urgent tasks may edit approximately once every five seconds."
 $ARTICLE_HISTORY_MAX_ACTIONS = 15; // just a guess
-$SHORT_WIKICODE_IN_CONSOLE = false;
-$CHARACTERS_TO_ECHO = 3000;
+$SHORT_WIKICODE_IN_CONSOLE = false; // Set to false to help with semi-automated editing (copy pasting from browser to Wikipedia). Set to true to make browser more readable during testing.
+$CHARACTERS_TO_ECHO = 3000; // When $SHORT_WIKICODE_IN_CONSOLE is set to true, how many characters to display.
 /*
 $GOOD_TOPIC_TYPES = [];
 $GOOD_TOPIC_TYPES_WITH_SUBPAGES = [];

@@ -95,6 +95,7 @@ function getAllArticleTitles($topicBoxWikicode, $title) {
 	if ( ! $matches[1] ) {
 		throw new giveUpOnThisTopic("On page $title, could not find list of topics inside of {{Featured topic box}}.");
 	}
+	// TODO: need to make sure all pages are wikicode, and not {{templates}} that need to be subst:'d
 	html_var_export($matches[1], 'variable');
 	return $matches[1];
 }
