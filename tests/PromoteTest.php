@@ -131,4 +131,46 @@ class PromoteTest extends TestCase {
 		$result = removeSignaturesFromTopicDescription($topicDescriptionWikicode);
 		$this->assertSame($topicDescriptionWikicode, $result);
 	}
+	
+	function test_removeTopicFromFGTC_middleOfPage() {
+		$nominationPageTitle = 'Wikipedia:Featured and good topic candidates/Meet the Woo 2/archive1';
+		$fgtcWikicode = 
+'{{Wikipedia:Featured and good topic candidates/Protected cruisers of France/archive1}}
+{{Wikipedia:Featured and good topic candidates/Meet the Woo 2/archive1}}
+{{Wikipedia:Featured and good topic candidates/EFL League One play-offs/archive1}}';
+		$fgtcTitle = 'Wikipedia:Featured and good topic candidates';
+		$result = removeTopicFromFGTC($nominationPageTitle, $fgtcWikicode, $fgtcTitle);
+		$this->assertSame(
+'{{Wikipedia:Featured and good topic candidates/Protected cruisers of France/archive1}}
+{{Wikipedia:Featured and good topic candidates/EFL League One play-offs/archive1}}'
+		, $result);
+	}
+	
+	function test_removeTopicFromFGTC_lastLineOnPage() {
+		$nominationPageTitle = 'Wikipedia:Featured and good topic candidates/Meet the Woo 2/archive1';
+		$fgtcWikicode = 
+'{{Wikipedia:Featured and good topic candidates/Protected cruisers of France/archive1}}
+{{Wikipedia:Featured and good topic candidates/EFL League One play-offs/archive1}}
+{{Wikipedia:Featured and good topic candidates/Meet the Woo 2/archive1}}';
+		$fgtcTitle = 'Wikipedia:Featured and good topic candidates';
+		$result = removeTopicFromFGTC($nominationPageTitle, $fgtcWikicode, $fgtcTitle);
+		$this->assertSame(
+'{{Wikipedia:Featured and good topic candidates/Protected cruisers of France/archive1}}
+{{Wikipedia:Featured and good topic candidates/EFL League One play-offs/archive1}}'
+		, $result);
+	}
+	
+	function test_removeTopicFromFGTC_firstLineOnPage() {
+		$nominationPageTitle = 'Wikipedia:Featured and good topic candidates/Meet the Woo 2/archive1';
+		$fgtcWikicode = 
+'{{Wikipedia:Featured and good topic candidates/Meet the Woo 2/archive1}}
+{{Wikipedia:Featured and good topic candidates/Protected cruisers of France/archive1}}
+{{Wikipedia:Featured and good topic candidates/EFL League One play-offs/archive1}}';
+		$fgtcTitle = 'Wikipedia:Featured and good topic candidates';
+		$result = removeTopicFromFGTC($nominationPageTitle, $fgtcWikicode, $fgtcTitle);
+		$this->assertSame(
+'{{Wikipedia:Featured and good topic candidates/Protected cruisers of France/archive1}}
+{{Wikipedia:Featured and good topic candidates/EFL League One play-offs/archive1}}'
+		, $result);
+	}
 }

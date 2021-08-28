@@ -387,3 +387,13 @@ function cleanTopicBoxTitleParameter($topicBoxWikicode) {
 function removeSignaturesFromTopicDescription($topicDescriptionWikicode) {
 	return preg_replace("/ \[\[User:.*\(UTC\)/is", '', $topicDescriptionWikicode);
 }
+
+/** Takes the wikicode of the page [[Wikipedia:Featured and good topic candidates]], and removes the nomination page from it. For example, if the nomination page title is "Wikipedia:Featured and good topic candidates/Meet the Woo 2/archive1", it will remove {{Wikipedia:Featured and good topic candidates/Meet the Woo 2/archive1}} from the page. */
+function removeTopicFromFGTC($nominationPageTitle, $fgtcWikicode, $fgtcTitle) {
+	$wikicode2 = str_replace("{{" . $nominationPageTitle . "}}\n", '', $fgtcWikicode);
+	$wikicode2 = str_replace("\n{{" . $nominationPageTitle . "}}", '', $wikicode2);
+	if ( $fgtcWikicode == $wikicode2 ) {
+		throw new giveUpOnThisTopic("On page $fgtcTitle, unable to locate {{" . $nominationPageTitle . "}}.");
+	}
+	return $wikicode2;
+}

@@ -32,6 +32,12 @@ $TEST_PAGES = [
 		'nominationPageTitle' => 'Wikipedia:Featured and good topic candidates/Meet the Woo 2/archive1',
 		'goodOrFeatured' => 'good',
 	],
+	/*
+	5 => [
+		'nominationPageTitle' => 'Wikipedia:Featured and good topic candidates/Protected cruisers of France/archive1',
+		'goodOrFeatured' => 'good',
+	],
+	*/
 ];
 
 // constants
@@ -187,6 +193,12 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 			$goingsOnWikicode = addTopicToGoingsOn($goingsOnTitle, $goingsOnWikicode, $topicWikipediaPageTitle, $mainArticleTitle);
 			$objwiki->edit($goingsOnTitle, $goingsOnWikicode);
 		}
+		
+		// STEP 11 - REMOVE FROM [[WP:FGTC]] ===================================================
+		$fgtcTitle = 'Wikipedia:Featured and good topic candidates';
+		$fgtcWikicode = $objwiki->getpage($fgtcTitle);
+		$fgtcWikicode = removeTopicFromFGTC($nominationPageTitle, $fgtcWikicode, $fgtcTitle);
+		$objwiki->edit($fgtcTitle, $fgtcWikicode);
 		
 		// STEP 1 - CLOSE THE NOMINATION =============================================================
 		// Replace template invokation with Success. ~~~~ or Error. ~~~~
