@@ -27,17 +27,19 @@ $TEST_PAGES = [
 		'nominationPageTitle' => 'Wikipedia:Featured and good topic candidates/Dua Lipa (album)/archive1',
 		'goodOrFeatured' => 'good',
 	],
-	*/
 	4 => [
 		'nominationPageTitle' => 'Wikipedia:Featured and good topic candidates/Meet the Woo 2/archive1',
 		'goodOrFeatured' => 'good',
 	],
-	/*
 	5 => [
 		'nominationPageTitle' => 'Wikipedia:Featured and good topic candidates/Protected cruisers of France/archive1',
 		'goodOrFeatured' => 'good',
 	],
 	*/
+	6 => [
+		'nominationPageTitle' => 'Wikipedia:Featured and good topic candidates/Burnley F.C./archive1',
+		'goodOrFeatured' => 'featured',
+	],
 ];
 
 // constants

@@ -240,16 +240,54 @@ function addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle) {
 	return $talkPageWikicode;
 }
 
-/** Add wikicode right above the first ==Header== if present, or at bottom of page. */
+/** Add wikicode right above the first ==Header== if present, or at bottom of page. Treat {{Talk:abc/GA1}} as a header. */
 function addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd) {
-	$hasHeadings = strpos($talkPageWikicode, '==');
-	if ( $hasHeadings !== false ) {
-		$talkPageWikicode = preg_replace('/(?=\n==)/', $wikicodeToAdd . "\n", $talkPageWikicode, 1);
-	} else {
-		$talkPageWikicode = $talkPageWikicode . "\n" . $wikicodeToAdd;
+	if ( ! $talkPageWikicode ) {
+		return $wikicodeToAdd;
 	}
-	//echoAndFlush($talkPageWikicode, 'variable');
-	return $talkPageWikicode;
+	
+	// Find first heading
+	$headingLocation = strpos($talkPageWikicode, '==');
+	
+	// Find first {{Talk:abc/GA1}} template
+	$gaTemplateLocation = preg_position('/{{[^\}]*\/GA\d{1,2}}}/is', $talkPageWikicode);
+	
+	// Set insert location
+	if ( $headingLocation !== false ) {
+		$insertPosition = $headingLocation;
+	} elseif ( $gaTemplateLocation !== false ) {
+		$insertPosition = $gaTemplateLocation;
+	} else {
+		$insertPosition = strlen($talkPageWikicode);
+	}
+	
+	// if there's a {{Talk:abc/GA1}} above a heading, adjust for this
+	if (
+		$headingLocation !== false &&
+		$gaTemplateLocation !== false &&
+		$gaTemplateLocation < $headingLocation
+	) {
+		$insertPosition = $gaTemplateLocation;
+	}
+	
+	// If there's whitespace in front of the insert location, back up, up to 2 spaces
+	$twoSpacesBefore = substr($talkPageWikicode, $insertPosition - 2, 1);
+	$oneSpaceBefore = substr($talkPageWikicode, $insertPosition - 1, 1);
+	if ( $oneSpaceBefore == "\n" && $twoSpacesBefore == "\n" ) {
+		$insertPosition -= 2;
+	} elseif ( $oneSpaceBefore == "\n" ) {
+		$insertPosition -= 1;
+	}
+	
+	$lengthOfRightHalf = strlen($talkPageWikicode) - $insertPosition;
+	$leftHalf = substr($talkPageWikicode, 0, $insertPosition);
+	$rightHalf = substr($talkPageWikicode, $insertPosition, $lengthOfRightHalf);
+	
+	if ( $insertPosition == 0 ) {
+		return $wikicodeToAdd . "\n" . $talkPageWikicode;
+	} else {
+		return $leftHalf . "\n" . $wikicodeToAdd . $rightHalf;
+	}
 }
 
 function getParametersFromTemplateWikicode($wikicode) {

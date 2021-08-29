@@ -112,3 +112,9 @@ function insertCodeAtEndOfFirstTemplate($wikicode, $templateNameRegExNoDelimiter
 	// https://regex101.com/r/GmiY1z/1
 	return preg_replace('/({{' . $templateNameRegExNoDelimiters . '\s*\|?((?:(?!{{|}}).|{{(?2)}})*))(}})/is', "$1\n$codeToInsert\n$3", $wikicode, 1);
 }
+
+function preg_position($regex, $haystack) {
+	$matches = null;
+	preg_match($regex, $haystack, $matches, PREG_OFFSET_CAPTURE);
+	return $matches[0][1] ?? false;
+}

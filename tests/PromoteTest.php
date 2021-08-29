@@ -174,6 +174,120 @@ class PromoteTest extends TestCase {
 		, $result);
 	}
 	
+	function test_addToTalkPageEndOfLead_normal() {
+		$talkPageWikicode =
+'{{Article history}}
+{{Talk header}}
+
+== Heading 1 ==
+Test
+
+== Heading 2 ==
+Text';
+		$wikicodeToAdd = '[[Test]]';
+		$result = addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
+		$this->assertSame(
+'{{Article history}}
+{{Talk header}}
+[[Test]]
+
+== Heading 1 ==
+Test
+
+== Heading 2 ==
+Text'
+		, $result);
+	}
+	
+	function test_addToTalkPageEndOfLead_ga1_1() {
+		$talkPageWikicode =
+'{{Article history}}
+{{Talk header}}
+
+{{Talk:abc/GA1}}
+
+== Heading 1 ==
+Test
+
+== Heading 2 ==
+Text';
+		$wikicodeToAdd = '[[Test]]';
+		$result = addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
+		$this->assertSame(
+'{{Article history}}
+{{Talk header}}
+[[Test]]
+
+{{Talk:abc/GA1}}
+
+== Heading 1 ==
+Test
+
+== Heading 2 ==
+Text'
+		, $result);
+	}
+	
+	function test_addToTalkPageEndOfLead_ga1_2() {
+		$talkPageWikicode =
+'{{Article history}}
+{{Talk header}}
+
+== Heading 1 ==
+Test
+
+{{Talk:abc/GA1}}
+
+== Heading 2 ==
+Text';
+		$wikicodeToAdd = '[[Test]]';
+		$result = addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
+		$this->assertSame(
+'{{Article history}}
+{{Talk header}}
+[[Test]]
+
+== Heading 1 ==
+Test
+
+{{Talk:abc/GA1}}
+
+== Heading 2 ==
+Text'
+		, $result);
+	}
+	
+	function test_addToTalkPageEndOfLead_blank() {
+		$talkPageWikicode = '';
+		$wikicodeToAdd = '[[Test]]';
+		$result = addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
+		$this->assertSame('[[Test]]', $result);
+	}
+	
+	function test_addToTalkPageEndOfLead_start() {
+		$talkPageWikicode =
+'== Heading 1 ==
+Test';
+		$wikicodeToAdd = '[[Test]]';
+		$result = addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
+		$this->assertSame(
+'[[Test]]
+== Heading 1 ==
+Test'
+		, $result);
+	}
+	
+	function test_addToTalkPageEndOfLead_end() {
+		$talkPageWikicode =
+'Test';
+		$wikicodeToAdd = '[[Test]]';
+		$result = addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
+		$this->assertSame(
+'Test
+[[Test]]'
+		, $result);
+	}
+	
 	function test_addArticleHistoryIfNotPresent_gaTemplateWithNoPage() {
 		$talkPageWikicode = '{{GA|00:03, 5 January 2021 (UTC)|topic=Sports and recreation|page=|oldid=998352580}}';
 		$talkPageTitle = 'Talk:History of Burnley F.C.';

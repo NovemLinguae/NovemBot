@@ -85,4 +85,32 @@ test
 test'
 		, $result);
 	}
+	
+	function test_preg_position_false() {
+		$regex = '/hello/si';
+		$haystack = 'How are you?';
+		$result = preg_position($regex, $haystack);
+		$this->assertFalse($result);
+	}
+	
+	function test_preg_position_zero() {
+		$regex = '/How/si';
+		$haystack = 'How are you?';
+		$result = preg_position($regex, $haystack);
+		$this->assertSame(0, $result);
+	}
+	
+	function test_preg_position_positive() {
+		$regex = '/are/si';
+		$haystack = 'How are you?';
+		$result = preg_position($regex, $haystack);
+		$this->assertSame(4, $result);
+	}
+	
+	function test_preg_position_end() {
+		$regex = '/$/si';
+		$haystack = 'How are you?';
+		$result = preg_position($regex, $haystack);
+		$this->assertSame(12, $result);
+	}
 }
