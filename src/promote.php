@@ -210,7 +210,7 @@ function addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle) {
 	//echoAndFlush($gaTemplateWikicode, 'variable');
 	if ( ! $hasArticleHistory && $gaTemplateWikicode ) {
 		// delete {{ga}} template
-		$talkPageWikicode = preg_replace('/\{\{GA[^\}]*\}\}\n/i', '', $talkPageWikicode);
+		$talkPageWikicode = preg_replace('/\{\{GA[^\}]*\}\}\n?/i', '', $talkPageWikicode);
 		
 		// parse its parameters
 		// example: |21:00, 12 March 2017 (UTC)|topic=Sports and recreation|page=1|oldid=769997774
