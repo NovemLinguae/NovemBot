@@ -24,4 +24,4 @@ NovemBot Task 1 is a Wikipedia bot that automates the 10-step featured topic and
 
 ## Screenshots
 
-[](screenshot.png)
+![](screenshot.png)
