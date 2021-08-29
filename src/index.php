@@ -10,35 +10,9 @@ assert_options(ASSERT_BAIL, true);
 // test mode
 $READ_ONLY_TEST_MODE = true;
 $TEST_PAGES = [
-	/*
 	1 => [
-		'nominationPageTitle' => 'Wikipedia:Featured and good topic candidates/1998–99 Manchester United F.C. season/archive1',
+		'nominationPageTitle' => 'Wikipedia:Featured_and_good_topic_candidates/Protected_cruisers_of_France/archive1',
 		'goodOrFeatured' => 'good',
-	],
-	*/
-	/*
-	2 => [
-		'nominationPageTitle' => 'Wikipedia:Featured and good topic candidates/Tour Championship (snooker)/archive1',
-		'goodOrFeatured' => 'featured',
-	],
-	*/
-	/*
-	3 => [
-		'nominationPageTitle' => 'Wikipedia:Featured and good topic candidates/Dua Lipa (album)/archive1',
-		'goodOrFeatured' => 'good',
-	],
-	4 => [
-		'nominationPageTitle' => 'Wikipedia:Featured and good topic candidates/Meet the Woo 2/archive1',
-		'goodOrFeatured' => 'good',
-	],
-	5 => [
-		'nominationPageTitle' => 'Wikipedia:Featured and good topic candidates/Protected cruisers of France/archive1',
-		'goodOrFeatured' => 'good',
-	],
-	*/
-	6 => [
-		'nominationPageTitle' => 'Wikipedia:Featured and good topic candidates/Burnley F.C./archive1',
-		'goodOrFeatured' => 'featured',
 	],
 ];
 

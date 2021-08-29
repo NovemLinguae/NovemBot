@@ -278,8 +278,7 @@ Test'
 	}
 	
 	function test_addToTalkPageEndOfLead_end() {
-		$talkPageWikicode =
-'Test';
+		$talkPageWikicode = 'Test';
 		$wikicodeToAdd = '[[Test]]';
 		$result = addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
 		$this->assertSame(

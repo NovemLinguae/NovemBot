@@ -62,7 +62,7 @@ function preg_first_match($regex, $haystack, $throwErrorIfNoMatch = false) {
 	}
 }
 
-/* Input must be an array with 2 layers. First layer is just array keys in numerical order. Second layer is field => field value. This is a very common array format for SQL results. Example:
+/** Input must be an array with 2 layers. First layer is just array keys in numerical order. Second layer is field => field value. This is a very common array format for SQL results. Example:
 	[0] =>
 		'group_id' => 5
 		'group_name' => 'Test Group 2'
@@ -80,15 +80,16 @@ function sql_make_list_from_sql_result_array($array, $search_key) {
 	return $list;
 }
 
-/* Input must be an array with 2 layers. First layer is just array keys in numerical order. Second layer is field => field value. This is a very common array format for SQL results. Example:
+/** Input must be an array with 2 layers. First layer is just array keys in numerical order. Second layer is field => field value. This is a very common array format for SQL results. Example:
 	[0] =>
 		'group_id' => 5
 		'group_name' => 'Test Group 2'
 	[1] =>
 		'group_id' => 2
 		'group_name' => 'Test Group 1'
+
+Use === and !== in booleans to avoid having a '0' value act like a NULL value
 */
-// use === and !== in booleans to avoid having a '0' value act like a NULL value
 function sql_search_result_array_by_key1_and_return_key2($array, $search_key, $search_value, $result_key)
 {
 	foreach ( $array as $key => $level2 ) {
@@ -114,7 +115,6 @@ function insertCodeAtEndOfFirstTemplate($wikicode, $templateNameRegExNoDelimiter
 }
 
 function preg_position($regex, $haystack) {
-	$matches = null;
 	preg_match($regex, $haystack, $matches, PREG_OFFSET_CAPTURE);
 	return $matches[0][1] ?? false;
 }
