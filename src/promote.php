@@ -168,6 +168,7 @@ function removeGTCFTCTemplate($talkPageWikicode) {
 	return preg_replace('/\{\{(?:gtc|ftc)[^\}]*\}\}\n/i', '', $talkPageWikicode);
 }
 
+/** Determine next |action= number in {{Article history}} template. This is so we can insert an action. */
 function determineNextActionNumber($talkPageWikicode, $ARTICLE_HISTORY_MAX_ACTIONS, $talkPageTitle) {
 	for ( $i = $ARTICLE_HISTORY_MAX_ACTIONS; $i >= 1; $i-- ) {
 		$hasAction = preg_match("/\|\s*action$i\s*=/i", $talkPageWikicode);
