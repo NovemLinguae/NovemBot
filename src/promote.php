@@ -113,6 +113,11 @@ function getAllArticleTitles($topicBoxWikicode, $title) {
 		$listOfTitles[$key] = $match;
 	}
 	
+	// Good/featured topics should have at least 2 articles. If not, something is wrong.
+	if ( count($listOfTitles) < 2 ) {
+		throw new giveUpOnThisTopic("On page $title, when parsing the list of topics in {{featured topic box}}, found less than 2 articles.");
+	}
+	
 	html_var_export($listOfTitles, 'variable');
 	return $listOfTitles;
 }

@@ -346,4 +346,12 @@ Test'
 		$this->expectException(giveUpOnThisTopic::class);
 		$result = getAllArticleTitles($topicBoxWikicode, $title);
 	}
+	
+	function test_getAllArticleTitles_lessThanTwoArticles() {
+		$topicBoxWikicode = '{{Featured topic box |title= |count=4 |image= |imagesize= 
+|lead={{icon|GA}} [[Tour Championship (snooker)|Tour Championship]]}}';
+		$title = '';
+		$this->expectException(giveUpOnThisTopic::class);
+		$result = getAllArticleTitles($topicBoxWikicode, $title);
+	}
 }
