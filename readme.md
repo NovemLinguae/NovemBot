@@ -21,3 +21,7 @@ NovemBot Task 1 is a Wikipedia bot that automates the 10-step featured topic and
 6) Open Powershell or command prompt. Navigate to the directory where the project is, using `cd`. Type the following to set up PHPUnit unit testing suite: `composer update`
 
 7) To run the tests, in Powershell or command prompt, type `composer exec phpunit tests`
+
+## Screenshots
+
+[](screenshot.png)
