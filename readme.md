@@ -10,9 +10,9 @@ NovemBot Task 1 is a Wikipedia bot that automates the 10-step featured topic and
 
 2) Download the repo.
 
-3) To run the bot in read only mode, in your browser, visit https://localhost/NovemBotTask1/src/index.php. Adjust path depending on where XAMPP is pointed.
+3) To run the bot in **read only mode**, in your browser, visit https://localhost/NovemBotTask1/src/index.php. Adjust path depending on where XAMPP is pointed.
 
-4) To run the bot in read-write mode, copy paste src/config-sample.php to src/config.php, then enter a Wikipedia account's username and password. Also set an http password. Then visit https://localhost/NovemBotTask1/src/index.php?password=yourHTTPPassword
+4) To run the bot in **read-write mode**, copy paste src/config-sample.php to src/config.php, then enter a Wikipedia account's username and password. Also set an http password. Then visit https://localhost/NovemBotTask1/src/index.php?password=yourHTTPPassword
 
 #### Tests
 
