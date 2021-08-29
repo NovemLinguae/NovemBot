@@ -22,10 +22,12 @@ function sliceFirstTemplateFound(string $wikicode, string $templateName) {
 	return NULL;
 }
 
-/** Example: <noinclude>This is an example.</noinclude>. Throws an error if no tags found. */
-function sliceFirstTagFound(string $wikicode, string $tagWithNoLTGT): string {
-	// TODO: regex escape
-	preg_match("/(<" . $tagWithNoLTGT . ">.*?<\/" . $tagWithNoLTGT . ">)/s", $wikicode, $result);
+/**
+	@returns Example: \<noinclude\>This is an example.\</noinclude\>.
+	@throws InvalidArumentException Throws an error if no tags found.
+*/
+function sliceFirstHTMLTagFound(string $wikicode, string $tagWithNoLTGT): string {
+	preg_match("/(\<" . preg_quote($tagWithNoLTGT) . "\>.*?<\/" . preg_quote($tagWithNoLTGT) . ">)/is", $wikicode, $result);
 	if ( $result ) {
 		return $result[0];
 	} else {

@@ -113,4 +113,46 @@ test'
 		$result = preg_position($regex, $haystack);
 		$this->assertSame(12, $result);
 	}
+	
+	function test_sliceFirstHTMLTagFound_start() {
+		$wikicode = '<noinclude>Test</noinclude> Test';
+		$tagWithNoLTGT = 'noinclude';
+		$result = sliceFirstHTMLTagFound($wikicode, $tagWithNoLTGT);
+		$this->assertSame('<noinclude>Test</noinclude>', $result);
+	}
+	
+	function test_sliceFirstHTMLTagFound_middle() {
+		$wikicode = 'Test <noinclude>Test</noinclude> Test';
+		$tagWithNoLTGT = 'noinclude';
+		$result = sliceFirstHTMLTagFound($wikicode, $tagWithNoLTGT);
+		$this->assertSame('<noinclude>Test</noinclude>', $result);
+	}
+	
+	function test_sliceFirstHTMLTagFound_end() {
+		$wikicode = 'Test <noinclude>Test</noinclude>';
+		$tagWithNoLTGT = 'noinclude';
+		$result = sliceFirstHTMLTagFound($wikicode, $tagWithNoLTGT);
+		$this->assertSame('<noinclude>Test</noinclude>', $result);
+	}
+	
+	function test_sliceFirstHTMLTagFound_twoTags() {
+		$wikicode = 'Test <othertag>Hello</othertag> <noinclude>Test</noinclude> Test';
+		$tagWithNoLTGT = 'noinclude';
+		$result = sliceFirstHTMLTagFound($wikicode, $tagWithNoLTGT);
+		$this->assertSame('<noinclude>Test</noinclude>', $result);
+	}
+	
+	function test_sliceFirstHTMLTagFound_regexCharactersThatNeedEscaping() {
+		$wikicode = 'Test <noinc*lude>Test</noinc*lude>';
+		$tagWithNoLTGT = 'noinc*lude';
+		$result = sliceFirstHTMLTagFound($wikicode, $tagWithNoLTGT);
+		$this->assertSame('<noinc*lude>Test</noinc*lude>', $result);
+	}
+	
+	function test_sliceFirstHTMLTagFound_notFound() {
+		$wikicode = 'Test <noinclude>Test</noinclude> Test';
+		$tagWithNoLTGT = 'fakeTag';
+		$this->expectException(InvalidArgumentException::class);
+		sliceFirstHTMLTagFound($wikicode, $tagWithNoLTGT);
+	}
 }

@@ -11,7 +11,7 @@ assert_options(ASSERT_BAIL, true);
 $READ_ONLY_TEST_MODE = true;
 $TEST_PAGES = [
 	1 => [
-		'nominationPageTitle' => 'Wikipedia:Featured_and_good_topic_candidates/Protected_cruisers_of_France/archive1',
+		'nominationPageTitle' => 'Wikipedia:Featured and good topic candidates/Dua Lipa (album)/archive1',
 		'goodOrFeatured' => 'good',
 	],
 ];
