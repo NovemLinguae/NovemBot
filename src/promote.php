@@ -91,13 +91,30 @@ function getDatetime() {
 
 function getAllArticleTitles($topicBoxWikicode, $title) {
 	// Confirmed that it's just FA, GA, FL. There won't be any other icons.
-	preg_match_all("/{{\s*(?:class)?icon\s*\|\s*(?:FA|GA|FL)\s*}}\s*(?:''|\")?\[\[([^\|\]]*)/i", $topicBoxWikicode, $matches);
+	preg_match_all("/{{\s*(?:class)?icon\s*\|\s*(?:FA|GA|FL)\}\}\s*(.*)\s*$/im", $topicBoxWikicode, $matches);
 	if ( ! $matches[1] ) {
 		throw new giveUpOnThisTopic("On page $title, could not find list of topics inside of {{Featured topic box}}.");
 	}
-	// TODO: need to make sure all pages are wikicode, and not {{templates}} that need to be subst:'d
-	html_var_export($matches[1], 'variable');
-	return $matches[1];
+	$listOfTitles = $matches[1];
+	html_var_export($listOfTitles, 'variable');
+	
+	// parse each potential title
+	foreach ( $listOfTitles as $key => $title2 ) {
+		// throw an error if any of the article names are templates, or not article links
+		if ( strpos($title, '{') !== false || strpos($title, '}') !== false ) {
+			throw new giveUpOnThisTopic("On page $title, when parsing the list of topics in {{featured topic box}}, found some templates. Try subst:-ing them, then re-running the bot.");
+		}
+		
+		// get rid of wikilink syntax around it
+		$match = preg_first_match('/\[\[([^\|\]]*)(?:\|[^\|\]]*)?\]\]/is', $title2);
+		if ( ! $match ) {
+			throw new giveUpOnThisTopic("On page $title, when parsing the list of topics in {{featured topic box}}, found an improperly formatted title. No wikilink found.");
+		}
+		$listOfTitles[$key] = $match;
+	}
+	
+	html_var_export($listOfTitles, 'variable');
+	return $listOfTitles;
 }
 
 function getTopicTalkPageWikicode($mainArticleTitle, $nonMainArticleTitles, $goodOrFeatured, $datetime, $wikiProjectBanners, $nominationPageTitle) {
