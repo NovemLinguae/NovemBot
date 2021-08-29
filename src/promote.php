@@ -215,6 +215,12 @@ function addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle) {
 		// parse its parameters
 		// example: |21:00, 12 March 2017 (UTC)|topic=Sports and recreation|page=1|oldid=769997774
 		$parameters = getParametersFromTemplateWikicode($gaTemplateWikicode);
+		
+		// if no page specified, assume page is 1. so then the good article review link will be parsed as /GA1
+		if ( ! $parameters['page'] ) {
+			$parameters['page'] = 1;
+		}
+		
 		$date = date('Y-m-d', strtotime($parameters[1]));
 		
 		// insert {{article history}} template

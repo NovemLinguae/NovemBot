@@ -173,4 +173,22 @@ class PromoteTest extends TestCase {
 {{Wikipedia:Featured and good topic candidates/EFL League One play-offs/archive1}}'
 		, $result);
 	}
+	
+	function test_addArticleHistoryIfNotPresent_gaTemplateWithNoPage() {
+		$talkPageWikicode = '{{GA|00:03, 5 January 2021 (UTC)|topic=Sports and recreation|page=|oldid=998352580}}';
+		$talkPageTitle = 'Talk:History of Burnley F.C.';
+		$result = addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle);
+		$this->assertSame(
+'{{Article history
+|currentstatus = GA
+|topic = Sports and recreation
+
+|action1 = GAN
+|action1date = 2021-01-05
+|action1link = Talk:History of Burnley F.C./GA1
+|action1result = listed
+|action1oldid = 998352580
+}}'
+		, $result);
+	}
 }
