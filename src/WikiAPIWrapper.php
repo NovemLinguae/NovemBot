@@ -6,15 +6,15 @@ class WikiAPIWrapper {
 		$this->eh = $eh;
 		
 		$this->eh->echoAndFlush("Log in", 'api_read');
-		$this->objwiki = new wikipedia();
-		$this->objwiki->beQuiet();
-		$this->objwiki->http->useragent = '[[en:User:NovemBot]], owner [[en:User:Novem Linguae]], framework [[en:User:RMCD_bot/botclasses.php]]';
-		$this->objwiki->login($wiki_username, $wiki_password);
+		$this->wapi = new wikipedia();
+		$this->wapi->beQuiet();
+		$this->wapi->http->useragent = '[[en:User:NovemBot]], owner [[en:User:Novem Linguae]], framework [[en:User:RMCD_bot/botclasses.php]]';
+		$this->wapi->login($wiki_username, $wiki_password);
 	}
 
 	function getpage(string $namespace_and_title) {
 		global $SECONDS_BETWEEN_API_READS;
-		$output = $this->objwiki->getpage($namespace_and_title);
+		$output = $this->wapi->getpage($namespace_and_title);
 		$message = "Read data from page: $namespace_and_title";
 		$message .= "\n\n$output";
 		$this->eh->echoAndFlush($message, 'api_read');
@@ -24,7 +24,7 @@ class WikiAPIWrapper {
 	
 	/** must include Category: in category name */
 	function categorymembers($category) {
-		$output = $this->objwiki->categorymembers($category);
+		$output = $this->wapi->categorymembers($category);
 		$message = "Get members of category: $category";
 		$message .= "\n\n" . var_export($output, true);
 		$this->eh->echoAndFlush($message, 'api_read');
@@ -39,7 +39,7 @@ class WikiAPIWrapper {
 		$this->eh->echoAndFlush($message, 'api_write');
 		//echoAndFlush($READ_ONLY_TEST_MODE, 'variable');
 		if ( ! $READ_ONLY_TEST_MODE ) {
-			$this->objwiki->edit(
+			$this->wapi->edit(
 				$namespace_and_title,
 				$wikicode,
 				$edit_summary
