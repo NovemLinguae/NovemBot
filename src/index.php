@@ -10,10 +10,7 @@ assert_options(ASSERT_BAIL, true);
 // test mode
 $READ_ONLY_TEST_MODE = true;
 $TEST_PAGES = [
-	1 => [
-		'nominationPageTitle' => 'Wikipedia:Featured and good topic candidates/Tour Championship (snooker)/archive1',
-		'goodOrFeatured' => 'featured',
-	],
+	'Wikipedia:Featured and good topic candidates/Tour Championship (snooker)/archive1',
 ];
 
 // constants
@@ -52,7 +49,7 @@ $wapi = new WikiAPIWrapper($config['wikiUsername'], $config['wikiPassword'], $eh
 // read tracking category
 
 if ( $TEST_PAGES ) {
-	$pagesToPromote = $sh->sql_make_list_from_sql_result_array($TEST_PAGES, 'nominationPageTitle');
+	$pagesToPromote = $TEST_PAGES;
 	$message = 'In test mode. Using $TEST_PAGES variable.';
 	$message .= "\n\n" . var_export($pagesToPromote, true);
 	$eh->echoAndFlush($message, 'api_read');
@@ -76,16 +73,10 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 	try {
 		// STEP A - READ PAGE CONTAINING {{User:NovemBot/Promote|type=good/featured}} =============
 		$nominationPageWikicode = $wapi->getpage($nominationPageTitle);
-		$p->abortIfAddToTopic($nominationPageWikicode, $nominationPageTitle);
-		if ( $TEST_PAGES ) {
-			$goodOrFeatured = $sh->sql_search_result_array_by_key1_and_return_key2($TEST_PAGES, 'nominationPageTitle', $nominationPageTitle, 'goodOrFeatured');
-		} else {
-			$novemBotTemplateWikicode = $p->sliceNovemBotPromoteTemplate($nominationPageWikicode, $nominationPageTitle);
-			$goodOrFeatured = $p->getGoodOrFeaturedFromNovemBotTemplate($novemBotTemplateWikicode, $nominationPageTitle);
-		}
-		$eh->echoAndFlush($goodOrFeatured, 'variable');
 		
-		// COUPLE OF CHECKS =======================================================================
+		$p->abortIfAddToTopic($nominationPageWikicode, $nominationPageTitle);
+		
+		// couple of checks
 		$topicBoxWikicode = $p->getTopicBoxWikicode($nominationPageWikicode, $nominationPageTitle);
 		$topicBoxWikicode = $p->setTopicBoxViewParamterToYes($topicBoxWikicode);
 		$topicBoxWikicode = $p->cleanTopicBoxTitleParameter($topicBoxWikicode);
@@ -94,6 +85,10 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		$featuredArticleCount = $p->getFeaturedArticleCount($topicBoxWikicode);
 		$p->checkCounts($goodArticleCount, $featuredArticleCount, $allArticleTitles);
 		
+		// decide if good topic or featured topic
+		$goodOrFeatured = $p->decideIfGoodOrFeatured($goodArticleCount, $featuredArticleCount);
+		$eh->echoAndFlush($goodOrFeatured, 'variable');
+		
 		// STEP 2 - MAKE TOPIC PAGE ===============================================================
 		$mainArticleTitle = $p->getMainArticleTitle($topicBoxWikicode, $nominationPageTitle);
 		$topicDescriptionWikicode = $p->getTopicDescriptionWikicode($nominationPageWikicode);
@@ -101,7 +96,7 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		$topicWikipediaPageTitle = $p->getTopicWikipediaPageTitle($mainArticleTitle, $goodOrFeatured);
 		$topicWikipediaPageWikicode = $p->getTopicWikipediaPageWikicode($topicDescriptionWikicode, $topicBoxWikicode);
 		$wapi->edit($topicWikipediaPageTitle, $topicWikipediaPageWikicode);
-				
+		
 		// STEP 3 - MAKE TOPIC TALK PAGE ==========================================================
 		$topicTalkPageTitle = $p->getTopicTalkPageTitle($mainArticleTitle, $goodOrFeatured);
 		$datetime = $p->getDatetime();

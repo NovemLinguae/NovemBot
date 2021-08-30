@@ -23,10 +23,11 @@ class StringHelper {
 		return NULL;
 	}
 
+	/*
 	/**
 		@returns Example: \<noinclude\>This is an example.\</noinclude\>.
 		@throws InvalidArumentException Throws an error if no tags found.
-	*/
+	*//*
 	function sliceFirstHTMLTagFound(string $wikicode, string $tagWithNoLTGT): string {
 		preg_match("/(\<" . preg_quote($tagWithNoLTGT) . "\>.*?<\/" . preg_quote($tagWithNoLTGT) . ">)/is", $wikicode, $result);
 		if ( $result ) {
@@ -35,6 +36,7 @@ class StringHelper {
 			throw new InvalidArgumentException("Tag not found");
 		}
 	}
+	*/
 
 	/** Used by echoAndFlush() */
 	function nbsp($string) {
@@ -65,6 +67,7 @@ class StringHelper {
 		}
 	}
 
+	/*
 	/** Input must be an array with 2 layers. First layer is just array keys in numerical order. Second layer is field => field value. This is a very common array format for SQL results. Example:
 		[0] =>
 			'group_id' => 5
@@ -72,7 +75,7 @@ class StringHelper {
 		[1] =>
 			'group_id' => 2
 			'group_name' => 'Test Group 1'
-	*/
+	*//*
 	function sql_make_list_from_sql_result_array($array, $search_key) {
 		$list = array();
 		foreach ( $array as $key => $level2 ) {
@@ -92,7 +95,7 @@ class StringHelper {
 			'group_name' => 'Test Group 1'
 
 	Use === and !== in booleans to avoid having a '0' value act like a NULL value
-	*/
+	*//*
 	function sql_search_result_array_by_key1_and_return_key2($array, $search_key, $search_value, $result_key)
 	{
 		foreach ( $array as $key => $level2 ) {
@@ -102,6 +105,7 @@ class StringHelper {
 		}
 		return null;
 	}
+	*/
 
 	function deleteLastLineOfString($string) {
 		return substr($string, 0, strrpos($string, "\n"));

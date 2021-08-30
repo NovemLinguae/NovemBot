@@ -23,6 +23,7 @@ class Promote {
 		}
 	}
 
+	/*
 	function getGoodOrFeaturedFromNovemBotTemplate($novemBotTemplateWikicode, $title) {
 		preg_match('/\|type=([^\|\}]*)/', $novemBotTemplateWikicode, $matches);
 		if ( ! $matches ) {
@@ -35,6 +36,7 @@ class Promote {
 		//$this->eh->echoAndFlush($type, 'variable');
 		return $type;
 	}
+	*/
 
 	function getTopicBoxWikicode($callerPageWikicode, $title) {
 		$wikicode = $this->sh->sliceFirstTemplateFound($callerPageWikicode, 'good topic box');
@@ -398,7 +400,7 @@ $wikiProjectBanners";
 		}
 		return $newWikicode;
 	}
-
+	
 	function getGoodArticleCount($topicBoxWikicode) {
 		preg_match_all('/{{\s*(?:class)?icon\s*\|\s*(?:GA)\s*}}/i', $topicBoxWikicode, $matches);
 		$count = count($matches[0]);
@@ -406,7 +408,7 @@ $wikiProjectBanners";
 		$this->eh->echoAndFlush($count, 'variable');
 		return $count;
 	}
-
+	
 	function getFeaturedArticleCount($topicBoxWikicode) {
 		preg_match_all('/{{\s*(?:class)?icon\s*\|\s*(?:FA|FL)\s*}}/i', $topicBoxWikicode, $matches);
 		$count = count($matches[0]);
@@ -478,5 +480,12 @@ $wikiProjectBanners";
 		if ( count($allArticleTitles) < 2 ) {
 			throw new GiveUpOnThisTopic("When parsing the list of topics in {{featured topic box}}, found less than 2 articles.");
 		}
+	}
+	
+	function decideIfGoodOrFeatured($goodArticleCount, $featuredArticleCount) {
+		if ( $featuredArticleCount >= $goodArticleCount ) {
+			return 'featured';
+		}
+		return 'good';
 	}
 }

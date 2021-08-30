@@ -386,4 +386,68 @@ Test'
 		$this->expectException(GiveUpOnThisTopic::class);
 		$this->p->checkCounts($goodArticleCount, $featuredArticleCount, $allArticleTitles);
 	}
+	
+	function test_decideIfGoodOrFeatured_good() {
+		$goodArticleCount = 2;
+		$featuredArticleCount = 1;
+		$result = $this->p->decideIfGoodOrFeatured($goodArticleCount, $featuredArticleCount);
+		$this->assertSame('good', $result);
+	}
+	
+	function test_decideIfGoodOrFeatured_featured() {
+		$goodArticleCount = 1;
+		$featuredArticleCount = 2;
+		$result = $this->p->decideIfGoodOrFeatured($goodArticleCount, $featuredArticleCount);
+		$this->assertSame('featured', $result);
+	}
+	
+	function test_decideIfGoodOrFeatured_equal() {
+		$goodArticleCount = 2;
+		$featuredArticleCount = 2;
+		$result = $this->p->decideIfGoodOrFeatured($goodArticleCount, $featuredArticleCount);
+		$this->assertSame('featured', $result);
+	}
+	
+	function test_decideIfGoodOrFeatured_zero() {
+		$goodArticleCount = 0;
+		$featuredArticleCount = 2;
+		$result = $this->p->decideIfGoodOrFeatured($goodArticleCount, $featuredArticleCount);
+		$this->assertSame('featured', $result);
+	}
+	
+	function test_getGoodArticleCount() {
+		$topicBoxWikicode =
+'{{Featured topic box |title= |count=4 |image= |imagesize=
+|lead={{icon|GA}} [[Tour Championship (snooker)|Tour Championship]]
+|column1=
+:{{Icon|FA}} [[2019 Tour Championship]]
+|column3=
+:{{Icon|GA}} [[2021 Tour Championship]] }}';
+		$result = $this->p->getGoodArticleCount($topicBoxWikicode);
+		$this->assertSame(2, $result);
+	}
+	
+	function test_getFeaturedArticleCount() {
+		$topicBoxWikicode =
+'{{Featured topic box |title= |count=4 |image= |imagesize=
+|lead={{icon|GA}} [[Tour Championship (snooker)|Tour Championship]]
+|column1=
+:{{Icon|FA}} [[2019 Tour Championship]]
+|column2=
+:{{Icon|FA}} [[2020 Tour Championship]] }}';
+		$result = $this->p->getFeaturedArticleCount($topicBoxWikicode);
+		$this->assertSame(2, $result);
+	}
+	
+	function test_getFeaturedArticleCount_featuredList() {
+		$topicBoxWikicode =
+'{{Featured topic box |title= |count=4 |image= |imagesize=
+|lead={{icon|GA}} [[Tour Championship (snooker)|Tour Championship]]
+|column1=
+:{{Icon|FL}} [[2019 Tour Championship]]
+|column2=
+:{{Icon|FA}} [[2020 Tour Championship]] }}';
+		$result = $this->p->getFeaturedArticleCount($topicBoxWikicode);
+		$this->assertSame(2, $result);
+	}
 }

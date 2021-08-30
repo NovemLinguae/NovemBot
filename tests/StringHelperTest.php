@@ -118,6 +118,7 @@ test'
 		$this->assertSame(12, $result);
 	}
 	
+	/*
 	function test_sliceFirstHTMLTagFound_start() {
 		$wikicode = '<noinclude>Test</noinclude> Test';
 		$tagWithNoLTGT = 'noinclude';
@@ -159,4 +160,5 @@ test'
 		$this->expectException(InvalidArgumentException::class);
 		$this->sh->sliceFirstHTMLTagFound($wikicode, $tagWithNoLTGT);
 	}
+	*/
 }
