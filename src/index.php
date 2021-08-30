@@ -74,7 +74,7 @@ if ( count($pagesToPromote) > $MAX_TOPICS_ALLOWED_IN_BOT_RUN ) {
 foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 	$eh->echoAndFlush($nominationPageTitle, 'newtopic');
 	try {
-		// STEP A - READ PAGE CONTAINING {{User:NovemBot/Promote|type=good/featured}} ================
+		// STEP A - READ PAGE CONTAINING {{User:NovemBot/Promote|type=good/featured}} =============
 		$nominationPageWikicode = $wapi->getpage($nominationPageTitle);
 		$p->abortIfAddToTopic($nominationPageWikicode, $nominationPageTitle);
 		if ( $TEST_PAGES ) {
@@ -85,28 +85,33 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		}
 		$eh->echoAndFlush($goodOrFeatured, 'variable');
 		
-		// STEP 2 - MAKE TOPIC PAGE ==================================================================
+		// COUPLE OF CHECKS =======================================================================
 		$topicBoxWikicode = $p->getTopicBoxWikicode($nominationPageWikicode, $nominationPageTitle);
 		$topicBoxWikicode = $p->setTopicBoxViewParamterToYes($topicBoxWikicode);
 		$topicBoxWikicode = $p->cleanTopicBoxTitleParameter($topicBoxWikicode);
+		$allArticleTitles = $p->getAllArticleTitles($topicBoxWikicode, $nominationPageTitle);
+		$goodArticleCount = $p->getGoodArticleCount($topicBoxWikicode);
+		$featuredArticleCount = $p->getFeaturedArticleCount($topicBoxWikicode);
+		$p->checkCounts($goodArticleCount, $featuredArticleCount, $allArticleTitles);
+		
+		// STEP 2 - MAKE TOPIC PAGE ===============================================================
 		$mainArticleTitle = $p->getMainArticleTitle($topicBoxWikicode, $nominationPageTitle);
 		$topicDescriptionWikicode = $p->getTopicDescriptionWikicode($nominationPageWikicode);
 		$topicDescriptionWikicode = $p->removeSignaturesFromTopicDescription($topicDescriptionWikicode);
 		$topicWikipediaPageTitle = $p->getTopicWikipediaPageTitle($mainArticleTitle, $goodOrFeatured);
 		$topicWikipediaPageWikicode = $p->getTopicWikipediaPageWikicode($topicDescriptionWikicode, $topicBoxWikicode);
 		$wapi->edit($topicWikipediaPageTitle, $topicWikipediaPageWikicode);
-		
-		// STEP 3 - MAKE TOPIC TALK PAGE =============================================================
+				
+		// STEP 3 - MAKE TOPIC TALK PAGE ==========================================================
 		$topicTalkPageTitle = $p->getTopicTalkPageTitle($mainArticleTitle, $goodOrFeatured);
 		$datetime = $p->getDatetime();
-		$allArticleTitles = $p->getAllArticleTitles($topicBoxWikicode, $nominationPageTitle);
 		$nonMainArticleTitles = $p->getNonMainArticleTitles($allArticleTitles, $mainArticleTitle);
 		$mainArticleTalkPageWikicode = $wapi->getpage('Talk:'.$mainArticleTitle);
 		$wikiProjectBanners = $p->getWikiProjectBanners($mainArticleTalkPageWikicode, $mainArticleTitle);
 		$topicTalkPageWikicode = $p->getTopicTalkPageWikicode($mainArticleTitle, $nonMainArticleTitles, $goodOrFeatured, $datetime, $wikiProjectBanners, $nominationPageTitle);
 		$wapi->edit($topicTalkPageTitle, $topicTalkPageWikicode);
 		
-		// STEP 4 - UPDATE TALK PAGES OF ARTICLES ====================================================
+		// STEP 4 - UPDATE TALK PAGES OF ARTICLES =================================================
 		$p->abortIfTooManyArticlesInTopic($allArticleTitles, $MAX_ARTICLES_ALLOWED_IN_TOPIC, $nominationPageTitle);
 		foreach ( $allArticleTitles as $key => $articleTitle ) {
 			$talkPageTitle = 'Talk:' . $articleTitle;
@@ -119,7 +124,7 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 			$wapi->edit($talkPageTitle, $talkPageWikicode);
 		}
 		
-		// STEP 5 - UPDATE COUNT=====================================================================
+		// STEP 5 - UPDATE COUNT==================================================================
 		$countPageTitle = ( $goodOrFeatured == 'good' ) ? 'Wikipedia:Good topics/count' : 'Wikipedia:Featured topics/count';
 		$countPageWikicode = $wapi->getpage($countPageTitle);
 		$articlesInTopic = count($allArticleTitles);
@@ -127,15 +132,10 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		$countPageWikicode = $p->updateCountPageArticleCount($countPageWikicode, $countPageTitle, $articlesInTopic);
 		$wapi->edit($countPageTitle, $countPageWikicode);
 		
-		// STEP 6 - ADD TO GOOD/FEATURED TOPIC PAGE ==================================================
+		// STEP 6 - ADD TO GOOD/FEATURED TOPIC PAGE =============================================
 		// Too complex. Human must do this.
 		
-		// STEP 7 - CREATE CHILD CATEGORIES =================================================
-		$goodArticleCount = $p->getGoodArticleCount($topicBoxWikicode);
-		$featuredArticleCount = $p->getFeaturedArticleCount($topicBoxWikicode);
-		if ( $goodArticleCount + $featuredArticleCount <= 0 ) {
-			throw new GiveUpOnThisTopic("Unexpected value for the count of good articles and featured articles in the topic. Sum is 0 or less.");
-		}
+		// STEP 7 - CREATE CHILD CATEGORIES =====================================================
 		if ( $goodArticleCount > 0 ) {
 			$goodArticleCategoryTitle = "Category:Wikipedia featured topics $mainArticleTitle good content";
 			$goodArticleCategoryWikitext = "[[Category:Wikipedia featured topics $mainArticleTitle]]";
@@ -147,18 +147,18 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 			$wapi->edit($featuredArticleCategoryTitle, $featuredArticleCategoryWikitext);
 		}
 		
-		// STEP 8 - CREATE PARENT CATEGORY ===========================================================
+		// STEP 8 - CREATE PARENT CATEGORY ========================================================
 		$parentCategoryTitle = "Category:Wikipedia featured topics $mainArticleTitle";
 		$parentCategoryWikitext = "[[Category:Wikipedia featured topics categories|$mainArticleTitle]]";
 		$wapi->edit($parentCategoryTitle, $parentCategoryWikitext);
 		
-		// STEP 9 - ADD TO LOG =======================================================================
+		// STEP 9 - ADD TO LOG ====================================================================
 		$logPageTitle = $p->getLogPageTitle($datetime, $goodOrFeatured);
 		$logPageWikicode = $wapi->getpage($logPageTitle);
 		$logPageWikicode = trim($logPageWikicode . "\n{{" . $nominationPageTitle . '}}');
 		$wapi->edit($logPageTitle, $logPageWikicode);
 		
-		// STEP 10 - ADD TO ANNOUNCEMENTS TEMPLATE ===================================================
+		// STEP 10 - ADD TO ANNOUNCEMENTS TEMPLATE ================================================
 		if ( $goodOrFeatured == 'featured' ) {
 			// [[Template:Announcements/New featured content]]: add this article to top, remove 1 from the bottom
 			$newFeaturedContentTitle = 'Template:Announcements/New featured content';
@@ -174,13 +174,13 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 			$wapi->edit($goingsOnTitle, $goingsOnWikicode);
 		}
 		
-		// STEP 11 - REMOVE FROM [[WP:FGTC]] ===================================================
+		// STEP 11 - REMOVE FROM [[WP:FGTC]] =====================================================
 		$fgtcTitle = 'Wikipedia:Featured and good topic candidates';
 		$fgtcWikicode = $wapi->getpage($fgtcTitle);
 		$fgtcWikicode = $p->removeTopicFromFGTC($nominationPageTitle, $fgtcWikicode, $fgtcTitle);
 		$wapi->edit($fgtcTitle, $fgtcWikicode);
 		
-		// STEP 1 - CLOSE THE NOMINATION =============================================================
+		// STEP 1 - CLOSE THE NOMINATION =========================================================
 		// Replace template invokation with Success. ~~~~ or Error. ~~~~
 		// Also change {{User:NovemBot/Promote}} to include |done=yes, which will take the page out of the tracking category.
 		/*

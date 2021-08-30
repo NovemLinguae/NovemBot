@@ -119,11 +119,6 @@ class Promote {
 			$listOfTitles[$key] = $match;
 		}
 		
-		// Good/featured topics should have at least 2 articles. If not, something is wrong.
-		if ( count($listOfTitles) < 2 ) {
-			throw new GiveUpOnThisTopic("On page $title, when parsing the list of topics in {{featured topic box}}, found less than 2 articles.");
-		}
-		
 		$this->eh->html_var_export($listOfTitles, 'variable');
 		return $listOfTitles;
 	}
@@ -470,5 +465,18 @@ $wikiProjectBanners";
 			throw new GiveUpOnThisTopic("On page $fgtcTitle, unable to locate {{" . $nominationPageTitle . "}}.");
 		}
 		return $wikicode2;
+	}
+	
+	function checkCounts($goodArticleCount, $featuredArticleCount, $allArticleTitles) {
+		if ( $goodArticleCount + $featuredArticleCount <= 0 ) {
+			throw new GiveUpOnThisTopic("Unexpected value for the count of good articles and featured articles in the topic. Sum is 0 or less.");
+		}
+		if ( $goodArticleCount + $featuredArticleCount != count($allArticleTitles) ) {
+			throw new GiveUpOnThisTopic("Unexpected value for the count of good articles and featured articles in the topic. Sum is not equal to the number of articles detected in {{Featured topic box}}.");
+		}
+		// Good/featured topics should have at least 2 articles. If not, something is wrong.
+		if ( count($allArticleTitles) < 2 ) {
+			throw new GiveUpOnThisTopic("When parsing the list of topics in {{featured topic box}}, found less than 2 articles.");
+		}
 	}
 }

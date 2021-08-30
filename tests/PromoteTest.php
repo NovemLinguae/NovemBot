@@ -355,11 +355,35 @@ Test'
 		$this->p->getAllArticleTitles($topicBoxWikicode, $title);
 	}
 	
-	function test_getAllArticleTitles_lessThanTwoArticles() {
-		$topicBoxWikicode = '{{Featured topic box |title= |count=4 |image= |imagesize= 
-|lead={{icon|GA}} [[Tour Championship (snooker)|Tour Championship]]}}';
-		$title = '';
+	function test_checkCounts_normal() {
+		$goodArticleCount = 1;
+		$featuredArticleCount = 1;
+		$allArticleTitles = ['a', 'b'];
+		$this->p->checkCounts($goodArticleCount, $featuredArticleCount, $allArticleTitles);
+		$this->expectNotToPerformAssertions();
+	}
+	
+	function test_checkCounts_incorrectSum() {
+		$goodArticleCount = 1;
+		$featuredArticleCount = 1;
+		$allArticleTitles = ['a', 'b', 'c'];
 		$this->expectException(GiveUpOnThisTopic::class);
-		$this->p->getAllArticleTitles($topicBoxWikicode, $title);
+		$this->p->checkCounts($goodArticleCount, $featuredArticleCount, $allArticleTitles);
+	}
+	
+	function test_checkCounts_zero() {
+		$goodArticleCount = 0;
+		$featuredArticleCount = 0;
+		$allArticleTitles = [];
+		$this->expectException(GiveUpOnThisTopic::class);
+		$this->p->checkCounts($goodArticleCount, $featuredArticleCount, $allArticleTitles);
+	}
+	
+	function test_checkCounts_one() {
+		$goodArticleCount = 1;
+		$featuredArticleCount = 0;
+		$allArticleTitles = ['a'];
+		$this->expectException(GiveUpOnThisTopic::class);
+		$this->p->checkCounts($goodArticleCount, $featuredArticleCount, $allArticleTitles);
 	}
 }
