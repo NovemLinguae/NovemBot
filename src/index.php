@@ -22,11 +22,6 @@ $SECONDS_BETWEEN_API_EDITS = 10; // https://en.wikipedia.org/wiki/Wikipedia:Bot_
 $ARTICLE_HISTORY_MAX_ACTIONS = 15; // just a guess
 $SHORT_WIKICODE_IN_CONSOLE = false; // Set to false to help with semi-automated editing (copy pasting from browser to Wikipedia). Set to true to make browser more readable during testing.
 $CHARACTERS_TO_ECHO = 3000; // When $SHORT_WIKICODE_IN_CONSOLE is set to true, how many characters to display.
-/*
-$GOOD_TOPIC_TYPES = [];
-$GOOD_TOPIC_TYPES_WITH_SUBPAGES = [];
-$FEATURED_TOPIC_TYPES = [];
-*/
 
 require_once('bootstrap.php');
 
@@ -56,11 +51,6 @@ if ( $TEST_PAGES ) {
 } else {
 	$pagesToPromote = $wapi->categorymembers($TRACKING_CATEGORY_NAME);
 }
-
-// do some kind of authentication. whitelist, extended confirmed, etc.
-// $whitelist = ['Novem Linguae', 'Aza24', 'GamerPro64', 'Sturmvogel 66'];
-// maybe I have a userspace page that is extended confirmed protected, where people add bullets of pages for NovemBot to process?
-// a good security feature is that a page needs to have the featured topic template for the bot to do anything, else the bot will not do any exponential editing
 
 // check how many pages in tracking category. if too many, don't run. probably vandalism.
 if ( count($pagesToPromote) > $MAX_TOPICS_ALLOWED_IN_BOT_RUN ) {

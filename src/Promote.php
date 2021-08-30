@@ -12,7 +12,6 @@ class Promote {
 			throw new GiveUpOnThisTopic("On page $title, unable to find {{User:NovemBot/Promote}} template.");
 		}
 		$templateWikicode = $matches[1];
-		//$this->eh->echoAndFlush($templateWikicode, 'variable');
 		return $templateWikicode;
 	}
 
@@ -22,22 +21,7 @@ class Promote {
 			throw new GiveUpOnThisTopic("On page $title, {{Add to topic}} is present. Bot does not know how to handle these.");
 		}
 	}
-
-	/*
-	function getGoodOrFeaturedFromNovemBotTemplate($novemBotTemplateWikicode, $title) {
-		preg_match('/\|type=([^\|\}]*)/', $novemBotTemplateWikicode, $matches);
-		if ( ! $matches ) {
-			throw new GiveUpOnThisTopic("On page $title, unable to find |type= parameter of {{User:NovemBot/Promote}}.");
-		}
-		$type = $matches[1];
-		if ( $type != 'good' && $type != 'featured' ) {
-			throw new GiveUpOnThisTopic("On page $title, |type= parameter of {{User:NovemBot/Promote}} must be \"good\" or \"featured\|.");
-		}
-		//$this->eh->echoAndFlush($type, 'variable');
-		return $type;
-	}
-	*/
-
+	
 	function getTopicBoxWikicode($callerPageWikicode, $title) {
 		$wikicode = $this->sh->sliceFirstTemplateFound($callerPageWikicode, 'good topic box');
 		if ( $wikicode ) {
@@ -58,7 +42,6 @@ class Promote {
 			throw new GiveUpOnThisTopic("On page $title, could not find main article name in {{Good/Featured topic box}}.");
 		}
 		$mainArticleTitle = $matches[1];
-		//$this->eh->echoAndFlush($mainArticleTitle, 'variable');
 		return $mainArticleTitle;
 	}
 
@@ -74,7 +57,6 @@ class Promote {
 			$output = trim($output);
 			$output = '<noinclude>' . $output . '</noinclude>';
 		}
-		//$this->eh->echoAndFlush($output, 'variable');
 		return $output;
 	}
 
@@ -93,7 +75,6 @@ class Promote {
 	function getDatetime() {
 		date_default_timezone_set('UTC');
 		$date = date('H:m, j F Y');
-		// $this->eh->echoAndFlush($date, 'variable');
 		return $date;
 	}
 
@@ -163,7 +144,6 @@ $wikiProjectBanners";
 			throw new GiveUpOnThisTopic("On page $title, could not find WikiProject banners on main article's talk page.");
 		}
 		$bannerWikicode = '';
-		//$this->eh->html_var_export($matches, 'variable');
 		foreach ( $matches[0] as $key => $value ) {
 			$bannerWikicode .= $value . "\n";
 		}
@@ -171,7 +151,6 @@ $wikiProjectBanners";
 		if ( count($matches[0]) > 1 ) {
 			$bannerWikicode = "{{WikiProject banner shell|1=\n".$bannerWikicode."\n}}";
 		}
-		//$this->eh->echoAndFlush($bannerWikicode, 'variable');
 		return $bannerWikicode;
 	}
 
@@ -198,7 +177,6 @@ $wikiProjectBanners";
 		for ( $i = $ARTICLE_HISTORY_MAX_ACTIONS; $i >= 1; $i-- ) {
 			$hasAction = preg_match("/\|\s*action$i\s*=/i", $talkPageWikicode);
 			if ( $hasAction ) {
-				//$this->eh->echoAndFlush($i + 1, 'variable');
 				return $i + 1;
 			}
 		}
@@ -216,16 +194,10 @@ $wikiProjectBanners";
 |action{$nextActionNumber}result = promoted
 |ftname = $mainArticleTitle
 |ftmain = $main";
-		//$this->eh->echoAndFlush($addToArticleHistory, 'variable');
-		//$this->eh->echoAndFlush($talkPageWikicode, 'variable');
 		$newWikicode = $this->sh->insertCodeAtEndOfFirstTemplate($talkPageWikicode, 'Article ?history', $addToArticleHistory);
 		if ( $newWikicode == $talkPageWikicode ) {
 			throw new GiveUpOnThisTopic("On page $talkPageTitle, in {{Article history}} template, unable to determine where to add new actions.");
 		}
-		//$this->eh->html_var_export($matches, 'variable');
-		//$this->eh->echoAndFlush($matches[1], 'variable');
-		//$this->eh->echoAndFlush($addToArticleHistory, 'variable');
-		//$this->eh->echoAndFlush($matches[2], 'variable');
 		return $newWikicode;
 	}
 
@@ -233,7 +205,6 @@ $wikiProjectBanners";
 	function addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle) {
 		$hasArticleHistory = preg_match('/\{\{Article ? history([^\}]*)\}\}/i', $talkPageWikicode);
 		$gaTemplateWikicode = $this->sh->preg_first_match('/(\{\{GA[^\}]*\}\})/i', $talkPageWikicode);
-		//$this->eh->echoAndFlush($gaTemplateWikicode, 'variable');
 		if ( ! $hasArticleHistory && $gaTemplateWikicode ) {
 			// delete {{ga}} template
 			$talkPageWikicode = preg_replace('/\{\{GA[^\}]*\}\}\n?/i', '', $talkPageWikicode);
@@ -337,7 +308,6 @@ $wikiProjectBanners";
 				$parameters[$paramName] = $paramValue;
 			}
 		}
-		//$this->eh->html_var_export($parameters, 'variable');
 		return $parameters;
 	}
 
@@ -404,7 +374,6 @@ $wikiProjectBanners";
 	function getGoodArticleCount($topicBoxWikicode) {
 		preg_match_all('/{{\s*(?:class)?icon\s*\|\s*(?:GA)\s*}}/i', $topicBoxWikicode, $matches);
 		$count = count($matches[0]);
-		//$this->eh->echoAndFlush(var_export($matches, true), 'variable');
 		$this->eh->echoAndFlush($count, 'variable');
 		return $count;
 	}
@@ -412,26 +381,10 @@ $wikiProjectBanners";
 	function getFeaturedArticleCount($topicBoxWikicode) {
 		preg_match_all('/{{\s*(?:class)?icon\s*\|\s*(?:FA|FL)\s*}}/i', $topicBoxWikicode, $matches);
 		$count = count($matches[0]);
-		//$this->eh->echoAndFlush(var_export($matches, true), 'variable');
 		$this->eh->echoAndFlush($count, 'variable');
 		return $count;
 	}
-
-	/*
-	function addHeadingIfNeeded($talkPageWikicode, $talkPageTitle) {
-		$newWikicode = $talkPageWikicode;
-		$hasHeadings = ( strpos($talkPageWikicode, '==') !== false );
-		$hasTranscludedGA1Page = ( strpos($talkPageWikicode, '/GA1}}') !== false );
-		if ( ! $hasHeadings && $hasTranscludedGA1Page ) {
-			$newWikicode = preg_replace("/(\{\{Talk:[^\/]+\/GA1}}\s*)$/i", "== Good article ==\n$1", $newWikicode);
-			if ( $newWikicode == $talkPageWikicode ) {
-				throw new GiveUpOnThisTopic("On page $talkPageTitle, unable to add a heading above {{Talk:foobar/GA1}}");
-			}
-		}
-		return $newWikicode;
-	}
-	*/
-
+	
 	function writeSuccessOrError($nominationPageWikicode, $nominationPageTitle) {
 		
 	}
