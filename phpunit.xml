@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<phpunit bootstrap = "src/bootstrap.php"
-		 colors    = "true">
-
-	<testsuites>
-		<testsuite name="default">
-			<directory>tests</directory>
-		</testsuite>
-	</testsuites>
-
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="src/bootstrap.php" colors="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage processUncoveredFiles="true">
+    <include>
+      <file>src/Promote.php</file>
+	  <file>src/StringHelper.php</file>
+    </include>
+  </coverage>
+  <testsuites>
+    <testsuite name="default">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>

@@ -1,3 +1,5 @@
 gitignore/
 src/config.php
 .phpunit.result.cache
+.phpunit.cache/
+coverage-reports/
