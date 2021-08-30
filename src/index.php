@@ -11,8 +11,8 @@ assert_options(ASSERT_BAIL, true);
 $READ_ONLY_TEST_MODE = true;
 $TEST_PAGES = [
 	1 => [
-		'nominationPageTitle' => 'Wikipedia:Featured and good topic candidates/Dua Lipa (album)/archive1',
-		'goodOrFeatured' => 'good',
+		'nominationPageTitle' => 'Wikipedia:Featured and good topic candidates/Tour Championship (snooker)/archive1',
+		'goodOrFeatured' => 'featured',
 	],
 ];
 
@@ -33,6 +33,10 @@ $FEATURED_TOPIC_TYPES = [];
 
 require_once('bootstrap.php');
 
+$sh = new StringHelper();
+$eh = new EchoHelper($sh);
+$p = new Promote($eh, $sh);
+
 // Randos can only run the bot in read only test mode
 if (
 	($_GET['password'] ?? '') != $config['httpAndBashPassword'] &&
@@ -42,18 +46,18 @@ if (
 }
 
 // log in
-echoAndFlush("PHP version: " . PHP_VERSION, 'variable');
-$objwiki = new WikiAPIWrapper($config['wikiUsername'], $config['wikiPassword']);
+$eh->echoAndFlush("PHP version: " . PHP_VERSION, 'variable');
+$wapi = new WikiAPIWrapper($config['wikiUsername'], $config['wikiPassword'], $eh);
 
 // read tracking category
 
 if ( $TEST_PAGES ) {
-	$pagesToPromote = sql_make_list_from_sql_result_array($TEST_PAGES, 'nominationPageTitle');
+	$pagesToPromote = $sh->sql_make_list_from_sql_result_array($TEST_PAGES, 'nominationPageTitle');
 	$message = 'In test mode. Using $TEST_PAGES variable.';
 	$message .= "\n\n" . var_export($pagesToPromote, true);
-	echoAndFlush($message, 'api_read');
+	$eh->echoAndFlush($message, 'api_read');
 } else {
-	$pagesToPromote = $objwiki->categorymembers($TRACKING_CATEGORY_NAME);
+	$pagesToPromote = $wapi->categorymembers($TRACKING_CATEGORY_NAME);
 }
 
 // do some kind of authentication. whitelist, extended confirmed, etc.
@@ -63,128 +67,129 @@ if ( $TEST_PAGES ) {
 
 // check how many pages in tracking category. if too many, don't run. probably vandalism.
 if ( count($pagesToPromote) > $MAX_TOPICS_ALLOWED_IN_BOT_RUN ) {
-	logError('Too many categories. Possible vandalism?');
+	$eh->logError('Too many categories. Possible vandalism?');
 	die();
 }
 
 foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
-	echoAndFlush($nominationPageTitle, 'newtopic');
+	$eh->echoAndFlush($nominationPageTitle, 'newtopic');
 	try {
 		// STEP A - READ PAGE CONTAINING {{User:NovemBot/Promote|type=good/featured}} ================
-		$nominationPageWikicode = $objwiki->getpage($nominationPageTitle);
-		abortIfAddToTopic($nominationPageWikicode, $nominationPageTitle);
+		$nominationPageWikicode = $wapi->getpage($nominationPageTitle);
+		$p->abortIfAddToTopic($nominationPageWikicode, $nominationPageTitle);
 		if ( $TEST_PAGES ) {
-			$goodOrFeatured = sql_search_result_array_by_key1_and_return_key2($TEST_PAGES, 'nominationPageTitle', $nominationPageTitle, 'goodOrFeatured');
+			$goodOrFeatured = $sh->sql_search_result_array_by_key1_and_return_key2($TEST_PAGES, 'nominationPageTitle', $nominationPageTitle, 'goodOrFeatured');
 		} else {
-			$novemBotTemplateWikicode = sliceNovemBotPromoteTemplate($nominationPageWikicode, $nominationPageTitle);
-			$goodOrFeatured = getGoodOrFeaturedFromNovemBotTemplate($novemBotTemplateWikicode, $nominationPageTitle);
+			$novemBotTemplateWikicode = $p->sliceNovemBotPromoteTemplate($nominationPageWikicode, $nominationPageTitle);
+			$goodOrFeatured = $p->getGoodOrFeaturedFromNovemBotTemplate($novemBotTemplateWikicode, $nominationPageTitle);
 		}
-		echoAndFlush($goodOrFeatured, 'variable');
+		$eh->echoAndFlush($goodOrFeatured, 'variable');
 		
 		// STEP 2 - MAKE TOPIC PAGE ==================================================================
-		$topicBoxWikicode = getTopicBoxWikicode($nominationPageWikicode, $nominationPageTitle);
-		$topicBoxWikicode = setTopicBoxViewParamterToYes($topicBoxWikicode);
-		$topicBoxWikicode = cleanTopicBoxTitleParameter($topicBoxWikicode);
-		$mainArticleTitle = getMainArticleTitle($topicBoxWikicode, $nominationPageTitle);
-		$topicDescriptionWikicode = getTopicDescriptionWikicode($nominationPageWikicode);
-		$topicDescriptionWikicode = removeSignaturesFromTopicDescription($topicDescriptionWikicode);
-		$topicWikipediaPageTitle = getTopicWikipediaPageTitle($mainArticleTitle, $goodOrFeatured);
-		$topicWikipediaPageWikicode = getTopicWikipediaPageWikicode($topicDescriptionWikicode, $topicBoxWikicode);
-		$objwiki->edit($topicWikipediaPageTitle, $topicWikipediaPageWikicode);
+		$topicBoxWikicode = $p->getTopicBoxWikicode($nominationPageWikicode, $nominationPageTitle);
+		$topicBoxWikicode = $p->setTopicBoxViewParamterToYes($topicBoxWikicode);
+		$topicBoxWikicode = $p->cleanTopicBoxTitleParameter($topicBoxWikicode);
+		$mainArticleTitle = $p->getMainArticleTitle($topicBoxWikicode, $nominationPageTitle);
+		$topicDescriptionWikicode = $p->getTopicDescriptionWikicode($nominationPageWikicode);
+		$topicDescriptionWikicode = $p->removeSignaturesFromTopicDescription($topicDescriptionWikicode);
+		$topicWikipediaPageTitle = $p->getTopicWikipediaPageTitle($mainArticleTitle, $goodOrFeatured);
+		$topicWikipediaPageWikicode = $p->getTopicWikipediaPageWikicode($topicDescriptionWikicode, $topicBoxWikicode);
+		$wapi->edit($topicWikipediaPageTitle, $topicWikipediaPageWikicode);
 		
 		// STEP 3 - MAKE TOPIC TALK PAGE =============================================================
-		$topicTalkPageTitle = getTopicTalkPageTitle($mainArticleTitle, $goodOrFeatured);
-		$datetime = getDatetime();
-		$allArticleTitles = getAllArticleTitles($topicBoxWikicode, $nominationPageTitle);
-		$nonMainArticleTitles = getNonMainArticleTitles($allArticleTitles, $mainArticleTitle);
-		$mainArticleTalkPageWikicode = $objwiki->getpage('Talk:'.$mainArticleTitle);
-		$wikiProjectBanners = getWikiProjectBanners($mainArticleTalkPageWikicode, $mainArticleTitle);
-		$topicTalkPageWikicode = getTopicTalkPageWikicode($mainArticleTitle, $nonMainArticleTitles, $goodOrFeatured, $datetime, $wikiProjectBanners, $nominationPageTitle);
-		$objwiki->edit($topicTalkPageTitle, $topicTalkPageWikicode);
+		$topicTalkPageTitle = $p->getTopicTalkPageTitle($mainArticleTitle, $goodOrFeatured);
+		$datetime = $p->getDatetime();
+		$allArticleTitles = $p->getAllArticleTitles($topicBoxWikicode, $nominationPageTitle);
+		$nonMainArticleTitles = $p->getNonMainArticleTitles($allArticleTitles, $mainArticleTitle);
+		$mainArticleTalkPageWikicode = $wapi->getpage('Talk:'.$mainArticleTitle);
+		$wikiProjectBanners = $p->getWikiProjectBanners($mainArticleTalkPageWikicode, $mainArticleTitle);
+		$topicTalkPageWikicode = $p->getTopicTalkPageWikicode($mainArticleTitle, $nonMainArticleTitles, $goodOrFeatured, $datetime, $wikiProjectBanners, $nominationPageTitle);
+		$wapi->edit($topicTalkPageTitle, $topicTalkPageWikicode);
 		
 		// STEP 4 - UPDATE TALK PAGES OF ARTICLES ====================================================
-		abortIfTooManyArticlesInTopic($allArticleTitles, $MAX_ARTICLES_ALLOWED_IN_TOPIC, $nominationPageTitle);
+		$p->abortIfTooManyArticlesInTopic($allArticleTitles, $MAX_ARTICLES_ALLOWED_IN_TOPIC, $nominationPageTitle);
 		foreach ( $allArticleTitles as $key => $articleTitle ) {
 			$talkPageTitle = 'Talk:' . $articleTitle;
-			$talkPageWikicode = $objwiki->getpage($talkPageTitle);
+			$talkPageWikicode = $wapi->getpage($talkPageTitle);
 			// $talkPageWikicode = addHeadingIfNeeded($talkPageWikicode, $talkPageTitle);
-			$talkPageWikicode = removeGTCFTCTemplate($talkPageWikicode);
-			$talkPageWikicode = addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle);
-			$nextActionNumber = determineNextActionNumber($talkPageWikicode, $ARTICLE_HISTORY_MAX_ACTIONS, $talkPageTitle);
-			$talkPageWikicode = updateArticleHistory($talkPageWikicode, $nextActionNumber, $goodOrFeatured, $datetime, $mainArticleTitle, $articleTitle, $talkPageTitle, $nominationPageTitle);
-			$objwiki->edit($talkPageTitle, $talkPageWikicode);
+			$talkPageWikicode = $p->removeGTCFTCTemplate($talkPageWikicode);
+			$talkPageWikicode = $p->addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle);
+			$nextActionNumber = $p->determineNextActionNumber($talkPageWikicode, $ARTICLE_HISTORY_MAX_ACTIONS, $talkPageTitle);
+			$talkPageWikicode = $p->updateArticleHistory($talkPageWikicode, $nextActionNumber, $goodOrFeatured, $datetime, $mainArticleTitle, $articleTitle, $talkPageTitle, $nominationPageTitle);
+			$wapi->edit($talkPageTitle, $talkPageWikicode);
 		}
 		
 		// STEP 5 - UPDATE COUNT=====================================================================
 		$countPageTitle = ( $goodOrFeatured == 'good' ) ? 'Wikipedia:Good topics/count' : 'Wikipedia:Featured topics/count';
-		$countPageWikicode = $objwiki->getpage($countPageTitle);
+		$countPageWikicode = $wapi->getpage($countPageTitle);
 		$articlesInTopic = count($allArticleTitles);
-		$countPageWikicode = updateCountPageTopicCount($countPageWikicode, $countPageTitle);
-		$countPageWikicode = updateCountPageArticleCount($countPageWikicode, $countPageTitle, $articlesInTopic);
-		$objwiki->edit($countPageTitle, $countPageWikicode);
+		$countPageWikicode = $p->updateCountPageTopicCount($countPageWikicode, $countPageTitle);
+		$countPageWikicode = $p->updateCountPageArticleCount($countPageWikicode, $countPageTitle, $articlesInTopic);
+		$wapi->edit($countPageTitle, $countPageWikicode);
 		
 		// STEP 6 - ADD TO GOOD/FEATURED TOPIC PAGE ==================================================
 		// Too complex. Human must do this.
 		
 		// STEP 7 - CREATE CHILD CATEGORIES =================================================
-		$goodArticleCount = getGoodArticleCount($topicBoxWikicode);
-		$featuredArticleCount = getFeaturedArticleCount($topicBoxWikicode);
+		$goodArticleCount = $p->getGoodArticleCount($topicBoxWikicode);
+		$featuredArticleCount = $p->getFeaturedArticleCount($topicBoxWikicode);
 		if ( $goodArticleCount + $featuredArticleCount <= 0 ) {
-			throw new giveUpOnThisTopic("Unexpected value for the count of good articles and featured articles in the topic. Sum is 0 or less.");
+			throw new GiveUpOnThisTopic("Unexpected value for the count of good articles and featured articles in the topic. Sum is 0 or less.");
 		}
 		if ( $goodArticleCount > 0 ) {
 			$goodArticleCategoryTitle = "Category:Wikipedia featured topics $mainArticleTitle good content";
 			$goodArticleCategoryWikitext = "[[Category:Wikipedia featured topics $mainArticleTitle]]";
-			$objwiki->edit($goodArticleCategoryTitle, $goodArticleCategoryWikitext);
+			$wapi->edit($goodArticleCategoryTitle, $goodArticleCategoryWikitext);
 		}
 		if ( $featuredArticleCount > 0 ) {
 			$featuredArticleCategoryTitle = "Category:Wikipedia featured topics $mainArticleTitle featured content";
 			$featuredArticleCategoryWikitext = "[[Category:Wikipedia featured topics $mainArticleTitle]]";
-			$objwiki->edit($featuredArticleCategoryTitle, $featuredArticleCategoryWikitext);
+			$wapi->edit($featuredArticleCategoryTitle, $featuredArticleCategoryWikitext);
 		}
 		
 		// STEP 8 - CREATE PARENT CATEGORY ===========================================================
 		$parentCategoryTitle = "Category:Wikipedia featured topics $mainArticleTitle";
 		$parentCategoryWikitext = "[[Category:Wikipedia featured topics categories|$mainArticleTitle]]";
-		$objwiki->edit($parentCategoryTitle, $parentCategoryWikitext);
+		$wapi->edit($parentCategoryTitle, $parentCategoryWikitext);
 		
 		// STEP 9 - ADD TO LOG =======================================================================
-		$logPageTitle = getLogPageTitle($datetime, $goodOrFeatured);
-		$logPageWikicode = $objwiki->getpage($logPageTitle);
+		$logPageTitle = $p->getLogPageTitle($datetime, $goodOrFeatured);
+		$logPageWikicode = $wapi->getpage($logPageTitle);
 		$logPageWikicode = trim($logPageWikicode . "\n{{" . $nominationPageTitle . '}}');
-		$objwiki->edit($logPageTitle, $logPageWikicode);
+		$wapi->edit($logPageTitle, $logPageWikicode);
 		
 		// STEP 10 - ADD TO ANNOUNCEMENTS TEMPLATE ===================================================
 		if ( $goodOrFeatured == 'featured' ) {
 			// [[Template:Announcements/New featured content]]: add this article to top, remove 1 from the bottom
 			$newFeaturedContentTitle = 'Template:Announcements/New featured content';
-			$newFeaturedContentWikicode = $objwiki->getpage($newFeaturedContentTitle);
-			$newFeaturedContentWikicode = addTopicToNewFeaturedContent($newFeaturedContentTitle, $newFeaturedContentWikicode, $topicWikipediaPageTitle, $mainArticleTitle);
-			$newFeaturedContentWikicode = removeBottomTopicFromNewFeaturedContent($newFeaturedContentTitle, $newFeaturedContentWikicode);
-			$objwiki->edit($newFeaturedContentTitle, $newFeaturedContentWikicode);
+			$newFeaturedContentWikicode = $wapi->getpage($newFeaturedContentTitle);
+			$newFeaturedContentWikicode = $p->addTopicToNewFeaturedContent($newFeaturedContentTitle, $newFeaturedContentWikicode, $topicWikipediaPageTitle, $mainArticleTitle);
+			$newFeaturedContentWikicode = $p->removeBottomTopicFromNewFeaturedContent($newFeaturedContentTitle, $newFeaturedContentWikicode);
+			$wapi->edit($newFeaturedContentTitle, $newFeaturedContentWikicode);
 			
 			// [[Wikipedia:Goings-on]]: add
 			$goingsOnTitle = 'Wikipedia:Goings-on';
-			$goingsOnWikicode = $objwiki->getpage($goingsOnTitle);
-			$goingsOnWikicode = addTopicToGoingsOn($goingsOnTitle, $goingsOnWikicode, $topicWikipediaPageTitle, $mainArticleTitle);
-			$objwiki->edit($goingsOnTitle, $goingsOnWikicode);
+			$goingsOnWikicode = $wapi->getpage($goingsOnTitle);
+			$goingsOnWikicode = $p->addTopicToGoingsOn($goingsOnTitle, $goingsOnWikicode, $topicWikipediaPageTitle, $mainArticleTitle);
+			$wapi->edit($goingsOnTitle, $goingsOnWikicode);
 		}
 		
 		// STEP 11 - REMOVE FROM [[WP:FGTC]] ===================================================
 		$fgtcTitle = 'Wikipedia:Featured and good topic candidates';
-		$fgtcWikicode = $objwiki->getpage($fgtcTitle);
-		$fgtcWikicode = removeTopicFromFGTC($nominationPageTitle, $fgtcWikicode, $fgtcTitle);
-		$objwiki->edit($fgtcTitle, $fgtcWikicode);
+		$fgtcWikicode = $wapi->getpage($fgtcTitle);
+		$fgtcWikicode = $p->removeTopicFromFGTC($nominationPageTitle, $fgtcWikicode, $fgtcTitle);
+		$wapi->edit($fgtcTitle, $fgtcWikicode);
 		
 		// STEP 1 - CLOSE THE NOMINATION =============================================================
 		// Replace template invokation with Success. ~~~~ or Error. ~~~~
+		// Also change {{User:NovemBot/Promote}} to include |done=yes, which will take the page out of the tracking category.
 		/*
 		$nominationPageWikicode = writeSuccessOrError($nominationPageWikicode, $nominationPageTitle);
-		$objwiki->edit($nominationPageTitle, $nominationPageWikicode);
+		$wapi->edit($nominationPageTitle, $nominationPageWikicode);
 		*/
-	} catch (giveUpOnThisTopic $e) {
-		logError($e->getMessage());
+	} catch (GiveUpOnThisTopic $e) {
+		$eh->logError($e->getMessage());
 	}
 }
 
-echoAndFlush('', 'complete');
+$eh->echoAndFlush('', 'complete');

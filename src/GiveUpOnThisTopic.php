@@ -1,5 +1,5 @@
 <?php
 
-class giveUpOnThisTopic extends Exception {
+class GiveUpOnThisTopic extends Exception {
 	
 }

@@ -3,10 +3,18 @@
 use PHPUnit\Framework\TestCase;
 
 class PromoteTest extends TestCase {
+	function setUp(): void {
+		// stub EchoHelper so that it doesn't echo
+		$eh = $this->createStub(EchoHelper::class);
+		
+		$sh = new StringHelper();
+		$this->p = new Promote($eh, $sh);
+	}
+
 	function test_getTopicWikipediaPageTitle_dontWriteToWikipediaGoodTopics() {
 		$mainArticleTitle = 'TestPage';
 		$goodOrFeatured = 'good';
-		$result = getTopicWikipediaPageTitle($mainArticleTitle, $goodOrFeatured);
+		$result = $this->p->getTopicWikipediaPageTitle($mainArticleTitle, $goodOrFeatured);
 		$this->assertSame('Wikipedia:Featured topics/TestPage', $result);
 	}
 	
@@ -17,7 +25,7 @@ class PromoteTest extends TestCase {
 {{WikiProject Albums|class=GA|importance=low}}
 {{WikiProject Hip hop|class=GA|importance=low}}
 }}';
-		$result = getWikiProjectBanners($mainArticleTalkPageWikicode, $title);
+		$result = $this->p->getWikiProjectBanners($mainArticleTalkPageWikicode, $title);
 		$this->assertSame(
 '{{WikiProject banner shell|1=
 {{WikiProject Albums|class=GA|importance=low}}
@@ -28,13 +36,13 @@ class PromoteTest extends TestCase {
 	
 	function test_setTopicBoxViewParamterToYes_inputContainsViewYes() {
 		$topicBoxWikicode = '{{Featured topic box|view=yes}}';
-		$result = setTopicBoxViewParamterToYes($topicBoxWikicode);
+		$result = $this->p->setTopicBoxViewParamterToYes($topicBoxWikicode);
 		$this->assertSame('{{Featured topic box|view=yes}}', $result);
 	}
 	
 	function test_setTopicBoxViewParamterToYes_inputContainsViewYes2() {
 		$topicBoxWikicode = '{{Featured topic box | view = yes }}';
-		$result = setTopicBoxViewParamterToYes($topicBoxWikicode);
+		$result = $this->p->setTopicBoxViewParamterToYes($topicBoxWikicode);
 		$this->assertSame('{{Featured topic box | view = yes }}', $result);
 	}
 	
@@ -43,7 +51,7 @@ class PromoteTest extends TestCase {
 '{{Featured topic box
 | view = yes
 }}';
-		$result = setTopicBoxViewParamterToYes($topicBoxWikicode);
+		$result = $this->p->setTopicBoxViewParamterToYes($topicBoxWikicode);
 		$this->assertSame(
 '{{Featured topic box
 | view = yes
@@ -53,7 +61,7 @@ class PromoteTest extends TestCase {
 	
 	function test_setTopicBoxViewParamterToYes_inputContainsViewNo1() {
 		$topicBoxWikicode = '{{Featured topic box|view=no}}';
-		$result = setTopicBoxViewParamterToYes($topicBoxWikicode);
+		$result = $this->p->setTopicBoxViewParamterToYes($topicBoxWikicode);
 		$this->assertSame(
 '{{Featured topic box
 |view=yes
@@ -66,7 +74,7 @@ class PromoteTest extends TestCase {
 '{{Featured topic box
 | view = no
 }}';
-		$result = setTopicBoxViewParamterToYes($topicBoxWikicode);
+		$result = $this->p->setTopicBoxViewParamterToYes($topicBoxWikicode);
 		$this->assertSame(
 '{{Featured topic box
 |view=yes
@@ -76,7 +84,7 @@ class PromoteTest extends TestCase {
 	
 	function test_setTopicBoxViewParamterToYes_inputIsJustTemplateName1() {
 		$topicBoxWikicode = '{{Featured topic box}}';
-		$result = setTopicBoxViewParamterToYes($topicBoxWikicode);
+		$result = $this->p->setTopicBoxViewParamterToYes($topicBoxWikicode);
 		$this->assertSame(
 '{{Featured topic box
 |view=yes
@@ -89,7 +97,7 @@ class PromoteTest extends TestCase {
 '{{Featured topic box
 
 }}';
-		$result = setTopicBoxViewParamterToYes($topicBoxWikicode);
+		$result = $this->p->setTopicBoxViewParamterToYes($topicBoxWikicode);
 		$this->assertSame(
 '{{Featured topic box
 |view=yes
@@ -100,26 +108,26 @@ class PromoteTest extends TestCase {
 	function test_getTopicWikipediaPageWikicode_putOnlyOneLineBreak() {
 		$topicDescriptionWikicode = 'a';
 		$topicBoxWikicode = 'b';
-		$result = getTopicWikipediaPageWikicode($topicDescriptionWikicode, $topicBoxWikicode);
+		$result = $this->p->getTopicWikipediaPageWikicode($topicDescriptionWikicode, $topicBoxWikicode);
 		$this->assertSame("a\nb", $result);
 	}
 	
 	function test_cleanTopicBoxTitleParameter_noApostrophes() {
 		$topicBoxWikicode = '{{Featured topic box|title=No changes needed|column1=blah}}';
-		$result = cleanTopicBoxTitleParameter($topicBoxWikicode);
+		$result = $this->p->cleanTopicBoxTitleParameter($topicBoxWikicode);
 		$this->assertSame($topicBoxWikicode, $result);
 	}
 	
 	function test_cleanTopicBoxTitleParameter_apostrophes() {
 		$topicBoxWikicode = "{{Featured topic box|title=''Changes needed''|column1=blah}}";
-		$result = cleanTopicBoxTitleParameter($topicBoxWikicode);
+		$result = $this->p->cleanTopicBoxTitleParameter($topicBoxWikicode);
 		$this->assertSame('{{Featured topic box|title=Changes needed|column1=blah}}', $result);
 	}
 	
 	function test_removeSignaturesFromTopicDescription_signature() {
 		$topicDescriptionWikicode =
 "<noinclude>'''''[[Meet the Woo 2]]''''' is the second mixtape by American rapper [[Pop Smoke]]. It was released on February 7, 2020, less than two weeks before the rapper was shot and killed at the age of 20 during a home invasion in Los Angeles. After many months of bringing all the articles to GA; it is finally ready. [[User:Shoot for the Stars|You know I'm shooting for the stars, aiming for the moon 💫]] ([[User talk:Shoot for the Stars|talk]]) 08:25, 26 May 2021 (UTC)</noinclude>";
-		$result = removeSignaturesFromTopicDescription($topicDescriptionWikicode);
+		$result = $this->p->removeSignaturesFromTopicDescription($topicDescriptionWikicode);
 		$this->assertSame(
 "<noinclude>'''''[[Meet the Woo 2]]''''' is the second mixtape by American rapper [[Pop Smoke]]. It was released on February 7, 2020, less than two weeks before the rapper was shot and killed at the age of 20 during a home invasion in Los Angeles. After many months of bringing all the articles to GA; it is finally ready.</noinclude>"
 		, $result);
@@ -128,7 +136,7 @@ class PromoteTest extends TestCase {
 	function test_removeSignaturesFromTopicDescription_noSignature() {
 		$topicDescriptionWikicode =
 "<!---<noinclude>--->The [[EFL League One play-offs]] are a series of play-off matches contested by the association football teams finishing from third to sixth in [[EFL League One]], the third tier of English football, and are part of the [[English Football League play-offs]]. As of 2021, the play-offs comprise two semi-finals, where the team finishing third plays the team finishing sixth, and the team finishing fourth plays the team finishing fifth, each conducted as a two-legged tie. The winners of the semi-finals progress to the final which is contested at [[Wembley Stadium]].<!---</noinclude>--->";
-		$result = removeSignaturesFromTopicDescription($topicDescriptionWikicode);
+		$result = $this->p->removeSignaturesFromTopicDescription($topicDescriptionWikicode);
 		$this->assertSame($topicDescriptionWikicode, $result);
 	}
 	
@@ -139,7 +147,7 @@ class PromoteTest extends TestCase {
 {{Wikipedia:Featured and good topic candidates/Meet the Woo 2/archive1}}
 {{Wikipedia:Featured and good topic candidates/EFL League One play-offs/archive1}}';
 		$fgtcTitle = 'Wikipedia:Featured and good topic candidates';
-		$result = removeTopicFromFGTC($nominationPageTitle, $fgtcWikicode, $fgtcTitle);
+		$result = $this->p->removeTopicFromFGTC($nominationPageTitle, $fgtcWikicode, $fgtcTitle);
 		$this->assertSame(
 '{{Wikipedia:Featured and good topic candidates/Protected cruisers of France/archive1}}
 {{Wikipedia:Featured and good topic candidates/EFL League One play-offs/archive1}}'
@@ -153,7 +161,7 @@ class PromoteTest extends TestCase {
 {{Wikipedia:Featured and good topic candidates/EFL League One play-offs/archive1}}
 {{Wikipedia:Featured and good topic candidates/Meet the Woo 2/archive1}}';
 		$fgtcTitle = 'Wikipedia:Featured and good topic candidates';
-		$result = removeTopicFromFGTC($nominationPageTitle, $fgtcWikicode, $fgtcTitle);
+		$result = $this->p->removeTopicFromFGTC($nominationPageTitle, $fgtcWikicode, $fgtcTitle);
 		$this->assertSame(
 '{{Wikipedia:Featured and good topic candidates/Protected cruisers of France/archive1}}
 {{Wikipedia:Featured and good topic candidates/EFL League One play-offs/archive1}}'
@@ -167,7 +175,7 @@ class PromoteTest extends TestCase {
 {{Wikipedia:Featured and good topic candidates/Protected cruisers of France/archive1}}
 {{Wikipedia:Featured and good topic candidates/EFL League One play-offs/archive1}}';
 		$fgtcTitle = 'Wikipedia:Featured and good topic candidates';
-		$result = removeTopicFromFGTC($nominationPageTitle, $fgtcWikicode, $fgtcTitle);
+		$result = $this->p->removeTopicFromFGTC($nominationPageTitle, $fgtcWikicode, $fgtcTitle);
 		$this->assertSame(
 '{{Wikipedia:Featured and good topic candidates/Protected cruisers of France/archive1}}
 {{Wikipedia:Featured and good topic candidates/EFL League One play-offs/archive1}}'
@@ -185,7 +193,7 @@ Test
 == Heading 2 ==
 Text';
 		$wikicodeToAdd = '[[Test]]';
-		$result = addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
+		$result = $this->p->addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
 		$this->assertSame(
 '{{Article history}}
 {{Talk header}}
@@ -212,7 +220,7 @@ Test
 == Heading 2 ==
 Text';
 		$wikicodeToAdd = '[[Test]]';
-		$result = addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
+		$result = $this->p->addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
 		$this->assertSame(
 '{{Article history}}
 {{Talk header}}
@@ -241,7 +249,7 @@ Test
 == Heading 2 ==
 Text';
 		$wikicodeToAdd = '[[Test]]';
-		$result = addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
+		$result = $this->p->addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
 		$this->assertSame(
 '{{Article history}}
 {{Talk header}}
@@ -260,7 +268,7 @@ Text'
 	function test_addToTalkPageEndOfLead_blank() {
 		$talkPageWikicode = '';
 		$wikicodeToAdd = '[[Test]]';
-		$result = addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
+		$result = $this->p->addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
 		$this->assertSame('[[Test]]', $result);
 	}
 	
@@ -269,7 +277,7 @@ Text'
 '== Heading 1 ==
 Test';
 		$wikicodeToAdd = '[[Test]]';
-		$result = addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
+		$result = $this->p->addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
 		$this->assertSame(
 '[[Test]]
 == Heading 1 ==
@@ -280,7 +288,7 @@ Test'
 	function test_addToTalkPageEndOfLead_end() {
 		$talkPageWikicode = 'Test';
 		$wikicodeToAdd = '[[Test]]';
-		$result = addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
+		$result = $this->p->addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
 		$this->assertSame(
 'Test
 [[Test]]'
@@ -290,7 +298,7 @@ Test'
 	function test_addArticleHistoryIfNotPresent_gaTemplateWithNoPage() {
 		$talkPageWikicode = '{{GA|00:03, 5 January 2021 (UTC)|topic=Sports and recreation|page=|oldid=998352580}}';
 		$talkPageTitle = 'Talk:History of Burnley F.C.';
-		$result = addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle);
+		$result = $this->p->addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle);
 		$this->assertSame(
 '{{Article history
 |currentstatus = GA
@@ -316,7 +324,7 @@ Test'
 |column3=
 :{{Icon|GA}} [[2021 Tour Championship]] }}';
 		$title = '';
-		$result = getAllArticleTitles($topicBoxWikicode, $title);
+		$result = $this->p->getAllArticleTitles($topicBoxWikicode, $title);
 		$this->assertSame([
 			'Tour Championship (snooker)',
 			'2019 Tour Championship',
@@ -332,8 +340,8 @@ Test'
 |column1=
 :{{Icon|FA}} 2019 Tour Championship }}';
 		$title = '';
-		$this->expectException(giveUpOnThisTopic::class);
-		$result = getAllArticleTitles($topicBoxWikicode, $title);
+		$this->expectException(GiveUpOnThisTopic::class);
+		$this->p->getAllArticleTitles($topicBoxWikicode, $title);
 	}
 	
 	function test_getAllArticleTitles_template() {
@@ -343,15 +351,15 @@ Test'
 |column1=
 :{{Icon|FA}} {{2019 Tour Championship}} }}';
 		$title = '';
-		$this->expectException(giveUpOnThisTopic::class);
-		$result = getAllArticleTitles($topicBoxWikicode, $title);
+		$this->expectException(GiveUpOnThisTopic::class);
+		$this->p->getAllArticleTitles($topicBoxWikicode, $title);
 	}
 	
 	function test_getAllArticleTitles_lessThanTwoArticles() {
 		$topicBoxWikicode = '{{Featured topic box |title= |count=4 |image= |imagesize= 
 |lead={{icon|GA}} [[Tour Championship (snooker)|Tour Championship]]}}';
 		$title = '';
-		$this->expectException(giveUpOnThisTopic::class);
-		$result = getAllArticleTitles($topicBoxWikicode, $title);
+		$this->expectException(GiveUpOnThisTopic::class);
+		$this->p->getAllArticleTitles($topicBoxWikicode, $title);
 	}
 }

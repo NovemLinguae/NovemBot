@@ -2,12 +2,16 @@
 
 use PHPUnit\Framework\TestCase;
 
-class StringTest extends TestCase {
+class StringHelperTest extends TestCase {
+	function setUp(): void {
+		$this->sh = new StringHelper();
+	}
+
 	function test_insertCodeAtEndOfFirstTemplate_TemplateWithParameters() {
 		$templateNameRegEx = 'Article ?history';
 		$codeToInsert = '[inserted code]';
 		$wikicode = '{{Article history|test}}';
-		$result = insertCodeAtEndOfFirstTemplate($wikicode, $templateNameRegEx, $codeToInsert);
+		$result = $this->sh->insertCodeAtEndOfFirstTemplate($wikicode, $templateNameRegEx, $codeToInsert);
 		$this->assertSame(
 '{{Article history|test
 [inserted code]
@@ -19,7 +23,7 @@ class StringTest extends TestCase {
 		$templateNameRegEx = 'Article ?history';
 		$codeToInsert = '[inserted code]';
 		$wikicode = '{{article history|test}}';
-		$result = insertCodeAtEndOfFirstTemplate($wikicode, $templateNameRegEx, $codeToInsert);
+		$result = $this->sh->insertCodeAtEndOfFirstTemplate($wikicode, $templateNameRegEx, $codeToInsert);
 		$this->assertSame(
 '{{article history|test
 [inserted code]
@@ -31,7 +35,7 @@ class StringTest extends TestCase {
 		$templateNameRegEx = 'Article ?history';
 		$codeToInsert = '[inserted code]';
 		$wikicode = '{{Articlehistory|test}}';
-		$result = insertCodeAtEndOfFirstTemplate($wikicode, $templateNameRegEx, $codeToInsert);
+		$result = $this->sh->insertCodeAtEndOfFirstTemplate($wikicode, $templateNameRegEx, $codeToInsert);
 		$this->assertSame(
 '{{Articlehistory|test
 [inserted code]
@@ -43,7 +47,7 @@ class StringTest extends TestCase {
 		$templateNameRegEx = 'Article ?history';
 		$codeToInsert = '[inserted code]';
 		$wikicode = '{{Article history|{{Nested template}}test}}';
-		$result = insertCodeAtEndOfFirstTemplate($wikicode, $templateNameRegEx, $codeToInsert);
+		$result = $this->sh->insertCodeAtEndOfFirstTemplate($wikicode, $templateNameRegEx, $codeToInsert);
 		$this->assertSame(
 '{{Article history|{{Nested template}}test
 [inserted code]
@@ -57,7 +61,7 @@ class StringTest extends TestCase {
 		$templateNameRegEx = 'Article ?history';
 		$codeToInsert = '[inserted code]';
 		$wikicode = '{{Article history}}';
-		$result = insertCodeAtEndOfFirstTemplate($wikicode, $templateNameRegEx, $codeToInsert);
+		$result = $this->sh->insertCodeAtEndOfFirstTemplate($wikicode, $templateNameRegEx, $codeToInsert);
 		$this->assertSame(
 '{{Article history
 [inserted code]
@@ -74,7 +78,7 @@ class StringTest extends TestCase {
 test
 {{Article history|parameter}}
 test';
-		$result = insertCodeAtEndOfFirstTemplate($wikicode, $templateNameRegEx, $codeToInsert);
+		$result = $this->sh->insertCodeAtEndOfFirstTemplate($wikicode, $templateNameRegEx, $codeToInsert);
 		$this->assertSame(
 'test
 {{Article history|parameter
@@ -89,63 +93,63 @@ test'
 	function test_preg_position_false() {
 		$regex = '/hello/si';
 		$haystack = 'How are you?';
-		$result = preg_position($regex, $haystack);
+		$result = $this->sh->preg_position($regex, $haystack);
 		$this->assertFalse($result);
 	}
 	
 	function test_preg_position_zero() {
 		$regex = '/How/si';
 		$haystack = 'How are you?';
-		$result = preg_position($regex, $haystack);
+		$result = $this->sh->preg_position($regex, $haystack);
 		$this->assertSame(0, $result);
 	}
 	
 	function test_preg_position_positive() {
 		$regex = '/are/si';
 		$haystack = 'How are you?';
-		$result = preg_position($regex, $haystack);
+		$result = $this->sh->preg_position($regex, $haystack);
 		$this->assertSame(4, $result);
 	}
 	
 	function test_preg_position_end() {
 		$regex = '/$/si';
 		$haystack = 'How are you?';
-		$result = preg_position($regex, $haystack);
+		$result = $this->sh->preg_position($regex, $haystack);
 		$this->assertSame(12, $result);
 	}
 	
 	function test_sliceFirstHTMLTagFound_start() {
 		$wikicode = '<noinclude>Test</noinclude> Test';
 		$tagWithNoLTGT = 'noinclude';
-		$result = sliceFirstHTMLTagFound($wikicode, $tagWithNoLTGT);
+		$result = $this->sh->sliceFirstHTMLTagFound($wikicode, $tagWithNoLTGT);
 		$this->assertSame('<noinclude>Test</noinclude>', $result);
 	}
 	
 	function test_sliceFirstHTMLTagFound_middle() {
 		$wikicode = 'Test <noinclude>Test</noinclude> Test';
 		$tagWithNoLTGT = 'noinclude';
-		$result = sliceFirstHTMLTagFound($wikicode, $tagWithNoLTGT);
+		$result = $this->sh->sliceFirstHTMLTagFound($wikicode, $tagWithNoLTGT);
 		$this->assertSame('<noinclude>Test</noinclude>', $result);
 	}
 	
 	function test_sliceFirstHTMLTagFound_end() {
 		$wikicode = 'Test <noinclude>Test</noinclude>';
 		$tagWithNoLTGT = 'noinclude';
-		$result = sliceFirstHTMLTagFound($wikicode, $tagWithNoLTGT);
+		$result = $this->sh->sliceFirstHTMLTagFound($wikicode, $tagWithNoLTGT);
 		$this->assertSame('<noinclude>Test</noinclude>', $result);
 	}
 	
 	function test_sliceFirstHTMLTagFound_twoTags() {
 		$wikicode = 'Test <othertag>Hello</othertag> <noinclude>Test</noinclude> Test';
 		$tagWithNoLTGT = 'noinclude';
-		$result = sliceFirstHTMLTagFound($wikicode, $tagWithNoLTGT);
+		$result = $this->sh->sliceFirstHTMLTagFound($wikicode, $tagWithNoLTGT);
 		$this->assertSame('<noinclude>Test</noinclude>', $result);
 	}
 	
 	function test_sliceFirstHTMLTagFound_regexCharactersThatNeedEscaping() {
 		$wikicode = 'Test <noinc*lude>Test</noinc*lude>';
 		$tagWithNoLTGT = 'noinc*lude';
-		$result = sliceFirstHTMLTagFound($wikicode, $tagWithNoLTGT);
+		$result = $this->sh->sliceFirstHTMLTagFound($wikicode, $tagWithNoLTGT);
 		$this->assertSame('<noinc*lude>Test</noinc*lude>', $result);
 	}
 	
@@ -153,6 +157,6 @@ test'
 		$wikicode = 'Test <noinclude>Test</noinclude> Test';
 		$tagWithNoLTGT = 'fakeTag';
 		$this->expectException(InvalidArgumentException::class);
-		sliceFirstHTMLTagFound($wikicode, $tagWithNoLTGT);
+		$this->sh->sliceFirstHTMLTagFound($wikicode, $tagWithNoLTGT);
 	}
 }
