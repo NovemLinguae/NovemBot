@@ -73,7 +73,6 @@ class Promote {
 	}
 
 	function getDatetime() {
-		date_default_timezone_set('UTC');
 		$date = date('H:m, j F Y');
 		return $date;
 	}
@@ -342,7 +341,7 @@ $wikiProjectBanners";
 	}
 
 	function addTopicToGoingsOn($goingsOnTitle, $goingsOnWikicode, $topicWikipediaPageTitle, $mainArticleTitle, $timestamp) {
-		$date = gmdate('j M', $timestamp); // gmdate = UTC
+		$date = date('j M', $timestamp); // gmdate = UTC
 		$newWikicode = preg_replace("/('''\[\[Wikipedia:Featured topics\|Topics]] that gained featured status'''.*?)(\|})/s", "$1* [[$topicWikipediaPageTitle|$mainArticleTitle]] ($date)\n$2", $goingsOnWikicode);
 		if ( $newWikicode == $goingsOnWikicode ) {
 			throw new GiveUpOnThisTopic("On page $goingsOnTitle, unable to figure out where to insert code.");
