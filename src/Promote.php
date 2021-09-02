@@ -385,8 +385,12 @@ $wikiProjectBanners";
 		return $count;
 	}
 	
-	function writeSuccessOrError($nominationPageWikicode, $nominationPageTitle) {
-		
+	function writeSuccess($nominationPageWikicode, $nominationPageTitle) {
+		$nominationPageWikicode2 = preg_replace('/({{\s*User:NovemBot\/Promote\s*}}.*?\(UTC\))/is', "$1\n:Promotion completed successfully. ~~~~", $nominationPageWikicode);
+		if ( $nominationPageWikicode == $nominationPageWikicode2 ) {
+			throw new GiveUpOnThisTopic("On page $nominationPageTitle, unable to find {{User:NovemBot/Promote}} template and signature.");
+		}
+		return $nominationPageWikicode2;
 	}
 
 	/** In the {{Featured topic box}} template, makes sure that it has the parameter view=yes. For example, {{Featured topic box|view=yes}} */

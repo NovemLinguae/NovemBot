@@ -168,10 +168,9 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		// STEP 1 - CLOSE THE NOMINATION =========================================================
 		// Replace template invokation with Success. ~~~~ or Error. ~~~~
 		// Also change {{User:NovemBot/Promote}} to include |done=yes, which will take the page out of the tracking category.
-		/*
-		$nominationPageWikicode = writeSuccessOrError($nominationPageWikicode, $nominationPageTitle);
+		$nominationPageWikicode = $wapi->getpage($nominationPageTitle); // Fetch a fresh copy of the nomination page, to prevent edit conflicts.
+		$nominationPageWikicode = $p->writeSuccess($nominationPageWikicode, $nominationPageTitle);
 		$wapi->edit($nominationPageTitle, $nominationPageWikicode);
-		*/
 	} catch (GiveUpOnThisTopic $e) {
 		$eh->logError($e->getMessage());
 	}

@@ -450,4 +450,19 @@ Test'
 		$result = $this->p->getFeaturedArticleCount($topicBoxWikicode);
 		$this->assertSame(2, $result);
 	}
+	
+	function test_writeSuccess() {
+		$nominationPageWikicode = 
+"**No worries, I intend to take 2021 to FAC later this year. Best Wishes, '''[[User:Lee Vilenski|<span style=\"color:green\">Lee Vilenski</span>]] <sup>([[User talk:Lee Vilenski|talk]] • [[Special:Contribs/Lee Vilenski|contribs]])</sup>''' 12:59, 25 August 2021 (UTC)
+{{  User:NovemBot/Promote  }} [[User:Aza24|Aza24]] ([[User talk:Aza24|talk]]) 21:27, 1 September 2021 (UTC)
+:{{@FTC}} - hi, I'm not super familiar with FLC, is there anything further that I need to do with this nomination? Best Wishes, '''[[User:Lee Vilenski|<span style=\"color:green\">Lee Vilenski</span>]] <sup>([[User talk:Lee Vilenski|talk]] • [[Special:Contribs/Lee Vilenski|contribs]])</sup>''' 19:24, 31 August 2021 (UTC)";
+		$nominationPageTitle = 'Sample page';
+		$result = $this->p->writeSuccess($nominationPageWikicode, $nominationPageTitle);
+		$this->assertSame(
+"**No worries, I intend to take 2021 to FAC later this year. Best Wishes, '''[[User:Lee Vilenski|<span style=\"color:green\">Lee Vilenski</span>]] <sup>([[User talk:Lee Vilenski|talk]] • [[Special:Contribs/Lee Vilenski|contribs]])</sup>''' 12:59, 25 August 2021 (UTC)
+{{  User:NovemBot/Promote  }} [[User:Aza24|Aza24]] ([[User talk:Aza24|talk]]) 21:27, 1 September 2021 (UTC)
+:Promotion completed successfully. ~~~~
+:{{@FTC}} - hi, I'm not super familiar with FLC, is there anything further that I need to do with this nomination? Best Wishes, '''[[User:Lee Vilenski|<span style=\"color:green\">Lee Vilenski</span>]] <sup>([[User talk:Lee Vilenski|talk]] • [[Special:Contribs/Lee Vilenski|contribs]])</sup>''' 19:24, 31 August 2021 (UTC)"
+		, $result);
+	}
 }
