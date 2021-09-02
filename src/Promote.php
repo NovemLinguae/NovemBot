@@ -341,8 +341,9 @@ $wikiProjectBanners";
 		return "Wikipedia:Featured and good topic candidates/$goodOrFeatured log/$monthAndYear";
 	}
 
-	function addTopicToGoingsOn($goingsOnTitle, $goingsOnWikicode, $topicWikipediaPageTitle, $mainArticleTitle) {
-		$newWikicode = preg_replace("/('''\[\[Wikipedia:Featured topics\|Topics]] that gained featured status'''.*?)(\|})/s", "$1* [[$topicWikipediaPageTitle|$mainArticleTitle]]\n$2", $goingsOnWikicode);
+	function addTopicToGoingsOn($goingsOnTitle, $goingsOnWikicode, $topicWikipediaPageTitle, $mainArticleTitle, $timestamp) {
+		$date = gmdate('j M', $timestamp); // gmdate = UTC
+		$newWikicode = preg_replace("/('''\[\[Wikipedia:Featured topics\|Topics]] that gained featured status'''.*?)(\|})/s", "$1* [[$topicWikipediaPageTitle|$mainArticleTitle]] ($date)\n$2", $goingsOnWikicode);
 		if ( $newWikicode == $goingsOnWikicode ) {
 			throw new GiveUpOnThisTopic("On page $goingsOnTitle, unable to figure out where to insert code.");
 		}
@@ -385,8 +386,8 @@ $wikiProjectBanners";
 		return $count;
 	}
 	
-	function writeSuccess($nominationPageWikicode, $nominationPageTitle) {
-		$nominationPageWikicode2 = preg_replace('/({{\s*User:NovemBot\/Promote\s*}}.*?\(UTC\))/is', "$1\n:Promotion completed successfully. ~~~~", $nominationPageWikicode);
+	function markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle) {
+		$nominationPageWikicode2 = preg_replace('/({{\s*User:NovemBot\/Promote\s*)(}}.*?\(UTC\))/is', "$1|done=yes$2\n:Promotion completed successfully. ~~~~", $nominationPageWikicode);
 		if ( $nominationPageWikicode == $nominationPageWikicode2 ) {
 			throw new GiveUpOnThisTopic("On page $nominationPageTitle, unable to find {{User:NovemBot/Promote}} template and signature.");
 		}

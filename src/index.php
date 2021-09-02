@@ -6,11 +6,12 @@
 ini_set("display_errors", '1');
 error_reporting(E_ALL);
 assert_options(ASSERT_BAIL, true);
+date_default_timezone_set('America/Los_Angeles');
 
 // test mode
 $READ_ONLY_TEST_MODE = true;
 $TEST_PAGES = [
-	/* 'Wikipedia:Featured and good topic candidates/Tour Championship (snooker)/archive1', */
+	'Wikipedia:Featured and good topic candidates/Burnley F.C./archive1'
 ]; // Make this array empty to pull from "Category:Good and featured topics to promote" instead. That's the tracking category for {{User:NovemBot/Promote}}.
 
 // constants
@@ -160,7 +161,8 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 			// [[Wikipedia:Goings-on]]: add
 			$goingsOnTitle = 'Wikipedia:Goings-on';
 			$goingsOnWikicode = $wapi->getpage($goingsOnTitle);
-			$goingsOnWikicode = $p->addTopicToGoingsOn($goingsOnTitle, $goingsOnWikicode, $topicWikipediaPageTitle, $mainArticleTitle);
+			$timestamp = time();
+			$goingsOnWikicode = $p->addTopicToGoingsOn($goingsOnTitle, $goingsOnWikicode, $topicWikipediaPageTitle, $mainArticleTitle, $timestamp);
 			$wapi->edit($goingsOnTitle, $goingsOnWikicode);
 		}
 		
@@ -174,7 +176,7 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		// Replace template invokation with Success. ~~~~ or Error. ~~~~
 		// Also change {{User:NovemBot/Promote}} to include |done=yes, which will take the page out of the tracking category.
 		$nominationPageWikicode = $wapi->getpage($nominationPageTitle); // Fetch a fresh copy of the nomination page, to prevent edit conflicts.
-		$nominationPageWikicode = $p->writeSuccess($nominationPageWikicode, $nominationPageTitle);
+		$nominationPageWikicode = $p->markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle);
 		$wapi->edit($nominationPageTitle, $nominationPageWikicode);
 	} catch (GiveUpOnThisTopic $e) {
 		$eh->logError($e->getMessage());

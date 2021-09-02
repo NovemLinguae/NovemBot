@@ -451,18 +451,74 @@ Test'
 		$this->assertSame(2, $result);
 	}
 	
-	function test_writeSuccess() {
+	function test_markDoneAndSuccessful() {
 		$nominationPageWikicode = 
 "**No worries, I intend to take 2021 to FAC later this year. Best Wishes, '''[[User:Lee Vilenski|<span style=\"color:green\">Lee Vilenski</span>]] <sup>([[User talk:Lee Vilenski|talk]] • [[Special:Contribs/Lee Vilenski|contribs]])</sup>''' 12:59, 25 August 2021 (UTC)
 {{  User:NovemBot/Promote  }} [[User:Aza24|Aza24]] ([[User talk:Aza24|talk]]) 21:27, 1 September 2021 (UTC)
 :{{@FTC}} - hi, I'm not super familiar with FLC, is there anything further that I need to do with this nomination? Best Wishes, '''[[User:Lee Vilenski|<span style=\"color:green\">Lee Vilenski</span>]] <sup>([[User talk:Lee Vilenski|talk]] • [[Special:Contribs/Lee Vilenski|contribs]])</sup>''' 19:24, 31 August 2021 (UTC)";
 		$nominationPageTitle = 'Sample page';
-		$result = $this->p->writeSuccess($nominationPageWikicode, $nominationPageTitle);
+		$result = $this->p->markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle);
 		$this->assertSame(
 "**No worries, I intend to take 2021 to FAC later this year. Best Wishes, '''[[User:Lee Vilenski|<span style=\"color:green\">Lee Vilenski</span>]] <sup>([[User talk:Lee Vilenski|talk]] • [[Special:Contribs/Lee Vilenski|contribs]])</sup>''' 12:59, 25 August 2021 (UTC)
-{{  User:NovemBot/Promote  }} [[User:Aza24|Aza24]] ([[User talk:Aza24|talk]]) 21:27, 1 September 2021 (UTC)
+{{  User:NovemBot/Promote  |done=yes}} [[User:Aza24|Aza24]] ([[User talk:Aza24|talk]]) 21:27, 1 September 2021 (UTC)
 :Promotion completed successfully. ~~~~
 :{{@FTC}} - hi, I'm not super familiar with FLC, is there anything further that I need to do with this nomination? Best Wishes, '''[[User:Lee Vilenski|<span style=\"color:green\">Lee Vilenski</span>]] <sup>([[User talk:Lee Vilenski|talk]] • [[Special:Contribs/Lee Vilenski|contribs]])</sup>''' 19:24, 31 August 2021 (UTC)"
+		, $result);
+	}
+	
+	function test_addTopicToGoingsOn_noOtherTopicsPresent() {
+		$goingsOnTitle = 'Wikipedia:Goings-on';
+		$goingsOnWikicode =
+"* [[:File:White-cheeked Honeyeater - Maddens Plains.jpg|White-cheeked honeyeater]] (1 Sep)
+
+'''[[Wikipedia:Featured topics|Topics]] that gained featured status'''
+|}
+</div>
+
+==See also==";
+		$topicWikipediaPageTitle = 'Wikipedia:Featured topics/Tour Championship (snooker)';
+		$mainArticleTitle = 'Tour Championship (snooker)';
+		$timestamp = 1630568338; // September 2, 2021, 07:38:58
+		$result = $this->p->addTopicToGoingsOn($goingsOnTitle, $goingsOnWikicode, $topicWikipediaPageTitle, $mainArticleTitle, $timestamp);
+		$this->assertSame(
+"* [[:File:White-cheeked Honeyeater - Maddens Plains.jpg|White-cheeked honeyeater]] (1 Sep)
+
+'''[[Wikipedia:Featured topics|Topics]] that gained featured status'''
+* [[Wikipedia:Featured topics/Tour Championship (snooker)|Tour Championship (snooker)]] (2 Sep)
+|}
+</div>
+
+==See also=="
+		, $result);
+	}
+	
+	function test_addTopicToGoingsOn_otherTopicsPresent_newestLast() {
+		$goingsOnTitle = 'Wikipedia:Goings-on';
+		$goingsOnWikicode =
+"* [[:File:White-cheeked Honeyeater - Maddens Plains.jpg|White-cheeked honeyeater]] (1 Sep)
+
+'''[[Wikipedia:Featured topics|Topics]] that gained featured status'''
+* [[Wikipedia:Featured topics/Tour Championship (snooker) A|Tour Championship (snooker) A]] (1 Sep)
+* [[Wikipedia:Featured topics/Tour Championship (snooker) B|Tour Championship (snooker) B]] (1 Sep)
+|}
+</div>
+
+==See also==";
+		$topicWikipediaPageTitle = 'Wikipedia:Featured topics/Tour Championship (snooker)';
+		$mainArticleTitle = 'Tour Championship (snooker)';
+		$timestamp = 1630568338; // September 2, 2021, 07:38:58 UTC
+		$result = $this->p->addTopicToGoingsOn($goingsOnTitle, $goingsOnWikicode, $topicWikipediaPageTitle, $mainArticleTitle, $timestamp);
+		$this->assertSame(
+"* [[:File:White-cheeked Honeyeater - Maddens Plains.jpg|White-cheeked honeyeater]] (1 Sep)
+
+'''[[Wikipedia:Featured topics|Topics]] that gained featured status'''
+* [[Wikipedia:Featured topics/Tour Championship (snooker) A|Tour Championship (snooker) A]] (1 Sep)
+* [[Wikipedia:Featured topics/Tour Championship (snooker) B|Tour Championship (snooker) B]] (1 Sep)
+* [[Wikipedia:Featured topics/Tour Championship (snooker)|Tour Championship (snooker)]] (2 Sep)
+|}
+</div>
+
+==See also=="
 		, $result);
 	}
 }
