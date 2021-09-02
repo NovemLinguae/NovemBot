@@ -1,6 +1,6 @@
 <?php
 
-class StringHelper {
+class Helper {
 	/** Grabs template Wikicode of first instance encountered of that template. Case insensitive. Returns NULL if no template found. */
 	function sliceFirstTemplateFound(string $wikicode, string $templateName) {
 		$starting_position = strpos(strtolower($wikicode), "{{" . strtolower($templateName));
@@ -71,7 +71,7 @@ class StringHelper {
 		return $matches[0][1] ?? false;
 	}
 	
-	function arrayDeleteValue($array, $valueToDelete) {
+	function deleteArrayValue($array, $valueToDelete) {
 		if ( ! is_array($array) ) {
 			throw new InvalidArgumentException();
 		}

@@ -3,7 +3,7 @@
   <coverage processUncoveredFiles="true">
     <include>
       <file>src/Promote.php</file>
-	  <file>src/StringHelper.php</file>
+	  <file>src/Helper.php</file>
     </include>
   </coverage>
   <testsuites>

@@ -1,7 +1,7 @@
 <?php
 
 class EchoHelper {
-	function __construct(StringHelper $sh) {
+	function __construct(Helper $sh) {
 		$this->sh = $sh;
 	}
 

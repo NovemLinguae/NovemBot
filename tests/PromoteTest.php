@@ -7,7 +7,7 @@ class PromoteTest extends TestCase {
 		// stub EchoHelper so that it doesn't echo
 		$eh = $this->createStub(EchoHelper::class);
 		
-		$sh = new StringHelper();
+		$sh = new Helper();
 		$this->p = new Promote($eh, $sh);
 	}
 
@@ -520,5 +520,12 @@ Test'
 
 ==See also=="
 		, $result);
+	}
+	
+	function test_getNonMainArticleTitles() {
+		$allArticleTitles = ['a', 'b', 'c'];
+		$mainArticleTitle = 'b';
+		$result = $this->p->getNonMainArticleTitles($allArticleTitles, $mainArticleTitle);
+		$this->assertSame(['a', 'c'], $result);
 	}
 }

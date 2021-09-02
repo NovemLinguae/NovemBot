@@ -15,7 +15,7 @@ $TEST_PAGES = [
 ]; // Make this array empty to pull from "Category:Good and featured topics to promote" instead. That's the tracking category for {{User:NovemBot/Promote}}.
 
 // constants
-$MAX_TOPICS_ALLOWED_IN_BOT_RUN = 3;
+$MAX_TOPICS_ALLOWED_IN_BOT_RUN = 7;
 $MAX_ARTICLES_ALLOWED_IN_TOPIC = 50;
 $TRACKING_CATEGORY_NAME = 'Category:Good and featured topics to promote';
 $SECONDS_BETWEEN_API_READS = 0; // https://www.mediawiki.org/wiki/API:Etiquette "Making your requests in series rather than in parallel, by waiting for one request to finish before sending a new request, should result in a safe request rate."
@@ -26,7 +26,7 @@ $CHARACTERS_TO_ECHO = 3000; // When $SHORT_WIKICODE_IN_CONSOLE is set to true, h
 
 require_once('bootstrap.php');
 
-$sh = new StringHelper();
+$sh = new Helper();
 $eh = new EchoHelper($sh);
 $p = new Promote($eh, $sh);
 
@@ -43,7 +43,6 @@ $eh->echoAndFlush("PHP version: " . PHP_VERSION, 'variable');
 $wapi = new WikiAPIWrapper($config['wikiUsername'], $config['wikiPassword'], $eh);
 
 // read tracking category
-
 if ( $TEST_PAGES ) {
 	$pagesToPromote = $TEST_PAGES;
 	$message = 'In test mode. Using $TEST_PAGES variable.';
@@ -53,9 +52,8 @@ if ( $TEST_PAGES ) {
 	$pagesToPromote = $wapi->categorymembers($TRACKING_CATEGORY_NAME);
 }
 
-// Remove Wikipedia:Wikipedia:Featured and good topic candidates from list of pages to process. That page shows up in the category because it transcludes the nomination pages. We only want to process the nomination pages.
-$pagesToPromote = $sh->arrayDeleteValue($pagesToPromote, 'Wikipedia:Featured and good topic candidates');
-
+// Remove Wikipedia:Wikipedia:Featured and good topic candidates from list of pages to process. Sometimes this page shows up in the category because it transcludes the nomination pages. We only want to process the nomination pages.
+$pagesToPromote = $sh->deleteArrayValue($pagesToPromote, 'Wikipedia:Featured and good topic candidates');
 $eh->html_var_export($pagesToPromote, 'variable');
 
 // check how many pages in tracking category. if too many, don't run. probably vandalism.
@@ -67,7 +65,7 @@ if ( count($pagesToPromote) > $MAX_TOPICS_ALLOWED_IN_BOT_RUN ) {
 foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 	$eh->echoAndFlush($nominationPageTitle, 'newtopic');
 	try {
-		// STEP A - READ PAGE CONTAINING {{User:NovemBot/Promote|type=good/featured}} =============
+		// STEP A - READ PAGE CONTAINING {{User:NovemBot/Promote}} =============
 		$nominationPageWikicode = $wapi->getpage($nominationPageTitle);
 		
 		$p->abortIfAddToTopic($nominationPageWikicode, $nominationPageTitle);

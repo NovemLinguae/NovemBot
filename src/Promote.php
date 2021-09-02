@@ -1,7 +1,7 @@
 <?php
 
 class Promote {
-	function __construct(EchoHelper $eh, StringHelper $sh) {
+	function __construct(EchoHelper $eh, Helper $sh) {
 		$this->eh = $eh;
 		$this->sh = $sh;
 	}
@@ -154,13 +154,9 @@ $wikiProjectBanners";
 	}
 
 	function getNonMainArticleTitles($allArticleTitles, $mainArticleTitle) {
-		return $this->deleteArrayValue($mainArticleTitle, $allArticleTitles);
+		return $this->sh->deleteArrayValue($allArticleTitles, $mainArticleTitle);
 	}
-
-	function deleteArrayValue(string $needle, array $haystack) {
-		return array_diff($haystack, [$needle]);
-	}
-
+	
 	function abortIfTooManyArticlesInTopic($allArticleTitles, $MAX_ARTICLES_ALLOWED_IN_TOPIC, $title) {
 		if ( count($allArticleTitles) > $MAX_ARTICLES_ALLOWED_IN_TOPIC ) {
 			throw new GiveUpOnThisTopic("On page $title, too many topics in the topic box.");

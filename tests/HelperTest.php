@@ -2,9 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 
-class StringHelperTest extends TestCase {
+class HelperTest extends TestCase {
 	function setUp(): void {
-		$this->sh = new StringHelper();
+		$this->sh = new Helper();
 	}
 
 	function test_insertCodeAtEndOfFirstTemplate_TemplateWithParameters() {
@@ -118,24 +118,24 @@ test'
 		$this->assertSame(12, $result);
 	}
 	
-	function test_arrayDeleteValue_deleteOneValue() {
+	function test_deleteArrayValue_deleteOneValue() {
 		$array = ['test1', 'test2', 'test3'];
 		$valueToDelete = 'test2';
-		$result = $this->sh->arrayDeleteValue($array, $valueToDelete);
+		$result = $this->sh->deleteArrayValue($array, $valueToDelete);
 		$this->assertSame(['test1', 'test3'], $result);
 	}
 	
-	function test_arrayDeleteValue_okIfValueNotFound() {
+	function test_deleteArrayValue_okIfValueNotFound() {
 		$array = ['test1', 'test2', 'test3'];
 		$valueToDelete = 'test4';
-		$result = $this->sh->arrayDeleteValue($array, $valueToDelete);
+		$result = $this->sh->deleteArrayValue($array, $valueToDelete);
 		$this->assertSame(['test1', 'test2', 'test3'], $result);
 	}
 	
-	function test_arrayDeleteValue_firstParameterNotArray() {
+	function test_deleteArrayValue_firstParameterNotArray() {
 		$array = 'test1';
 		$valueToDelete = 'test4';
 		$this->expectException(InvalidArgumentException::class);
-		$this->sh->arrayDeleteValue($array, $valueToDelete);
+		$this->sh->deleteArrayValue($array, $valueToDelete);
 	}
 }
