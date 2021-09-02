@@ -10,8 +10,8 @@ assert_options(ASSERT_BAIL, true);
 // test mode
 $READ_ONLY_TEST_MODE = true;
 $TEST_PAGES = [
-	'Wikipedia:Featured and good topic candidates/Tour Championship (snooker)/archive1',
-];
+	/* 'Wikipedia:Featured and good topic candidates/Tour Championship (snooker)/archive1', */
+]; // Make this array empty to pull from "Category:Good and featured topics to promote" instead. That's the tracking category for {{User:NovemBot/Promote}}.
 
 // constants
 $MAX_TOPICS_ALLOWED_IN_BOT_RUN = 3;
@@ -51,6 +51,11 @@ if ( $TEST_PAGES ) {
 } else {
 	$pagesToPromote = $wapi->categorymembers($TRACKING_CATEGORY_NAME);
 }
+
+// Remove Wikipedia:Wikipedia:Featured and good topic candidates from list of pages to process. That page shows up in the category because it transcludes the nomination pages. We only want to process the nomination pages.
+$pagesToPromote = $sh->arrayDeleteValue($pagesToPromote, 'Wikipedia:Featured and good topic candidates');
+
+$eh->html_var_export($pagesToPromote, 'variable');
 
 // check how many pages in tracking category. if too many, don't run. probably vandalism.
 if ( count($pagesToPromote) > $MAX_TOPICS_ALLOWED_IN_BOT_RUN ) {

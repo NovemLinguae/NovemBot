@@ -70,4 +70,13 @@ class StringHelper {
 		preg_match($regex, $haystack, $matches, PREG_OFFSET_CAPTURE);
 		return $matches[0][1] ?? false;
 	}
+	
+	function arrayDeleteValue($array, $valueToDelete) {
+		if ( ! is_array($array) ) {
+			throw new InvalidArgumentException();
+		}
+		$array = array_diff($array, [$valueToDelete]); // delete value
+		$array = array_values($array); // reindex (fix keys), 0 to whatever
+		return $array;
+	}
 }

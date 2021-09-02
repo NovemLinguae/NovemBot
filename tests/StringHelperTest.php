@@ -117,4 +117,25 @@ test'
 		$result = $this->sh->preg_position($regex, $haystack);
 		$this->assertSame(12, $result);
 	}
+	
+	function test_arrayDeleteValue_deleteOneValue() {
+		$array = ['test1', 'test2', 'test3'];
+		$valueToDelete = 'test2';
+		$result = $this->sh->arrayDeleteValue($array, $valueToDelete);
+		$this->assertSame(['test1', 'test3'], $result);
+	}
+	
+	function test_arrayDeleteValue_okIfValueNotFound() {
+		$array = ['test1', 'test2', 'test3'];
+		$valueToDelete = 'test4';
+		$result = $this->sh->arrayDeleteValue($array, $valueToDelete);
+		$this->assertSame(['test1', 'test2', 'test3'], $result);
+	}
+	
+	function test_arrayDeleteValue_firstParameterNotArray() {
+		$array = 'test1';
+		$valueToDelete = 'test4';
+		$this->expectException(InvalidArgumentException::class);
+		$this->sh->arrayDeleteValue($array, $valueToDelete);
+	}
 }
