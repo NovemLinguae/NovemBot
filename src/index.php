@@ -26,9 +26,9 @@ $CHARACTERS_TO_ECHO = 3000; // When $SHORT_WIKICODE_IN_CONSOLE is set to true, h
 
 require_once('bootstrap.php');
 
-$sh = new Helper();
-$eh = new EchoHelper($sh);
-$p = new Promote($eh, $sh);
+$h = new Helper();
+$eh = new EchoHelper($h);
+$p = new Promote($eh, $h);
 
 // Randos can only run the bot in read only test mode
 if (
@@ -53,7 +53,7 @@ if ( $TEST_PAGES ) {
 }
 
 // Remove Wikipedia:Wikipedia:Featured and good topic candidates from list of pages to process. Sometimes this page shows up in the category because it transcludes the nomination pages. We only want to process the nomination pages.
-$pagesToPromote = $sh->deleteArrayValue($pagesToPromote, 'Wikipedia:Featured and good topic candidates');
+$pagesToPromote = $h->deleteArrayValue($pagesToPromote, 'Wikipedia:Featured and good topic candidates');
 $eh->html_var_export($pagesToPromote, 'variable');
 
 // check how many pages in tracking category. if too many, don't run. probably vandalism.

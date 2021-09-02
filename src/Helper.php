@@ -71,10 +71,7 @@ class Helper {
 		return $matches[0][1] ?? false;
 	}
 	
-	function deleteArrayValue($array, $valueToDelete) {
-		if ( ! is_array($array) ) {
-			throw new InvalidArgumentException();
-		}
+	function deleteArrayValue(array $array, $valueToDelete) {
 		$array = array_diff($array, [$valueToDelete]); // delete value
 		$array = array_values($array); // reindex (fix keys), 0 to whatever
 		return $array;

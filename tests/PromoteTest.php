@@ -7,8 +7,8 @@ class PromoteTest extends TestCase {
 		// stub EchoHelper so that it doesn't echo
 		$eh = $this->createStub(EchoHelper::class);
 		
-		$sh = new Helper();
-		$this->p = new Promote($eh, $sh);
+		$h = new Helper();
+		$this->p = new Promote($eh, $h);
 	}
 
 	function test_getTopicWikipediaPageTitle_dontWriteToWikipediaGoodTopics() {

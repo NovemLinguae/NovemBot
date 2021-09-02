@@ -1,9 +1,9 @@
 <?php
 
 class Promote {
-	function __construct(EchoHelper $eh, Helper $sh) {
+	function __construct(EchoHelper $eh, Helper $h) {
 		$this->eh = $eh;
-		$this->sh = $sh;
+		$this->h = $h;
 	}
 	
 	function sliceNovemBotPromoteTemplate($wikicode, $title) {
@@ -23,11 +23,11 @@ class Promote {
 	}
 	
 	function getTopicBoxWikicode($callerPageWikicode, $title) {
-		$wikicode = $this->sh->sliceFirstTemplateFound($callerPageWikicode, 'good topic box');
+		$wikicode = $this->h->sliceFirstTemplateFound($callerPageWikicode, 'good topic box');
 		if ( $wikicode ) {
 			return $wikicode;
 		}
-		$wikicode = $this->sh->sliceFirstTemplateFound($callerPageWikicode, 'featured topic box');
+		$wikicode = $this->h->sliceFirstTemplateFound($callerPageWikicode, 'featured topic box');
 		if ( $wikicode ) {
 			return $wikicode;
 		}
@@ -94,7 +94,7 @@ class Promote {
 			}
 			
 			// get rid of wikilink syntax around it
-			$match = $this->sh->preg_first_match('/\[\[([^\|\]]*)(?:\|[^\|\]]*)?\]\]/is', $title2);
+			$match = $this->h->preg_first_match('/\[\[([^\|\]]*)(?:\|[^\|\]]*)?\]\]/is', $title2);
 			if ( ! $match ) {
 				throw new GiveUpOnThisTopic("On page $title, when parsing the list of topics in {{featured topic box}}, found an improperly formatted title. No wikilink found.");
 			}
@@ -154,7 +154,7 @@ $wikiProjectBanners";
 	}
 
 	function getNonMainArticleTitles($allArticleTitles, $mainArticleTitle) {
-		return $this->sh->deleteArrayValue($allArticleTitles, $mainArticleTitle);
+		return $this->h->deleteArrayValue($allArticleTitles, $mainArticleTitle);
 	}
 	
 	function abortIfTooManyArticlesInTopic($allArticleTitles, $MAX_ARTICLES_ALLOWED_IN_TOPIC, $title) {
@@ -189,7 +189,7 @@ $wikiProjectBanners";
 |action{$nextActionNumber}result = promoted
 |ftname = $mainArticleTitle
 |ftmain = $main";
-		$newWikicode = $this->sh->insertCodeAtEndOfFirstTemplate($talkPageWikicode, 'Article ?history', $addToArticleHistory);
+		$newWikicode = $this->h->insertCodeAtEndOfFirstTemplate($talkPageWikicode, 'Article ?history', $addToArticleHistory);
 		if ( $newWikicode == $talkPageWikicode ) {
 			throw new GiveUpOnThisTopic("On page $talkPageTitle, in {{Article history}} template, unable to determine where to add new actions.");
 		}
@@ -199,7 +199,7 @@ $wikiProjectBanners";
 	/** There's a {{GA}} template that some people use instead of {{Article history}}. If this is present, replace it with {{Article history}}. */
 	function addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle) {
 		$hasArticleHistory = preg_match('/\{\{Article ? history([^\}]*)\}\}/i', $talkPageWikicode);
-		$gaTemplateWikicode = $this->sh->preg_first_match('/(\{\{GA[^\}]*\}\})/i', $talkPageWikicode);
+		$gaTemplateWikicode = $this->h->preg_first_match('/(\{\{GA[^\}]*\}\})/i', $talkPageWikicode);
 		if ( ! $hasArticleHistory && $gaTemplateWikicode ) {
 			// delete {{ga}} template
 			$talkPageWikicode = preg_replace('/\{\{GA[^\}]*\}\}\n?/i', '', $talkPageWikicode);
@@ -242,7 +242,7 @@ $wikiProjectBanners";
 		$headingLocation = strpos($talkPageWikicode, '==');
 		
 		// Find first {{Talk:abc/GA1}} template
-		$gaTemplateLocation = $this->sh->preg_position('/{{[^\}]*\/GA\d{1,2}}}/is', $talkPageWikicode);
+		$gaTemplateLocation = $this->h->preg_position('/{{[^\}]*\/GA\d{1,2}}}/is', $talkPageWikicode);
 		
 		// Set insert location
 		if ( $headingLocation !== false ) {
@@ -307,7 +307,7 @@ $wikiProjectBanners";
 	}
 
 	function updateCountPageTopicCount($countPageWikicode, $countPageTitle) {
-		$count = $this->sh->preg_first_match("/currently '''([,\d]+)'''/", $countPageWikicode);
+		$count = $this->h->preg_first_match("/currently '''([,\d]+)'''/", $countPageWikicode);
 		$count = str_replace(',', '', $count); // remove commas
 		if ( ! $count ) {
 			throw new GiveUpOnThisTopic("On page $countPageTitle, unable to find the total topic count.");
@@ -319,7 +319,7 @@ $wikiProjectBanners";
 	}
 
 	function updateCountPageArticleCount($countPageWikicode, $countPageTitle, $articlesInTopic) {
-		$count = $this->sh->preg_first_match("/encompass '''([,\d]+)'''/", $countPageWikicode);
+		$count = $this->h->preg_first_match("/encompass '''([,\d]+)'''/", $countPageWikicode);
 		$count = str_replace(',', '', $count); // remove commas
 		if ( ! $count ) {
 			throw new GiveUpOnThisTopic("On page $countPageTitle, unable to find the total article count.");
@@ -354,12 +354,12 @@ $wikiProjectBanners";
 	}
 
 	function removeBottomTopicFromNewFeaturedContent($newFeaturedContentTitle, $newFeaturedContentWikicode) {
-		$wikicode15MostRecentTopics = $this->sh->preg_first_match("/<!-- Topics \(15, most recent first\) -->\n(.*?)<\/div>/s", $newFeaturedContentWikicode);
+		$wikicode15MostRecentTopics = $this->h->preg_first_match("/<!-- Topics \(15, most recent first\) -->\n(.*?)<\/div>/s", $newFeaturedContentWikicode);
 		$wikicode15MostRecentTopics = trim($wikicode15MostRecentTopics);
 		if ( ! $wikicode15MostRecentTopics ) {
 			throw new GiveUpOnThisTopic("On page $newFeaturedContentTitle, unable to find wikicode for 15 most recent topics.");
 		}
-		$wikicode15MostRecentTopics = $this->sh->deleteLastLineOfString($wikicode15MostRecentTopics);
+		$wikicode15MostRecentTopics = $this->h->deleteLastLineOfString($wikicode15MostRecentTopics);
 		$newWikicode = preg_replace("/(<!-- Topics \(15, most recent first\) -->\n)(.*?)(<\/div>)/s", "$1$wikicode15MostRecentTopics\n\n$3", $newFeaturedContentWikicode);
 		if ( $newWikicode == $newFeaturedContentWikicode ) {
 			throw new GiveUpOnThisTopic("On page $newFeaturedContentTitle, unable to delete oldest topic.");
@@ -398,7 +398,7 @@ $wikiProjectBanners";
 		// if the template ended up as {{Template\n}}, get rid of the \n
 		$topicBoxWikicode = preg_replace('/({{.*)\n{1,}(}})/i', '$1$2', $topicBoxWikicode);
 		// add view = yes
-		$topicBoxWikicode = $this->sh->insertCodeAtEndOfFirstTemplate($topicBoxWikicode, 'Featured topic box', '|view=yes');
+		$topicBoxWikicode = $this->h->insertCodeAtEndOfFirstTemplate($topicBoxWikicode, 'Featured topic box', '|view=yes');
 		return $topicBoxWikicode;
 	}
 

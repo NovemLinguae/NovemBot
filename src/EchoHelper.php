@@ -46,7 +46,7 @@ class EchoHelper {
 		$str = htmlentities($str);
 		$str = '<div style="border: 2px solid black; margin-bottom: 1em; background-color: '.$color.';"><b><u>' . $description . '</u></b>:<br />' . $str . '</div>';
 		$str = nl2br($str);
-		$str = $this->sh->nbsp($str);
+		$str = $this->h->nbsp($str);
 		
 		echo $str;
 		flush();
