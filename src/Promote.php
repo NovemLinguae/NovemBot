@@ -105,7 +105,7 @@ class Promote {
 		return $listOfTitles;
 	}
 
-	function getTopicTalkPageWikicode($mainArticleTitle, $nonMainArticleTitles, $goodOrFeatured, $datetime, $wikiProjectBanners, $nominationPageTitle) {
+	function makeTopicTalkPageWikicode($mainArticleTitle, $nonMainArticleTitles, $goodOrFeatured, $datetime, $wikiProjectBanners, $nominationPageTitle) {
 		assert($goodOrFeatured == 'good' || $goodOrFeatured == 'featured');
 		$nonMainArticleTitlestring = '';
 		$count = 1;
@@ -138,13 +138,16 @@ $wikiProjectBanners";
 	}
 
 	function getWikiProjectBanners($mainArticleTalkPageWikicode, $title) {
-		preg_match_all('/\{\{WikiProject (?!banner)[^\}]*\}\}/i', $mainArticleTalkPageWikicode, $matches);
+		// Match WikiProject banners
+		// Do not match template parameters such as |class=GA|importance=Low
+		// We will have to add }} to the end of the matches later
+		preg_match_all('/\{\{(WikiProject (?!banner|shell)[^\|\}]*)/i', $mainArticleTalkPageWikicode, $matches);
 		if ( ! $matches ) {
 			throw new GiveUpOnThisTopic("On page $title, could not find WikiProject banners on main article's talk page.");
 		}
 		$bannerWikicode = '';
 		foreach ( $matches[0] as $key => $value ) {
-			$bannerWikicode .= $value . "\n";
+			$bannerWikicode .= trim($value) . "}}\n";
 		}
 		$bannerWikicode = substr($bannerWikicode, 0, -1); // chop off last \n
 		if ( count($matches[0]) > 1 ) {

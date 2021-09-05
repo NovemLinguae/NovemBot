@@ -97,7 +97,7 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		$nonMainArticleTitles = $p->getNonMainArticleTitles($allArticleTitles, $mainArticleTitle);
 		$mainArticleTalkPageWikicode = $wapi->getpage('Talk:'.$mainArticleTitle);
 		$wikiProjectBanners = $p->getWikiProjectBanners($mainArticleTalkPageWikicode, $mainArticleTitle);
-		$topicTalkPageWikicode = $p->getTopicTalkPageWikicode($mainArticleTitle, $nonMainArticleTitles, $goodOrFeatured, $datetime, $wikiProjectBanners, $nominationPageTitle);
+		$topicTalkPageWikicode = $p->makeTopicTalkPageWikicode($mainArticleTitle, $nonMainArticleTitles, $goodOrFeatured, $datetime, $wikiProjectBanners, $nominationPageTitle);
 		$wapi->edit($topicTalkPageTitle, $topicTalkPageWikicode, $topicWikipediaPageTitle);
 		
 		// STEP 4 - UPDATE TALK PAGES OF ARTICLES =================================================

@@ -18,22 +18,6 @@ class PromoteTest extends TestCase {
 		$this->assertSame('Wikipedia:Featured topics/TestPage', $result);
 	}
 	
-	function test_getWikiProjectBanners_dontAddBannerShellTwice() {
-		$title = 'Wikipedia talk:Featured topics/Meet the Woo 2';
-		$mainArticleTalkPageWikicode =
-'{{WikiProject banner shell|1=
-{{WikiProject Albums|class=GA|importance=low}}
-{{WikiProject Hip hop|class=GA|importance=low}}
-}}';
-		$result = $this->p->getWikiProjectBanners($mainArticleTalkPageWikicode, $title);
-		$this->assertSame(
-'{{WikiProject banner shell|1=
-{{WikiProject Albums|class=GA|importance=low}}
-{{WikiProject Hip hop|class=GA|importance=low}}
-}}'
-		, $result);
-	}
-	
 	function test_setTopicBoxViewParamterToYes_inputContainsViewYes() {
 		$topicBoxWikicode = '{{Featured topic box|view=yes}}';
 		$result = $this->p->setTopicBoxViewParamterToYes($topicBoxWikicode);
@@ -527,5 +511,118 @@ Test'
 		$mainArticleTitle = 'b';
 		$result = $this->p->getNonMainArticleTitles($allArticleTitles, $mainArticleTitle);
 		$this->assertSame(['a', 'c'], $result);
+	}
+	
+	function test_getWikiProjectBanners_dontAddBannerShellTwice() {
+		$title = 'Wikipedia talk:Featured topics/Meet the Woo 2';
+		$mainArticleTalkPageWikicode =
+'{{WikiProject banner shell|1=
+{{WikiProject Albums|class=GA|importance=low}}
+{{WikiProject Hip hop|class=GA|importance=low}}
+}}';
+		$result = $this->p->getWikiProjectBanners($mainArticleTalkPageWikicode, $title);
+		$this->assertSame(
+'{{WikiProject banner shell|1=
+{{WikiProject Albums}}
+{{WikiProject Hip hop}}
+}}'
+		, $result);
+	}
+		
+	function test_getWikiProjectBanners_noParameters() {
+		$title = '';
+		$mainArticleTalkPageWikicode = '{{WikiProject Snooker}}';
+		$result = $this->p->getWikiProjectBanners($mainArticleTalkPageWikicode, $title);
+		$this->assertSame('{{WikiProject Snooker}}', $result);
+	}
+	
+	function test_getWikiProjectBanners_runTrimOnTemplateName() {
+		$title = '';
+		$mainArticleTalkPageWikicode = '{{WikiProject Snooker }}';
+		$result = $this->p->getWikiProjectBanners($mainArticleTalkPageWikicode, $title);
+		$this->assertSame('{{WikiProject Snooker}}', $result);
+	}
+	
+	function test_getWikiProjectBanners_parametersShouldBeRemoved() {
+		$title = '';
+		$mainArticleTalkPageWikicode = '{{WikiProject Snooker |class=GA|importance=Low}}';
+		$result = $this->p->getWikiProjectBanners($mainArticleTalkPageWikicode, $title);
+		$this->assertSame('{{WikiProject Snooker}}', $result);
+	}
+	
+	function test_getWikiProjectBanners_threeBannersShouldGetBannerShell() {
+		$title = '';
+		$mainArticleTalkPageWikicode =
+'{{WikiProject Cue Sports}}
+{{WikiProject Biography}}
+{{WikiProject Women}}';
+		$result = $this->p->getWikiProjectBanners($mainArticleTalkPageWikicode, $title);
+		$this->assertSame(
+'{{WikiProject banner shell|1=
+{{WikiProject Cue Sports}}
+{{WikiProject Biography}}
+{{WikiProject Women}}
+}}'
+		, $result);
+	}
+	
+	function test_getWikiProjectBanners_twoBannersShouldGetBannerShell() {
+		$title = '';
+		$mainArticleTalkPageWikicode =
+'{{WikiProject Cue Sports}}
+{{WikiProject Biography}}';
+		$result = $this->p->getWikiProjectBanners($mainArticleTalkPageWikicode, $title);
+		$this->assertSame(
+'{{WikiProject banner shell|1=
+{{WikiProject Cue Sports}}
+{{WikiProject Biography}}
+}}'
+		, $result);
+	}
+	
+	function test_getWikiProjectBanners_oneBannerShouldNotGetBannerShell() {
+		$title = '';
+		$mainArticleTalkPageWikicode = '{{WikiProject Cue Sports}}';
+		$result = $this->p->getWikiProjectBanners($mainArticleTalkPageWikicode, $title);
+		$this->assertSame('{{WikiProject Cue Sports}}', $result);
+	}
+	
+	function test_getWikiProjectBanners_doNotDetectShellAsWikiProjects() {
+		$title = '';
+		$mainArticleTalkPageWikicode =
+'List generated from https://en.wikipedia.org/w/index.php?title=Special:WhatLinksHere/Template:WikiProject_banner_shell&hidetrans=1&hidelinks=1
+
+{{WikiProjectBanners}}
+{{WikiProject Banners}}
+{{WPB}}
+{{WPBS}}
+{{Wikiprojectbannershell}}
+{{WikiProject Banner Shell}}
+{{Wpb}}
+{{WPBannerShell}}
+{{Wpbs}}
+{{Wikiprojectbanners}}
+{{WP Banner Shell}}
+{{WP banner shell}}
+{{Bannershell}}
+{{Wikiproject banner shell}}
+{{WikiProject Banners Shell}}
+{{WikiProjectBanner Shell}}
+{{WikiProjectBannerShell}}
+{{WikiProject BannerShell}}
+{{WikiprojectBannerShell}}
+{{WikiProject banner shell/redirect}}
+{{WikiProject Shell}}
+{{Scope shell}}
+{{Project shell}}
+{{WikiProject shell}}
+{{WikiProject banner}}
+{{Wpbannershell}}
+{{Multiple wikiprojects}}
+
+Only this one should be detected:
+{{WikiProject Cue Sports}}';
+		$result = $this->p->getWikiProjectBanners($mainArticleTalkPageWikicode, $title);
+		$this->assertSame('{{WikiProject Cue Sports}}', $result);
 	}
 }
