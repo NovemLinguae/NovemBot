@@ -87,7 +87,7 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		$mainArticleTitle = $p->getMainArticleTitle($topicBoxWikicode, $nominationPageTitle);
 		$topicDescriptionWikicode = $p->getTopicDescriptionWikicode($nominationPageWikicode);
 		$topicDescriptionWikicode = $p->removeSignaturesFromTopicDescription($topicDescriptionWikicode);
-		$topicWikipediaPageTitle = $p->getTopicWikipediaPageTitle($mainArticleTitle, $goodOrFeatured);
+		$topicWikipediaPageTitle = $p->getTopicWikipediaPageTitle($mainArticleTitle);
 		$topicWikipediaPageWikicode = $p->getTopicWikipediaPageWikicode($topicDescriptionWikicode, $topicBoxWikicode);
 		$wapi->edit($topicWikipediaPageTitle, $topicWikipediaPageWikicode, $topicWikipediaPageTitle, $goodOrFeatured);
 		

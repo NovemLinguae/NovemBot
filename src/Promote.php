@@ -60,9 +60,7 @@ class Promote {
 		return $output;
 	}
 
-	function getTopicWikipediaPageTitle($mainArticleTitle, $goodOrFeatured) {
-		// assert($goodOrFeatured == 'good' || $goodOrFeatured == 'featured');
-		// return 'Wikipedia:' . ucfirst($goodOrFeatured) . ' topics/' . $mainArticleTitle;
+	function getTopicWikipediaPageTitle($mainArticleTitle) {
 		return "Wikipedia:Featured topics/$mainArticleTitle";
 	}
 
@@ -133,8 +131,6 @@ $wikiProjectBanners";
 	}
 
 	function getTopicTalkPageTitle($mainArticleTitle) {
-		//assert($goodOrFeatured == 'good' || $goodOrFeatured == 'featured');
-		//return 'Wikipedia talk:' . ucfirst($goodOrFeatured) . ' topics/' . $mainArticleTitle;
 		return 'Wikipedia talk:Featured topics/' . $mainArticleTitle;
 	}
 
