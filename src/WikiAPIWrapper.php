@@ -32,9 +32,9 @@ class WikiAPIWrapper {
 	}
 	
 	// TODO: does page title need underscores?
-	function edit(string $namespace_and_title, string $wikicode, string $topicPageTitle): void {
+	function edit(string $namespace_and_title, string $wikicode, string $topicPageTitle, string $goodOrFeatured): void {
 		global $READ_ONLY_TEST_MODE, $SECONDS_BETWEEN_API_EDITS;
-		$editSummary = "promote [[$topicPageTitle]] to good/featured topic";
+		$editSummary = "promote [[$topicPageTitle]] to $goodOrFeatured topic";
 		$message = "Write data to page: $namespace_and_title";
 		$message .= "\n\nEdit summary: $editSummary";
 		$message .= "\n\n$wikicode";
