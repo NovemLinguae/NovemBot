@@ -625,4 +625,10 @@ Only this one should be detected:
 		$result = $this->p->getWikiProjectBanners($mainArticleTalkPageWikicode, $title);
 		$this->assertSame('{{WikiProject Cue Sports}}', $result);
 	}
+	
+	function test_getTopicTalkPageTitle() {
+		$mainArticleTitle = 'Dua Lipa (album)';
+		$result = $this->p->getTopicTalkPageTitle($mainArticleTitle);
+		$this->assertSame('Wikipedia talk:Featured topics/Dua Lipa (album)', $result);
+	}
 }

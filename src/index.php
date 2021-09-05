@@ -92,7 +92,7 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		$wapi->edit($topicWikipediaPageTitle, $topicWikipediaPageWikicode, $topicWikipediaPageTitle, $goodOrFeatured);
 		
 		// STEP 3 - MAKE TOPIC TALK PAGE ==========================================================
-		$topicTalkPageTitle = $p->getTopicTalkPageTitle($mainArticleTitle, $goodOrFeatured);
+		$topicTalkPageTitle = $p->getTopicTalkPageTitle($mainArticleTitle);
 		$datetime = $p->getDatetime();
 		$nonMainArticleTitles = $p->getNonMainArticleTitles($allArticleTitles, $mainArticleTitle);
 		$mainArticleTalkPageWikicode = $wapi->getpage('Talk:'.$mainArticleTitle);

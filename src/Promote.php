@@ -132,9 +132,10 @@ $wikiProjectBanners";
 		return $talkWikicode;
 	}
 
-	function getTopicTalkPageTitle($mainArticleTitle, $goodOrFeatured) {
-		assert($goodOrFeatured == 'good' || $goodOrFeatured == 'featured');
-		return 'Wikipedia talk:' . ucfirst($goodOrFeatured) . ' topics/' . $mainArticleTitle;
+	function getTopicTalkPageTitle($mainArticleTitle) {
+		//assert($goodOrFeatured == 'good' || $goodOrFeatured == 'featured');
+		//return 'Wikipedia talk:' . ucfirst($goodOrFeatured) . ' topics/' . $mainArticleTitle;
+		return 'Wikipedia talk:Featured topics/' . $mainArticleTitle;
 	}
 
 	function getWikiProjectBanners($mainArticleTalkPageWikicode, $title) {
