@@ -32,9 +32,11 @@ class WikiAPIWrapper {
 	}
 	
 	// TODO: does page title need underscores?
-	function edit(string $namespace_and_title, string $wikicode, string $edit_summary = 'NovemBot Task 1: promote successful featured topic/good topic candidate'): void {
+	function edit(string $namespace_and_title, string $wikicode, string $topicPageTitle): void {
 		global $READ_ONLY_TEST_MODE, $SECONDS_BETWEEN_API_EDITS;
+		$editSummary = "promote [[$topicPageTitle]] to good/featured topic";
 		$message = "Write data to page: $namespace_and_title";
+		$message .= "\n\nEdit summary: $editSummary";
 		$message .= "\n\n$wikicode";
 		$this->eh->echoAndFlush($message, 'api_write');
 		//echoAndFlush($READ_ONLY_TEST_MODE, 'variable');
@@ -42,7 +44,7 @@ class WikiAPIWrapper {
 			$this->wapi->edit(
 				$namespace_and_title,
 				$wikicode,
-				$edit_summary
+				$editSummary
 			);
 			sleep($SECONDS_BETWEEN_API_EDITS);
 		}
