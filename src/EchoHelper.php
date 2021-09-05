@@ -1,8 +1,8 @@
 <?php
 
 class EchoHelper {
-	function __construct(Helper $sh) {
-		$this->sh = $sh;
+	function __construct(Helper $h) {
+		$this->h = $h;
 	}
 
 	/** Echo to the browser instantly, without a delay. Also, convert to HTML so we don't need to use Content-Type:text/plain, which displays HTML error messages incorrectly. Also, put a border around each message. */
