@@ -18,24 +18,24 @@ class PromoteTest extends TestCase {
 		$this->assertSame('Wikipedia:Featured topics/TestPage', $result);
 	}
 	
-	function test_setTopicBoxViewParamterToYes_inputContainsViewYes() {
+	function test_setTopicBoxViewParameterToYes_inputContainsViewYes() {
 		$topicBoxWikicode = '{{Featured topic box|view=yes}}';
-		$result = $this->p->setTopicBoxViewParamterToYes($topicBoxWikicode);
+		$result = $this->p->setTopicBoxViewParameterToYes($topicBoxWikicode);
 		$this->assertSame('{{Featured topic box|view=yes}}', $result);
 	}
 	
-	function test_setTopicBoxViewParamterToYes_inputContainsViewYes2() {
+	function test_setTopicBoxViewParameterToYes_inputContainsViewYes2() {
 		$topicBoxWikicode = '{{Featured topic box | view = yes }}';
-		$result = $this->p->setTopicBoxViewParamterToYes($topicBoxWikicode);
+		$result = $this->p->setTopicBoxViewParameterToYes($topicBoxWikicode);
 		$this->assertSame('{{Featured topic box | view = yes }}', $result);
 	}
 	
-	function test_setTopicBoxViewParamterToYes_inputContainsViewYes3() {
+	function test_setTopicBoxViewParameterToYes_inputContainsViewYes3() {
 		$topicBoxWikicode =
 '{{Featured topic box
 | view = yes
 }}';
-		$result = $this->p->setTopicBoxViewParamterToYes($topicBoxWikicode);
+		$result = $this->p->setTopicBoxViewParameterToYes($topicBoxWikicode);
 		$this->assertSame(
 '{{Featured topic box
 | view = yes
@@ -43,9 +43,9 @@ class PromoteTest extends TestCase {
 		, $result);
 	}
 	
-	function test_setTopicBoxViewParamterToYes_inputContainsViewNo1() {
+	function test_setTopicBoxViewParameterToYes_inputContainsViewNo1() {
 		$topicBoxWikicode = '{{Featured topic box|view=no}}';
-		$result = $this->p->setTopicBoxViewParamterToYes($topicBoxWikicode);
+		$result = $this->p->setTopicBoxViewParameterToYes($topicBoxWikicode);
 		$this->assertSame(
 '{{Featured topic box
 |view=yes
@@ -53,12 +53,12 @@ class PromoteTest extends TestCase {
 		, $result);
 	}
 	
-	function test_setTopicBoxViewParamterToYes_inputContainsViewNo2() {
+	function test_setTopicBoxViewParameterToYes_inputContainsViewNo2() {
 		$topicBoxWikicode =
 '{{Featured topic box
 | view = no
 }}';
-		$result = $this->p->setTopicBoxViewParamterToYes($topicBoxWikicode);
+		$result = $this->p->setTopicBoxViewParameterToYes($topicBoxWikicode);
 		$this->assertSame(
 '{{Featured topic box
 |view=yes
@@ -66,9 +66,9 @@ class PromoteTest extends TestCase {
 		, $result);
 	}
 	
-	function test_setTopicBoxViewParamterToYes_inputIsJustTemplateName1() {
+	function test_setTopicBoxViewParameterToYes_inputIsJustTemplateName1() {
 		$topicBoxWikicode = '{{Featured topic box}}';
-		$result = $this->p->setTopicBoxViewParamterToYes($topicBoxWikicode);
+		$result = $this->p->setTopicBoxViewParameterToYes($topicBoxWikicode);
 		$this->assertSame(
 '{{Featured topic box
 |view=yes
@@ -76,12 +76,12 @@ class PromoteTest extends TestCase {
 		, $result);
 	}
 	
-	function test_setTopicBoxViewParamterToYes_inputIsJustTemplateName2() {
+	function test_setTopicBoxViewParameterToYes_inputIsJustTemplateName2() {
 		$topicBoxWikicode =
 '{{Featured topic box
 
 }}';
-		$result = $this->p->setTopicBoxViewParamterToYes($topicBoxWikicode);
+		$result = $this->p->setTopicBoxViewParameterToYes($topicBoxWikicode);
 		$this->assertSame(
 '{{Featured topic box
 |view=yes
@@ -652,5 +652,30 @@ Only this one should be detected:
 		$mainArticleTitle = 'Dua Lipa (album)';
 		$result = $this->p->getTopicTalkPageTitle($mainArticleTitle);
 		$this->assertSame('Wikipedia talk:Featured topics/Dua Lipa (album)', $result);
+	}
+	
+	function test_setTopicBoxTitleParamter_noTitle() {
+		$topicBoxWikicode = '{{Featured topic box}}';
+		$mainArticleTitle = 'Test article';
+		$result = $this->p->setTopicBoxTitleParamter($topicBoxWikicode, $mainArticleTitle);
+		$this->assertSame(
+'{{Featured topic box
+|title=Test article
+}}'
+		, $result);
+	}
+	
+	function test_setTopicBoxTitleParamter_blankTitle() {
+		$topicBoxWikicode = '{{Featured topic box|title=}}';
+		$mainArticleTitle = 'Test article';
+		$result = $this->p->setTopicBoxTitleParamter($topicBoxWikicode, $mainArticleTitle);
+		$this->assertSame('{{Featured topic box|title=Test article}}', $result);
+	}
+	
+	function test_setTopicBoxTitleParamter_alreadyHasTitle() {
+		$topicBoxWikicode = '{{Featured topic box|title=Test article}}';
+		$mainArticleTitle = 'Test article';
+		$result = $this->p->setTopicBoxTitleParamter($topicBoxWikicode, $mainArticleTitle);
+		$this->assertSame('{{Featured topic box|title=Test article}}', $result);
 	}
 }

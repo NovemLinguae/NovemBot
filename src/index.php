@@ -72,7 +72,8 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		
 		// couple of checks
 		$topicBoxWikicode = $p->getTopicBoxWikicode($nominationPageWikicode, $nominationPageTitle);
-		$topicBoxWikicode = $p->setTopicBoxViewParamterToYes($topicBoxWikicode);
+		$topicBoxWikicode = $p->setTopicBoxViewParameterToYes($topicBoxWikicode);
+		$topicBoxWikicode = $p->setTopicBoxTitleParameter($topicBoxWikicode);
 		$topicBoxWikicode = $p->cleanTopicBoxTitleParameter($topicBoxWikicode);
 		$allArticleTitles = $p->getAllArticleTitles($topicBoxWikicode, $nominationPageTitle);
 		$goodArticleCount = $p->getGoodArticleCount($topicBoxWikicode);

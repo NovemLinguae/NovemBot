@@ -401,7 +401,7 @@ $wikiProjectBanners";
 	}
 
 	/** In the {{Featured topic box}} template, makes sure that it has the parameter view=yes. For example, {{Featured topic box|view=yes}} */
-	function setTopicBoxViewParamterToYes($topicBoxWikicode) {
+	function setTopicBoxViewParameterToYes($topicBoxWikicode) {
 		$hasViewYes = preg_match('/\|\s*view\s*=\s*yes\s*[\|\}]/si', $topicBoxWikicode);
 		if ( $hasViewYes ) return $topicBoxWikicode;
 		// delete view = anything
@@ -410,6 +410,19 @@ $wikiProjectBanners";
 		$topicBoxWikicode = preg_replace('/({{.*)\n{1,}(}})/i', '$1$2', $topicBoxWikicode);
 		// add view = yes
 		$topicBoxWikicode = $this->h->insertCodeAtEndOfFirstTemplate($topicBoxWikicode, 'Featured topic box', '|view=yes');
+		return $topicBoxWikicode;
+	}
+
+	/** In the {{Featured topic box}} template, makes sure it has a |title=. Else the discuss link will be red. */
+	function setTopicBoxTitleParamter($topicBoxWikicode, $mainArticleTitle) {
+		$hasBlankTitleParameter = preg_match('/(\|\s*title\s*=)(\s*)([\|\}])/is', $topicBoxWikicode);
+		$hasTitleParameter = preg_match('/\|\s*title\s*=/is', $topicBoxWikicode);
+		if ( $hasBlankTitleParameter ) {
+			return preg_replace('/(\|\s*title\s*=)(\s*)([\|\}])/is', "$1$mainArticleTitle$3", $topicBoxWikicode);
+		} elseif (! $hasTitleParameter) { // if |title is not found, append it to the end of the template
+			return $this->h->insertCodeAtEndOfFirstTemplate($topicBoxWikicode, 'featured topic box', "|title=$mainArticleTitle");
+		}
+		// else title is already present, do nothing
 		return $topicBoxWikicode;
 	}
 
