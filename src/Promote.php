@@ -382,7 +382,18 @@ $wikiProjectBanners";
 	}
 	
 	function markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle) {
-		$nominationPageWikicode2 = preg_replace('/({{\s*User:NovemBot\/Promote\s*)(}}.*?\(UTC\))/is', "$1|done=yes$2\n:Promotion completed successfully. ~~~~", $nominationPageWikicode);
+		$indentTemplateLine = $this->h->preg_first_match('/^(.*){{\s*User:NovemBot\/Promote\s*}}.*?\(UTC\)/ism', $nominationPageWikicode);
+		$indentTemplateLine = trim($indentTemplateLine);
+		$indentReplyLine = '';
+		switch ( $indentTemplateLine ) {
+			case '*':
+				$indentReplyLine = '**';
+				break;
+			default:
+				$indentReplyLine = ':';
+				break;
+		}
+		$nominationPageWikicode2 = preg_replace('/({{\s*User:NovemBot\/Promote\s*)(}}.*?\(UTC\))/is', "$1|done=yes$2\n{$indentReplyLine}Promotion completed successfully. ~~~~", $nominationPageWikicode);
 		if ( $nominationPageWikicode == $nominationPageWikicode2 ) {
 			throw new GiveUpOnThisTopic("On page $nominationPageTitle, unable to find {{User:NovemBot/Promote}} template and signature.");
 		}

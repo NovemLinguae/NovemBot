@@ -11,7 +11,7 @@ date_default_timezone_set('UTC');
 // test mode
 $READ_ONLY_TEST_MODE = true;
 $TEST_PAGES = [
-	// 'Wikipedia:Featured and good topic candidates/Burnley F.C./archive1'
+	'Wikipedia:Featured and good topic candidates/Burnley F.C./archive1'
 ]; // Make this array empty to pull from "Category:Good and featured topics to promote" instead. That's the tracking category for {{User:NovemBot/Promote}}.
 
 // constants
