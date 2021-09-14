@@ -35,7 +35,6 @@ class Promote {
 	}
 
 	function getMainArticleTitle($topicBoxWikicode, $title) {
-		// TODO: are there any other possible icons besides FA, GA, FL?
 		// TODO: handle piped links
 		preg_match("/\|\s*lead\s*=\s*{{\s*(?:class)?icon\s*\|\s*(?:FA|GA|FL)\s*}}\s*(?:'')?\[\[([^\]\|]*)/i", $topicBoxWikicode, $matches);
 		if ( ! $matches ) {
@@ -425,7 +424,7 @@ $wikiProjectBanners";
 		$indentReplyLine = '';
 		switch ( $indentString ) {
 			case '*':
-				$indentReplyLine = '**';
+				$indentReplyLine = '*:';
 				break;
 			default:
 				$indentReplyLine = ':';

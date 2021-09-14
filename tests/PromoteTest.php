@@ -572,7 +572,7 @@ Test'
 		$result = $this->p->markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle);
 		$this->assertSame(
 "*{{User:NovemBot/Promote|done=yes}} [[User:Aza24|Aza24]] ([[User talk:Aza24|talk]]) 03:35, 13 September 2021 (UTC)
-**Promotion completed successfully. ~~~~"
+*:Promotion completed successfully. ~~~~"
 		, $result);
 	}
 	
@@ -586,7 +586,7 @@ Test'
 		$this->assertSame(
 "******Darn it, and there I thought I was doing well with a nearly-complete FTC encompassing 78 articles...... :-P -- [[User:ChrisTheDude|ChrisTheDude]] ([[User talk:ChrisTheDude|talk]]) 14:30, 6 September 2021 (UTC)
 * {{User:NovemBot/Promote|done=yes}} [[User:Aza24|Aza24]] ([[User talk:Aza24|talk]]) 03:35, 13 September 2021 (UTC)
-**Promotion completed successfully. ~~~~
+*:Promotion completed successfully. ~~~~
 "
 		, $result);
 	}
@@ -598,7 +598,7 @@ Test'
 		$result = $this->p->markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle);
 		$this->assertSame(
 "* {{User:NovemBot/Promote|done=yes}} [[User:Aza24|Aza24]] ([[User talk:Aza24|talk]]) 03:35, 13 September 2021 (UTC)
-**Promotion completed successfully. ~~~~"
+*:Promotion completed successfully. ~~~~"
 		, $result);
 	}
 	
