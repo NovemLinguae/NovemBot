@@ -413,10 +413,10 @@ $wikiProjectBanners";
 	}
 	
 	function markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle) {
-		$indentTemplateLine = $this->h->preg_first_match('/^(.*){{\s*User:NovemBot\/Promote\s*}}.*?\(UTC\)/ism', $nominationPageWikicode);
-		$indentTemplateLine = trim($indentTemplateLine);
+		$indentString = $this->h->preg_first_match('/^(.*){{\s*User:NovemBot\/Promote\s*}}.*?\(UTC\)/im', $nominationPageWikicode);
+		$indentString = trim($indentString);
 		$indentReplyLine = '';
-		switch ( $indentTemplateLine ) {
+		switch ( $indentString ) {
 			case '*':
 				$indentReplyLine = '**';
 				break;
