@@ -32,6 +32,9 @@ class EchoHelper {
 			case 'newtopic':
 				$color = 'yellow';
 				$description = 'Starting new topic';
+			case 'message':
+				$color = 'lightblue';
+				$description = "Message";
 				break;
 			case 'complete':
 				$color = 'yellow';

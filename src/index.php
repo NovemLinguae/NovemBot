@@ -172,6 +172,9 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		$fgtcWikicode = $p->removeTopicFromFGTC($nominationPageTitle, $fgtcWikicode, $fgtcTitle);
 		$wapi->edit($fgtcTitle, $fgtcWikicode, $topicWikipediaPageTitle, $goodOrFeatured);
 		
+		// REMINDER ABOUT STEP 6
+		$eh->echoAndFlush("Step 6 must be done manually. Add {{{$topicWikipediaPageTitle}}} to the appropriate section of either [[Wikipedia:Featured topics]] or [[Wikipedia:Good topics]]", 'message');
+		
 		// STEP 1 - CLOSE THE NOMINATION =========================================================
 		// Replace template invokation with Success. ~~~~ or Error. ~~~~
 		// Also change {{User:NovemBot/Promote}} to include |done=yes, which will take the page out of the tracking category.
