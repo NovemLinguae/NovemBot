@@ -445,7 +445,7 @@ $wikiProjectBanners";
 	}
 
 	/** In the {{Featured topic box}} template, makes sure it has a |title=. Else the discuss link will be red. */
-	function setTopicBoxTitleParamter($topicBoxWikicode, $mainArticleTitle) {
+	function setTopicBoxTitleParameter($topicBoxWikicode, $mainArticleTitle) {
 		$hasBlankTitleParameter = preg_match('/(\|\s*title\s*=)(\s*)([\|\}])/is', $topicBoxWikicode);
 		$hasTitleParameter = preg_match('/\|\s*title\s*=/is', $topicBoxWikicode);
 		if ( $hasBlankTitleParameter ) {

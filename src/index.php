@@ -73,7 +73,8 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		// couple of checks
 		$topicBoxWikicode = $p->getTopicBoxWikicode($nominationPageWikicode, $nominationPageTitle);
 		$topicBoxWikicode = $p->setTopicBoxViewParameterToYes($topicBoxWikicode);
-		$topicBoxWikicode = $p->setTopicBoxTitleParameter($topicBoxWikicode);
+		$mainArticleTitle = $p->getMainArticleTitle($topicBoxWikicode, $nominationPageTitle);
+		$topicBoxWikicode = $p->setTopicBoxTitleParameter($topicBoxWikicode, $mainArticleTitle);
 		$topicBoxWikicode = $p->cleanTopicBoxTitleParameter($topicBoxWikicode);
 		$allArticleTitles = $p->getAllArticleTitles($topicBoxWikicode, $nominationPageTitle);
 		$goodArticleCount = $p->getGoodArticleCount($topicBoxWikicode);
@@ -85,7 +86,6 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		$eh->echoAndFlush($goodOrFeatured, 'variable');
 		
 		// STEP 2 - MAKE TOPIC PAGE ===============================================================
-		$mainArticleTitle = $p->getMainArticleTitle($topicBoxWikicode, $nominationPageTitle);
 		$topicDescriptionWikicode = $p->getTopicDescriptionWikicode($nominationPageWikicode);
 		$topicDescriptionWikicode = $p->removeSignaturesFromTopicDescription($topicDescriptionWikicode);
 		$topicWikipediaPageTitle = $p->getTopicWikipediaPageTitle($mainArticleTitle);
