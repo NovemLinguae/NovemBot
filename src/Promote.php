@@ -247,7 +247,7 @@ $wikiProjectBanners";
 		
 		// Find first WikiProject or WikiProject banner shell template
 		$wikiProjectLocation = false;
-		$dictionary = ['wikiproject', 'wpb', 'wpbs', 'wpbannershell', 'wp banner shell', 'bannershell', 'scope shell', 'project shell', 'multiple wikiprojects'];
+		$dictionary = ['wikiproject', 'wpb', 'wpbs', 'wpbannershell', 'wp banner shell', 'bannershell', 'scope shell', 'project shell', 'multiple wikiprojects', 'football'];
 		foreach ( $dictionary as $key => $value ) {
 			$location = stripos($talkPageWikicode, '{{' . $value); // case insensitive
 			if ( $location !== false ) {

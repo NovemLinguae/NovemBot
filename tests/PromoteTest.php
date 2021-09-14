@@ -341,6 +341,16 @@ Test'
 		, $result);
 	}
 	
+	function test_addToTalkPageAboveWikiProjects_recognizeFootballTemplateAsWikiProject() {
+		$talkPageWikicode = '{{football}}';
+		$wikicodeToAdd = '[[Test]]';
+		$result = $this->p->addToTalkPageAboveWikiProjects($talkPageWikicode, $wikicodeToAdd);
+		$this->assertSame(
+'[[Test]]
+{{football}}'
+		, $result);
+	}
+	
 	function test_addArticleHistoryIfNotPresent_gaTemplateAtTopWithEnterUnderIt() {
 		$talkPageWikicode =
 '{{GA|05:06, 22 December 2020 (UTC)|topic=Sports and recreation|page=|oldid=995658831}}
