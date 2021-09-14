@@ -341,7 +341,7 @@ Test'
 		, $result);
 	}
 	
-	function test_addArticleHistoryIfNotPresent_gaTemplateWithNoPage() {
+	function test_addArticleHistoryIfNotPresent_gaTemplateWithBlankPage() {
 		$talkPageWikicode = '{{GA|00:03, 5 January 2021 (UTC)|topic=Sports and recreation|page=|oldid=998352580}}';
 		$talkPageTitle = 'Talk:History of Burnley F.C.';
 		$result = $this->p->addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle);
@@ -355,6 +355,24 @@ Test'
 |action1link = Talk:History of Burnley F.C./GA1
 |action1result = listed
 |action1oldid = 998352580
+}}'
+		, $result);
+	}
+	
+	function test_addArticleHistoryIfNotPresent_gaTemplateWithNoPage() {
+		$talkPageWikicode = '{{GA|14:05, 3 July 2021 (UTC)|topic=Sports and recreation|oldid=1031742022}}';
+		$talkPageTitle = 'Talk:2007 Football League Two play-off Final';
+		$result = $this->p->addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle);
+		$this->assertSame(
+'{{Article history
+|currentstatus = GA
+|topic = Sports and recreation
+
+|action1 = GAN
+|action1date = 2021-07-03
+|action1link = Talk:2007 Football League Two play-off Final/GA1
+|action1result = listed
+|action1oldid = 1031742022
 }}'
 		, $result);
 	}

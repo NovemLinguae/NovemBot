@@ -209,7 +209,7 @@ $wikiProjectBanners";
 			$parameters = $this->getParametersFromTemplateWikicode($gaTemplateWikicode);
 			
 			// if no page specified, assume page is 1. so then the good article review link will be parsed as /GA1
-			if ( ! $parameters['page'] ) {
+			if ( ! isset($parameters['page']) || ! $parameters['page'] ) {
 				$parameters['page'] = 1;
 			}
 			
