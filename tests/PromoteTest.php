@@ -716,10 +716,10 @@ Only this one should be detected:
 		$this->assertSame('Wikipedia talk:Featured topics/Dua Lipa (album)', $result);
 	}
 	
-	function test_setTopicBoxTitleParamter_noTitle() {
+	function test_setTopicBoxTitleParameter_noTitle() {
 		$topicBoxWikicode = '{{Featured topic box}}';
 		$mainArticleTitle = 'Test article';
-		$result = $this->p->setTopicBoxTitleParamter($topicBoxWikicode, $mainArticleTitle);
+		$result = $this->p->setTopicBoxTitleParameter($topicBoxWikicode, $mainArticleTitle);
 		$this->assertSame(
 '{{Featured topic box
 |title=Test article
@@ -727,17 +727,17 @@ Only this one should be detected:
 		, $result);
 	}
 	
-	function test_setTopicBoxTitleParamter_blankTitle() {
+	function test_setTopicBoxTitleParameter_blankTitle() {
 		$topicBoxWikicode = '{{Featured topic box|title=}}';
 		$mainArticleTitle = 'Test article';
-		$result = $this->p->setTopicBoxTitleParamter($topicBoxWikicode, $mainArticleTitle);
+		$result = $this->p->setTopicBoxTitleParameter($topicBoxWikicode, $mainArticleTitle);
 		$this->assertSame('{{Featured topic box|title=Test article}}', $result);
 	}
 	
-	function test_setTopicBoxTitleParamter_alreadyHasTitle() {
+	function test_setTopicBoxTitleParameter_alreadyHasTitle() {
 		$topicBoxWikicode = '{{Featured topic box|title=Test article}}';
 		$mainArticleTitle = 'Test article';
-		$result = $this->p->setTopicBoxTitleParamter($topicBoxWikicode, $mainArticleTitle);
+		$result = $this->p->setTopicBoxTitleParameter($topicBoxWikicode, $mainArticleTitle);
 		$this->assertSame('{{Featured topic box|title=Test article}}', $result);
 	}
 }
