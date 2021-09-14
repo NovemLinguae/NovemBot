@@ -216,7 +216,7 @@ $wikiProjectBanners";
 			$date = date('Y-m-d', strtotime($parameters[1]));
 			
 			// insert {{article history}} template
-			$addToTalkPageEndOfLead = 
+			$addToTalkPageAboveWikiProjects = 
 "{{Article history
 |currentstatus = GA
 |topic = {$parameters['topic']}
@@ -227,15 +227,28 @@ $wikiProjectBanners";
 |action1result = listed
 |action1oldid = {$parameters['oldid']}
 }}";
-			$talkPageWikicode = $this->addToTalkPageEndOfLead($talkPageWikicode, $addToTalkPageEndOfLead);
+			$talkPageWikicode = $this->addToTalkPageAboveWikiProjects($talkPageWikicode, $addToTalkPageAboveWikiProjects);
 		}
 		return $talkPageWikicode;
 	}
 
-	/** Add wikicode right above the first ==Header== if present, or at bottom of page. Treat {{Talk:abc/GA1}} as a header. */
-	function addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd) {
+	/** Add wikicode right above {{WikiProject X}} or {{WikiProject Banner Shell}} if present, or first ==Header== if present, or at bottom of page. Treat {{Talk:abc/GA1}} as a header. */
+	function addToTalkPageAboveWikiProjects($talkPageWikicode, $wikicodeToAdd) {
 		if ( ! $talkPageWikicode ) {
 			return $wikicodeToAdd;
+		}
+		
+		// Find first WikiProject or WikiProject banner shell template
+		$wikiProjectLocation = false;
+		$dictionary = ['wikiproject', 'wpb', 'wpbs', 'wpbannershell', 'wp banner shell', 'bannershell', 'scope shell', 'project shell', 'multiple wikiprojects'];
+		foreach ( $dictionary as $key => $value ) {
+			$location = strpos($talkPageWikicode, '{{' . $value); // case insensitive
+			if ( $location !== false ) {
+				// if this location is higher up than the previous found location, overwrite it
+				if ( $wikiProjectLocation === false || $wikiProjectLocation > $location ) {
+					$wikiProjectLocation = $location;
+				}
+			}
 		}
 		
 		// Find first heading
@@ -245,7 +258,9 @@ $wikiProjectBanners";
 		$gaTemplateLocation = $this->h->preg_position('/{{[^\}]*\/GA\d{1,2}}}/is', $talkPageWikicode);
 		
 		// Set insert location
-		if ( $headingLocation !== false ) {
+		if ( $wikiProjectLocation !== false ) {
+			$insertPosition = $wikiProjectLocation;
+		} elseif ( $headingLocation !== false ) {
 			$insertPosition = $headingLocation;
 		} elseif ( $gaTemplateLocation !== false ) {
 			$insertPosition = $gaTemplateLocation;

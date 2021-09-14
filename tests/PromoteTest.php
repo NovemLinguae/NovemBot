@@ -166,7 +166,7 @@ class PromoteTest extends TestCase {
 		, $result);
 	}
 	
-	function test_addToTalkPageEndOfLead_normal() {
+	function test_addToTalkPageAboveWikiProjects_normal() {
 		$talkPageWikicode =
 '{{Article history}}
 {{Talk header}}
@@ -177,7 +177,7 @@ Test
 == Heading 2 ==
 Text';
 		$wikicodeToAdd = '[[Test]]';
-		$result = $this->p->addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
+		$result = $this->p->addToTalkPageAboveWikiProjects($talkPageWikicode, $wikicodeToAdd);
 		$this->assertSame(
 '{{Article history}}
 {{Talk header}}
@@ -191,7 +191,7 @@ Text'
 		, $result);
 	}
 	
-	function test_addToTalkPageEndOfLead_ga1_1() {
+	function test_addToTalkPageAboveWikiProjects_ga1_1() {
 		$talkPageWikicode =
 '{{Article history}}
 {{Talk header}}
@@ -204,7 +204,7 @@ Test
 == Heading 2 ==
 Text';
 		$wikicodeToAdd = '[[Test]]';
-		$result = $this->p->addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
+		$result = $this->p->addToTalkPageAboveWikiProjects($talkPageWikicode, $wikicodeToAdd);
 		$this->assertSame(
 '{{Article history}}
 {{Talk header}}
@@ -220,7 +220,7 @@ Text'
 		, $result);
 	}
 	
-	function test_addToTalkPageEndOfLead_ga1_2() {
+	function test_addToTalkPageAboveWikiProjects_ga1_2() {
 		$talkPageWikicode =
 '{{Article history}}
 {{Talk header}}
@@ -233,7 +233,7 @@ Test
 == Heading 2 ==
 Text';
 		$wikicodeToAdd = '[[Test]]';
-		$result = $this->p->addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
+		$result = $this->p->addToTalkPageAboveWikiProjects($talkPageWikicode, $wikicodeToAdd);
 		$this->assertSame(
 '{{Article history}}
 {{Talk header}}
@@ -249,19 +249,19 @@ Text'
 		, $result);
 	}
 	
-	function test_addToTalkPageEndOfLead_blank() {
+	function test_addToTalkPageAboveWikiProjects_blank() {
 		$talkPageWikicode = '';
 		$wikicodeToAdd = '[[Test]]';
-		$result = $this->p->addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
+		$result = $this->p->addToTalkPageAboveWikiProjects($talkPageWikicode, $wikicodeToAdd);
 		$this->assertSame('[[Test]]', $result);
 	}
 	
-	function test_addToTalkPageEndOfLead_start() {
+	function test_addToTalkPageAboveWikiProjects_start() {
 		$talkPageWikicode =
 '== Heading 1 ==
 Test';
 		$wikicodeToAdd = '[[Test]]';
-		$result = $this->p->addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
+		$result = $this->p->addToTalkPageAboveWikiProjects($talkPageWikicode, $wikicodeToAdd);
 		$this->assertSame(
 '[[Test]]
 == Heading 1 ==
@@ -269,16 +269,53 @@ Test'
 		, $result);
 	}
 	
-	function test_addToTalkPageEndOfLead_end() {
+	function test_addToTalkPageAboveWikiProjects_end() {
 		$talkPageWikicode = 'Test';
 		$wikicodeToAdd = '[[Test]]';
-		$result = $this->p->addToTalkPageEndOfLead($talkPageWikicode, $wikicodeToAdd);
+		$result = $this->p->addToTalkPageAboveWikiProjects($talkPageWikicode, $wikicodeToAdd);
 		$this->assertSame(
 'Test
 [[Test]]'
 		, $result);
 	}
 	
+	function test_addToTalkPageAboveWikiProjects_WikiProjectBannerShellPresent() {
+		$talkPageWikicode =
+'{{Test1}}
+{{wikiproject banner shell}}
+{{Test2}}
+
+== Test3 ==';
+		$wikicodeToAdd = '[[Test]]';
+		$result = $this->p->addToTalkPageAboveWikiProjects($talkPageWikicode, $wikicodeToAdd);
+		$this->assertSame(
+'{{Test1}}
+[[Test]]
+{{wikiproject banner shell}}
+{{Test2}}
+
+== Test3 =='
+		, $result);
+	}
+	
+	function test_addToTalkPageAboveWikiProjects_WikiProjectPresent() {
+		$talkPageWikicode =
+'{{Test1}}
+{{wikiproject tree of life}}
+{{Test2}}
+
+== Test3 ==';
+		$wikicodeToAdd = '[[Test]]';
+		$result = $this->p->addToTalkPageAboveWikiProjects($talkPageWikicode, $wikicodeToAdd);
+		$this->assertSame(
+'{{Test1}}
+[[Test]]
+{{wikiproject tree of life}}
+{{Test2}}
+
+== Test3 =='
+		, $result);
+	}	
 	function test_addArticleHistoryIfNotPresent_gaTemplateWithNoPage() {
 		$talkPageWikicode = '{{GA|00:03, 5 January 2021 (UTC)|topic=Sports and recreation|page=|oldid=998352580}}';
 		$talkPageTitle = 'Talk:History of Burnley F.C.';
