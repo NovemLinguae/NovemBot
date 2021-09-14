@@ -17,8 +17,6 @@ class WikiAPIWrapper {
 		$output = $this->wapi->getpage($namespace_and_title);
 		$message = "Read data from page: $namespace_and_title";
 		$message .= "\n\n$output";
-		$message = htmlspecialchars($message);
-		$message = nl2br($message);
 		$this->eh->echoAndFlush($message, 'api_read');
 		sleep($SECONDS_BETWEEN_API_READS);
 		return $output;

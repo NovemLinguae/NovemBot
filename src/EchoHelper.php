@@ -15,6 +15,9 @@ class EchoHelper {
 			case 'api_read':
 				$color = 'lightgray';
 				$description = 'API read';
+				$str = htmlentities($str);
+				$str = nl2br($str);
+				$str = $this->h->nbsp($str);
 				break;
 			case 'api_write':
 				$color = '#FFCC66';
@@ -23,15 +26,24 @@ class EchoHelper {
 			case 'variable':
 				$color = 'lawngreen';
 				$description = 'Variable';
+				$str = htmlentities($str);
 				$str = nl2br($str);
+				$str = $this->h->nbsp($str);
 				break;
 			case 'error':
 				$color = 'salmon';
 				$description = 'Error';
+				$str = htmlentities($str);
+				$str = nl2br($str);
+				$str = $this->h->nbsp($str);
 				break;
 			case 'newtopic':
 				$color = 'yellow';
 				$description = 'Starting new topic';
+				$str = htmlentities($str);
+				$str = nl2br($str);
+				$str = $this->h->nbsp($str);
+				break;
 			case 'message':
 				$color = 'lightblue';
 				$description = "Message";
@@ -39,6 +51,9 @@ class EchoHelper {
 			case 'complete':
 				$color = 'yellow';
 				$description = 'Run complete';
+				$str = htmlentities($str);
+				$str = nl2br($str);
+				$str = $this->h->nbsp($str);
 				break;
 		}
 		
@@ -50,10 +65,7 @@ class EchoHelper {
 			$str = $str2;
 		}
 		
-		// $str = htmlentities($str);
 		$str = '<div style="border: 2px solid black; margin-bottom: 1em; background-color: '.$color.';"><b><u>' . $description . '</u></b>:<br />' . $str . '</div>';
-		// $str = nl2br($str);
-		$str = $this->h->nbsp($str);
 		
 		echo $str;
 		flush();
