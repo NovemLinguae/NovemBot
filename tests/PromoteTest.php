@@ -341,6 +341,27 @@ Test'
 		, $result);
 	}
 	
+	function test_addArticleHistoryIfNotPresent_gaTemplateAtTopWithEnterUnderIt() {
+		$talkPageWikicode =
+'{{GA|05:06, 22 December 2020 (UTC)|topic=Sports and recreation|page=|oldid=995658831}}
+
+{{WikiProject football|class=GA|importance=low|season=yes|england=yes}}';
+		$talkPageTitle = 'Talk:2020 EFL League Two play-off Final';
+		$result = $this->p->addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle);
+		$this->assertSame(
+'{{Article history
+|currentstatus = GA
+|topic = Sports and recreation
+
+|action1 = GAN
+|action1date = 2020-12-22
+|action1link = Talk:2020 EFL League Two play-off Final/GA1
+|action1result = listed
+|action1oldid = 995658831
+}}
+{{WikiProject football|class=GA|importance=low|season=yes|england=yes}}'
+		, $result);
+	}	
 	function test_addArticleHistoryIfNotPresent_gaTemplateWithBlankPage() {
 		$talkPageWikicode = '{{GA|00:03, 5 January 2021 (UTC)|topic=Sports and recreation|page=|oldid=998352580}}';
 		$talkPageTitle = 'Talk:History of Burnley F.C.';
