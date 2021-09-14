@@ -10,6 +10,10 @@
 			width:100%;
 			height:20em;
 		}
+		
+		div {
+			padding: 10px;
+		}
 	</style>
 </head>
 
