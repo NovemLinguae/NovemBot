@@ -242,7 +242,7 @@ $wikiProjectBanners";
 		$wikiProjectLocation = false;
 		$dictionary = ['wikiproject', 'wpb', 'wpbs', 'wpbannershell', 'wp banner shell', 'bannershell', 'scope shell', 'project shell', 'multiple wikiprojects'];
 		foreach ( $dictionary as $key => $value ) {
-			$location = strpos($talkPageWikicode, '{{' . $value); // case insensitive
+			$location = stripos($talkPageWikicode, '{{' . $value); // case insensitive
 			if ( $location !== false ) {
 				// if this location is higher up than the previous found location, overwrite it
 				if ( $wikiProjectLocation === false || $wikiProjectLocation > $location ) {
@@ -265,25 +265,41 @@ $wikiProjectBanners";
 		} elseif ( $gaTemplateLocation !== false ) {
 			$insertPosition = $gaTemplateLocation;
 		} else {
-			$insertPosition = strlen($talkPageWikicode);
+			$insertPosition = strlen($talkPageWikicode); // insert at end of page
 		}
 		
 		// if there's a {{Talk:abc/GA1}} above a heading, adjust for this
 		if (
 			$headingLocation !== false &&
 			$gaTemplateLocation !== false &&
-			$gaTemplateLocation < $headingLocation
+			$gaTemplateLocation < $insertPosition
 		) {
 			$insertPosition = $gaTemplateLocation;
 		}
 		
-		// If there's whitespace in front of the insert location, back up, up to 2 spaces
-		$twoSpacesBefore = substr($talkPageWikicode, $insertPosition - 2, 1);
-		$oneSpaceBefore = substr($talkPageWikicode, $insertPosition - 1, 1);
-		if ( $oneSpaceBefore == "\n" && $twoSpacesBefore == "\n" ) {
-			$insertPosition -= 2;
-		} elseif ( $oneSpaceBefore == "\n" ) {
-			$insertPosition -= 1;
+		// If there's excess newlines in front of the insert location, delete the newlines
+		$deleteTopPosition = false;
+		$deleteBottomPosition = false;
+		$pos = $insertPosition - 1;
+		$i = 1;
+		while ( $pos != 0 ) {
+			$char = substr($talkPageWikicode, $pos, 1);
+			if ( $char == "\n" ) {
+				if ( $i != 1 && $i != 2 ) { // skip first two \n, those are OK to keep
+					$deleteTopPosition = $pos;
+					if ( $i == 3 ) {
+						$deleteBottomPosition = $insertPosition;
+					}
+				}
+				$insertPosition = $pos; // insert position should back up past all \n's.
+				$i++;
+				$pos--;
+			} else {
+				break;
+			}
+		}
+		if ( $deleteTopPosition !== false ) {
+			$talkPageWikicode = $this->h->deleteMiddleOfString($talkPageWikicode, $deleteTopPosition, $deleteBottomPosition);
 		}
 		
 		$lengthOfRightHalf = strlen($talkPageWikicode) - $insertPosition;

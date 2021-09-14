@@ -315,7 +315,32 @@ Test'
 
 == Test3 =='
 		, $result);
-	}	
+	}
+	
+	function test_addToTalkPageAboveWikiProjects_deleteExtraNewLines() {
+		$talkPageWikicode =
+'{{GTC|Dua Lipa (album)|1}}
+{{GA|06:30, 12 August 2020 (UTC)|topic=Music|page=1|oldid=972465209}}
+
+
+
+
+{{Talk:Homesick (Dua Lipa song)/GA1}}
+
+== this is a piano song ==';
+		$wikicodeToAdd = '[[Test]]';
+		$result = $this->p->addToTalkPageAboveWikiProjects($talkPageWikicode, $wikicodeToAdd);
+		$this->assertSame(
+'{{GTC|Dua Lipa (album)|1}}
+{{GA|06:30, 12 August 2020 (UTC)|topic=Music|page=1|oldid=972465209}}
+[[Test]]
+
+{{Talk:Homesick (Dua Lipa song)/GA1}}
+
+== this is a piano song =='
+		, $result);
+	}
+	
 	function test_addArticleHistoryIfNotPresent_gaTemplateWithNoPage() {
 		$talkPageWikicode = '{{GA|00:03, 5 January 2021 (UTC)|topic=Sports and recreation|page=|oldid=998352580}}';
 		$talkPageTitle = 'Talk:History of Burnley F.C.';

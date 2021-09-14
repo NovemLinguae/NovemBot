@@ -76,4 +76,15 @@ class Helper {
 		$array = array_values($array); // reindex (fix keys), 0 to whatever
 		return $array;
 	}
+	
+	function deleteMiddleOfString($string, $deleteStartPosition, $deleteEndPosition) {
+		$pos = $deleteStartPosition;
+		$len = $deleteEndPosition - $deleteStartPosition;
+		
+		$part1 = substr($string, 0, $deleteStartPosition);
+		$part2 = substr($string, $deleteEndPosition);
+		
+		$final_str = $part1 . $part2;
+		return $final_str;
+	}
 }

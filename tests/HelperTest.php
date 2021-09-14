@@ -138,4 +138,20 @@ test'
 		$this->expectException(TypeError::class);
 		$this->h->deleteArrayValue($array, $valueToDelete);
 	}
+	
+	function test_deleteMiddleOfString() {
+		$string = 'Test DELETE THIS dont delete this';
+		$deleteStartPosition = 5;
+		$deleteEndPosition = 17;
+		$result = $this->h->deleteMiddleOfString($string, $deleteStartPosition, $deleteEndPosition);
+		$this->assertSame('Test dont delete this', $result);
+	}
+	
+	function test_deleteMiddleOfString_blank() {
+		$string = '';
+		$deleteStartPosition = 0;
+		$deleteEndPosition = 0;
+		$result = $this->h->deleteMiddleOfString($string, $deleteStartPosition, $deleteEndPosition);
+		$this->assertSame('', $result);
+	}
 }
