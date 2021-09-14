@@ -523,6 +523,21 @@ Test'
 		, $result);
 	}
 	
+	function test_markDoneAndSuccessful_oneBullet2() {
+		$nominationPageWikicode = 
+"******Darn it, and there I thought I was doing well with a nearly-complete FTC encompassing 78 articles...... :-P -- [[User:ChrisTheDude|ChrisTheDude]] ([[User talk:ChrisTheDude|talk]]) 14:30, 6 September 2021 (UTC)
+* {{User:NovemBot/Promote}} [[User:Aza24|Aza24]] ([[User talk:Aza24|talk]]) 03:35, 13 September 2021 (UTC)
+";
+		$nominationPageTitle = 'Sample page';
+		$result = $this->p->markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle);
+		$this->assertSame(
+"******Darn it, and there I thought I was doing well with a nearly-complete FTC encompassing 78 articles...... :-P -- [[User:ChrisTheDude|ChrisTheDude]] ([[User talk:ChrisTheDude|talk]]) 14:30, 6 September 2021 (UTC)
+* {{User:NovemBot/Promote}} [[User:Aza24|Aza24]] ([[User talk:Aza24|talk]]) 03:35, 13 September 2021 (UTC)
+**Promotion completed successfully. ~~~~
+"
+		, $result);
+	}
+	
 	function test_markDoneAndSuccessful_spacesNearIndent() {
 		$nominationPageWikicode = 
 "* {{User:NovemBot/Promote}} [[User:Aza24|Aza24]] ([[User talk:Aza24|talk]]) 03:35, 13 September 2021 (UTC)";

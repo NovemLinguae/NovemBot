@@ -9,3 +9,4 @@ require_once(__DIR__ . '\EchoHelper.php');
 require_once(__DIR__ . '\GiveUpOnThisTopic.php');
 require_once(__DIR__ . '\Promote.php');
 require_once(__DIR__ . '\WikiAPIWrapper.php');
+require_once(__DIR__ . '\css.php');

@@ -11,7 +11,7 @@ date_default_timezone_set('UTC');
 // test mode
 $READ_ONLY_TEST_MODE = true;
 $TEST_PAGES = [
-	'Wikipedia:Featured and good topic candidates/Burnley F.C./archive1'
+	'Wikipedia:Featured and good topic candidates/EFL League Two play-offs/archive1'
 ]; // Make this array empty to pull from "Category:Good and featured topics to promote" instead. That's the tracking category for {{User:NovemBot/Promote}}.
 
 // constants
@@ -23,6 +23,7 @@ $SECONDS_BETWEEN_API_EDITS = 10; // https://en.wikipedia.org/wiki/Wikipedia:Bot_
 $ARTICLE_HISTORY_MAX_ACTIONS = 15; // just a guess
 $SHORT_WIKICODE_IN_CONSOLE = false; // Set to false to help with semi-automated editing (copy pasting from browser to Wikipedia). Set to true to make browser more readable during testing.
 $CHARACTERS_TO_ECHO = 3000; // When $SHORT_WIKICODE_IN_CONSOLE is set to true, how many characters to display.
+$SHOW_API_READS = false;
 
 require_once('bootstrap.php');
 

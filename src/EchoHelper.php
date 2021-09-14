@@ -7,7 +7,10 @@ class EchoHelper {
 
 	/** Echo to the browser instantly, without a delay. Also, convert to HTML so we don't need to use Content-Type:text/plain, which displays HTML error messages incorrectly. Also, put a border around each message. */
 	function echoAndFlush(string $str, string $type): void {
-		global $SHORT_WIKICODE_IN_CONSOLE, $CHARACTERS_TO_ECHO;
+		global $SHORT_WIKICODE_IN_CONSOLE, $CHARACTERS_TO_ECHO, $SHOW_API_READS;
+		
+		if ( $type == 'api_read' && ! $SHOW_API_READS ) return;
+		
 		switch ( $type ) {
 			case 'api_read':
 				$color = 'lightgray';
@@ -20,6 +23,7 @@ class EchoHelper {
 			case 'variable':
 				$color = 'lawngreen';
 				$description = 'Variable';
+				$str = nl2br($str);
 				break;
 			case 'error':
 				$color = 'salmon';
@@ -43,9 +47,9 @@ class EchoHelper {
 			$str = $str2;
 		}
 		
-		$str = htmlentities($str);
+		// $str = htmlentities($str);
 		$str = '<div style="border: 2px solid black; margin-bottom: 1em; background-color: '.$color.';"><b><u>' . $description . '</u></b>:<br />' . $str . '</div>';
-		$str = nl2br($str);
+		// $str = nl2br($str);
 		$str = $this->h->nbsp($str);
 		
 		echo $str;

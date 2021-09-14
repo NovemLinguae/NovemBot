@@ -17,6 +17,8 @@ class WikiAPIWrapper {
 		$output = $this->wapi->getpage($namespace_and_title);
 		$message = "Read data from page: $namespace_and_title";
 		$message .= "\n\n$output";
+		$message = htmlspecialchars($message);
+		$message = nl2br($message);
 		$this->eh->echoAndFlush($message, 'api_read');
 		sleep($SECONDS_BETWEEN_API_READS);
 		return $output;
@@ -35,9 +37,9 @@ class WikiAPIWrapper {
 	function edit(string $namespace_and_title, string $wikicode, string $topicPageTitle, string $goodOrFeatured): void {
 		global $READ_ONLY_TEST_MODE, $SECONDS_BETWEEN_API_EDITS;
 		$editSummary = "promote [[$topicPageTitle]] to $goodOrFeatured topic";
-		$message = "Write data to page: $namespace_and_title";
-		$message .= "\n\nEdit summary: $editSummary";
-		$message .= "\n\n$wikicode";
+		$message = 'Write data to page:<br /><input type="text" value="' . htmlspecialchars($namespace_and_title) . '" />';
+		$message .= "<br />" . 'Edit summary:<br /><input type="text" value="' . htmlspecialchars($editSummary) . '" />';
+		$message .= "<br />Wikitext:<br /><textarea>" . htmlspecialchars($wikicode) . "</textarea>";
 		$this->eh->echoAndFlush($message, 'api_write');
 		//echoAndFlush($READ_ONLY_TEST_MODE, 'variable');
 		if ( ! $READ_ONLY_TEST_MODE ) {
