@@ -213,13 +213,20 @@ $wikiProjectBanners";
 				$parameters['page'] = 1;
 			}
 			
+			$topicString = '';
+			if ( isset($parameters['topic']) ) {
+				$topicString = "\n|topic = {$parameters['topic']}";
+			} elseif ( isset($parameters['subtopic']) ) { // subtopic is an alias only used in {{ga}}, it is not used in {{article history}}
+				$topicString = "\n|topic = {$parameters['subtopic']}";
+			}
+			
 			$date = date('Y-m-d', strtotime($parameters[1]));
 			
 			// insert {{article history}} template
 			$addToTalkPageAboveWikiProjects = 
 "{{Article history
-|currentstatus = GA
-|topic = {$parameters['topic']}
+|currentstatus = GA"
+. $topicString . "
 
 |action1 = GAN
 |action1date = $date

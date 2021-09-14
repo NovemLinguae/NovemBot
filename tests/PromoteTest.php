@@ -359,6 +359,41 @@ Test'
 		, $result);
 	}
 	
+	function test_addArticleHistoryIfNotPresent_gaSubtopic() {
+		$talkPageWikicode = '{{GA|16:37, 31 January 2021 (UTC)|nominator=[[User:The Rambling Man|The Rambling Man]] <small>([[User talk:The Rambling Man|Stay alert! Control the virus! Save lives!&#33;!&#33;]])</small>|page=1|subtopic=Sports and recreation|note=|oldid=1003985565}}';
+		$talkPageTitle = 'Talk:2014 Football League Two play-off Final';
+		$result = $this->p->addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle);
+		$this->assertSame(
+'{{Article history
+|currentstatus = GA
+|topic = Sports and recreation
+
+|action1 = GAN
+|action1date = 2021-01-31
+|action1link = Talk:2014 Football League Two play-off Final/GA1
+|action1result = listed
+|action1oldid = 1003985565
+}}'
+		, $result);
+	}
+	
+	function test_addArticleHistoryIfNotPresent_gaNoTopic() {
+		$talkPageWikicode = '{{GA|16:37, 31 January 2021 (UTC)|nominator=[[User:The Rambling Man|The Rambling Man]] <small>([[User talk:The Rambling Man|Stay alert! Control the virus! Save lives!&#33;!&#33;]])</small>|page=1|note=|oldid=1003985565}}';
+		$talkPageTitle = 'Talk:2014 Football League Two play-off Final';
+		$result = $this->p->addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle);
+		$this->assertSame(
+'{{Article history
+|currentstatus = GA
+
+|action1 = GAN
+|action1date = 2021-01-31
+|action1link = Talk:2014 Football League Two play-off Final/GA1
+|action1result = listed
+|action1oldid = 1003985565
+}}'
+		, $result);
+	}
+	
 	function test_getAllArticleTitles_normal() {
 		$topicBoxWikicode =
 '{{Featured topic box |title= |count=4 |image= |imagesize= 
