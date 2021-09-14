@@ -1,3 +1,5 @@
+<?php if ( php_sapi_name() != 'cli' ): ?>
+
 <head>
 	<style>
 		input[type="text"] {
@@ -10,3 +12,5 @@
 		}
 	</style>
 </head>
+
+<?php endif; ?>
