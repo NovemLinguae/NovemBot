@@ -38,8 +38,8 @@ class WikiAPIWrapper {
 		global $READ_ONLY_TEST_MODE, $SECONDS_BETWEEN_API_EDITS;
 		$editSummary = "promote [[$topicPageTitle]] to $goodOrFeatured topic";
 		$message = 'Write data to page:<br /><input type="text" value="' . htmlspecialchars($namespace_and_title) . '" />';
-		$message .= "<br />" . 'Edit summary:<br /><input type="text" value="' . htmlspecialchars($editSummary) . '" />';
 		$message .= "<br />Wikitext:<br /><textarea>" . htmlspecialchars($wikicode) . "</textarea>";
+		$message .= "<br />" . 'Edit summary:<br /><input type="text" value="' . htmlspecialchars($editSummary) . '" />';
 		$this->eh->echoAndFlush($message, 'api_write');
 		//echoAndFlush($READ_ONLY_TEST_MODE, 'variable');
 		if ( ! $READ_ONLY_TEST_MODE ) {
