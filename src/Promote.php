@@ -6,6 +6,7 @@ class Promote {
 		$this->h = $h;
 	}
 	
+	// TODO: is this dead code?
 	function sliceNovemBotPromoteTemplate($wikicode, $title) {
 		preg_match('/\{\{User:NovemBot\/Promote([^\}]*)\}\}/i', $wikicode, $matches);
 		if ( ! $matches ) {
@@ -86,7 +87,7 @@ class Promote {
 		// parse each potential title
 		foreach ( $listOfTitles as $key => $title2 ) {
 			// throw an error if any of the article names are templates, or not article links
-			if ( strpos($title, '{') !== false || strpos($title, '}') !== false ) {
+			if ( strpos($title2, '{') !== false || strpos($title2, '}') !== false ) {
 				throw new GiveUpOnThisTopic("On page $title, when parsing the list of topics in {{featured topic box}}, found some templates. Try subst:-ing them, then re-running the bot.");
 			}
 			

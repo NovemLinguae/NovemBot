@@ -11,12 +11,12 @@ date_default_timezone_set('UTC');
 // test mode
 $READ_ONLY_TEST_MODE = true;
 $TEST_PAGES = [
-	'Wikipedia:Featured and good topic candidates/EFL League One play-offs/archive1'
+	// 'Wikipedia:Featured and good topic candidates/EFL League One play-offs/archive1'
 ]; // Make this array empty to pull from "Category:Good and featured topics to promote" instead. That's the tracking category for {{User:NovemBot/Promote}}.
 
 // constants
 $MAX_TOPICS_ALLOWED_IN_BOT_RUN = 7;
-$MAX_ARTICLES_ALLOWED_IN_TOPIC = 50;
+$MAX_ARTICLES_ALLOWED_IN_TOPIC = 200;
 $TRACKING_CATEGORY_NAME = 'Category:Good and featured topics to promote';
 $SECONDS_BETWEEN_API_READS = 0; // https://www.mediawiki.org/wiki/API:Etiquette "Making your requests in series rather than in parallel, by waiting for one request to finish before sending a new request, should result in a safe request rate."
 $SECONDS_BETWEEN_API_EDITS = 10; // https://en.wikipedia.org/wiki/Wikipedia:Bot_policy#Performance "Bots' editing speed should be regulated in some way; subject to approval, bots doing non-urgent tasks may edit approximately once every ten seconds, while bots doing more urgent tasks may edit approximately once every five seconds."
