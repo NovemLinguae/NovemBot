@@ -13,7 +13,7 @@ set_time_limit(20 * 60); // 20 minutes
 // test mode
 $READ_ONLY_TEST_MODE = false;
 $TEST_PAGES = [
-	// 'Wikipedia:Featured and good topic candidates/EFL League One play-offs/archive1'
+	'Wikipedia:Featured and good topic candidates/Protected cruisers of France/archive1'
 ]; // Make this array empty to pull from "Category:Good and featured topics to promote" instead. That's the tracking category for {{User:NovemBot/Promote}}.
 
 // constants
@@ -196,7 +196,7 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		// write error to /archive1 page
 		$nominationPageWikicode = $wapi->getpage($nominationPageTitle);
 		$nominationPageWikicode = $p->markError($nominationPageWikicode, $nominationPageTitle, $errorMessage);
-		$editSummary = 'Log issue that prevented this topic from being promoted by the promotion bot. Ping [[User:Novem Linguae]].';
+		$editSummary = 'Log issue that prevented this topic from being promoted by the promotion bot. Ping [[User:Novem Linguae]]. (NovemBot Task 1)';
 		$wapi->editSimple($nominationPageTitle, $nominationPageWikicode, $editSummary);
 	}
 }
