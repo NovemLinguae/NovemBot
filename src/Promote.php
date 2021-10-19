@@ -423,13 +423,15 @@ $wikiProjectBanners";
 		return $count;
 	}
 	
-	function markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle) {
+	function markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured) {
 		$nominationPageWikicode2 = preg_replace('/({{\s*User:NovemBot\/Promote\s*)(}}.*?\(UTC\))/is', "$1|done=yes$2", $nominationPageWikicode);
 		if ( $nominationPageWikicode == $nominationPageWikicode2 ) {
-			throw new GiveUpOnThisTopic("On page $nominationPageTitle, unable to find {{User:NovemBot/Promote}} template and signature.");
+			// throw new GiveUpOnThisTopic("On page $nominationPageTitle, unable to find {{User:NovemBot/Promote}} template and signature.");
 		}
 		
-		$nominationPageWikicode2 = trim($nominationPageWikicode2) . "\n* {{Done}}. Promotion completed successfully. ~~~~";
+		$pageToAddTo = ($goodOrFeatured == 'good') ? '[[Wikipedia:Good topics]]' : '[[Wikipedia:Featured topics]]';
+		
+		$nominationPageWikicode2 = trim($nominationPageWikicode2) . "\n* {{Done}}. Promotion completed successfully. Don't forget to add <nowiki>{{{$topicWikipediaPageTitle}}}</nowiki> to the appropriate section of $pageToAddTo. ~~~~";
 		
 		return $nominationPageWikicode2;
 	}

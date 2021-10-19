@@ -11,9 +11,9 @@ date_default_timezone_set('UTC');
 set_time_limit(55 * 60); // 55 minutes
 
 // test mode
-$READ_ONLY_TEST_MODE = false;
+$READ_ONLY_TEST_MODE = true;
 $TEST_PAGES = [
-	'Wikipedia:Featured and good topic candidates/Protected cruisers of France/archive1'
+	"Wikipedia:Featured and good topic candidates/Hundred Years' War (1345–1347)/archive1"
 ]; // Make this array empty to pull from "Category:Good and featured topics to promote" instead. That's the tracking category for {{User:NovemBot/Promote}}.
 
 // constants
@@ -186,7 +186,7 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		// Replace template invokation with Success. ~~~~ or Error. ~~~~
 		// Also change {{User:NovemBot/Promote}} to include |done=yes, which will take the page out of the tracking category.
 		$nominationPageWikicode = $wapi->getpage($nominationPageTitle); // Fetch a fresh copy of the nomination page, to prevent edit conflicts.
-		$nominationPageWikicode = $p->markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle);
+		$nominationPageWikicode = $p->markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured);
 		$wapi->edit($nominationPageTitle, $nominationPageWikicode, $topicWikipediaPageTitle, $goodOrFeatured);
 	} catch (GiveUpOnThisTopic $e) {
 		$errorMessage = $e->getMessage();

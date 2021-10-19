@@ -592,57 +592,6 @@ Test'
 		$this->assertSame(2, $result);
 	}
 	
-	function test_markDoneAndSuccessful_noIndent() {
-		$nominationPageWikicode = 
-"**No worries, I intend to take 2021 to FAC later this year. Best Wishes, '''[[User:Lee Vilenski|<span style=\"color:green\">Lee Vilenski</span>]] <sup>([[User talk:Lee Vilenski|talk]] • [[Special:Contribs/Lee Vilenski|contribs]])</sup>''' 12:59, 25 August 2021 (UTC)
-{{  User:NovemBot/Promote  }} [[User:Aza24|Aza24]] ([[User talk:Aza24|talk]]) 21:27, 1 September 2021 (UTC)
-:{{@FTC}} - hi, I'm not super familiar with FLC, is there anything further that I need to do with this nomination? Best Wishes, '''[[User:Lee Vilenski|<span style=\"color:green\">Lee Vilenski</span>]] <sup>([[User talk:Lee Vilenski|talk]] • [[Special:Contribs/Lee Vilenski|contribs]])</sup>''' 19:24, 31 August 2021 (UTC)";
-		$nominationPageTitle = 'Sample page';
-		$result = $this->p->markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle);
-		$this->assertSame(
-"**No worries, I intend to take 2021 to FAC later this year. Best Wishes, '''[[User:Lee Vilenski|<span style=\"color:green\">Lee Vilenski</span>]] <sup>([[User talk:Lee Vilenski|talk]] • [[Special:Contribs/Lee Vilenski|contribs]])</sup>''' 12:59, 25 August 2021 (UTC)
-{{  User:NovemBot/Promote  |done=yes}} [[User:Aza24|Aza24]] ([[User talk:Aza24|talk]]) 21:27, 1 September 2021 (UTC)
-:{{@FTC}} - hi, I'm not super familiar with FLC, is there anything further that I need to do with this nomination? Best Wishes, '''[[User:Lee Vilenski|<span style=\"color:green\">Lee Vilenski</span>]] <sup>([[User talk:Lee Vilenski|talk]] • [[Special:Contribs/Lee Vilenski|contribs]])</sup>''' 19:24, 31 August 2021 (UTC)
-* {{Done}}. Promotion completed successfully. ~~~~"
-		, $result);
-	}
-	
-	function test_markDoneAndSuccessful_oneBullet() {
-		$nominationPageWikicode = 
-"*{{User:NovemBot/Promote}} [[User:Aza24|Aza24]] ([[User talk:Aza24|talk]]) 03:35, 13 September 2021 (UTC)";
-		$nominationPageTitle = 'Sample page';
-		$result = $this->p->markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle);
-		$this->assertSame(
-"*{{User:NovemBot/Promote|done=yes}} [[User:Aza24|Aza24]] ([[User talk:Aza24|talk]]) 03:35, 13 September 2021 (UTC)
-* {{Done}}. Promotion completed successfully. ~~~~"
-		, $result);
-	}
-	
-	function test_markDoneAndSuccessful_oneBullet2() {
-		$nominationPageWikicode = 
-"******Darn it, and there I thought I was doing well with a nearly-complete FTC encompassing 78 articles...... :-P -- [[User:ChrisTheDude|ChrisTheDude]] ([[User talk:ChrisTheDude|talk]]) 14:30, 6 September 2021 (UTC)
-* {{User:NovemBot/Promote}} [[User:Aza24|Aza24]] ([[User talk:Aza24|talk]]) 03:35, 13 September 2021 (UTC)
-";
-		$nominationPageTitle = 'Sample page';
-		$result = $this->p->markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle);
-		$this->assertSame(
-"******Darn it, and there I thought I was doing well with a nearly-complete FTC encompassing 78 articles...... :-P -- [[User:ChrisTheDude|ChrisTheDude]] ([[User talk:ChrisTheDude|talk]]) 14:30, 6 September 2021 (UTC)
-* {{User:NovemBot/Promote|done=yes}} [[User:Aza24|Aza24]] ([[User talk:Aza24|talk]]) 03:35, 13 September 2021 (UTC)
-* {{Done}}. Promotion completed successfully. ~~~~"
-		, $result);
-	}
-	
-	function test_markDoneAndSuccessful_spacesNearIndent() {
-		$nominationPageWikicode = 
-"* {{User:NovemBot/Promote}} [[User:Aza24|Aza24]] ([[User talk:Aza24|talk]]) 03:35, 13 September 2021 (UTC)";
-		$nominationPageTitle = 'Sample page';
-		$result = $this->p->markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle);
-		$this->assertSame(
-"* {{User:NovemBot/Promote|done=yes}} [[User:Aza24|Aza24]] ([[User talk:Aza24|talk]]) 03:35, 13 September 2021 (UTC)
-* {{Done}}. Promotion completed successfully. ~~~~"
-		, $result);
-	}
-	
 	function test_addTopicToGoingsOn_noOtherTopicsPresent() {
 		$goingsOnTitle = 'Wikipedia:Goings-on';
 		$goingsOnWikicode =
