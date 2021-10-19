@@ -447,7 +447,7 @@ $wikiProjectBanners";
 		// TODO: if neither of those changes resulted in a change to the Wikitext, throw a fatal error, to prevent a loop where the bot writes an error message every hour
 		
 		// add an error message to the summoning page
-		$nominationPageWikicode .= "\n{{N.b.}} There was an issue that prevented the promotion bot from promoting this topic. Please solve the issue and run the bot again. The error description is: <code><nowiki>$errorMessage</nowiki></code> ~~~~";
+		$nominationPageWikicode .= "\n\n{{N.b.}} There was an issue that prevented the promotion bot from promoting this topic. Please solve the issue and run the bot again. The error description is: <code><nowiki>$errorMessage</nowiki></code> ~~~~";
 		
 		return $nominationPageWikicode;
 	}
