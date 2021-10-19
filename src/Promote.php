@@ -424,21 +424,13 @@ $wikiProjectBanners";
 	}
 	
 	function markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle) {
-		$indentString = $this->h->preg_first_match('/^(.*){{\s*User:NovemBot\/Promote\s*}}.*?\(UTC\)/im', $nominationPageWikicode);
-		$indentString = trim($indentString);
-		$indentReplyLine = '';
-		switch ( $indentString ) {
-			case '*':
-				$indentReplyLine = '*:';
-				break;
-			default:
-				$indentReplyLine = ':';
-				break;
-		}
-		$nominationPageWikicode2 = preg_replace('/({{\s*User:NovemBot\/Promote\s*)(}}.*?\(UTC\))/is', "$1|done=yes$2\n{$indentReplyLine}Promotion completed successfully. ~~~~", $nominationPageWikicode);
+		$nominationPageWikicode2 = preg_replace('/({{\s*User:NovemBot\/Promote\s*)(}}.*?\(UTC\))/is', "$1|done=yes$2", $nominationPageWikicode);
 		if ( $nominationPageWikicode == $nominationPageWikicode2 ) {
 			throw new GiveUpOnThisTopic("On page $nominationPageTitle, unable to find {{User:NovemBot/Promote}} template and signature.");
 		}
+		
+		$nominationPageWikicode2 = trim($nominationPageWikicode2) . "\n* {{Done}}. Promotion completed successfully. ~~~~";
+		
 		return $nominationPageWikicode2;
 	}
 	
@@ -450,7 +442,7 @@ $wikiProjectBanners";
 		// TODO: if neither of those changes resulted in a change to the Wikitext, throw a fatal error, to prevent a loop where the bot writes an error message every hour
 		
 		// add an error message to the summoning page
-		$nominationPageWikicode .= "\n\n{{N.b.}} There was an issue that prevented the promotion bot from promoting this topic. Please solve the issue and run the bot again. The error description is: <code><nowiki>$errorMessage</nowiki></code> ~~~~";
+		$nominationPageWikicode .= "\n* {{N.b.}} There was an issue that prevented the promotion bot from promoting this topic. Please solve the issue and run the bot again. The error description is: <code><nowiki>$errorMessage</nowiki></code> ~~~~";
 		
 		return $nominationPageWikicode;
 	}
