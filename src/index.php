@@ -184,7 +184,15 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		$nominationPageWikicode = $p->markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle);
 		$wapi->edit($nominationPageTitle, $nominationPageWikicode, $topicWikipediaPageTitle, $goodOrFeatured);
 	} catch (GiveUpOnThisTopic $e) {
-		$eh->logError($e->getMessage());
+		$errorMessage = $e->getMessage();
+		
+		$eh->logError($errorMessage);
+		
+		// write error to /archive1 page
+		$nominationPageWikicode = $wapi->getpage($nominationPageTitle);
+		$nominationPageWikicode = $p->markError($nominationPageWikicode, $nominationPageTitle, $errorMessage);
+		$editSummary = 'Log issue that prevented this topic from being promoted by the promotion bot. Ping [[User:Novem Linguae]].';
+		$wapi->editSimple($nominationPageTitle, $nominationPageWikicode, $editSummary);
 	}
 }
 

@@ -438,6 +438,19 @@ $wikiProjectBanners";
 		}
 		return $nominationPageWikicode2;
 	}
+	
+	function markError($nominationPageWikicode, $nominationPageTitle, $errorMessage) {
+		// toggle the original summoning code to done=yes, so that this page doesn't get processed over and over again, and so this error doesn't get written over and over again
+		$nominationPageWikicode = preg_replace('/({{\s*User:NovemBot\/Promote\s*)(}}.*?\(UTC\))/is', "$1|done=yes$2", $nominationPageWikicode);
+		
+		// TODO: also look for and remove [[Category: blah blah]]
+		// TODO: if neither of those changes resulted in a change to the Wikitext, throw a fatal error, to prevent a loop where the bot writes an error message every hour
+		
+		// add an error message to the summoning page
+		$nominationPageWikicode .= "\n{{N.b.}} There was an issue that prevented the promotion bot from promoting this topic. Please solve the issue and run the bot again. The error description is: <code><nowiki>$errorMessage</nowiki></code> ~~~~";
+		
+		return $nominationPageWikicode;
+	}
 
 	/** In the {{Featured topic box}} template, makes sure that it has the parameter view=yes. For example, {{Featured topic box|view=yes}} */
 	function setTopicBoxViewParameterToYes($topicBoxWikicode) {

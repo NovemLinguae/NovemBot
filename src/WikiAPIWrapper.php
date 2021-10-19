@@ -49,4 +49,22 @@ class WikiAPIWrapper {
 			sleep($SECONDS_BETWEEN_API_EDITS);
 		}
 	}
+	
+	// TODO: does page title need underscores?
+	function editSimple(string $namespace_and_title, string $wikicode, string $editSummary): void {
+		global $READ_ONLY_TEST_MODE, $SECONDS_BETWEEN_API_EDITS;
+		$message = 'Write data to page:<br /><input type="text" value="' . htmlspecialchars($namespace_and_title) . '" />';
+		$message .= "<br />Wikitext:<br /><textarea>" . htmlspecialchars($wikicode) . "</textarea>";
+		$message .= "<br />" . 'Edit summary:<br /><input type="text" value="' . htmlspecialchars($editSummary) . '" />';
+		$this->eh->echoAndFlush($message, 'api_write');
+		//echoAndFlush($READ_ONLY_TEST_MODE, 'variable');
+		if ( ! $READ_ONLY_TEST_MODE ) {
+			$this->wapi->edit(
+				$namespace_and_title,
+				$wikicode,
+				$editSummary
+			);
+			sleep($SECONDS_BETWEEN_API_EDITS);
+		}
+	}
 }
