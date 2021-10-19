@@ -87,7 +87,7 @@ class Promote {
 		// parse each potential title
 		foreach ( $listOfTitles as $key => $title2 ) {
 			// throw an error if any of the article names are templates, or not article links
-			if ( strpos($title2, '{') !== false ) {
+			if ( strpos($title2, '{') !== false || strpos($title2, '}') !== false ) {
 				throw new GiveUpOnThisTopic("On page $title, when parsing the list of topics in {{featured topic box}}, found some templates. Try subst:-ing them, then re-running the bot.");
 			}
 			
@@ -97,9 +97,6 @@ class Promote {
 				throw new GiveUpOnThisTopic("On page $title, when parsing the list of topics in {{featured topic box}}, found an improperly formatted title. No wikilink found.");
 			}
 			$listOfTitles[$key] = $match;
-			
-			// convert &#32; to space. fixes an issue with subst-ing ship templates such as {{ship}} and {{sclass}}
-			$listOfTitles[$key] = preg_replace('/&#32;/', ' ', $listOfTitles[$key]);
 		}
 		
 		$this->eh->html_var_export($listOfTitles, 'variable');
