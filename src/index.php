@@ -8,6 +8,8 @@ error_reporting(E_ALL);
 assert_options(ASSERT_BAIL, true);
 date_default_timezone_set('UTC');
 
+set_time_limit(20 * 60); // 20 minutes
+
 // test mode
 $READ_ONLY_TEST_MODE = true;
 $TEST_PAGES = [
