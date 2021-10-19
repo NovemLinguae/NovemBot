@@ -11,7 +11,7 @@ date_default_timezone_set('UTC');
 set_time_limit(20 * 60); // 20 minutes
 
 // test mode
-$READ_ONLY_TEST_MODE = true;
+$READ_ONLY_TEST_MODE = false;
 $TEST_PAGES = [
 	// 'Wikipedia:Featured and good topic candidates/EFL League One play-offs/archive1'
 ]; // Make this array empty to pull from "Category:Good and featured topics to promote" instead. That's the tracking category for {{User:NovemBot/Promote}}.
@@ -45,12 +45,17 @@ if (
 $eh->echoAndFlush("PHP version: " . PHP_VERSION, 'variable');
 $wapi = new WikiAPIWrapper($config['wikiUsername'], $config['wikiPassword'], $eh);
 
+if ( $READ_ONLY_TEST_MODE ) {
+	$message = 'In read only test mode.';
+	$eh->echoAndFlush($message, 'message');
+}
+
 // read tracking category
 if ( $TEST_PAGES ) {
 	$pagesToPromote = $TEST_PAGES;
-	$message = 'In test mode. Using $TEST_PAGES variable.';
+	$message = 'Using $TEST_PAGES variable.';
 	$message .= "\n\n" . var_export($pagesToPromote, true);
-	$eh->echoAndFlush($message, 'api_read');
+	$eh->echoAndFlush($message, 'message');
 } else {
 	$pagesToPromote = $wapi->categorymembers($TRACKING_CATEGORY_NAME);
 }
