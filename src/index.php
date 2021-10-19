@@ -11,7 +11,7 @@ date_default_timezone_set('UTC');
 set_time_limit(20 * 60); // 20 minutes
 
 // test mode
-$READ_ONLY_TEST_MODE = false;
+$READ_ONLY_TEST_MODE = true;
 $TEST_PAGES = [
 	'Wikipedia:Featured and good topic candidates/Protected cruisers of France/archive1'
 ]; // Make this array empty to pull from "Category:Good and featured topics to promote" instead. That's the tracking category for {{User:NovemBot/Promote}}.

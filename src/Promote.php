@@ -492,9 +492,11 @@ $wikiProjectBanners";
 	function removeTopicFromFGTC($nominationPageTitle, $fgtcWikicode, $fgtcTitle) {
 		$wikicode2 = str_replace("{{" . $nominationPageTitle . "}}\n", '', $fgtcWikicode);
 		$wikicode2 = str_replace("\n{{" . $nominationPageTitle . "}}", '', $wikicode2);
+		/* OK if this is missing. No need to throw a fatal error
 		if ( $fgtcWikicode == $wikicode2 ) {
 			throw new GiveUpOnThisTopic("On page $fgtcTitle, unable to locate {{" . $nominationPageTitle . "}}.");
 		}
+		*/
 		return $wikicode2;
 	}
 	
