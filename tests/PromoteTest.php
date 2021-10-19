@@ -463,6 +463,17 @@ Test'
 		], $result);
 	}
 	
+	function test_getAllArticleTitles_ampersandPound32Semicolon() {
+		$topicBoxWikicode =
+'{{Featured topic box |title= |count=4 |image= |imagesize= 
+|lead={{icon|GA}} [[French cruiser&#32;Sfax|French cruiser&nbsp;\'\'Sfax\'\']] }}';
+		$title = '';
+		$result = $this->p->getAllArticleTitles($topicBoxWikicode, $title);
+		$this->assertSame([
+			'French cruiser Sfax',
+		], $result);
+	}
+	
 	function test_getAllArticleTitles_noWikilink() {
 		$topicBoxWikicode =
 '{{Featured topic box |title= |count=4 |image= |imagesize= 
