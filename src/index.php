@@ -13,7 +13,7 @@ set_time_limit(55 * 60); // 55 minutes
 // test mode
 $READ_ONLY_TEST_MODE = true;
 $TEST_PAGES = [
-	"Wikipedia:Featured and good topic candidates/Hundred Years' War (1345–1347)/archive1"
+	//"Wikipedia:Featured and good topic candidates/Hundred Years' War (1345–1347)/archive1"
 ]; // Make this array empty to pull from "Category:Good and featured topics to promote" instead. That's the tracking category for {{User:NovemBot/Promote}}.
 
 // constants
@@ -62,6 +62,11 @@ if ( $TEST_PAGES ) {
 
 // Remove Wikipedia:Wikipedia:Featured and good topic candidates from list of pages to process. Sometimes this page shows up in the category because it transcludes the nomination pages. We only want to process the nomination pages.
 $pagesToPromote = $h->deleteArrayValue($pagesToPromote, 'Wikipedia:Featured and good topic candidates');
+
+// Remove Wikipedia:Featured and good topic candidates/Good log* and Wikipedia:Featured and good topic candidates/Feated log*. These sometimes show up in the tracking category via some kind of transclusion glitch.
+$pagesToPromote = $h->deleteArrayValuesBeginningWith($pagesToPromote, 'Wikipedia:Featured and good topic candidates/Good log');
+$pagesToPromote = $h->deleteArrayValuesBeginningWith($pagesToPromote, 'Wikipedia:Featured and good topic candidates/Featured log');
+
 $eh->html_var_export($pagesToPromote, 'variable');
 
 // check how many pages in tracking category. if too many, don't run. probably vandalism.

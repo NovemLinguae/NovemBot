@@ -87,4 +87,20 @@ class Helper {
 		$final_str = $part1 . $part2;
 		return $final_str;
 	}
+	
+	function deleteArrayValuesBeginningWith(array $array, string $prefix) {
+		if ( $prefix === '' ) throw new InvalidArgumentException();
+		
+		$array2 = [];
+		foreach ( $array as $key => $value ) {
+			if ( ! $this->str_starts_with($value, $prefix) ) {
+				$array2[$key] = $value;
+			}
+		}
+		return $array2;
+	}
+	
+	function str_starts_with( $haystack, $needle ) {
+		return strpos( $haystack , $needle ) === 0;
+	}
 }

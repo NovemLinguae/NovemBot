@@ -154,4 +154,34 @@ test'
 		$result = $this->h->deleteMiddleOfString($string, $deleteStartPosition, $deleteEndPosition);
 		$this->assertSame('', $result);
 	}
+	
+	function test_deleteArrayValuesBeginningWith_normal() {
+		$array = [
+			1 => 'a',
+			2 => 'b',
+			3 => 'c',
+			4 => '1',
+			5 => '2',
+			6 => '3',
+			7 => '31',
+			8 => '4',
+			9 => '',
+			10 => true,
+			11 => false
+		];
+		$prefix = '3';
+		$result = $this->h->deleteArrayValuesBeginningWith($array, $prefix);
+		$expected = [
+			1 => 'a',
+			2 => 'b',
+			3 => 'c',
+			4 => '1',
+			5 => '2',
+			8 => '4',
+			9 => '',
+			10 => true,
+			11 => false
+		];
+		$this->assertSame($expected, $result);
+	}
 }
