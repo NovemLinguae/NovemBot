@@ -798,4 +798,41 @@ Only this one should be detected:
 		$result = $this->p->setTopicBoxTitleParameter($topicBoxWikicode, $mainArticleTitle);
 		$this->assertSame('{{Featured topic box|title=Test article}}', $result);
 	}
+	
+	function test_getTopicDescriptionWikicode_simple() {
+		$callerPageWikicode = 
+'===Protected cruisers of France===
+In the 1880s and 1890s, the [[French Navy]] built a series of [[protected cruiser]]s, some 33 ships in total. The ships filled a variety of roles, and their varying designs represented the strategic and doctrinal conflicts in the French naval command at that time. The factions included those who favored a strong main fleet in French waters, those who preferred the long-range commerce raiders prescribed by the [[Jeune Ecole]], and those who wanted a fleet based on colonial requirements. Eventually, the type was superseded in French service by more powerful [[armored cruiser]]s.
+
+{{Featured topic box}}';
+		$result = $this->p->getTopicDescriptionWikicode($callerPageWikicode);
+		$this->assertSame(
+'<noinclude>In the 1880s and 1890s, the [[French Navy]] built a series of [[protected cruiser]]s, some 33 ships in total. The ships filled a variety of roles, and their varying designs represented the strategic and doctrinal conflicts in the French naval command at that time. The factions included those who favored a strong main fleet in French waters, those who preferred the long-range commerce raiders prescribed by the [[Jeune Ecole]], and those who wanted a fleet based on colonial requirements. Eventually, the type was superseded in French service by more powerful [[armored cruiser]]s.</noinclude>'
+		, $result);
+	}
+	
+	function test_getTopicDescriptionWikicode_hasTemplateInDescription() {
+		$callerPageWikicode = 
+'===Protected cruisers of France===
+In the 1880s and 1890s, the [[French Navy]] built a series of [[protected cruiser]]s, some 33 ships in total. The ships filled a variety of roles, and their varying designs represented the strategic and doctrinal conflicts in the French naval command at that time. The factions included those who favored a strong main fleet in French waters, those who preferred the long-range commerce raiders prescribed by the {{lang|fr|[[Jeune Ecole]]}}, and those who wanted a fleet based on colonial requirements. Eventually, the type was superseded in French service by more powerful [[armored cruiser]]s.
+
+{{Featured topic box}}';
+		$result = $this->p->getTopicDescriptionWikicode($callerPageWikicode);
+		$this->assertSame(
+'<noinclude>In the 1880s and 1890s, the [[French Navy]] built a series of [[protected cruiser]]s, some 33 ships in total. The ships filled a variety of roles, and their varying designs represented the strategic and doctrinal conflicts in the French naval command at that time. The factions included those who favored a strong main fleet in French waters, those who preferred the long-range commerce raiders prescribed by the {{lang|fr|[[Jeune Ecole]]}}, and those who wanted a fleet based on colonial requirements. Eventually, the type was superseded in French service by more powerful [[armored cruiser]]s.</noinclude>'
+		, $result);
+	}
+	
+	function test_getTopicDescriptionWikicode_commentedNoInclude() {
+		$callerPageWikicode = 
+'
+===[[Wikipedia:Featured and good topic candidates/EFL League Two play-offs/archive1|EFL League Two play-offs]]===
+<!---<noinclude>--->The [[EFL League Two play-offs]] are a series of play-off matches contested by the association football teams finishing from fourth to seventh in [[EFL League Two]], the fourth tier of English football, and are part of the [[English Football League play-offs]]. As of 2021, the play-offs comprise two semi-finals, where the team finishing third plays the team finishing sixth, and the team finishing fourth plays the team finishing fifth, each conducted as a two-legged tie. The winners of the semi-finals progress to the final which is contested at [[Wembley Stadium]].<!---</noinclude>--->
+
+{{Featured topic box}}';
+		$result = $this->p->getTopicDescriptionWikicode($callerPageWikicode);
+		$this->assertSame(
+'<noinclude>The [[EFL League Two play-offs]] are a series of play-off matches contested by the association football teams finishing from fourth to seventh in [[EFL League Two]], the fourth tier of English football, and are part of the [[English Football League play-offs]]. As of 2021, the play-offs comprise two semi-finals, where the team finishing third plays the team finishing sixth, and the team finishing fourth plays the team finishing fifth, each conducted as a two-legged tie. The winners of the semi-finals progress to the final which is contested at [[Wembley Stadium]].</noinclude>'
+		, $result);
+	}
 }

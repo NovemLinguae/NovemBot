@@ -47,7 +47,7 @@ class Promote {
 
 	/** It's OK if this one isn't able to find anything. Not a critical error. It can return blank. */
 	function getTopicDescriptionWikicode($callerPageWikicode) {
-		preg_match('/===(\n.*?)\{\{/s', $callerPageWikicode, $matches);
+		preg_match('/===(\n.*?)\{\{(?:Featured topic box|Good topic box)/si', $callerPageWikicode, $matches);
 		$output = $matches ? $matches[1] : '';
 		if ( $output ) {
 			$output = str_replace('<!---<noinclude>--->', '', $output);
