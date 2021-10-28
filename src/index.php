@@ -87,6 +87,7 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		$topicBoxWikicode = $p->getTopicBoxWikicode($nominationPageWikicode, $nominationPageTitle);
 		$topicBoxWikicode = $p->setTopicBoxViewParameterToYes($topicBoxWikicode);
 		$mainArticleTitle = $p->getMainArticleTitle($topicBoxWikicode, $nominationPageTitle);
+		$topicTitle = $p->getTopicTitle($topicBoxWikicode, $mainArticleTitle);
 		$topicBoxWikicode = $p->setTopicBoxTitleParameter($topicBoxWikicode, $mainArticleTitle);
 		$topicBoxWikicode = $p->cleanTopicBoxTitleParameter($topicBoxWikicode);
 		$allArticleTitles = $p->getAllArticleTitles($topicBoxWikicode, $nominationPageTitle);
@@ -101,17 +102,17 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		// STEP 2 - MAKE TOPIC PAGE ===============================================================
 		$topicDescriptionWikicode = $p->getTopicDescriptionWikicode($nominationPageWikicode);
 		$topicDescriptionWikicode = $p->removeSignaturesFromTopicDescription($topicDescriptionWikicode);
-		$topicWikipediaPageTitle = $p->getTopicWikipediaPageTitle($mainArticleTitle);
+		$topicWikipediaPageTitle = $p->getTopicWikipediaPageTitle($topicTitle);
 		$topicWikipediaPageWikicode = $p->getTopicWikipediaPageWikicode($topicDescriptionWikicode, $topicBoxWikicode);
 		$wapi->edit($topicWikipediaPageTitle, $topicWikipediaPageWikicode, $topicWikipediaPageTitle, $goodOrFeatured);
 		
 		// STEP 3 - MAKE TOPIC TALK PAGE ==========================================================
-		$topicTalkPageTitle = $p->getTopicTalkPageTitle($mainArticleTitle);
+		$topicTalkPageTitle = $p->getTopicTalkPageTitle($topicTitle);
 		$datetime = $p->getDatetime();
 		$nonMainArticleTitles = $p->getNonMainArticleTitles($allArticleTitles, $mainArticleTitle);
 		$mainArticleTalkPageWikicode = $wapi->getpage('Talk:'.$mainArticleTitle);
-		$wikiProjectBanners = $p->getWikiProjectBanners($mainArticleTalkPageWikicode, $mainArticleTitle);
-		$topicTalkPageWikicode = $p->makeTopicTalkPageWikicode($mainArticleTitle, $nonMainArticleTitles, $goodOrFeatured, $datetime, $wikiProjectBanners, $nominationPageTitle);
+		$wikiProjectBanners = $p->getWikiProjectBanners($mainArticleTalkPageWikicode, $topicTitle);
+		$topicTalkPageWikicode = $p->makeTopicTalkPageWikicode($mainArticleTitle, $topicTitle, $nonMainArticleTitles, $goodOrFeatured, $datetime, $wikiProjectBanners, $nominationPageTitle);
 		$wapi->edit($topicTalkPageTitle, $topicTalkPageWikicode, $topicWikipediaPageTitle, $goodOrFeatured);
 		
 		// STEP 4 - UPDATE TALK PAGES OF ARTICLES =================================================
@@ -123,7 +124,7 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 			$talkPageWikicode = $p->removeGTCFTCTemplate($talkPageWikicode);
 			$talkPageWikicode = $p->addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle);
 			$nextActionNumber = $p->determineNextActionNumber($talkPageWikicode, $ARTICLE_HISTORY_MAX_ACTIONS, $talkPageTitle);
-			$talkPageWikicode = $p->updateArticleHistory($talkPageWikicode, $nextActionNumber, $goodOrFeatured, $datetime, $mainArticleTitle, $articleTitle, $talkPageTitle, $nominationPageTitle);
+			$talkPageWikicode = $p->updateArticleHistory($talkPageWikicode, $nextActionNumber, $goodOrFeatured, $datetime, $mainArticleTitle, $topicTitle, $articleTitle, $talkPageTitle, $nominationPageTitle);
 			$wapi->edit($talkPageTitle, $talkPageWikicode, $topicWikipediaPageTitle, $goodOrFeatured);
 		}
 		
@@ -140,19 +141,19 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		
 		// STEP 7 - CREATE CHILD CATEGORIES =====================================================
 		if ( $goodArticleCount > 0 ) {
-			$goodArticleCategoryTitle = "Category:Wikipedia featured topics $mainArticleTitle good content";
-			$goodArticleCategoryWikitext = "[[Category:Wikipedia featured topics $mainArticleTitle]]";
+			$goodArticleCategoryTitle = "Category:Wikipedia featured topics $topicTitle good content";
+			$goodArticleCategoryWikitext = "[[Category:Wikipedia featured topics $topicTitle]]";
 			$wapi->edit($goodArticleCategoryTitle, $goodArticleCategoryWikitext, $topicWikipediaPageTitle, $goodOrFeatured);
 		}
 		if ( $featuredArticleCount > 0 ) {
-			$featuredArticleCategoryTitle = "Category:Wikipedia featured topics $mainArticleTitle featured content";
-			$featuredArticleCategoryWikitext = "[[Category:Wikipedia featured topics $mainArticleTitle]]";
+			$featuredArticleCategoryTitle = "Category:Wikipedia featured topics $topicTitle featured content";
+			$featuredArticleCategoryWikitext = "[[Category:Wikipedia featured topics $topicTitle]]";
 			$wapi->edit($featuredArticleCategoryTitle, $featuredArticleCategoryWikitext, $topicWikipediaPageTitle, $goodOrFeatured);
 		}
 		
 		// STEP 8 - CREATE PARENT CATEGORY ========================================================
-		$parentCategoryTitle = "Category:Wikipedia featured topics $mainArticleTitle";
-		$parentCategoryWikitext = "[[Category:Wikipedia featured topics categories|$mainArticleTitle]]";
+		$parentCategoryTitle = "Category:Wikipedia featured topics $topicTitle";
+		$parentCategoryWikitext = "[[Category:Wikipedia featured topics categories|$topicTitle]]";
 		$wapi->edit($parentCategoryTitle, $parentCategoryWikitext, $topicWikipediaPageTitle, $goodOrFeatured);
 		
 		// STEP 9 - ADD TO LOG ====================================================================
@@ -166,7 +167,7 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 			// [[Template:Announcements/New featured content]]: add this article to top, remove 1 from the bottom
 			$newFeaturedContentTitle = 'Template:Announcements/New featured content';
 			$newFeaturedContentWikicode = $wapi->getpage($newFeaturedContentTitle);
-			$newFeaturedContentWikicode = $p->addTopicToNewFeaturedContent($newFeaturedContentTitle, $newFeaturedContentWikicode, $topicWikipediaPageTitle, $mainArticleTitle);
+			$newFeaturedContentWikicode = $p->addTopicToNewFeaturedContent($newFeaturedContentTitle, $newFeaturedContentWikicode, $topicWikipediaPageTitle, $topicTitle);
 			$newFeaturedContentWikicode = $p->removeBottomTopicFromNewFeaturedContent($newFeaturedContentTitle, $newFeaturedContentWikicode);
 			$wapi->edit($newFeaturedContentTitle, $newFeaturedContentWikicode, $topicWikipediaPageTitle, $goodOrFeatured);
 			
@@ -174,7 +175,7 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 			$goingsOnTitle = 'Wikipedia:Goings-on';
 			$goingsOnWikicode = $wapi->getpage($goingsOnTitle);
 			$timestamp = time();
-			$goingsOnWikicode = $p->addTopicToGoingsOn($goingsOnTitle, $goingsOnWikicode, $topicWikipediaPageTitle, $mainArticleTitle, $timestamp);
+			$goingsOnWikicode = $p->addTopicToGoingsOn($goingsOnTitle, $goingsOnWikicode, $topicWikipediaPageTitle, $topicTitle, $timestamp);
 			$wapi->edit($goingsOnTitle, $goingsOnWikicode, $topicWikipediaPageTitle, $goodOrFeatured);
 		}
 		

@@ -45,6 +45,19 @@ class Promote {
 		return $mainArticleTitle;
 	}
 
+	function getTopicTitle($topicBoxWikicode, $mainArticleTitle) {
+		// search for |title= parameter
+		preg_match("/\|\s*title\s*=\s*([^\|\}]+)\s*/is", $topicBoxWikicode, $matches);
+		
+		// if not found, return $mainArticleTitle as topicTitle
+		if ( ! $matches ) {
+			return $mainArticleTitle;
+		}
+		
+		// if found, return that as topicTitle
+		return trim($matches[1]);
+	}
+
 	/** It's OK if this one isn't able to find anything. Not a critical error. It can return blank. */
 	function getTopicDescriptionWikicode($callerPageWikicode) {
 		preg_match('/===(\n.*?)\{\{(?:Featured topic box|Good topic box)/si', $callerPageWikicode, $matches);
@@ -60,8 +73,8 @@ class Promote {
 		return $output;
 	}
 
-	function getTopicWikipediaPageTitle($mainArticleTitle) {
-		return "Wikipedia:Featured topics/$mainArticleTitle";
+	function getTopicWikipediaPageTitle($topicTitle) {
+		return "Wikipedia:Featured topics/$topicTitle";
 	}
 
 	function getTopicWikipediaPageWikicode($topicDescriptionWikicode, $topicBoxWikicode) {
@@ -106,7 +119,7 @@ class Promote {
 		return $listOfTitles;
 	}
 
-	function makeTopicTalkPageWikicode($mainArticleTitle, $nonMainArticleTitles, $goodOrFeatured, $datetime, $wikiProjectBanners, $nominationPageTitle) {
+	function makeTopicTalkPageWikicode($mainArticleTitle, $topicTitle, $nonMainArticleTitles, $goodOrFeatured, $datetime, $wikiProjectBanners, $nominationPageTitle) {
 		assert($goodOrFeatured == 'good' || $goodOrFeatured == 'featured');
 		$nonMainArticleTitlestring = '';
 		$count = 1;
@@ -122,7 +135,7 @@ class Promote {
 		$actionCode = ($goodOrFeatured == 'good') ? 'GTC' : 'FTC';
 		$talkWikicode = 
 "{{Featuredtopictalk
-|title = $mainArticleTitle
+|title = $topicTitle
 |action1 = $actionCode
 |action1date = $datetime
 |action1link = $nominationPageTitle
@@ -133,8 +146,8 @@ $wikiProjectBanners";
 		return $talkWikicode;
 	}
 
-	function getTopicTalkPageTitle($mainArticleTitle) {
-		return 'Wikipedia talk:Featured topics/' . $mainArticleTitle;
+	function getTopicTalkPageTitle($topicTitle) {
+		return 'Wikipedia talk:Featured topics/' . $topicTitle;
 	}
 
 	function getWikiProjectBanners($mainArticleTalkPageWikicode, $title) {
@@ -181,7 +194,7 @@ $wikiProjectBanners";
 		throw new GiveUpOnThisTopic("On page $talkPageTitle, in {{Article history}} template, unable to determine next |action= number.");
 	}
 
-	function updateArticleHistory($talkPageWikicode, $nextActionNumber, $goodOrFeatured, $datetime, $mainArticleTitle, $articleTitle, $talkPageTitle, $nominationPageTitle) {
+	function updateArticleHistory($talkPageWikicode, $nextActionNumber, $goodOrFeatured, $datetime, $mainArticleTitle, $topicTitle, $articleTitle, $talkPageTitle, $nominationPageTitle) {
 		assert($goodOrFeatured == 'good' || $goodOrFeatured == 'featured');
 		$main = ( $mainArticleTitle == $articleTitle ) ? 'yes' : 'no';
 		$ftcOrGTC = ( $goodOrFeatured == 'featured' ) ? 'FTC' : 'GTC';
@@ -190,7 +203,7 @@ $wikiProjectBanners";
 |action{$nextActionNumber}date = $datetime
 |action{$nextActionNumber}link = $nominationPageTitle
 |action{$nextActionNumber}result = promoted
-|ftname = $mainArticleTitle
+|ftname = $topicTitle
 |ftmain = $main";
 		$newWikicode = $this->h->insertCodeAtEndOfFirstTemplate($talkPageWikicode, 'Article ?history', $addToArticleHistory);
 		if ( $newWikicode == $talkPageWikicode ) {
@@ -378,17 +391,17 @@ $wikiProjectBanners";
 		return "Wikipedia:Featured and good topic candidates/$goodOrFeatured log/$monthAndYear";
 	}
 
-	function addTopicToGoingsOn($goingsOnTitle, $goingsOnWikicode, $topicWikipediaPageTitle, $mainArticleTitle, $timestamp) {
+	function addTopicToGoingsOn($goingsOnTitle, $goingsOnWikicode, $topicWikipediaPageTitle, $topicTitle, $timestamp) {
 		$date = date('j M', $timestamp); // gmdate = UTC
-		$newWikicode = preg_replace("/('''\[\[Wikipedia:Featured topics\|Topics]] that gained featured status'''.*?)(\|})/s", "$1* [[$topicWikipediaPageTitle|$mainArticleTitle]] ($date)\n$2", $goingsOnWikicode);
+		$newWikicode = preg_replace("/('''\[\[Wikipedia:Featured topics\|Topics]] that gained featured status'''.*?)(\|})/s", "$1* [[$topicWikipediaPageTitle|$topicTitle]] ($date)\n$2", $goingsOnWikicode);
 		if ( $newWikicode == $goingsOnWikicode ) {
 			throw new GiveUpOnThisTopic("On page $goingsOnTitle, unable to figure out where to insert code.");
 		}
 		return $newWikicode;
 	}
 
-	function addTopicToNewFeaturedContent($newFeaturedContentTitle, $newFeaturedContentWikicode, $topicWikipediaPageTitle, $mainArticleTitle) {
-		$newWikicode = preg_replace("/(<!-- Topics \(15, most recent first\) -->)/", "$1\n* [[$topicWikipediaPageTitle|$mainArticleTitle]]", $newFeaturedContentWikicode);
+	function addTopicToNewFeaturedContent($newFeaturedContentTitle, $newFeaturedContentWikicode, $topicWikipediaPageTitle, $topicTitle) {
+		$newWikicode = preg_replace("/(<!-- Topics \(15, most recent first\) -->)/", "$1\n* [[$topicWikipediaPageTitle|$topicTitle]]", $newFeaturedContentWikicode);
 		if ( $newWikicode == $newFeaturedContentWikicode ) {
 			throw new GiveUpOnThisTopic("On page $newFeaturedContentTitle, unable to figure out where to insert code.");
 		}

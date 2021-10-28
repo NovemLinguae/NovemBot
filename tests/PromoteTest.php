@@ -835,4 +835,26 @@ In the 1880s and 1890s, the [[French Navy]] built a series of [[protected cruise
 '<noinclude>The [[EFL League Two play-offs]] are a series of play-off matches contested by the association football teams finishing from fourth to seventh in [[EFL League Two]], the fourth tier of English football, and are part of the [[English Football League play-offs]]. As of 2021, the play-offs comprise two semi-finals, where the team finishing third plays the team finishing sixth, and the team finishing fourth plays the team finishing fifth, each conducted as a two-legged tie. The winners of the semi-finals progress to the final which is contested at [[Wembley Stadium]].</noinclude>'
 		, $result);
 	}
+	
+	function test_getTopicTitle_withTopic() {
+		$topicBoxWikicode =
+'{{Featured topic box |title=UEFA European Championship finals |count=17 |image=Coupe Henri Delaunay 2017.jpg |imagesize= 
+|lead={{icon|FL}} [[List of UEFA European Championship finals|UEFA European Championship finals]]
+|column1=
+:{{icon|GA}} [[UEFA Euro 2020 Final]] }}';
+		$mainArticleTitle = 'List of UEFA European Championship finals';
+		$result = $this->p->getTopicTitle($topicBoxWikicode, $mainArticleTitle);
+		$this->assertSame('UEFA European Championship finals', $result);
+	}
+	
+	function test_getTopicTitle_noTopic() {
+		$topicBoxWikicode =
+'{{Featured topic box |count=17 |image=Coupe Henri Delaunay 2017.jpg |imagesize= 
+|lead={{icon|FL}} [[List of UEFA European Championship finals|UEFA European Championship finals]]
+|column1=
+:{{icon|GA}} [[UEFA Euro 2020 Final]] }}';
+		$mainArticleTitle = 'List of UEFA European Championship finals';
+		$result = $this->p->getTopicTitle($topicBoxWikicode, $mainArticleTitle);
+		$this->assertSame('List of UEFA European Championship finals', $result);
+	}
 }
