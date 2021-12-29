@@ -57,15 +57,36 @@ if ( $TEST_PAGES ) {
 	$message .= "\n\n" . var_export($pagesToPromote, true);
 	$eh->echoAndFlush($message, 'message');
 } else {
-	$pagesToPromote = $wapi->categorymembers($TRACKING_CATEGORY_NAME);
+	// example: ["Novem Linguae", "GamerPro64", "Sturmvogel 66", "Aza24"]
+	$whitelist = $wapi->getpage('User:Novem_Linguae/Scripts/NovemBotTask1Whitelist.js');
+	$whitelist = json_decode($whitelist);
+
+	$listOfPings = $wapi->getUnreadPings();
+	$listOfPings = $listOfPings['query']['notifications']['list'];
+	$pagesToPromote = [];
+	foreach ( $listOfPings as $key => $value ) {
+		// make sure pinger is on whitelist
+		$pingSender = $value['agent']['name'];
+		if ( in_array($pingSender, $whitelist) ) {
+			// make sure pinging page has {{Featured topic box}}
+			$pingTitle = $value['title']['full'];
+			$archivePageWikicode = $wapi->getpage($pingTitle);
+			$containsFeaturedTopicBox = false;
+			try {
+				$containsFeaturedTopicBox = $p->getTopicBoxWikicode($archivePageWikicode, $pingTitle);
+			} catch (Exception $e) {}
+			if ( $containsFeaturedTopicBox ) {
+				// add to list of pages to promote
+				$pagesToPromote[] = $pingTitle;
+			}
+		}
+	}
+
+	//if ( ! $READ_ONLY_TEST_MODE ) {
+		// mark all pings read
+		$wapi->markAllPingsRead();
+	//}
 }
-
-// Remove Wikipedia:Wikipedia:Featured and good topic candidates from list of pages to process. Sometimes this page shows up in the category because it transcludes the nomination pages. We only want to process the nomination pages.
-$pagesToPromote = $h->deleteArrayValue($pagesToPromote, 'Wikipedia:Featured and good topic candidates');
-
-// Remove Wikipedia:Featured and good topic candidates/Good log* and Wikipedia:Featured and good topic candidates/Feated log*. These sometimes show up in the tracking category via some kind of transclusion glitch.
-$pagesToPromote = $h->deleteArrayValuesBeginningWith($pagesToPromote, 'Wikipedia:Featured and good topic candidates/Good log');
-$pagesToPromote = $h->deleteArrayValuesBeginningWith($pagesToPromote, 'Wikipedia:Featured and good topic candidates/Featured log');
 
 $eh->html_var_export($pagesToPromote, 'variable');
 

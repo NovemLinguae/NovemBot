@@ -30,7 +30,24 @@ class WikiAPIWrapper {
 		$this->eh->echoAndFlush($message, 'api_read');
 		return $output;
 	}
-	
+
+	function getUnreadPings() {
+		$output = $this->wapi->query('?action=query&format=json&meta=notifications&notfilter=!read');
+		$message = "Getting list of pings";
+		$message .= "\n\n" . var_export($output, true);
+		$this->eh->echoAndFlush($message, 'api_read');
+		return $output;
+	}
+
+	function markAllPingsRead() {
+		$csrfToken = $this->wapi->query('?action=query&format=json&meta=tokens');
+		$csrfToken = $csrfToken['query']['tokens']['csrftoken'];
+		$output = $this->wapi->query("?action=echomarkread&format=json&all=1", ['token' => $csrfToken]);
+		$message = "Marking all pings read";
+		$message .= "\n\n" . var_export($output, true);
+		$this->eh->echoAndFlush($message, 'api_read');
+	}
+
 	// TODO: does page title need underscores?
 	function edit(string $namespace_and_title, string $wikicode, string $topicPageTitle, string $goodOrFeatured): void {
 		global $READ_ONLY_TEST_MODE, $SECONDS_BETWEEN_API_EDITS;
