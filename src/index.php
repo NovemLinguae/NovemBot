@@ -11,7 +11,7 @@ date_default_timezone_set('UTC');
 set_time_limit(55 * 60); // 55 minutes
 
 // test mode
-$READ_ONLY_TEST_MODE = true;
+$READ_ONLY_TEST_MODE = false;
 $TEST_PAGES = [
 	//"Wikipedia:Featured and good topic candidates/Hundred Years' War (1345–1347)/archive1"
 ]; // Make this array empty to pull from "Category:Good and featured topics to promote" instead. That's the tracking category for {{User:NovemBot/Promote}}.
