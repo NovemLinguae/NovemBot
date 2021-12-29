@@ -82,10 +82,9 @@ if ( $TEST_PAGES ) {
 		}
 	}
 
-	//if ( ! $READ_ONLY_TEST_MODE ) {
-		// mark all pings read
+	if ( ! $READ_ONLY_TEST_MODE ) {
 		$wapi->markAllPingsRead();
-	//}
+	}
 }
 
 $eh->html_var_export($pagesToPromote, 'variable');
