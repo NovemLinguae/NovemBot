@@ -4,3 +4,4 @@ src/config.php
 .phpunit.cache/
 coverage-reports/
 vendor/
+task-1.sh
