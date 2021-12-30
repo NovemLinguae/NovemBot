@@ -35,6 +35,7 @@ class Promote {
 		throw new GiveUpOnThisTopic("On page $title, {{Good/featured topic box}} not found.");
 	}
 
+	/** This is differen than getTopicTitle(). This is needed to figure out the main article's title. */
 	function getMainArticleTitle($topicBoxWikicode, $title) {
 		// TODO: handle piped links
 		preg_match("/\|\s*lead\s*=\s*{{\s*(?:class)?icon\s*\|\s*(?:FA|GA|FL)\s*}}\s*(?:'')?\[\[([^\]\|]*)/i", $topicBoxWikicode, $matches);
@@ -45,6 +46,7 @@ class Promote {
 		return $mainArticleTitle;
 	}
 
+	/** There's 3 sources we can pick the topic name from: 1) main article's title, 2) |title= parameter, 3) /archive page's title. Per a conversation with Aza24, we will get it from #2: the |title= parameter. */
 	function getTopicTitle($topicBoxWikicode, $mainArticleTitle) {
 		// search for |title= parameter
 		preg_match("/\|\s*title\s*=\s*([^\|\}]+)\s*/is", $topicBoxWikicode, $matches);
