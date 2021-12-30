@@ -101,10 +101,17 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		// STEP A - READ PAGE CONTAINING {{User:NovemBot/Promote}} =============
 		$nominationPageWikicode = $wapi->getpage($nominationPageTitle);
 		
-		$p->abortIfPromotionTemplateMissing($nominationPageWikicode, $nominationPageTitle);
-		$p->abortIfAddToTopic($nominationPageWikicode, $nominationPageTitle);
+		// not all pings from featured topic pages need to be acted on
+		// silent error to prevent error spam
+		try {
+			$p->abortIfPromotionTemplateMissing($nominationPageWikicode, $nominationPageTitle);
+		} catch (Exception $e) {
+			$eh->logError('{{t|User:NovemBot/Promote}} template missing from page.');
+			continue;
+		}
 		
 		// couple of checks
+		$p->abortIfAddToTopic($nominationPageWikicode, $nominationPageTitle);
 		$topicBoxWikicode = $p->getTopicBoxWikicode($nominationPageWikicode, $nominationPageTitle);
 		$topicBoxWikicode = $p->setTopicBoxViewParameterToYes($topicBoxWikicode);
 		$mainArticleTitle = $p->getMainArticleTitle($topicBoxWikicode, $nominationPageTitle);
