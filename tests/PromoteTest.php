@@ -11,6 +11,8 @@ class PromoteTest extends TestCase {
 		$this->p = new Promote($eh, $h);
 	}
 
+	// TODO: add @group for grouping. this is equivlent to Jest's "describe"
+
 	function test_getTopicWikipediaPageTitle_dontWriteToWikipediaGoodTopics() {
 		$mainArticleTitle = 'TestPage';
 		$goodOrFeatured = 'good';

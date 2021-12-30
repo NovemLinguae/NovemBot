@@ -1,9 +1,10 @@
 <?php
 
 class Helper {
-	/** Grabs template Wikicode of first instance encountered of that template. Case insensitive. Returns NULL if no template found. */
+	/** Grabs template Wikicode of first instance encountered of that template. Case insensitive. Returns null if no template found. */
 	function sliceFirstTemplateFound(string $wikicode, string $templateName) {
 		$starting_position = strpos(strtolower($wikicode), "{{" . strtolower($templateName));
+		if ( $starting_position === false ) return null;
 		$counter = 0;
 		$length = strlen($wikicode);
 		for ( $i = $starting_position + 2; $i < $length; $i++ ) {
@@ -20,7 +21,7 @@ class Helper {
 				}
 			}
 		}
-		return NULL;
+		return null;
 	}
 	
 	/** Used by echoAndFlush() */
