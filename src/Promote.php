@@ -525,6 +525,7 @@ $wikiProjectBanners";
 		}
 	}
 	
+	// Per https://en.wikipedia.org/wiki/Wikipedia_talk:Featured_and_good_topic_candidates, 50% = featured topic, not good topic.
 	function decideIfGoodOrFeatured($goodArticleCount, $featuredArticleCount) {
 		if ( $featuredArticleCount >= $goodArticleCount ) {
 			return 'featured';
