@@ -10,7 +10,7 @@ class Promote {
 	function sliceNovemBotPromoteTemplate($wikicode, $title) {
 		preg_match('/\{\{User:NovemBot\/Promote([^\}]*)\}\}/i', $wikicode, $matches);
 		if ( ! $matches ) {
-			throw new GiveUpOnThisTopic("On page $title, unable to find {{User:NovemBot/Promote}} template.");
+			throw new GiveUpOnThisTopic("On page $title, unable to find {{t|User:NovemBot/Promote}} template.");
 		}
 		$templateWikicode = $matches[1];
 		return $templateWikicode;
@@ -19,14 +19,14 @@ class Promote {
 	function abortIfAddToTopic($callerPageWikicode, $title) {
 		preg_match('/\{\{Add to topic/i', $callerPageWikicode, $matches);
 		if ( $matches ) {
-			throw new GiveUpOnThisTopic("On page $title, {{Add to topic}} is present. Bot does not know how to handle these.");
+			throw new GiveUpOnThisTopic("On page $title, {{t|Add to topic}} is present. Bot does not know how to handle these.");
 		}
 	}
 
 	function abortIfPromotionTemplateMissing($wikicode, $title) {
 		$matches = stripos($wikicode, '{{User:NovemBot/Promote}}');
 		if ( $matches === false ) {
-			throw new GiveUpOnThisTopic("On page $title, could not find {{User:NovemBot/Promote}}.");
+			throw new GiveUpOnThisTopic("On page $title, could not find {{t|User:NovemBot/Promote}}.");
 		}
 	}
 	
@@ -39,7 +39,7 @@ class Promote {
 		if ( $wikicode ) {
 			return $wikicode;
 		}
-		throw new GiveUpOnThisTopic("On page $title, {{Good/featured topic box}} not found.");
+		throw new GiveUpOnThisTopic("On page $title, {{t|Good/featured topic box}} not found.");
 	}
 
 	/** This is differen than getTopicTitle(). This is needed to figure out the main article's title. */
@@ -47,7 +47,7 @@ class Promote {
 		// TODO: handle piped links
 		preg_match("/\|\s*lead\s*=\s*{{\s*(?:class)?icon\s*\|\s*(?:FA|GA|FL)\s*}}\s*(?:'')?\[\[([^\]\|]*)/i", $topicBoxWikicode, $matches);
 		if ( ! $matches ) {
-			throw new GiveUpOnThisTopic("On page $title, could not find main article name in {{Good/Featured topic box}}.");
+			throw new GiveUpOnThisTopic("On page $title, could not find main article name in {{t|Good/Featured topic box}}.");
 		}
 		$mainArticleTitle = $matches[1];
 		return $mainArticleTitle;
@@ -101,7 +101,7 @@ class Promote {
 		// Confirmed that it's just FA, GA, FL. There won't be any other icons.
 		preg_match_all("/{{\s*(?:class)?icon\s*\|\s*(?:FA|GA|FL)\}\}\s*(.*)\s*$/im", $topicBoxWikicode, $matches);
 		if ( ! $matches[1] ) {
-			throw new GiveUpOnThisTopic("On page $title, could not find list of topics inside of {{Featured topic box}}.");
+			throw new GiveUpOnThisTopic("On page $title, could not find list of topics inside of {{t|Featured topic box}}.");
 		}
 		$listOfTitles = $matches[1];
 		$this->eh->html_var_export($listOfTitles, 'variable');
@@ -110,13 +110,13 @@ class Promote {
 		foreach ( $listOfTitles as $key => $title2 ) {
 			// throw an error if any of the article names are templates, or not article links
 			if ( strpos($title2, '{') !== false ) {
-				throw new GiveUpOnThisTopic("On page $title, when parsing the list of topics in {{featured topic box}}, found some templates. Try subst:-ing them, then re-running the bot.");
+				throw new GiveUpOnThisTopic("On page $title, when parsing the list of topics in {{t|featured topic box}}, found some templates. Try subst:-ing them, then re-running the bot.");
 			}
 			
 			// get rid of wikilink syntax around it
 			$match = $this->h->preg_first_match('/\[\[([^\|\]]*)(?:\|[^\|\]]*)?\]\]/is', $title2);
 			if ( ! $match ) {
-				throw new GiveUpOnThisTopic("On page $title, when parsing the list of topics in {{featured topic box}}, found an improperly formatted title. No wikilink found.");
+				throw new GiveUpOnThisTopic("On page $title, when parsing the list of topics in {{t|featured topic box}}, found an improperly formatted title. No wikilink found.");
 			}
 			$listOfTitles[$key] = $match;
 			
@@ -200,7 +200,7 @@ $wikiProjectBanners";
 				return $i + 1;
 			}
 		}
-		throw new GiveUpOnThisTopic("On page $talkPageTitle, in {{Article history}} template, unable to determine next |action= number.");
+		throw new GiveUpOnThisTopic("On page $talkPageTitle, in {{t|Article history}} template, unable to determine next |action= number.");
 	}
 
 	function updateArticleHistory($talkPageWikicode, $nextActionNumber, $goodOrFeatured, $datetime, $mainArticleTitle, $topicTitle, $articleTitle, $talkPageTitle, $nominationPageTitle) {
@@ -216,7 +216,7 @@ $wikiProjectBanners";
 |ftmain = $main";
 		$newWikicode = $this->h->insertCodeAtEndOfFirstTemplate($talkPageWikicode, 'Article ?history', $addToArticleHistory);
 		if ( $newWikicode == $talkPageWikicode ) {
-			throw new GiveUpOnThisTopic("On page $talkPageTitle, in {{Article history}} template, unable to determine where to add new actions.");
+			throw new GiveUpOnThisTopic("On page $talkPageTitle, in {{t|Article history}} template, unable to determine where to add new actions.");
 		}
 		return $newWikicode;
 	}
@@ -448,7 +448,7 @@ $wikiProjectBanners";
 	function markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured) {
 		$nominationPageWikicode2 = preg_replace('/({{\s*User:NovemBot\/Promote\s*)(}}.*?\(UTC\))/is', "$1|done=yes$2", $nominationPageWikicode);
 		if ( $nominationPageWikicode == $nominationPageWikicode2 ) {
-			throw new GiveUpOnThisTopic("On page $nominationPageTitle, unable to find {{User:NovemBot/Promote}} template and signature.");
+			throw new GiveUpOnThisTopic("On page $nominationPageTitle, unable to find {{t|User:NovemBot/Promote}} template and signature.");
 		}
 		
 		$pageToAddTo = ($goodOrFeatured == 'good') ? '[[Wikipedia:Good topics]]' : '[[Wikipedia:Featured topics]]';
