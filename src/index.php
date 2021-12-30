@@ -101,6 +101,7 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		// STEP A - READ PAGE CONTAINING {{User:NovemBot/Promote}} =============
 		$nominationPageWikicode = $wapi->getpage($nominationPageTitle);
 		
+		$p->abortIfPromotionTemplateMissing($nominationPageWikicode, $nominationPageTitle);
 		$p->abortIfAddToTopic($nominationPageWikicode, $nominationPageTitle);
 		
 		// couple of checks
@@ -124,7 +125,7 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		$topicDescriptionWikicode = $p->removeSignaturesFromTopicDescription($topicDescriptionWikicode);
 		$topicWikipediaPageTitle = $p->getTopicWikipediaPageTitle($topicTitle);
 		$topicWikipediaPageWikicode = $p->getTopicWikipediaPageWikicode($topicDescriptionWikicode, $topicBoxWikicode);
-		$wapi->edit($topicWikipediaPageTitle, $topicWikipediaPageWikicode, $topicWikipediaPageTitle, $goodOrFeatured);
+		$wapi->edit($topicWikipediaPageTitle, $topicWikipediaPageWikicode, $topicWikipediaPageTitle, $goodOrFeatured); // This is our first edit. Everything before here is read only (except for clearing unread pings)
 		
 		// STEP 3 - MAKE TOPIC TALK PAGE ==========================================================
 		$topicTalkPageTitle = $p->getTopicTalkPageTitle($topicTitle);

@@ -859,4 +859,25 @@ In the 1880s and 1890s, the [[French Navy]] built a series of [[protected cruise
 		$result = $this->p->getTopicTitle($topicBoxWikicode, $mainArticleTitle);
 		$this->assertSame('List of UEFA European Championship finals', $result);
 	}
+
+	function test_abortIfPromotionTemplateMissing_promoteDoneNo() {
+		$wikicode = '{{User:NovemBot/Promote}}';
+		$title = 'Wikipedia:Featured and good topic candidates/NASA Astronaut Group 2/archive1';
+		$this->p->abortIfPromotionTemplateMissing($wikicode, $title);
+		$this->expectNotToPerformAssertions();
+	}
+
+	function test_abortIfPromotionTemplateMissing_promoteDoneYes() {
+		$wikicode = '{{User:NovemBot/Promote|done=yes}}';
+		$title = 'Wikipedia:Featured and good topic candidates/NASA Astronaut Group 2/archive1';
+		$this->expectException(GiveUpOnThisTopic::class);
+		$this->p->abortIfPromotionTemplateMissing($wikicode, $title);
+	}
+
+	function test_abortIfPromotionTemplateMissing_noTemplate() {
+		$wikicode = 'Test';
+		$title = 'Wikipedia:Featured and good topic candidates/NASA Astronaut Group 2/archive1';
+		$this->expectException(GiveUpOnThisTopic::class);
+		$this->p->abortIfPromotionTemplateMissing($wikicode, $title);
+	}
 }

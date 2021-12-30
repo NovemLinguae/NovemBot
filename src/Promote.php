@@ -22,6 +22,13 @@ class Promote {
 			throw new GiveUpOnThisTopic("On page $title, {{Add to topic}} is present. Bot does not know how to handle these.");
 		}
 	}
+
+	function abortIfPromotionTemplateMissing($wikicode, $title) {
+		$matches = stripos($wikicode, '{{User:NovemBot/Promote}}');
+		if ( $matches === false ) {
+			throw new GiveUpOnThisTopic("On page $title, could not find {{User:NovemBot/Promote}}.");
+		}
+	}
 	
 	function getTopicBoxWikicode($callerPageWikicode, $title) {
 		$wikicode = $this->h->sliceFirstTemplateFound($callerPageWikicode, 'good topic box');
