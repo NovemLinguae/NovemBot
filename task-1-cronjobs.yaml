@@ -1,0 +1,29 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: task-1
+  labels:
+    name: novem-bot.task-1
+    # The toolforge=tool label will cause $HOME and other paths to be mounted from Toolforge
+    toolforge: tool
+spec:
+  schedule: "5 * * * *"  # hourly, at X:05. server time is in UTC. https://crontab.guru/
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            toolforge: tool
+        spec:
+          containers:
+          - name: bot
+            workingDir: /data/project/novem-bot
+            image: docker-registry.tools.wmflabs.org/toolforge-php73-sssd-base:latest
+            args:
+            - /bin/sh
+            - -c
+            - /data/project/novem-bot/task-1.sh
+            env:
+            - name: HOME
+              value: /data/project/novem-bot
+          restartPolicy: Never
