@@ -128,6 +128,9 @@ class Promote {
 			
 			// convert &#32; to space. fixes an issue with subst-ing ship templates such as {{ship}} and {{sclass}}
 			$listOfTitles[$key] = preg_replace('/&#32;/', ' ', $listOfTitles[$key]);
+
+			// trim
+			$listOfTitles[$key] = trim($listOfTitles[$key]);
 		}
 		
 		$this->eh->html_var_export($listOfTitles, 'variable');

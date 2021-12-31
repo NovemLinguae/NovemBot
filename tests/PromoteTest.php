@@ -465,6 +465,26 @@ Test'
 		], $result);
 	}
 	
+	function test_getAllArticleTitles_extraSpaces() {
+		$topicBoxWikicode =
+'{{Featured topic box |title= |count=4 |image= |imagesize= 
+|lead={{icon|GA}} [[Tour Championship (snooker) |Tour Championship]]
+|column1=
+:{{Icon|FA}} [[ 2019 Tour Championship]] 
+|column2=
+:{{Icon|FA}} [[  2020 Tour Championship  ]] 
+|column3=
+:{{Icon|GA}} [[2021 Tour Championship]] }}';
+		$title = '';
+		$result = $this->p->getAllArticleTitles($topicBoxWikicode, $title);
+		$this->assertSame([
+			'Tour Championship (snooker)',
+			'2019 Tour Championship',
+			'2020 Tour Championship',
+			'2021 Tour Championship',
+		], $result);
+	}
+	
 	function test_getAllArticleTitles_ampersandPound32Semicolon() {
 		$topicBoxWikicode =
 '{{Featured topic box |title= |count=4 |image= |imagesize= 
