@@ -411,6 +411,7 @@ $wikiProjectBanners";
 
 	function addTopicToGoingsOn($goingsOnTitle, $goingsOnWikicode, $topicWikipediaPageTitle, $topicTitle, $timestamp) {
 		$date = date('j M', $timestamp); // gmdate = UTC
+		// list type to use: * not #, per example: https://en.wikipedia.org/wiki/Wikipedia:Goings-on/November_29,_2020
 		$newWikicode = preg_replace("/('''\[\[Wikipedia:Featured topics\|Topics]] that gained featured status'''.*?)(\|})/s", "$1* [[$topicWikipediaPageTitle|$topicTitle]] ($date)\n$2", $goingsOnWikicode);
 		if ( $newWikicode == $goingsOnWikicode ) {
 			throw new GiveUpOnThisTopic("On page $goingsOnTitle, unable to figure out where to insert code.");
