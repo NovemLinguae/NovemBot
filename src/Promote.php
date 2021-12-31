@@ -49,7 +49,7 @@ class Promote {
 		if ( ! $matches ) {
 			throw new GiveUpOnThisTopic("On page $title, could not find main article name in {{t|Good/Featured topic box}}.");
 		}
-		$mainArticleTitle = $matches[1];
+		$mainArticleTitle = trim($matches[1]);
 		return $mainArticleTitle;
 	}
 

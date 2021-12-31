@@ -901,4 +901,31 @@ In the 1880s and 1890s, the [[French Navy]] built a series of [[protected cruise
 		$this->expectException(GiveUpOnThisTopic::class);
 		$this->p->abortIfPromotionTemplateMissing($wikicode, $title);
 	}
+
+	function test_getMainArticleTitle_notPiped() {
+		$title = 'Wikipedia:Featured topics/Billboard number-one country songs';
+		$topicBoxWikicode =
+"{{Featured topic box |title=Billboard number-one country songs |count=78 |image=Country music legends.jpg |imagesize=200 
+|lead={{icon|FL}} [[List of Billboard number-one country songs]] }}";
+		$result = $this->p->getMainArticleTitle($topicBoxWikicode, $title);
+		$this->assertSame("List of Billboard number-one country songs", $result);
+	}
+
+	function test_getMainArticleTitle_piped() {
+		$title = 'Wikipedia:Featured topics/Billboard number-one country songs';
+		$topicBoxWikicode =
+"{{Featured topic box |title=Billboard number-one country songs |count=78 |image=Country music legends.jpg |imagesize=200 
+|lead={{icon|FL}} [[List of Billboard number-one country songs|''Billboard'' number-one country songs]] }}";
+		$result = $this->p->getMainArticleTitle($topicBoxWikicode, $title);
+		$this->assertSame("List of Billboard number-one country songs", $result);
+	}
+
+	function test_getMainArticleTitle_spaceAtEnd() {
+		$title = 'Wikipedia:Featured topics/Billboard number-one country songs';
+		$topicBoxWikicode =
+"{{Featured topic box |title=Billboard number-one country songs |count=78 |image=Country music legends.jpg |imagesize=200 
+|lead={{icon|FL}} [[List of Billboard number-one country songs |''Billboard'' number-one country songs]] }}";
+		$result = $this->p->getMainArticleTitle($topicBoxWikicode, $title);
+		$this->assertSame("List of Billboard number-one country songs", $result);
+	}
 }
