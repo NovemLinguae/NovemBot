@@ -849,6 +849,27 @@ In the 1880s and 1890s, the [[French Navy]] built a series of [[protected cruise
 		$this->assertSame('UEFA European Championship finals', $result);
 	}
 	
+	function test_getTopicTitle_withTopic_bold() {
+		$topicBoxWikicode = "{{Featured topic box |title='''UEFA European Championship finals''' |count=17}}";
+		$mainArticleTitle = 'List of UEFA European Championship finals';
+		$result = $this->p->getTopicTitle($topicBoxWikicode, $mainArticleTitle);
+		$this->assertSame('UEFA European Championship finals', $result);
+	}
+	
+	function test_getTopicTitle_withTopic_boldItalic() {
+		$topicBoxWikicode = "{{Featured topic box |title='''''UEFA European Championship finals''''' |count=17}}";
+		$mainArticleTitle = 'List of UEFA European Championship finals';
+		$result = $this->p->getTopicTitle($topicBoxWikicode, $mainArticleTitle);
+		$this->assertSame('UEFA European Championship finals', $result);
+	}
+	
+	function test_getTopicTitle_withTopic_italic() {
+		$topicBoxWikicode = "{{Featured topic box |title=''UEFA European Championship finals'' |count=17}}";
+		$mainArticleTitle = 'List of UEFA European Championship finals';
+		$result = $this->p->getTopicTitle($topicBoxWikicode, $mainArticleTitle);
+		$this->assertSame('UEFA European Championship finals', $result);
+	}
+	
 	function test_getTopicTitle_noTopic() {
 		$topicBoxWikicode =
 '{{Featured topic box |count=17 |image=Coupe Henri Delaunay 2017.jpg |imagesize= 

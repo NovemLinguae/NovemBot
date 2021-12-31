@@ -55,16 +55,22 @@ class Promote {
 
 	/** There's 3 sources we can pick the topic name from: 1) main article's title, 2) |title= parameter, 3) /archive page's title. Per a conversation with Aza24, we will get it from #2: the |title= parameter. */
 	function getTopicTitle($topicBoxWikicode, $mainArticleTitle) {
+		assert($mainArticleTitle !== ''); // should not be blank. was checked in another step.
+
 		// search for |title= parameter
 		preg_match("/\|\s*title\s*=\s*([^\|\}]+)\s*/is", $topicBoxWikicode, $matches);
 		
-		// if not found, return $mainArticleTitle as topicTitle
-		if ( ! $matches ) {
-			return $mainArticleTitle;
+		if ( $matches ) {
+			$matches[1] = trim($matches[1]);
+			// get rid of apostrophes
+			$matches[1] = str_replace("'''", "", $matches[1]);
+			$matches[1] = str_replace("''", "", $matches[1]);
+			// if getting rid of apostrophes and trimming didn't delete the entire title, return that
+			if ( $matches[1] ) return $matches[1];
 		}
-		
-		// if found, return that as topicTitle
-		return trim($matches[1]);
+
+		// else, return $mainArticleTitle as topicTitle
+		return $mainArticleTitle;
 	}
 
 	/** It's OK if this one isn't able to find anything. Not a critical error. It can return blank. */
