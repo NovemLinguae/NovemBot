@@ -14,7 +14,7 @@ set_time_limit(55 * 60); // 55 minutes
 $READ_ONLY_TEST_MODE = false;
 $TEST_PAGES = [
 	//"Wikipedia:Featured and good topic candidates/Hundred Years' War (1345–1347)/archive1"
-]; // Make this array empty to pull from "Category:Good and featured topics to promote" instead. That's the tracking category for {{User:NovemBot/Promote}}.
+]; // Make this array empty to pull from the list of pings instead.
 
 // constants
 $MAX_TOPICS_ALLOWED_IN_BOT_RUN = 7;
@@ -50,13 +50,12 @@ if ( $READ_ONLY_TEST_MODE ) {
 	$eh->echoAndFlush($message, 'message');
 }
 
-// read tracking category
 if ( $TEST_PAGES ) {
 	$pagesToPromote = $TEST_PAGES;
 	$message = 'Using $TEST_PAGES variable.';
 	$message .= "\n\n" . var_export($pagesToPromote, true);
 	$eh->echoAndFlush($message, 'message');
-} else {
+} else { // read pings
 	// example: ["Novem Linguae", "GamerPro64", "Sturmvogel 66", "Aza24"]
 	$whitelist = $wapi->getpage('User:Novem_Linguae/Scripts/NovemBotTask1Whitelist.js');
 	$whitelist = json_decode($whitelist);
@@ -89,7 +88,7 @@ if ( $TEST_PAGES ) {
 
 $eh->html_var_export($pagesToPromote, 'variable');
 
-// check how many pages in tracking category. if too many, don't run. probably vandalism.
+// check how many valid pings. if too many, don't run. probably vandalism.
 if ( count($pagesToPromote) > $MAX_TOPICS_ALLOWED_IN_BOT_RUN ) {
 	$eh->logError('Too many categories. Possible vandalism?');
 	die();
@@ -218,7 +217,7 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		
 		// STEP 1 - CLOSE THE NOMINATION =========================================================
 		// Replace template invokation with Success. ~~~~ or Error. ~~~~
-		// Also change {{User:NovemBot/Promote}} to include |done=yes, which will take the page out of the tracking category.
+		// Also change {{User:NovemBot/Promote}} to include |done=yes, which will prevent the bot from going into an endless loop every hour.
 		$nominationPageWikicode = $wapi->getpage($nominationPageTitle); // Fetch a fresh copy of the nomination page, to prevent edit conflicts.
 		$nominationPageWikicode = $p->markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured);
 		$wapi->edit($nominationPageTitle, $nominationPageWikicode, $topicWikipediaPageTitle, $goodOrFeatured);

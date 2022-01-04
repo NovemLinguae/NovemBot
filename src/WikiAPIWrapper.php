@@ -23,6 +23,7 @@ class WikiAPIWrapper {
 	}
 	
 	/** must include Category: in category name */
+	/*
 	function categorymembers($category) {
 		$output = $this->wapi->categorymembers($category);
 		$message = "Get members of category: $category";
@@ -30,6 +31,7 @@ class WikiAPIWrapper {
 		$this->eh->echoAndFlush($message, 'api_read');
 		return $output;
 	}
+	*/
 
 	function getUnreadPings() {
 		$output = $this->wapi->query('?action=query&format=json&meta=notifications&notfilter=!read');
