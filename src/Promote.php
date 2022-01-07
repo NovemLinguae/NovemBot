@@ -542,7 +542,7 @@ $wikiProjectBanners";
 		}
 	}
 	
-	// Per https://en.wikipedia.org/wiki/Wikipedia_talk:Featured_and_good_topic_candidates, 50% = featured topic, not good topic.
+	// Per https://en.wikipedia.org/wiki/Wikipedia_talk:Featured_and_good_topic_candidates#If_a_topic_has_5_FAs_and_5_GAs,_is_it_a_good_topic_or_a_featured_topic?, 50% = featured topic, not good topic.
 	function decideIfGoodOrFeatured($goodArticleCount, $featuredArticleCount) {
 		if ( $featuredArticleCount >= $goodArticleCount ) {
 			return 'featured';
