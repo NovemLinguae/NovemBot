@@ -27,6 +27,7 @@ $SHORT_WIKICODE_IN_CONSOLE = false; // Set to false to help with semi-automated 
 $CHARACTERS_TO_ECHO = 3000; // When $SHORT_WIKICODE_IN_CONSOLE is set to true, how many characters to display.
 $SHOW_API_READS = false;
 
+require_once('config.php');
 require_once('bootstrap.php');
 
 $h = new Helper();
