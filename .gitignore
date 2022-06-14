@@ -12,3 +12,4 @@ config.php
 .phpunit.cache/
 coverage-reports/
 vendor/
+.vscode
