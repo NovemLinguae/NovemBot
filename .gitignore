@@ -1,7 +1,14 @@
+Gerrit SSH key
+kubernetes
+php-project-example-main
+php-project-example-main.zip
+NovemBotTask1-Old
+replica.my.cnf
+task-*.sh
+logininfo.php
 gitignore/
-src/config.php
+config.php
 .phpunit.result.cache
 .phpunit.cache/
 coverage-reports/
 vendor/
-task-1.sh

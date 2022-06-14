@@ -411,6 +411,7 @@ Test'
 	}
 	
 	function test_addArticleHistoryIfNotPresent_gaSubtopic() {
+		// Note that topic= and subtopic= are aliases of each other. Handle both as inputs, always output topic=
 		$talkPageWikicode = '{{GA|16:37, 31 January 2021 (UTC)|nominator=[[User:The Rambling Man|The Rambling Man]] <small>([[User talk:The Rambling Man|Stay alert! Control the virus! Save lives!&#33;!&#33;]])</small>|page=1|subtopic=Sports and recreation|note=|oldid=1003985565}}';
 		$talkPageTitle = 'Talk:2014 Football League Two play-off Final';
 		$result = $this->p->addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle);
