@@ -14,8 +14,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: composer install
+    - working-directory: ./Task1FGTC
       run: composer install --prefer-dist --no-progress
-    
-    - name: composer exec phpunit tests
+    - working-directory: ./Task1FGTC
       run: composer exec phpunit tests
+      name: Task1FGTC unit tests
