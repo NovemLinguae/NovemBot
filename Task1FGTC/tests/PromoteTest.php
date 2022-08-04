@@ -352,6 +352,17 @@ Test'
 {{football}}'
 		, $result);
 	}
+
+/*
+	test(`two wikiproject tempaltes detected`, () => {
+		let talkPageWikicode = `{{wp banner shell}}{{football}}`;
+		let wikicodeToAdd = `[[Test]]`;
+		let output =
+`[[Test]]
+{{wp banner shell}}{{football}}`;
+		expect(service.addToTalkPageAboveWikiProjects(talkPageWikicode, wikicodeToAdd)).toBe(output);
+	});
+*/
 	
 	function test_addArticleHistoryIfNotPresent_gaTemplateAtTopWithEnterUnderIt() {
 		$talkPageWikicode =
@@ -373,7 +384,8 @@ Test'
 }}
 {{WikiProject football|class=GA|importance=low|season=yes|england=yes}}'
 		, $result);
-	}	
+	}
+
 	function test_addArticleHistoryIfNotPresent_gaTemplateWithBlankPage() {
 		$talkPageWikicode = '{{GA|00:03, 5 January 2021 (UTC)|topic=Sports and recreation|page=|oldid=998352580}}';
 		$talkPageTitle = 'Talk:History of Burnley F.C.';
@@ -411,7 +423,6 @@ Test'
 	}
 	
 	function test_addArticleHistoryIfNotPresent_gaSubtopic() {
-		// Note that topic= and subtopic= are aliases of each other. Handle both as inputs, always output topic=
 		$talkPageWikicode = '{{GA|16:37, 31 January 2021 (UTC)|nominator=[[User:The Rambling Man|The Rambling Man]] <small>([[User talk:The Rambling Man|Stay alert! Control the virus! Save lives!&#33;!&#33;]])</small>|page=1|subtopic=Sports and recreation|note=|oldid=1003985565}}';
 		$talkPageTitle = 'Talk:2014 Football League Two play-off Final';
 		$result = $this->p->addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle);
@@ -445,6 +456,59 @@ Test'
 }}'
 		, $result);
 	}
+
+/*
+
+	it(`should default to page=1 when no page parameter`, () => {
+		let talkPageTitle =`Talk:Test`;
+		let wikicode = `{{GA|20:19, 29 June 2022 (UTC)|topic=Language and literature}}`;
+		let output =
+`{{Article history
+|currentstatus = GA
+|topic = Language and literature
+
+|action1 = GAN
+|action1date = 20:19, 29 June 2022 (UTC)
+|action1link = Talk:Test/GA1
+|action1result = listed
+}}`;
+		expect(service.convertGATemplateToArticleHistoryIfPresent(talkPageTitle, wikicode)).toBe(output);
+	});
+
+	it(`should handle subtopic parameter`, () => {
+		let talkPageTitle =`Talk:Test`;
+		let wikicode = `{{GA|20:19, 29 June 2022 (UTC)|subtopic=Language and literature|page=1}}`;
+		let output =
+`{{Article history
+|currentstatus = GA
+|topic = Language and literature
+
+|action1 = GAN
+|action1date = 20:19, 29 June 2022 (UTC)
+|action1link = Talk:Test/GA1
+|action1result = listed
+}}`;
+		expect(service.convertGATemplateToArticleHistoryIfPresent(talkPageTitle, wikicode)).toBe(output);
+	});
+
+	it(`should handle oldid parameter`, () => {
+		let talkPageTitle =`Talk:Test`;
+		let wikicode = `{{GA|20:19, 29 June 2022 (UTC)|topic=Language and literature|page=1|oldid=123456789}}`;
+		let output =
+`{{Article history
+|currentstatus = GA
+|topic = Language and literature
+
+|action1 = GAN
+|action1date = 20:19, 29 June 2022 (UTC)
+|action1link = Talk:Test/GA1
+|action1result = listed
+|action1oldid = 123456789
+}}`;
+		expect(service.convertGATemplateToArticleHistoryIfPresent(talkPageTitle, wikicode)).toBe(output);
+	});
+
+*/
 	
 	function test_getAllArticleTitles_normal() {
 		$topicBoxWikicode =

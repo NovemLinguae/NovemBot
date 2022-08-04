@@ -156,7 +156,7 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 			$wapi->edit($talkPageTitle, $talkPageWikicode, $topicWikipediaPageTitle, $goodOrFeatured);
 		}
 		
-		// STEP 5 - UPDATE COUNT==================================================================
+		// STEP 5 - UPDATE COUNT =================================================================
 		$countPageTitle = ( $goodOrFeatured == 'good' ) ? 'Wikipedia:Good topics/count' : 'Wikipedia:Featured topics/count';
 		$countPageWikicode = $wapi->getpage($countPageTitle);
 		$articlesInTopic = count($allArticleTitles);
