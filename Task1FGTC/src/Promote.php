@@ -322,7 +322,7 @@ $wikiProjectBanners";
 		// If there's excess newlines in front of the insert location, delete the newlines
 		$deleteTopPosition = false;
 		$deleteBottomPosition = false;
-		$pos = $insertPosition - 1;
+		$pos = $insertPosition <= 0 ? 0 : $insertPosition - 1;
 		$i = 1;
 		while ( $pos != 0 ) {
 			$char = substr($talkPageWikicode, $pos, 1);
