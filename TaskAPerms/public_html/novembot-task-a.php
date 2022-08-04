@@ -2,7 +2,9 @@
 
 // Whole program takes 17-41 seconds. Awesome.
 // flushing doesn't appear to work on Toolforge web due to gzip compression. Works in CLI though.
-// TODO: change NovemBot password, and use a token
+// https://novem-bot.toolforge.org/task-a/novembot-task-a.php?password=
+
+// TODO: the "GET X" code below has a bunch of repetition, extract those into functions
 
 Class DataRetriever {
 	// Takes 0 seconds
@@ -41,6 +43,35 @@ Class DataRetriever {
 		$query->execute();
 		return $query->fetchAll();
 	}
+
+	/** Includes former admins */
+	static function get_all_admins_ever_enwiki_db($db) {
+		$query = $db->prepare("
+			SELECT DISTINCT REPLACE(log_title, '_', ' ') AS promoted_to_admin
+			FROM logging
+			WHERE log_type = 'rights'
+				AND log_action = 'rights'
+				AND log_params LIKE '%sysop%'
+			ORDER BY log_title ASC;
+		");
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/** Includes former admins */
+	static function get_all_admins_ever_metawiki_db($db) {
+		$query = $db->prepare("
+			SELECT DISTINCT REPLACE(REPLACE(log_title, '_', ' '), '@enwiki', '') AS promoted_to_admin
+			FROM logging_logindex
+			WHERE log_type = 'rights'
+				AND log_action = 'rights'
+				AND log_title LIKE '%@enwiki'
+				AND log_params LIKE '%sysop%'
+			ORDER BY log_title ASC
+		");
+		$query->execute();
+		return $query->fetchAll();
+	}
 }
 
 Class UserList {
@@ -51,6 +82,9 @@ Class UserList {
 	function _addHardCodedSocks() {
 		// Name changes, legitimate alternative accounts ===============
 		$this->data['steward']['DeltaQuad'] = 1; // AmandaNP
+		$this->data['steward']['TNTPublic'] = 1; // TheresNoTime
+		$this->data['steward']['There\'sNoTime'] = 1; // TheresNoTime
+		$this->data['steward']['QuiteUnusual'] = 1; // MarcGarver
 
 		$this->data['sysadmin']['Jdlrobson'] = 1; // Jon (WMF)
 
@@ -65,7 +99,6 @@ Class UserList {
 		$this->data['sysop']['SubjectiveNotability'] = 1; // GeneralNotability
 		$this->data['sysop']['In actu'] = 1; // Guerilero
 		$this->data['sysop']['Nyttend backup'] = 1;
-		$this->data['sysop']['TNTPublic'] = 1; // TheresNoTime
 		$this->data['sysop']['Iridescent 2'] = 1;
 		$this->data['sysop']['Awkward42'] = 1; //Thryduulf
 		$this->data['sysop']['ToBeFree (mobile)'] = 1;
@@ -77,6 +110,9 @@ Class UserList {
 		$this->data['sysop']['Bishapod'] = 1; // Bishonen
 		$this->data['sysop']['Darwinfish'] = 1; // Bishonen
 		$this->data['sysop']['TheSandDoctor (mobile)'] = 1;
+		$this->data['sysop']['Money emoji'] = 1; // moneytrees
+
+		$this->data['formeradmin']['Ashleyyoursmile'] = 1; // Viridian Bovary
 
 		$this->data['patroller']['Mikehawk10'] = 1; // Mhawk10
 		$this->data['patroller']['Guy Macon Alternate Account'] = 1;
@@ -88,6 +124,46 @@ Class UserList {
 
 		$this->data['10k']['Dr. Blofeld'] = 1; // Encyclopædius
 		$this->data['10k']['Jd02022092'] = 1; // JalenFolf
+		$this->data['10k']['Femkemilene'] = 1; // Femke
+
+		// On the list of former admins, but not highlighted by the two former admin queries ===========
+		// 
+		$this->data['formeradmin']['168...'] = 1;
+		$this->data['formeradmin']['172'] = 1;
+		$this->data['formeradmin']['1Angela'] = 1;
+		$this->data['formeradmin']['Ævar Arnfjörð Bjarmason'] = 1;
+		$this->data['formeradmin']['Andre Engels'] = 1;
+		$this->data['formeradmin']['Ark30inf'] = 1;
+		$this->data['formeradmin']['Baldhur'] = 1;
+		$this->data['formeradmin']['Blankfaze'] = 1;
+		$this->data['formeradmin']['Cedar-Guardian'] = 1;
+		$this->data['formeradmin']['Chuck Smith'] = 1;
+		$this->data['formeradmin']['Fire'] = 1;
+		$this->data['formeradmin']['Isis~enwiki'] = 1;
+		$this->data['formeradmin']['Jeronim'] = 1;
+		$this->data['formeradmin']['Kate'] = 1;
+		$this->data['formeradmin']['Klis'] = 1;
+		$this->data['formeradmin']['KimvdLinde'] = 1;
+		$this->data['formeradmin']['Koyaanis Qatsi'] = 1;
+		$this->data['formeradmin']['KRS'] = 1;
+		$this->data['formeradmin']['Kyle Barbour'] = 1;
+		$this->data['formeradmin']['Looxix'] = 1;
+		$this->data['formeradmin']['Mentoz86'] = 1;
+		$this->data['formeradmin']['TheCustomOfLife'] = 1;
+		$this->data['formeradmin']['Muriel Gottrop'] = 1;
+		$this->data['formeradmin']['Paul Benjamin Austin'] = 1;
+		$this->data['formeradmin']['Pcb22'] = 1;
+		$this->data['formeradmin']['Rootology'] = 1;
+		$this->data['formeradmin']['SalopianJames'] = 1;
+		$this->data['formeradmin']['Fys'] = 1;
+		$this->data['formeradmin']['Secret (renamed)'] = 1;
+		$this->data['formeradmin']['Sewing'] = 1;
+		$this->data['formeradmin']['Stephen Gilbert'] = 1;
+		$this->data['formeradmin']['StringTheory11'] = 1;
+		$this->data['formeradmin']['Testuser2'] = 1;
+		$this->data['formeradmin']['Vanished user'] = 1;
+		$this->data['formeradmin']['Viridian Bovary'] = 1;
+		$this->data['formeradmin']['User2004'] = 1;
 	}
 
 	function flatten_sql($list) {
@@ -225,6 +301,13 @@ $data = DataRetriever::get_users_with_perm('sysop', $enwiki);
 $ul->addList($data, 'sysop');
 echoAndFlush("Done!\n");
 
+echoAndFlush("Get formeradmins\n");
+$data1 = DataRetriever::get_all_admins_ever_enwiki_db($enwiki);
+$data2 = DataRetriever::get_all_admins_ever_metawiki_db($metawiki);
+$data = array_merge($data1, $data2);
+$ul->addList($data, 'formeradmin');
+echoAndFlush("Done!\n");
+
 echoAndFlush("Get patroller\n");
 $data = DataRetriever::get_users_with_perm('patroller', $enwiki);
 $ul->addList($data, 'patroller');
@@ -245,12 +328,17 @@ $data = DataRetriever::get_users_with_edit_count(10000, $enwiki);
 $ul->addList($data, '10k');
 echoAndFlush("Done!\n");
 
+
+
 // We'll use the API to write our data to User:NovemBot/xyz
 echoAndFlush("\nLogging in...\n");
 $objwiki = new wikipedia();
 $objwiki->http->useragent = '[[en:User:NovemBot]] task A, owner [[en:User:Novem Linguae]], framework [[en:User:RMCD_bot/botclasses.php]]';
 $objwiki->login($wiki_username, $wiki_password);
 echoAndFlush("Done!\n");
+
+
+
 
 echoAndFlush("\nGet arbcom\n");
 $data = $objwiki->getpage('User:AmoryBot/crathighlighter.js/arbcom.json');
@@ -263,6 +351,9 @@ $data = $objwiki->getpage('User:Novem_Linguae/User_lists/Productive_IPs.js');
 $data = json_decode($data, true);
 $ul->addProperlyFormatted($data, 'productiveIPs');
 echoAndFlush("...done.\n");
+
+
+
 
 //print_r($ul->get_all_json());
 
@@ -287,24 +378,3 @@ echoAndFlush("...done.\n";
 
 echoAndFlush("\nMission accomplished.\n\n"); // extra line breaks at end for CLI
 //ob_end_flush();
-
-// We need to use the replica databases to get the data we need.
-// The replicas are kept in sync with the master database, so if there's a delay, it's only minutes. Not a big deal.
-// The API limits userlists to 500 rows, so the API is no good.
-// https://wikitech.wikimedia.org/wiki/Help:Toolforge/Database
-// https://wikitech.wikimedia.org/wiki/Help:Toolforge/Database#PHP_(using_PDO)
-// Replica database access requires ToolForge.
-
-/*
-	patroller = npp
-	reviewer = PC reviewer
-	autoreviewer = autopatrolled
-	rollbacker
-	filemover
-	extendedmover = page mover
-	templateeditor
-	abusefilter = edit filter manager
-	abusefilter-helper = edit filter helper
-*/
-
-// TODO: list of and color for former admins
