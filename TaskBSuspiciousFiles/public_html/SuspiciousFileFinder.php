@@ -71,7 +71,16 @@ class SuspiciousFileFinder {
 
 			$author = $metaData['Artist'] ?? '';
 			$copyrightHolder = $metaData['Copyright'] ?? '';
-			if ( $author || $copyrightHolder ) {
+			if ( is_array($copyrightHolder) ) {
+				$copyrightHolder = '';
+			}
+			$copyrightHolderContainsYear = preg_match("/\d{4}/", $copyrightHolder);
+
+			if (
+				( $author || $copyrightHolder ) &&
+				$author !== 'Picasa' &&
+				! $copyrightHolderContainsYear
+			) {
 				$result .= "\n# [[:File:$fileName]]";
 			}
 		}
