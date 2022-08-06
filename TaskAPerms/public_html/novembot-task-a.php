@@ -1,10 +1,11 @@
 <?php
 
-// Whole program takes 17-41 seconds. Awesome.
 // flushing doesn't appear to work on Toolforge web due to gzip compression. Works in CLI though.
 // https://novem-bot.toolforge.org/task-a/novembot-task-a.php?password=
 
 // TODO: the "GET X" code below has a bunch of repetition, extract those into functions
+// TODO: get hard coded socks out of this and into its own JSON file
+// TODO: delete dead code and thick comment blocks
 
 Class DataRetriever {
 	// Takes 0 seconds
@@ -92,8 +93,6 @@ Class UserList {
 		$this->data['arbcom']['IznoPublic'] = 1;
 		$this->data['arbcom']['IznoRepeat'] = 1;
 		$this->data['arbcom']['Wyrm That Turned'] = 1; // Worm That Turned
-
-		$this->data['bureaucrat']['Xeno (WMF)'] = 1;
 	
 		$this->data['sysop']['PEIsquirrel'] = 1; // Ivanvector
 		$this->data['sysop']['SubjectiveNotability'] = 1; // GeneralNotability
@@ -125,6 +124,8 @@ Class UserList {
 		$this->data['10k']['Dr. Blofeld'] = 1; // Encyclopædius
 		$this->data['10k']['Jd02022092'] = 1; // JalenFolf
 		$this->data['10k']['Femkemilene'] = 1; // Femke
+
+		$this->data['extendedconfirmed']['A. C. Santacruz'] = 1; // Ixtal
 
 		// On the list of former admins, but not highlighted by the two former admin queries ===========
 		// 
