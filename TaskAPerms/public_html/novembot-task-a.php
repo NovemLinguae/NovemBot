@@ -84,10 +84,57 @@ Class UserList {
 		// Name changes, legitimate alternative accounts ===============
 		$this->data['steward']['DeltaQuad'] = 1; // AmandaNP
 		$this->data['steward']['TNTPublic'] = 1; // TheresNoTime
+		$this->data['steward']['Samtar'] = 1; // TheresNoTime
 		$this->data['steward']['There\'sNoTime'] = 1; // TheresNoTime
 		$this->data['steward']['QuiteUnusual'] = 1; // MarcGarver
 
 		$this->data['sysadmin']['Jdlrobson'] = 1; // Jon (WMF)
+
+		// https://gerrit.wikimedia.org/r/admin/groups/4cdcb3a1ef2e19d73bc9a97f1d0f109d2e0209cd,members
+		$this->data['mediawikiPlusTwo']['Aaron Schulz'] = 1;
+		$this->data['mediawikiPlusTwo']['Addshore'] = 1;
+		$this->data['mediawikiPlusTwo']['Ammarpad'] = 1;
+		$this->data['mediawikiPlusTwo']['Anomie'] = 1;
+		$this->data['mediawikiPlusTwo']['Aude'] = 1;
+		$this->data['mediawikiPlusTwo']['Awjrichards'] = 1;
+		$this->data['mediawikiPlusTwo']['Matma Rex'] = 1; // Bartosz Dziewoński
+		$this->data['mediawikiPlusTwo']['Brion VIBBER'] = 1;
+		$this->data['mediawikiPlusTwo']['Catrope'] = 1; // Roan Kattouw
+		$this->data['mediawikiPlusTwo']['Daimona Eaytoy'] = 1;
+		$this->data['mediawikiPlusTwo']['DannyS712'] = 1;
+		$this->data['mediawikiPlusTwo']['Glaisher'] = 1;
+		$this->data['mediawikiPlusTwo']['Hashar'] = 1; // Antoine Musso
+		$this->data['mediawikiPlusTwo']['Hoo man'] = 1; // also a steward
+		$this->data['mediawikiPlusTwo']['Huji'] = 1;
+		$this->data['mediawikiPlusTwo']['Jack Phoenix'] = 1;
+		$this->data['mediawikiPlusTwo']['Jackmcbarn'] = 1;
+		$this->data['mediawikiPlusTwo']['JanZerebecki'] = 1;
+		$this->data['mediawikiPlusTwo']['Kaldari'] = 1;
+		$this->data['mediawikiPlusTwo']['Krinkle'] = 1;
+		$this->data['mediawikiPlusTwo']['Ladsgroup'] = 1;
+		$this->data['mediawikiPlusTwo']['Legoktm'] = 1;
+		$this->data['mediawikiPlusTwo']['Lucas Werkmeister'] = 1;
+		$this->data['mediawikiPlusTwo']['Lucas Werkmeister (WMDE)'] = 1;
+		$this->data['mediawikiPlusTwo']['Taavi'] = 1; // Majavah
+		$this->data['mediawikiPlusTwo']['MarkAHershberger'] = 1;
+		$this->data['mediawikiPlusTwo']['Matěj Suchánek'] = 1;
+		$this->data['mediawikiPlusTwo']['MaxSem'] = 1;
+		$this->data['mediawikiPlusTwo']['Mglaser'] = 1;
+		$this->data['mediawikiPlusTwo']['Mvolz'] = 1;
+		$this->data['mediawikiPlusTwo']['Parent5446'] = 1;
+		$this->data['mediawikiPlusTwo']['Platonides'] = 1;
+		$this->data['mediawikiPlusTwo']['PleaseStand'] = 1;
+		$this->data['mediawikiPlusTwo']['Reedy'] = 1;
+		$this->data['mediawikiPlusTwo']['SPQRobin'] = 1;
+		$this->data['mediawikiPlusTwo']['Siebrand'] = 1;
+		$this->data['mediawikiPlusTwo']['TheDJ'] = 1;
+		$this->data['mediawikiPlusTwo']['Thiemo Kreuz (WMDE)'] = 1;
+		$this->data['mediawikiPlusTwo']['Tim Starling'] = 1;
+		$this->data['mediawikiPlusTwo']['Trevor Parscal'] = 1;
+		$this->data['mediawikiPlusTwo']['Umherirrender'] = 1;
+		$this->data['mediawikiPlusTwo']['Martin Urbanec'] = 1;
+		$this->data['mediawikiPlusTwo']['Christoph Jauera (WMDE)'] = 1; //WMDE-Fisch
+		$this->data['mediawikiPlusTwo']['User:Leszek Manicki (WMDE)'] = 1;
 
 		$this->data['arbcom']['AdmiralEek'] = 1; // CaptainEek
 		$this->data['arbcom']['IznoPublic'] = 1;
@@ -113,13 +160,14 @@ Class UserList {
 
 		$this->data['formeradmin']['Ashleyyoursmile'] = 1; // Viridian Bovary
 
-		$this->data['patroller']['Mikehawk10'] = 1; // Mhawk10
+		$this->data['patroller']['Mikehawk10'] = 1; // Red-tailed hawk
 		$this->data['patroller']['Guy Macon Alternate Account'] = 1;
 		$this->data['patroller']['Power~enwiki'] = 1; // 力
 		$this->data['patroller']['Bri.public'] = 1;
 		$this->data['patroller']['Joel B. Lewis'] = 1; //JayBeeEll
 		$this->data['patroller']['Fortuna Imperatrix Mundi'] = 1; // Serial Number 54129
 		$this->data['patroller']['McClenon mobile'] = 1; // Robert McClenon
+		$this->data['patroller']['Mhawk10'] = 1; // Red-tailed hawk
 
 		$this->data['10k']['Dr. Blofeld'] = 1; // Encyclopædius
 		$this->data['10k']['Jd02022092'] = 1; // JalenFolf
