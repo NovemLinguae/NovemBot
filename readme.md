@@ -20,3 +20,9 @@ Most of these bots require a file logininfo.php with the following format:
     $wiki_password = '';
     
     $http_get_password = '';
+
+### PHP + Toolforge bot tutorial
+
+I found the learning curve for Toolforge pretty hard. I've written a tutorial at
+
+https://en.wikipedia.org/wiki/User:Novem_Linguae/Essays/Toolforge_bot_tutorial
