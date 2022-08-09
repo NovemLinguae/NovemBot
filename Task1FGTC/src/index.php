@@ -1,5 +1,9 @@
 <?php
 
+// TODO: each step should be a method in a class
+// TODO: multiple edits to the same page should be combined into one method that returns the final wikicode
+// TODO: public and private for Promote class methods
+
 // This is a bot that automates this 10 step checklist for promoting Good Topics and Featured Topics:
 // https://en.wikipedia.org/wiki/User:Aza24/FTC/Promote_Instructions
 
@@ -101,13 +105,15 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		// STEP A - READ PAGE CONTAINING {{User:NovemBot/Promote}} =============
 		$nominationPageWikicode = $wapi->getpage($nominationPageTitle);
 		
-		// not all pings from featured topic pages need to be acted on
-		// silent error to prevent error spam
-		try {
-			$p->abortIfPromotionTemplateMissing($nominationPageWikicode, $nominationPageTitle);
-		} catch (Exception $e) {
-			$eh->logError('{{t|User:NovemBot/Promote}} template missing from page.');
-			continue;
+		if ( ! $READ_ONLY_TEST_MODE ) {
+			// not all pings from featured topic pages need to be acted on
+			// silent error to prevent error spam
+			try {
+				$p->abortIfPromotionTemplateMissing($nominationPageWikicode, $nominationPageTitle);
+			} catch (Exception $e) {
+				$eh->logError('{{t|User:NovemBot/Promote}} template missing from page.');
+				continue;
+			}
 		}
 		
 		// couple of checks
@@ -223,12 +229,14 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 		// REMINDER ABOUT STEP 6
 		$eh->echoAndFlush("Step 6 must be done manually. Add {{{$topicWikipediaPageTitle}}} to the appropriate section of either [[Wikipedia:Featured topics]] or [[Wikipedia:Good topics]]", 'message');
 		
-		// STEP 1 - CLOSE THE NOMINATION =========================================================
-		// Replace template invokation with Success. ~~~~ or Error. ~~~~
-		// Also change {{User:NovemBot/Promote}} to include |done=yes, which will prevent the bot from going into an endless loop every hour.
-		$nominationPageWikicode = $wapi->getpage($nominationPageTitle); // Fetch a fresh copy of the nomination page, to prevent edit conflicts.
-		$nominationPageWikicode = $p->markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured);
-		$wapi->edit($nominationPageTitle, $nominationPageWikicode, $topicWikipediaPageTitle, $goodOrFeatured);
+		if ( ! $READ_ONLY_TEST_MODE ) {
+			// STEP 1 - CLOSE THE NOMINATION =========================================================
+			// Replace template invokation with Success. ~~~~ or Error. ~~~~
+			// Also change {{User:NovemBot/Promote}} to include |done=yes, which will prevent the bot from going into an endless loop every hour.
+			$nominationPageWikicode = $wapi->getpage($nominationPageTitle); // Fetch a fresh copy of the nomination page, to prevent edit conflicts.
+			$nominationPageWikicode = $p->markDoneAndSuccessful($nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured);
+			$wapi->edit($nominationPageTitle, $nominationPageWikicode, $topicWikipediaPageTitle, $goodOrFeatured);
+		}
 	} catch (GiveUpOnThisTopic $e) {
 		$errorMessage = $e->getMessage();
 		
