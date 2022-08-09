@@ -39,7 +39,7 @@ class SuspiciousImageFinder {
 		$this->echoAndFlush("\n\nGenerating list of files to check (batch $i)...");
 		$limit = 30000; // due to PHP running out of memory
 		$offset = ($i - 1) * $limit;
-		echo "\nLimit: $limit\nOffset: $offset";
+		$this->echoAndFlush("\nLimit: $limit\nOffset: $offset");
 		$query = $this->enwiki->prepare("
 			SELECT img_name, img_metadata
 			FROM categorylinks
@@ -130,7 +130,7 @@ class SuspiciousImageFinder {
 		while ( $result ) {
 			$filesToCheck = $this->getFiles($i);
 			$result = $this->checkFiles($filesToCheck);
-			echo "\n\nResult: " . var_export($result, true);
+			$this->echoAndFlush("\n\nResult: " . var_export($result, true));
 			$filesMatchingCriteria .= $result;
 			$i++;
 		}
