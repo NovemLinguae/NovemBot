@@ -1,5 +1,7 @@
 <?php
 
+// TODO: change global variables to __construct($global1, $global2, etc) and class variables
+
 include("botclasses.php");
 include("logininfo.php");
 
