@@ -331,6 +331,11 @@ $data = DataRetriever::get_global_users_with_perm('global-interface-editor', $ce
 $ul->addList($data, 'global-interface-editor');
 echoAndFlush("Done!\n");
 
+echoAndFlush("Get global-sysop\n");
+$data = DataRetriever::get_global_users_with_perm('global-sysop', $centralauth);
+$ul->addList($data, 'global-sysop');
+echoAndFlush("Done!\n");
+
 // META ==========================================
 
 echoAndFlush("Get wmf-supportsafety\n");
