@@ -1,5 +1,7 @@
 <?php
 
+// https://novem-bot.toolforge.org/task-b/SuspiciousImageFinder.php?password=
+
 // TODO: dependency inject foreign classes: wikipedia and PDO
 
 include("botclasses.php");

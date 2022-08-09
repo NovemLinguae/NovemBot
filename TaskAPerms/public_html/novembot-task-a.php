@@ -3,6 +3,7 @@
 // flushing doesn't appear to work on Toolforge web due to gzip compression. Works in CLI though.
 // https://novem-bot.toolforge.org/task-a/novembot-task-a.php?password=
 
+// Things to refactor now that I'm looking at this a year later...
 // TODO: the "GET X" code below has a bunch of repetition, extract those into functions
 // TODO: get hard coded socks out of this and into its own JSON file
 // TODO: create a JSON file that links renames to current accounts, then look up the current account's perms and assign those to the old names
