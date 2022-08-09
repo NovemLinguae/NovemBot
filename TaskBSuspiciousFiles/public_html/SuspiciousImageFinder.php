@@ -1,11 +1,11 @@
 <?php
 
-// TODO: change global variables to __construct($global1, $global2, etc) and class variables
+// TODO: dependency inject foreign classes: wikipedia and PDO
 
 include("botclasses.php");
 include("logininfo.php");
 
-class SuspiciousFileFinder {
+class SuspiciousImageFinder {
 	private function setHeader() {
 		header('Content-Type:text/plain; charset=utf-8; Content-Encoding: none');
 	}
@@ -16,9 +16,7 @@ class SuspiciousFileFinder {
 	}
 
 	private function checkPermissions() {
-		global $_GET, $http_get_password, $argv;
-
-		if ( ($_GET['password'] ?? '') != $http_get_password && ($argv[1] ?? '') != $http_get_password ) {
+		if ( ($this->get['password'] ?? '') != $this->http_get_password && ($$this->argv[1] ?? '') != $this->http_get_password ) {
 			die('Invalid password.');
 		}
 	}
@@ -32,40 +30,49 @@ class SuspiciousFileFinder {
 	}
 
 	private function connectToSQLDatabases() {
-		$ts_pw = posix_getpwuid(posix_getuid());
-		$ts_mycnf = parse_ini_file($ts_pw['dir'] . "/replica.my.cnf");
 		// Must use database_p. database will not work.
-		$this->enwiki = new PDO("mysql:host=enwiki.analytics.db.svc.wikimedia.cloud;dbname=enwiki_p", $ts_mycnf['user'], $ts_mycnf['password']);
+		$this->enwiki = new PDO("mysql:host=enwiki.analytics.db.svc.wikimedia.cloud;dbname=enwiki_p", $this->databaseConfigFile['user'], $this->databaseConfigFile['password']);
 		$this->enwiki->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 	}
 
-	private function getFiles() {
-		$this->echoAndFlush("\n\nGenerating list of files to check...");
-		$query = $this->enwiki->prepare('
+	private function getFiles($i) {
+		$this->echoAndFlush("\n\nGenerating list of files to check (batch $i)...");
+		$limit = 30000; // due to PHP running out of memory
+		$offset = ($i - 1) * $limit;
+		echo "\nLimit: $limit\nOffset: $offset";
+		$query = $this->enwiki->prepare("
 			SELECT img_name, img_metadata
 			FROM categorylinks
 			JOIN page ON page_id = cl_from
 			JOIN image ON img_name = page_title
-			WHERE cl_to = "Self-published_work"
+			LEFT JOIN actor_image ON actor_id = img_actor
+			LEFT JOIN user ON user_id = actor_user
+			WHERE cl_to = 'Self-published_work'
 				AND cl_from IN (
 					SELECT cl_from
 					FROM categorylinks
-					WHERE cl_to = "All_free_media"
+					WHERE cl_to = 'All_free_media'
+				)
+				AND user_name NOT IN (
+					'Orange Suede Sofa',
+					'Centpacrr',
+					'Locke Cole'
 				)
 			ORDER BY img_name ASC
-			LIMIT 50000    # due to PHP running out of memory
-		');
+			LIMIT $limit
+			OFFSET $offset
+		");
 		$query->execute();
 		return $query->fetchAll();
 	}
 
 	private function checkFiles($filesToCheck) {
-		$this->echoAndFlush("\n\nChecking files. This may take awhile. Note that this is not all of the files due to memory limitations, this is just the first 1500 or so...");
+		$this->echoAndFlush("\n\nChecking files. This may take awhile...");
 		$result = '';
 		foreach ( $filesToCheck as $key => $file ) {
 			$fileName = $file['img_name'];
 
-			// Strangely, this data can be either PHP serialized, or JSON. Try both.
+			// Strangely, img_metadata can be stored as either PHP serialized, or JSON. We need to decode one, see if that fails, then try to decode the other.
 			$metaData = @unserialize($file['img_metadata']);
 			if ( ! $metaData ) {
 				$metaData = json_decode($file['img_metadata'], true);
@@ -90,11 +97,10 @@ class SuspiciousFileFinder {
 	}
 
 	private function logInToWikipedia() {
-		global $wiki_username, $wiki_password;
 		$this->wikiAPI = new wikipedia();
 		$this->wikiAPI->beQuiet();
 		$this->wikiAPI->http->useragent = '[[en:User:NovemBot]] task B, owner [[en:User:Novem Linguae]], framework [[en:User:RMCD_bot/botclasses.php]]';
-		$this->wikiAPI->login($wiki_username, $wiki_password);
+		$this->wikiAPI->login($this->wiki_username, $this->wiki_password);
 	}
 
 	private function makeEdit($wikicode, $pageTitle) {
@@ -105,19 +111,36 @@ class SuspiciousFileFinder {
 		);
 	}
 	
-	public function execute() {
+	public function execute($get, $http_get_password, $argv, $wiki_username, $wiki_password, $databaseConfigFile) {
+		$this->get = $get;
+		$this->http_get_password = $http_get_password;
+		$this->argv = $argv;
+		$this->wiki_username = $wiki_username;
+		$this->wiki_password = $wiki_password;
+		$this->databaseConfigFile = $databaseConfigFile;
+
 		$this->setHeader();
 		$this->setErrorReporting();
 		$this->checkPermissions();
 		$this->printPHPVersion();
 		$this->connectToSQLDatabases();
-		$filesToCheck = $this->getFiles();
-		$filesMatchingCriteria = $this->checkFiles($filesToCheck);
+		$i = 1;
+		$result = true;
+		$filesMatchingCriteria = '';
+		while ( $result ) {
+			$filesToCheck = $this->getFiles($i);
+			$result = $this->checkFiles($filesToCheck);
+			echo "\n\nResult: " . var_export($result, true);
+			$filesMatchingCriteria .= $result;
+			$i++;
+		}
 		$this->logInToWikipedia();
 		$this->makeEdit($filesMatchingCriteria, 'User:Minorax/files');
 		$this->echoAndFlush("\n\nAll done!");
 	}
 }
 
-$sff = new SuspiciousFileFinder();
-$sff->execute();
+$workingDirectory = posix_getpwuid(posix_getuid());
+$databaseConfigFile = parse_ini_file($workingDirectory['dir'] . "/replica.my.cnf");
+$sff = new SuspiciousImageFinder();
+$sff->execute($_GET, $http_get_password, $argv, $wiki_username, $wiki_password, $databaseConfigFile);
