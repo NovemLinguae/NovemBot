@@ -156,13 +156,20 @@ foreach ( $pagesToPromote as $key => $nominationPageTitle ) {
 			$wapi->edit($talkPageTitle, $talkPageWikicode, $topicWikipediaPageTitle, $goodOrFeatured);
 		}
 		
-		// STEP 5 - UPDATE COUNT =================================================================
+		// STEP 5 - UPDATE COUNTS =================================================================
 		$countPageTitle = ( $goodOrFeatured == 'good' ) ? 'Wikipedia:Good topics/count' : 'Wikipedia:Featured topics/count';
 		$countPageWikicode = $wapi->getpage($countPageTitle);
 		$articlesInTopic = count($allArticleTitles);
 		$countPageWikicode = $p->updateCountPageTopicCount($countPageWikicode, $countPageTitle);
 		$countPageWikicode = $p->updateCountPageArticleCount($countPageWikicode, $countPageTitle, $articlesInTopic);
 		$wapi->edit($countPageTitle, $countPageWikicode, $topicWikipediaPageTitle, $goodOrFeatured);
+
+		$countTemplateTitle = 'Template:Featured topic log';
+		$countTemplateWikicode = $wapi->getpage($countTemplateTitle);
+		$month = date('F');
+		$year = date('Y');
+		$countTemplateWikicode = $p->getTemplateFeaturedTopicLogWikicode($month, $year, $countTemplateWikicode, $goodOrFeatured);
+		$wapi->edit($countTemplateTitle, $countTemplateWikicode, $topicWikipediaPageTitle, $goodOrFeatured);
 		
 		// STEP 6 - ADD TO GOOD/FEATURED TOPIC PAGE =============================================
 		// Too complex. Human must do this.

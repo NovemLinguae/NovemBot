@@ -1013,4 +1013,2536 @@ In the 1880s and 1890s, the [[French Navy]] built a series of [[protected cruise
 		$result = $this->p->getMainArticleTitle($topicBoxWikicode, $title);
 		$this->assertSame("List of Billboard number-one country songs", $result);
 	}
+
+	function test_getTemplateFeaturedTopicLogWikicode_goodTopic() {
+		$month = 'August';
+		$year = '2022';
+		$countTemplateWikicode =
+"{| class=\"noprint toccolours\" style=\"clear: right; margin: 0 0 1em 1em; font-size: 90%; width: 13em; float: right;\"
+|colspan=\"3\"|<span style=\"float:right;\"><small class=\"editlink noprint plainlinksneverexpand\">[{{SERVER}}{{localurl:Template:Featured topic log|action=edit}} edit]</small></span>'''2006'''
+|-
+|April 
+|[[Wikipedia:Featured topic candidates/Featured log/April 2006|1&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/April 2006|6&nbsp;not&nbsp;promoted]]
+|-
+|October
+|0&nbsp;promoted
+|[[Wikipedia:Featured topic candidates/Failed log/October 2006|1&nbsp;not&nbsp;promoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2006|4&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/November 2006|1&nbsp;not&nbsp;promoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2006|1&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/December 2006|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/December 2006|1&nbsp;sup.]]
+|-
+|colspan=\"3\"|'''2007'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2007|2&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/January 2007|7&nbsp;not&nbsp;promoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2007|1&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/February 2007|2&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2007 log|1&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2007|1&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/March 2007|4&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2007 log|1&nbsp;demoted]]
+|-
+|April 
+|[[Wikipedia:Featured topic candidates/Featured log/April 2007|2&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/April 2007|1&nbsp;not&nbsp;promoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2007|2&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/May 2007|4&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2007|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2007 log|1&nbsp;kept]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2007|3&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/June 2007|2&nbsp;not&nbsp;promoted]]
+|-
+|July
+|0&nbsp;promoted
+|0&nbsp;not&nbsp;promoted
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2007|1&nbsp;promoted]]
+|0&nbsp;not&nbsp;promoted
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2007|4&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/September 2007|6&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2007|1&nbsp;sup.]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2007|4&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/October 2007|1&nbsp;not&nbsp;promoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2007|2&nbsp;promoted]]
+|0&nbsp;not&nbsp;promoted
+|[[Wikipedia:Featured topic candidates/Addition log/2007|2&nbsp;sup.]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2007|3&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/December 2007|1&nbsp;not&nbsp;promoted]]
+|-
+|colspan=\"3\"|'''2008'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2008|3&nbsp;promoted]]
+|0&nbsp;not&nbsp;promoted
+|[[Wikipedia:Featured topic candidates/Addition log/2008|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2008 log|2&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2008|2&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/February 2008|1&nbsp;not&nbsp;promoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2008|4&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/March 2008|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2008|1&nbsp;sup.]]
+|-
+|April 
+|[[Wikipedia:Featured topic candidates/Featured log/April 2008|5&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/April 2008|4&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2008 log|1&nbsp;kept]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2008|5&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/May 2008|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2008|1&nbsp;sup.]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2008|2&nbsp;promoted]]
+|0&nbsp;not&nbsp;promoted
+|[[Wikipedia:Featured topic candidates/Addition log/2008|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2008 log|2&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2008|3&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/July 2008|4&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2008|1&nbsp;sup.]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2008|7&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/August 2008|5&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2008|2&nbsp;sup.]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2008|10&nbsp;FT,&nbsp;7&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/September 2008|14&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2008|3&nbsp;sup.]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2008|2&nbsp;FT,&nbsp;7&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/October 2008|7&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2008|3&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2008 log|1&nbsp;kept]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2008|2&nbsp;FT,&nbsp;5&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/November 2008|3&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2008|4&nbsp;sup.]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2008|7&nbsp;FT,&nbsp;11&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/December 2008|5&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2008|2&nbsp;sup.]]
+|-
+|colspan=\"3\"|'''2009'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2009|2&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/January 2009|5&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/January 2009|2&nbsp;sup.]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2009|7&nbsp;FT,&nbsp;6&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/February 2009|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/February 2009|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2009 log|1&nbsp;kept,&nbsp;1&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2009|2&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/March 2009|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/March 2009|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2009 log|1&nbsp;kept]]
+|-
+|April 
+|[[Wikipedia:Featured topic candidates/Featured log/April 2009|3&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/April 2009|3&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2009|2&nbsp;FT,&nbsp;3&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2009 log|1&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2009|4&nbsp;FT,&nbsp;9&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/June 2009|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/June 2009|3&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2009 log|3&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2009|2&nbsp;FT,&nbsp;6&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/July 2009|5&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/July 2009|3&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2009 log|2&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2009|2&nbsp;FT,&nbsp;6&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/August 2009|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/August 2009|1&nbsp;sup.]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2009|3&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/September 2009|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/September 2009|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2009 log|2&nbsp;kept]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2009|3&nbsp;FT,&nbsp;4&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|[[Wikipedia:Featured topic candidates/Addition log/October 2009|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2009 log|2&nbsp;kept,&nbsp;6&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2009|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/November 2009|1&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2009 log|1&nbsp;kept]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2009|1&nbsp;FT,&nbsp;5&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/December 2009|1&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|-
+|colspan=\"3\"|'''2010'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2010|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/January 2010|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/January 2010|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2010 log|2&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2010|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/February 2010|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/February 2010|3&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2010 log|2&nbsp;kept,&nbsp;2&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2010|5&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/March 2010|3&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/March 2010|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2010 log|1&nbsp;kept,&nbsp;5&nbsp;demoted]]
+|-
+|April 
+|[[Wikipedia:Featured topic candidates/Featured log/April 2010|1&nbsp;FT,&nbsp;8&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/April 2010|3&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/April 2010|4&nbsp;sup.]]
+|-1
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2010|0&nbsp;FT,&nbsp;7&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|[[Wikipedia:Featured topic candidates/Addition log/May 2010|1&nbsp;sup.]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2010|2&nbsp;FT,&nbsp;3&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2010 log|1&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2010|5&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/July 2010|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/July 2010|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2010 log|2&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2010|1&nbsp;FT,&nbsp;6&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|[[Wikipedia:Featured topic candidates/Addition log/August 2010|1&nbsp;sup.]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2010|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/September 2010|4&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2010|3&nbsp;FT,&nbsp;18&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/October 2010|4&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/October 2010|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2010 log|2&nbsp;kept, 2&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2010|0&nbsp;FT,&nbsp;2&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2010 log|2&nbsp;kept, 1&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2010|2&nbsp;FT,&nbsp;7&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/December 2010|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/December 2010|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2010 log|1&nbsp;kept, 1&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2011'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2011|2&nbsp;FT,&nbsp;5&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/January 2011|3&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2011 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2011|1&nbsp;FT,&nbsp;11&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/February 2011|1&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2011 log|1&nbsp;kept, 1&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2011|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/March 2011|2&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2011 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|April
+|[[Wikipedia:Featured topic candidates/Featured log/April 2011|1&nbsp;FT,&nbsp;9&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/April 2011|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2011|1&nbsp;sup.]]
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2011|1&nbsp;FT,&nbsp;4&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2011 log|0&nbsp;kept, 2&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2011|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/June 2011|2&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2011|2&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/July 2011|1&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2011 log|0&nbsp;kept, 2&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2011|1&nbsp;FT,&nbsp;8&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/August 2011|2&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2011 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2011|2&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/September 2011|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2011|1&nbsp;sup.]]
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2011|4&nbsp;FT,&nbsp;6&nbsp;GT]]
+|0 not promoted
+|[[Wikipedia:Featured topic candidates/Addition log/2011|2&nbsp;sup.]]
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2011|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/November 2011|1&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2011 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2011|1&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/December 2011|1&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2011 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2012'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2012|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2012|0&nbsp;FT,&nbsp;11&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|[[Wikipedia:Featured topic candidates/Addition log/2012|1&nbsp;sup.]]
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2012|2&nbsp;FT,&nbsp;0&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|April
+|[[Wikipedia:Featured topic candidates/Featured log/April 2012|0&nbsp;FT,&nbsp;6&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2012|1&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2012 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2012|1&nbsp;FT,&nbsp;5&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2012 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2012|0&nbsp;FT,&nbsp;2&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2012|0&nbsp;FT,&nbsp;14&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2012|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2012|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2012 log|0&nbsp;kept, 4&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2012|2&nbsp;FT,&nbsp;0&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2012|1&nbsp;FT,&nbsp;6&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2012 log|2&nbsp;kept, 0&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2012|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2012|2&nbsp;FT,&nbsp;4&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2012|1&nbsp;FT,&nbsp;6&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2012|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2012|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2012 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2013'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2013|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2013|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2013|2&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|April
+|[[Wikipedia:Featured topic candidates/Featured log/April 2013|2&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|2&nbsp;kept, 0&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2013|0&nbsp;FT,&nbsp;5&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2013|1&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|1&nbsp;kept, 1&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2013|1&nbsp;FT,&nbsp;8&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|3&nbsp;kept, 2&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2013|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2013|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2013|4&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2013|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2013|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2014'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2014|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2014|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2014|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|April
+|[[Wikipedia:Featured topic candidates/Featured log/April 2014|1&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2014|1&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2014|2&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2014|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2014|4&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2014|1&nbsp;FT,&nbsp;5&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2014|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 2&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2014|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2014|1&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2015'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2015|0&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2015|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2015|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|April
+|[[Wikipedia:Featured topic candidates/Featured log/April 2015|0&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2015|2&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|June
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured topic candidates/Failed log/2015|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2015|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|1&nbsp;kept, 1&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2015|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2015|2&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|October
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured topic candidates/Failed log/2015|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2015|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2015|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2016'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2016|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|February
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured topic candidates/Failed log/2016|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2016|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|April
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured topic candidates/Failed log/2016|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2016|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2016|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|0&nbsp;kept, 2&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2016|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2016|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|1&nbsp;kept, 1&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2016|0&nbsp;FT,&nbsp;7&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2016|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|3&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2016|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|1&nbsp;kept, 2&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2016|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2017'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2017|2&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2017|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2017|4&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|April
+|[[Wikipedia:Featured topic candidates/Featured log/April 2017|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 2&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2017|1&nbsp;FT,&nbsp;6&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2017|0&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2017|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2017|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2017|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2017|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2017|1&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2017|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2018'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2018|1&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2018|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2018|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|April
+|[[Wikipedia:Featured topic candidates/Featured log/April 2018|1&nbsp;FT,&nbsp;5&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2018|1&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2018|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2018|1&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2018|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2018|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2018|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2018|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2018|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2019'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2019|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|4&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|4&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 2&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2019|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2019|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|April
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured topic candidates/Failed log/2019|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2019|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2019|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2019|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2019|1&nbsp;FT,&nbsp;5&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|September
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured topic candidates/Failed log/2019|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2019|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 3&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2019|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2019|1&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2020'''
+|-
+|January
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2020|1&nbsp;FT,&nbsp;5&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2020|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|0&nbsp;kept, 5&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2020|3&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2020|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|April
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured topic candidates/Failed log/2020|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|1&nbsp;kept, 1&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2020|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2020|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|3&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|2&nbsp;kept, 4&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2020|0&nbsp;FT,&nbsp;8&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2020|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2020|0&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2020|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2020|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2020|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2020|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2020|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|0&nbsp;kept, 2&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2020|0&nbsp;FT,&nbsp;5&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2020|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2020|1&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2020|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|December
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured topic candidates/Failed log/2020|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2021'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2021|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2021|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2021|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|1&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|April
+|[[Wikipedia:Featured topic candidates/Featured log/April 2021|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2021|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2021|2&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 2&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2021|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2021|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|2&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2021|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2021|1&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|November
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|December
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|2&nbsp;kept, 1&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2022'''
+|-
+|January
+|[[Wikipedia:Featured and good topic candidates/Featured log/January 2022|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|2&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|2&nbsp;kept, 3&nbsp;demoted]]
+|-
+|February
+|1&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured and good topic candidates/Featured log/March 2022|0&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|1&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 3&nbsp;demoted]]
+|-
+|April
+|[[Wikipedia:Featured and good topic candidates/Featured log/April 2022|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|2&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured and good topic candidates/Featured log/May 2022|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured and good topic candidates/Featured log/June 2022|2&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured and good topic candidates/Featured log/July 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|1&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured and good topic candidates/Featured log/August 2022|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|1&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured and good topic candidates/Featured log/September 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured and good topic candidates/Featured log/October 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured and good topic candidates/Featured log/November 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured and good topic candidates/Featured log/December 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|}
+[[Category:Featured topic candidate log]]
+<noinclude>
+[[Category:Wikipedia featured topics templates]]
+</noinclude>
+";
+		$goodOrFeatured = 'good';
+		$result = $this->p->getTemplateFeaturedTopicLogWikicode($month, $year, $countTemplateWikicode, $goodOrFeatured);
+		$expected =
+"{| class=\"noprint toccolours\" style=\"clear: right; margin: 0 0 1em 1em; font-size: 90%; width: 13em; float: right;\"
+|colspan=\"3\"|<span style=\"float:right;\"><small class=\"editlink noprint plainlinksneverexpand\">[{{SERVER}}{{localurl:Template:Featured topic log|action=edit}} edit]</small></span>'''2006'''
+|-
+|April 
+|[[Wikipedia:Featured topic candidates/Featured log/April 2006|1&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/April 2006|6&nbsp;not&nbsp;promoted]]
+|-
+|October
+|0&nbsp;promoted
+|[[Wikipedia:Featured topic candidates/Failed log/October 2006|1&nbsp;not&nbsp;promoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2006|4&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/November 2006|1&nbsp;not&nbsp;promoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2006|1&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/December 2006|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/December 2006|1&nbsp;sup.]]
+|-
+|colspan=\"3\"|'''2007'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2007|2&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/January 2007|7&nbsp;not&nbsp;promoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2007|1&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/February 2007|2&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2007 log|1&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2007|1&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/March 2007|4&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2007 log|1&nbsp;demoted]]
+|-
+|April 
+|[[Wikipedia:Featured topic candidates/Featured log/April 2007|2&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/April 2007|1&nbsp;not&nbsp;promoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2007|2&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/May 2007|4&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2007|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2007 log|1&nbsp;kept]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2007|3&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/June 2007|2&nbsp;not&nbsp;promoted]]
+|-
+|July
+|0&nbsp;promoted
+|0&nbsp;not&nbsp;promoted
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2007|1&nbsp;promoted]]
+|0&nbsp;not&nbsp;promoted
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2007|4&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/September 2007|6&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2007|1&nbsp;sup.]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2007|4&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/October 2007|1&nbsp;not&nbsp;promoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2007|2&nbsp;promoted]]
+|0&nbsp;not&nbsp;promoted
+|[[Wikipedia:Featured topic candidates/Addition log/2007|2&nbsp;sup.]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2007|3&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/December 2007|1&nbsp;not&nbsp;promoted]]
+|-
+|colspan=\"3\"|'''2008'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2008|3&nbsp;promoted]]
+|0&nbsp;not&nbsp;promoted
+|[[Wikipedia:Featured topic candidates/Addition log/2008|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2008 log|2&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2008|2&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/February 2008|1&nbsp;not&nbsp;promoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2008|4&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/March 2008|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2008|1&nbsp;sup.]]
+|-
+|April 
+|[[Wikipedia:Featured topic candidates/Featured log/April 2008|5&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/April 2008|4&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2008 log|1&nbsp;kept]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2008|5&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/May 2008|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2008|1&nbsp;sup.]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2008|2&nbsp;promoted]]
+|0&nbsp;not&nbsp;promoted
+|[[Wikipedia:Featured topic candidates/Addition log/2008|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2008 log|2&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2008|3&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/July 2008|4&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2008|1&nbsp;sup.]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2008|7&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Failed log/August 2008|5&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2008|2&nbsp;sup.]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2008|10&nbsp;FT,&nbsp;7&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/September 2008|14&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2008|3&nbsp;sup.]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2008|2&nbsp;FT,&nbsp;7&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/October 2008|7&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2008|3&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2008 log|1&nbsp;kept]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2008|2&nbsp;FT,&nbsp;5&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/November 2008|3&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2008|4&nbsp;sup.]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2008|7&nbsp;FT,&nbsp;11&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/December 2008|5&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2008|2&nbsp;sup.]]
+|-
+|colspan=\"3\"|'''2009'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2009|2&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/January 2009|5&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/January 2009|2&nbsp;sup.]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2009|7&nbsp;FT,&nbsp;6&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/February 2009|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/February 2009|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2009 log|1&nbsp;kept,&nbsp;1&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2009|2&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/March 2009|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/March 2009|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2009 log|1&nbsp;kept]]
+|-
+|April 
+|[[Wikipedia:Featured topic candidates/Featured log/April 2009|3&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/April 2009|3&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2009|2&nbsp;FT,&nbsp;3&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2009 log|1&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2009|4&nbsp;FT,&nbsp;9&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/June 2009|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/June 2009|3&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2009 log|3&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2009|2&nbsp;FT,&nbsp;6&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/July 2009|5&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/July 2009|3&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2009 log|2&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2009|2&nbsp;FT,&nbsp;6&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/August 2009|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/August 2009|1&nbsp;sup.]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2009|3&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/September 2009|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/September 2009|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2009 log|2&nbsp;kept]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2009|3&nbsp;FT,&nbsp;4&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|[[Wikipedia:Featured topic candidates/Addition log/October 2009|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2009 log|2&nbsp;kept,&nbsp;6&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2009|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/November 2009|1&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2009 log|1&nbsp;kept]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2009|1&nbsp;FT,&nbsp;5&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/December 2009|1&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|-
+|colspan=\"3\"|'''2010'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2010|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/January 2010|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/January 2010|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2010 log|2&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2010|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/February 2010|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/February 2010|3&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2010 log|2&nbsp;kept,&nbsp;2&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2010|5&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/March 2010|3&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/March 2010|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2010 log|1&nbsp;kept,&nbsp;5&nbsp;demoted]]
+|-
+|April 
+|[[Wikipedia:Featured topic candidates/Featured log/April 2010|1&nbsp;FT,&nbsp;8&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/April 2010|3&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/April 2010|4&nbsp;sup.]]
+|-1
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2010|0&nbsp;FT,&nbsp;7&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|[[Wikipedia:Featured topic candidates/Addition log/May 2010|1&nbsp;sup.]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2010|2&nbsp;FT,&nbsp;3&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2010 log|1&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2010|5&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/July 2010|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/July 2010|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2010 log|2&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2010|1&nbsp;FT,&nbsp;6&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|[[Wikipedia:Featured topic candidates/Addition log/August 2010|1&nbsp;sup.]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2010|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/September 2010|4&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2010|3&nbsp;FT,&nbsp;18&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/October 2010|4&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/October 2010|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2010 log|2&nbsp;kept, 2&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2010|0&nbsp;FT,&nbsp;2&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2010 log|2&nbsp;kept, 1&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2010|2&nbsp;FT,&nbsp;7&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/December 2010|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/December 2010|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2010 log|1&nbsp;kept, 1&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2011'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2011|2&nbsp;FT,&nbsp;5&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/January 2011|3&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2011 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2011|1&nbsp;FT,&nbsp;11&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/February 2011|1&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2011 log|1&nbsp;kept, 1&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2011|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/March 2011|2&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2011 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|April
+|[[Wikipedia:Featured topic candidates/Featured log/April 2011|1&nbsp;FT,&nbsp;9&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/April 2011|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2011|1&nbsp;sup.]]
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2011|1&nbsp;FT,&nbsp;4&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2011 log|0&nbsp;kept, 2&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2011|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/June 2011|2&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2011|2&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/July 2011|1&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2011 log|0&nbsp;kept, 2&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2011|1&nbsp;FT,&nbsp;8&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/August 2011|2&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2011 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2011|2&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/September 2011|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2011|1&nbsp;sup.]]
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2011|4&nbsp;FT,&nbsp;6&nbsp;GT]]
+|0 not promoted
+|[[Wikipedia:Featured topic candidates/Addition log/2011|2&nbsp;sup.]]
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2011|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/November 2011|1&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2011 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2011|1&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/December 2011|1&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2011 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2012'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2012|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2012|0&nbsp;FT,&nbsp;11&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|[[Wikipedia:Featured topic candidates/Addition log/2012|1&nbsp;sup.]]
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2012|2&nbsp;FT,&nbsp;0&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|April
+|[[Wikipedia:Featured topic candidates/Featured log/April 2012|0&nbsp;FT,&nbsp;6&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2012|1&nbsp;not&nbsp;promoted]]
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2012 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2012|1&nbsp;FT,&nbsp;5&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2012 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2012|0&nbsp;FT,&nbsp;2&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2012|0&nbsp;FT,&nbsp;14&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2012|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2012|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2012 log|0&nbsp;kept, 4&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2012|2&nbsp;FT,&nbsp;0&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2012|1&nbsp;FT,&nbsp;6&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|[[Wikipedia:Featured topic removal candidates/2012 log|2&nbsp;kept, 0&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2012|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2012|2&nbsp;FT,&nbsp;4&nbsp;GT]]
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2012|1&nbsp;FT,&nbsp;6&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2012|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2012|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2012 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2013'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2013|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2013|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2013|2&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|April
+|[[Wikipedia:Featured topic candidates/Featured log/April 2013|2&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|2&nbsp;kept, 0&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2013|0&nbsp;FT,&nbsp;5&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2013|1&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|1&nbsp;kept, 1&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2013|1&nbsp;FT,&nbsp;8&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|3&nbsp;kept, 2&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2013|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2013|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2013|4&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2013|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2013|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2013|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2013|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2013 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2014'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2014|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2014|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2014|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|April
+|[[Wikipedia:Featured topic candidates/Featured log/April 2014|1&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2014|1&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2014|2&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2014|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2014|4&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2014|1&nbsp;FT,&nbsp;5&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2014|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 2&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2014|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2014|1&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2014|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2014|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2014 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2015'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2015|0&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2015|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2015|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|April
+|[[Wikipedia:Featured topic candidates/Featured log/April 2015|0&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2015|2&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|June
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured topic candidates/Failed log/2015|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2015|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|1&nbsp;kept, 1&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2015|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2015|2&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|October
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured topic candidates/Failed log/2015|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2015|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2015|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2015|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2015|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2015 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2016'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2016|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|February
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured topic candidates/Failed log/2016|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2016|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|April
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured topic candidates/Failed log/2016|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2016|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2016|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|0&nbsp;kept, 2&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2016|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2016|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|1&nbsp;kept, 1&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2016|0&nbsp;FT,&nbsp;7&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2016|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|3&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2016|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|1&nbsp;kept, 2&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2016|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2016|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2016|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2016 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2017'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2017|2&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2017|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2017|4&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|April
+|[[Wikipedia:Featured topic candidates/Featured log/April 2017|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 2&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2017|1&nbsp;FT,&nbsp;6&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2017|0&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2017|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2017|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2017|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2017|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2017|1&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2017|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2017|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2017|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2017 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2018'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2018|1&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2018|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2018|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|April
+|[[Wikipedia:Featured topic candidates/Featured log/April 2018|1&nbsp;FT,&nbsp;5&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2018|1&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2018|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2018|1&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2018|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2018|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2018|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2018|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2018|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2018|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2018|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2018 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2019'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2019|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|4&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|4&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 2&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2019|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2019|1&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|April
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured topic candidates/Failed log/2019|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2019|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2019|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2019|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2019|1&nbsp;FT,&nbsp;5&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|September
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured topic candidates/Failed log/2019|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2019|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 3&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2019|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured topic candidates/Featured log/December 2019|1&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2019|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2019|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2019 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2020'''
+|-
+|January
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|0&nbsp;not&nbsp;promoted
+|0&nbsp;sup.
+|0&nbsp;kept, 0&nbsp;demoted
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2020|1&nbsp;FT,&nbsp;5&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2020|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|0&nbsp;kept, 5&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2020|3&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2020|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|April
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured topic candidates/Failed log/2020|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|1&nbsp;kept, 1&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2020|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2020|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|3&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|2&nbsp;kept, 4&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2020|0&nbsp;FT,&nbsp;8&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2020|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2020|0&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2020|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2020|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2020|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2020|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2020|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|0&nbsp;kept, 2&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2020|0&nbsp;FT,&nbsp;5&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2020|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|2&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured topic candidates/Featured log/November 2020|1&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured topic candidates/Failed log/2020|2&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|0&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|December
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured topic candidates/Failed log/2020|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured topic candidates/Addition log/2020|1&nbsp;sup.]]
+|[[Wikipedia:Featured topic removal candidates/2020 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2021'''
+|-
+|January
+|[[Wikipedia:Featured topic candidates/Featured log/January 2021|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|February
+|[[Wikipedia:Featured topic candidates/Featured log/February 2021|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured topic candidates/Featured log/March 2021|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|1&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|April
+|[[Wikipedia:Featured topic candidates/Featured log/April 2021|0&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured topic candidates/Featured log/May 2021|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured topic candidates/Featured log/June 2021|2&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 2&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured topic candidates/Featured log/July 2021|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured topic candidates/Featured log/August 2021|0&nbsp;FT,&nbsp;3&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|2&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|1&nbsp;kept, 0&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured topic candidates/Featured log/September 2021|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured topic candidates/Featured log/October 2021|1&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|November
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|December
+|0&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured and good topic candidates/Failed log/2021|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2021|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2021 log|2&nbsp;kept, 1&nbsp;demoted]]
+|-
+|colspan=\"3\"|'''2022'''
+|-
+|January
+|[[Wikipedia:Featured and good topic candidates/Featured log/January 2022|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|2&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|2&nbsp;kept, 3&nbsp;demoted]]
+|-
+|February
+|1&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured and good topic candidates/Featured log/March 2022|0&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|1&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 3&nbsp;demoted]]
+|-
+|April
+|[[Wikipedia:Featured and good topic candidates/Featured log/April 2022|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|2&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured and good topic candidates/Featured log/May 2022|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured and good topic candidates/Featured log/June 2022|2&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured and good topic candidates/Featured log/July 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|1&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured and good topic candidates/Featured log/August 2022|0&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|1&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured and good topic candidates/Featured log/September 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured and good topic candidates/Featured log/October 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured and good topic candidates/Featured log/November 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured and good topic candidates/Featured log/December 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|}
+[[Category:Featured topic candidate log]]
+<noinclude>
+[[Category:Wikipedia featured topics templates]]
+</noinclude>
+";
+		$this->assertSame($expected, $result);
+	}
+
+	function test_getTemplateFeaturedTopicLogWikicode_featuredTopic() {
+		$month = 'August';
+		$year = '2022';
+		$countTemplateWikicode =
+"{| class=\"noprint toccolours\" style=\"clear: right; margin: 0 0 1em 1em; font-size: 90%; width: 13em; float: right;\"
+|colspan=\"3\"|'''2022'''
+|-
+|January
+|[[Wikipedia:Featured and good topic candidates/Featured log/January 2022|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|2&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|2&nbsp;kept, 3&nbsp;demoted]]
+|-
+|February
+|1&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured and good topic candidates/Featured log/March 2022|0&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|1&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 3&nbsp;demoted]]
+|-
+|April
+|[[Wikipedia:Featured and good topic candidates/Featured log/April 2022|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|2&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured and good topic candidates/Featured log/May 2022|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured and good topic candidates/Featured log/June 2022|2&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured and good topic candidates/Featured log/July 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|1&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured and good topic candidates/Featured log/August 2022|0&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|1&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured and good topic candidates/Featured log/September 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured and good topic candidates/Featured log/October 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured and good topic candidates/Featured log/November 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured and good topic candidates/Featured log/December 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|}
+[[Category:Featured topic candidate log]]
+<noinclude>
+[[Category:Wikipedia featured topics templates]]
+</noinclude>
+";
+		$goodOrFeatured = 'featured';
+		$result = $this->p->getTemplateFeaturedTopicLogWikicode($month, $year, $countTemplateWikicode, $goodOrFeatured);
+		$expected =
+"{| class=\"noprint toccolours\" style=\"clear: right; margin: 0 0 1em 1em; font-size: 90%; width: 13em; float: right;\"
+|colspan=\"3\"|'''2022'''
+|-
+|January
+|[[Wikipedia:Featured and good topic candidates/Featured log/January 2022|0&nbsp;FT,&nbsp;4&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|2&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|2&nbsp;kept, 3&nbsp;demoted]]
+|-
+|February
+|1&nbsp;FT,&nbsp;0&nbsp;GT
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|March
+|[[Wikipedia:Featured and good topic candidates/Featured log/March 2022|0&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|1&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|1&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 3&nbsp;demoted]]
+|-
+|April
+|[[Wikipedia:Featured and good topic candidates/Featured log/April 2022|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|2&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|May
+|[[Wikipedia:Featured and good topic candidates/Featured log/May 2022|1&nbsp;FT,&nbsp;1&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|June
+|[[Wikipedia:Featured and good topic candidates/Featured log/June 2022|2&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|July
+|[[Wikipedia:Featured and good topic candidates/Featured log/July 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|1&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|August
+|[[Wikipedia:Featured and good topic candidates/Featured log/August 2022|1&nbsp;FT,&nbsp;2&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|1&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 1&nbsp;demoted]]
+|-
+|September
+|[[Wikipedia:Featured and good topic candidates/Featured log/September 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|October
+|[[Wikipedia:Featured and good topic candidates/Featured log/October 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|November
+|[[Wikipedia:Featured and good topic candidates/Featured log/November 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|-
+|December
+|[[Wikipedia:Featured and good topic candidates/Featured log/December 2022|0&nbsp;FT,&nbsp;0&nbsp;GT]]
+|[[Wikipedia:Featured and good topic candidates/Failed log/2022|0&nbsp;not&nbsp;promoted]]
+|[[Wikipedia:Featured and good topic candidates/Addition log/2022|0&nbsp;sup.]]
+|[[Wikipedia:Featured and good topic removal candidates/2022 log|0&nbsp;kept, 0&nbsp;demoted]]
+|}
+[[Category:Featured topic candidate log]]
+<noinclude>
+[[Category:Wikipedia featured topics templates]]
+</noinclude>
+";
+		$this->assertSame($expected, $result);
+	}
 }

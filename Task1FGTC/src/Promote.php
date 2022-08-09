@@ -549,4 +549,42 @@ $wikiProjectBanners";
 		}
 		return 'good';
 	}
+
+	/**
+	  * Updates the wikitext on the count page Template:Featured topic log
+	  *
+	  * @param string $month Month, fully spelled out, e.g. August
+	  * @param string $year Year, four digits, e.g. 2022
+	  * @param string $countTemplateWikicode
+	  * @param string $goodOrFeatured Must be 'good' or 'featured'
+	  * @return string $result Returns $countTemplateWikicode, modified slightly to increment one of the counts
+	  * @throws GiveUpOnThisTopic
+	  */
+	function getTemplateFeaturedTopicLogWikicode($month, $year, $countTemplateWikicode, $goodOrFeatured) {
+		$patternFound = preg_match("/Wikipedia:Featured and good topic candidates\/Featured log\/$month $year\|(\d{1,2})&nbsp;FT,&nbsp;(\d{1,2})/s", $countTemplateWikicode, $matches);
+		if ( ! $patternFound ) {
+			throw new GiveUpOnThisTopic("When figuring out what to write to Template:Featured topic log, unable to find the table row corresponding to today's month and year.");
+		}
+
+		$featuredCount = $matches[1];
+		$goodCount = $matches[2];
+
+		if ( $goodOrFeatured === 'featured' ) {
+			$featuredCount++;
+		} elseif ( $goodOrFeatured === 'good' ) {
+			$goodCount++;
+		} else {
+			throw new GiveUpOnThisTopic("When figuring out what to write to Template:Featured topic log, invalid value for the variable goodOrFeatured.");
+		}
+
+		// write it back
+		$result = preg_replace("/Wikipedia:Featured and good topic candidates\/Featured log\/$month $year\|(\d{1,2})&nbsp;FT,&nbsp;(\d{1,2})/s", "Wikipedia:Featured and good topic candidates/Featured log/$month $year|$featuredCount&nbsp;FT,&nbsp;$goodCount", $countTemplateWikicode);
+
+		$somethingChanged = $result !== $countTemplateWikicode;
+		if ( ! $somethingChanged ) {
+			throw new GiveUpOnThisTopic("When figuring out what to write to Template:Featured topic log, the generated wikitext contained no changes, which indicates a bug somewhere.");
+		}
+
+		return $result;
+	}
 }
