@@ -5,6 +5,7 @@
 
 // TODO: the "GET X" code below has a bunch of repetition, extract those into functions
 // TODO: get hard coded socks out of this and into its own JSON file
+// TODO: create a JSON file that links renames to current accounts, then look up the current account's perms and assign those to the old names
 // TODO: delete dead code and thick comment blocks
 
 Class DataRetriever {
@@ -134,7 +135,7 @@ Class UserList {
 		$this->data['mediawikiPlusTwo']['Umherirrender'] = 1;
 		$this->data['mediawikiPlusTwo']['Martin Urbanec'] = 1;
 		$this->data['mediawikiPlusTwo']['Christoph Jauera (WMDE)'] = 1; //WMDE-Fisch
-		$this->data['mediawikiPlusTwo']['User:Leszek Manicki (WMDE)'] = 1;
+		$this->data['mediawikiPlusTwo']['Leszek Manicki (WMDE)'] = 1;
 
 		$this->data['arbcom']['AdmiralEek'] = 1; // CaptainEek
 		$this->data['arbcom']['IznoPublic'] = 1;
@@ -159,15 +160,17 @@ Class UserList {
 		$this->data['sysop']['Money emoji'] = 1; // moneytrees
 
 		$this->data['formeradmin']['Ashleyyoursmile'] = 1; // Viridian Bovary
+		$this->data['formeradmin']['Salvidrim'] = 1; // Salvidrim!
 
-		$this->data['patroller']['Mikehawk10'] = 1; // Red-tailed hawk
 		$this->data['patroller']['Guy Macon Alternate Account'] = 1;
 		$this->data['patroller']['Power~enwiki'] = 1; // 力
 		$this->data['patroller']['Bri.public'] = 1;
 		$this->data['patroller']['Joel B. Lewis'] = 1; //JayBeeEll
 		$this->data['patroller']['Fortuna Imperatrix Mundi'] = 1; // Serial Number 54129
 		$this->data['patroller']['McClenon mobile'] = 1; // Robert McClenon
+		$this->data['patroller']['Mikehawk10'] = 1; // Red-tailed hawk
 		$this->data['patroller']['Mhawk10'] = 1; // Red-tailed hawk
+		$this->data['patroller']['Red tailed hawk'] = 1; // Red-tailed hawk
 
 		$this->data['10k']['Dr. Blofeld'] = 1; // Encyclopædius
 		$this->data['10k']['Jd02022092'] = 1; // JalenFolf
