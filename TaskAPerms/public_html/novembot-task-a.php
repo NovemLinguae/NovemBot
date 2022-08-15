@@ -5,9 +5,10 @@
 
 // Things to refactor now that I'm looking at this a year later...
 // TODO: the "GET X" code below has a bunch of repetition, extract those into functions
-// TODO: get hard coded socks out of this and into its own JSON file
-// TODO: create a JSON file that links renames to current accounts, then look up the current account's perms and assign those to the old names
+// TODO: get hard coded socks out of this and into its own JSON file. if i want to keep the comments, make those data instead. so something like { 'name': 'abc', 'comment': 'def' }. or use .yml, which supports #comments. example .yml file in MusikBot repository
+// TODO: create a JSON file that links renames to current accounts
 // TODO: delete dead code and thick comment blocks
+// TODO: better class names, better file names
 
 Class DataRetriever {
 	// Takes 0 seconds
@@ -24,6 +25,7 @@ Class DataRetriever {
 	}
 
 	static function get_global_users_with_perm($perm, $db) {
+		// globaluser is a special SQL table created by [[mw:Extension:CentralAuth]]
 		$query = $db->prepare("
 			SELECT gu_name
 			FROM globaluser
@@ -83,15 +85,6 @@ Class UserList {
 	}
 
 	function _addHardCodedSocks() {
-		// Name changes, legitimate alternative accounts ===============
-		$this->data['steward']['DeltaQuad'] = 1; // AmandaNP
-		$this->data['steward']['TNTPublic'] = 1; // TheresNoTime
-		$this->data['steward']['Samtar'] = 1; // TheresNoTime
-		$this->data['steward']['There\'sNoTime'] = 1; // TheresNoTime
-		$this->data['steward']['QuiteUnusual'] = 1; // MarcGarver
-
-		$this->data['sysadmin']['Jdlrobson'] = 1; // Jon (WMF)
-
 		// https://gerrit.wikimedia.org/r/admin/groups/4cdcb3a1ef2e19d73bc9a97f1d0f109d2e0209cd,members
 		$this->data['mediawikiPlusTwo']['Aaron Schulz'] = 1;
 		$this->data['mediawikiPlusTwo']['Addshore'] = 1;
@@ -138,49 +131,7 @@ Class UserList {
 		$this->data['mediawikiPlusTwo']['Christoph Jauera (WMDE)'] = 1; //WMDE-Fisch
 		$this->data['mediawikiPlusTwo']['Leszek Manicki (WMDE)'] = 1;
 
-		$this->data['arbcom']['AdmiralEek'] = 1; // CaptainEek
-		$this->data['arbcom']['IznoPublic'] = 1;
-		$this->data['arbcom']['IznoRepeat'] = 1;
-		$this->data['arbcom']['Wyrm That Turned'] = 1; // Worm That Turned
-	
-		$this->data['sysop']['PEIsquirrel'] = 1; // Ivanvector
-		$this->data['sysop']['SubjectiveNotability'] = 1; // GeneralNotability
-		$this->data['sysop']['In actu'] = 1; // Guerilero
-		$this->data['sysop']['Nyttend backup'] = 1;
-		$this->data['sysop']['Iridescent 2'] = 1;
-		$this->data['sysop']['Awkward42'] = 1; //Thryduulf
-		$this->data['sysop']['ToBeFree (mobile)'] = 1;
-		$this->data['sysop']['C678'] = 1; // Cyberpower678
-		$this->data['sysop']['RoySmith-Mobile'] = 1; // RoySmith
-		$this->data['sysop']['Amory'] = 1; // Amorymeltzer
-		$this->data['sysop']['Bishzilla'] = 1; // Bishonen
-		$this->data['sysop']['Darwinbish'] = 1; // Bishonen
-		$this->data['sysop']['Bishapod'] = 1; // Bishonen
-		$this->data['sysop']['Darwinfish'] = 1; // Bishonen
-		$this->data['sysop']['TheSandDoctor (mobile)'] = 1;
-		$this->data['sysop']['Money emoji'] = 1; // moneytrees
-
-		$this->data['formeradmin']['Ashleyyoursmile'] = 1; // Viridian Bovary
-		$this->data['formeradmin']['Salvidrim'] = 1; // Salvidrim!
-
-		$this->data['patroller']['Guy Macon Alternate Account'] = 1;
-		$this->data['patroller']['Power~enwiki'] = 1; // 力
-		$this->data['patroller']['Bri.public'] = 1;
-		$this->data['patroller']['Joel B. Lewis'] = 1; //JayBeeEll
-		$this->data['patroller']['Fortuna Imperatrix Mundi'] = 1; // Serial Number 54129
-		$this->data['patroller']['McClenon mobile'] = 1; // Robert McClenon
-		$this->data['patroller']['Mikehawk10'] = 1; // Red-tailed hawk
-		$this->data['patroller']['Mhawk10'] = 1; // Red-tailed hawk
-		$this->data['patroller']['Red tailed hawk'] = 1; // Red-tailed hawk
-
-		$this->data['10k']['Dr. Blofeld'] = 1; // Encyclopædius
-		$this->data['10k']['Jd02022092'] = 1; // JalenFolf
-		$this->data['10k']['Femkemilene'] = 1; // Femke
-
-		$this->data['extendedconfirmed']['A. C. Santacruz'] = 1; // Ixtal
-
-		// On the list of former admins, but not highlighted by the two former admin queries ===========
-		// 
+		// On the list of former admins, but not highlighted by the two former admin queries
 		$this->data['formeradmin']['168...'] = 1;
 		$this->data['formeradmin']['172'] = 1;
 		$this->data['formeradmin']['1Angela'] = 1;
@@ -195,7 +146,7 @@ Class UserList {
 		$this->data['formeradmin']['Isis~enwiki'] = 1;
 		$this->data['formeradmin']['Jeronim'] = 1;
 		$this->data['formeradmin']['Kate'] = 1;
-		$this->data['formeradmin']['Klis'] = 1;
+		$this->data['formeradmin']['Kils'] = 1;
 		$this->data['formeradmin']['KimvdLinde'] = 1;
 		$this->data['formeradmin']['Koyaanis Qatsi'] = 1;
 		$this->data['formeradmin']['KRS'] = 1;
@@ -219,6 +170,82 @@ Class UserList {
 		$this->data['formeradmin']['User2004'] = 1;
 	}
 
+	function _addLinkedUsernames() {
+		$this->_buildLinkedUsernamesList();
+		$this->_linkMainAndAltUsernames();
+	}
+
+	function _buildLinkedUsernamesList() {
+		// key = old/alternate name (name to copy permissions to)
+		// value = new/main name (name to copy permissions from)
+		// $this->linkedUsernames['Alt'] = 'Main';
+		$this->linkedUsernames['DeltaQuad'] = 'AmandaNP';
+		$this->linkedUsernames['TNTPublic'] = 'TheresNoTime';
+		$this->linkedUsernames['Samtar'] = 'TheresNoTime';
+		$this->linkedUsernames['There\'sNoTime'] = 'TheresNoTime';
+		$this->linkedUsernames['QuiteUnusual'] = 'MarcGarver';
+		$this->linkedUsernames['Jdlrobson'] = 'Jon (WMF)';
+		$this->linkedUsernames['AdmiralEek'] = 'CaptainEek';
+		$this->linkedUsernames['IznoPublic'] = 'Izno';
+		$this->linkedUsernames['IznoRepeat'] = 'Izno';
+		$this->linkedUsernames['Wyrm That Turned'] = 'Worm That Turned';
+		$this->linkedUsernames['PEIsquirrel'] = 'Ivanvector';
+		$this->linkedUsernames['SubjectiveNotability'] = 'GeneralNotability';
+		$this->linkedUsernames['In actu'] = 'Guerilero';
+		$this->linkedUsernames['Nyttend backup'] = 'Nyttend';
+		$this->linkedUsernames['Iridescent 2'] = 'Iridescent';
+		$this->linkedUsernames['Awkward42'] = 'Thryduulf';
+		$this->linkedUsernames['ToBeFree (mobile)'] = 'ToBeFree';
+		$this->linkedUsernames['C678'] = 'Cyberpower678';
+		$this->linkedUsernames['RoySmith-Mobile'] = 'RoySmith';
+		$this->linkedUsernames['Amory'] = 'Amorymeltzer';
+		$this->linkedUsernames['Bishzilla'] = 'Bishonen';
+		$this->linkedUsernames['Darwinbish'] = 'Bishonen';
+		$this->linkedUsernames['Bishapod'] = 'Bishonen';
+		$this->linkedUsernames['Darwinfish'] = 'Bishonen';
+		$this->linkedUsernames['TheSandDoctor (mobile)'] = 'TheSandDoctor';
+		$this->linkedUsernames['Money emoji'] = 'moneytrees';
+		$this->linkedUsernames['Maedin'] = 'Julia W';
+		$this->linkedUsernames['JamesBWatson'] = 'JBW';
+		$this->linkedUsernames['Ashleyyoursmile'] = 'Viridian Bovary';
+		$this->linkedUsernames['Salvidrim'] = 'Salvidrim!';
+		$this->linkedUsernames['Δ'] = 'Betacommand';
+		$this->linkedUsernames['Chacor'] = 'NSLE';
+		$this->linkedUsernames['Cool three'] = 'Cool3';
+		$this->linkedUsernames['Gwern'] = 'Marudubshinki';
+		$this->linkedUsernames['OberRanks'] = 'Husnock';
+		$this->linkedUsernames['Nv8200p'] = 'Nv8200pa';
+		$this->linkedUsernames['Ya ya ya ya ya ya'] = 'Freestylefrappe';
+		$this->linkedUsernames['Prioryman'] = 'ChrisO~enwiki';
+		$this->linkedUsernames['Hahc21'] = 'Razr Nation';
+		$this->linkedUsernames['Guy Macon Alternate Account'] = 'Guy Macon';
+		$this->linkedUsernames['Power~enwiki'] = '力';
+		$this->linkedUsernames['Bri.public'] = 'Bri';
+		$this->linkedUsernames['Joel B. Lewis'] = 'JayBeeEll';
+		$this->linkedUsernames['Fortuna Imperatrix Mundi'] = 'Serial Number 54129';
+		$this->linkedUsernames['McClenon mobile'] = 'Robert McClenon';
+		$this->linkedUsernames['Mikehawk10'] = 'Red-tailed hawk';
+		$this->linkedUsernames['Mhawk10'] = 'Red-tailed hawk';
+		$this->linkedUsernames['Red tailed hawk'] = 'Red-tailed hawk';
+		$this->linkedUsernames['Mlpearc'] = 'FlightTime';
+		$this->linkedUsernames['Dr. Blofeld'] = 'Encyclopædius';
+		$this->linkedUsernames['Jd02022092'] = 'JalenFolf';
+		$this->linkedUsernames['Femkemilene'] = 'Femke';
+		$this->linkedUsernames['A. C. Santacruz'] = 'Ixtal';
+		$this->linkedUsernames['Kwsn'] = 'Alexandria';
+		$this->linkedUsernames['Kubigula'] = 'Mojo Hand';
+	}
+
+	function _linkMainAndAltUsernames() {
+		foreach ( $this->linkedUsernames as $altUsername => $mainUsername ) {
+			foreach ( $this->data as $permission => $arrayOfUsernames ) {
+				if ( $this->data[$permission][$mainUsername] ?? '' ) {
+					$this->data[$permission][$altUsername] = 1;
+				}
+			}
+		}
+	}
+
 	function flatten_sql($list) {
 		$flattened = [];
 		foreach ( $list as $value ) {
@@ -240,6 +267,7 @@ Class UserList {
 	// Array with multiple perms
 	function get_all_json() {
 		$this->_addHardCodedSocks();
+		$this->_addLinkedUsernames();
 		// Format data. Escape backslashes.
 		return json_encode($this->data, JSON_UNESCAPED_UNICODE);
 	}
@@ -247,6 +275,7 @@ Class UserList {
 	// Array with one perm only, and it is flatter than the multiple perm array
 	function get_one_json() {
 		$this->_addHardCodedSocks();
+		$this->_addLinkedUsernames();
 		$first_key = array_key_first($this->data);
 		return json_encode($this->data[$first_key], JSON_UNESCAPED_UNICODE);
 	}
