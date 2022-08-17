@@ -401,7 +401,7 @@ $ul->addList($data, 'patroller');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get extendedconfirmed\n");
-$data = DataRetriever::get_users_with_perm('extendedconfirmed', $enwiki);
+$data = DataRetriever::get_users_with_edit_count(500, $enwiki); // doing by edit count instead of perm gets 14,000 additional users, and captures users who have above 500 edits but for some reason don't have the extendedconfirmed perm. however this is the slowest query we do, taking around 3 minutes
 $ul->addList($data, 'extendedconfirmed');
 echoAndFlush("Done!\n");
 
