@@ -3,6 +3,7 @@
 // https://novem-bot.toolforge.org/task-b/SuspiciousImageFinder.php?password=
 
 // TODO: dependency inject foreign classes: wikipedia and PDO
+// TODO: to solve out of memory errors, can probably just create a ToolForge webservice with more memory: webservice --mem=2g or similar
 
 include("botclasses.php");
 include("logininfo.php");

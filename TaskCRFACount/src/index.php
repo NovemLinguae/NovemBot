@@ -18,7 +18,7 @@ error_reporting(E_ALL);
 assert_options(ASSERT_BAIL, true);
 date_default_timezone_set('UTC');
 
-// Randos can only run the bot in read only test mode
+// Make sure randos can't run the bot
 if (
 	($_GET['password'] ?? '') != $config['httpAndBashPassword'] &&
 	($argv[1] ?? '') != $config['httpAndBashPassword']
