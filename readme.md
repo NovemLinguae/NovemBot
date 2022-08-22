@@ -11,17 +11,6 @@ https://en.wikipedia.org/wiki/User:NovemBot
 
 I have some AWB, one time run bot tasks as well, but those are not documented here.
 
-### logininfo.php
-
-Most of these bots require a file logininfo.php with the following format:
-
-    <?php
-    
-    $wiki_username = '';
-    $wiki_password = '';
-    
-    $http_get_password = '';
-
 ### PHP + Toolforge bot tutorial
 
 I found the learning curve for Toolforge pretty hard. I've written a tutorial at
