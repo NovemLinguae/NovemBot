@@ -19,3 +19,9 @@ jobs:
     - working-directory: ./Task1FGTC
       run: composer exec phpunit tests
       name: Task1FGTC unit tests
+
+    - working-directory: ./TaskCRFACount
+      run: composer install --prefer-dist --no-progress
+    - working-directory: ./TaskCRFACount
+      run: composer exec phpunit tests
+      name: TaskCRFACount unit tests
