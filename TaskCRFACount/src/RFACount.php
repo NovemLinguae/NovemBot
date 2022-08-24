@@ -13,3 +13,11 @@ function countRFAs($wikicode) {
 
 	return $count;
 }
+
+function countRFBs($wikicode) {
+	preg_match_all('/\{\{Wikipedia:Requests for bureaucratship\/[^\}]+\}\}/i', $wikicode, $matches);
+
+	$count = count($matches[0]);
+
+	return $count;
+}

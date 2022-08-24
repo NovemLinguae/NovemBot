@@ -13,9 +13,20 @@ class RFACountTest extends TestCase {
 	}
 
 	function provideCountRFAData() {
-		echo __DIR__ . '/tests/RFACountTest.json';
 		$string = file_get_contents(__DIR__ . '/RFACountTest.json');
 		$return = json_decode($string, true);
 		return $return;
 	}
-}
+	/**
+	  * @dataProvider provideCountRFBData
+	  */
+	function test_countRFBs($testName, $wikicode, $expected) {
+		$result = countRFBs($wikicode);
+		$this->assertSame($expected, $result, $testName);
+	}
+
+	function provideCountRFBData() {
+		$string = file_get_contents(__DIR__ . '/RFBCountTest.json');
+		$return = json_decode($string, true);
+		return $return;
+	}}

@@ -1,6 +1,26 @@
 <?php
 
+function doRFA($wapi, $rfaPageWikitext) {
+	$count = countRFAs($rfaPageWikitext);
+
+	$wikicodeToWrite =
+"$count<noinclude>
+{{Documentation}}
+</noinclude>";
+	$editSummary = "set RFA count to $count (NovemBot Task C)";
+	$wapi->edit('User:Amalthea/RfX/RfA count', $wikicodeToWrite, $editSummary);
+}
+
+function doRFB($wapi, $rfaPageWikitext) {
+	$count = countRFBs($rfaPageWikitext);
+
+	$wikicodeToWrite = $count;
+	$editSummary = "set RFB count to $count (NovemBot Task C)";
+	$wapi->edit('User:Amalthea/RfX/RfB count', $wikicodeToWrite, $editSummary);
+}
+
 require_once('config.php');
+require_once('css.php');
 require_once('botclasses.php');
 require_once('EchoHelper.php');
 require_once('Helper.php');
@@ -34,10 +54,7 @@ $eh->echoAndFlush("PHP version: " . PHP_VERSION, 'variable');
 
 $rfaPageWikitext = $wapi->getpage('Wikipedia:Requests for adminship');
 
-$count = countRFAs($rfaPageWikitext);
-
-$editSummary = "set RFA count to $count (NovemBot Task C)";
-$wapi->edit('User:Amalthea/RfX/RfA count', $count, $editSummary);
-//$wapi->edit('User:NovemBot/test', $count, $editSummary);
+doRFA($wapi, $rfaPageWikitext);
+doRFB($wapi, $rfaPageWikitext);
 
 $eh->echoAndFlush('', 'complete');
