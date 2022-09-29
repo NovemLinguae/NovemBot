@@ -143,6 +143,7 @@ Class UserList {
 		$this->data['formeradmin']['Ævar Arnfjörð Bjarmason'] = 1;
 		$this->data['formeradmin']['Andre Engels'] = 1;
 		$this->data['formeradmin']['Ark30inf'] = 1;
+		$this->data['formeradmin']['Aussie Article Writer'] = 1;
 		$this->data['formeradmin']['Baldhur'] = 1;
 		$this->data['formeradmin']['Blankfaze'] = 1;
 		$this->data['formeradmin']['Cedar-Guardian'] = 1;
