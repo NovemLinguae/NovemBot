@@ -178,7 +178,7 @@ Class UserList {
 
 	function _buildLinkedUsernamesList() {
 		// { "oldName": "currentName" }
-		$fileString = file_get_contents('linkedUsernames.json');
+		$fileString = file_get_contents('linkedUsernames.json', true);
 		// $this->linkedUsernames['oldName'] = 'currentName';
 		$this->linkedUsernames = json_decode($fileString, true);
 	}
