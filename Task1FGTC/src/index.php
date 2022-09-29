@@ -18,7 +18,7 @@ set_time_limit(55 * 60); // 55 minutes
 // test mode
 $READ_ONLY_TEST_MODE = false;
 $TEST_PAGES = [
-	"Wikipedia:Featured and good topic candidates/World Professional Match-play Championship/archive1"
+	//"Wikipedia:Featured and good topic candidates/World Professional Match-play Championship/archive1"
 ]; // Make this array empty to pull from the list of pings instead.
 
 // constants
