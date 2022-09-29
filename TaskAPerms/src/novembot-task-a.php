@@ -3,14 +3,9 @@
 // flushing doesn't appear to work on Toolforge web due to gzip compression. Works in CLI though.
 // https://novem-bot.toolforge.org/task-a/novembot-task-a.php?password=
 
-// Bugs:
-// TODO: if this runs from CLI, it may not be loading linkedUsername.json correctly. seems to work from web though
-// TODO: User:Spebi should show as brown, currently showing as black box white fill
-
 // Things to refactor now that I'm looking at this a year later...
 // TODO: the "GET X" code below has a bunch of repetition, extract those into functions
 // TODO: get hard coded socks out of this and into its own JSON file. if i want to keep the comments, make those data instead. so something like { 'name': 'abc', 'comment': 'def' }. or use .yml, which supports #comments. example .yml file in MusikBot repository
-// TODO: create a JSON file that links renames to current accounts
 // TODO: delete dead code and thick comment blocks
 // TODO: better class names, better file names
 
