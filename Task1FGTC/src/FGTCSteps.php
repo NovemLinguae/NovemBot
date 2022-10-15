@@ -34,7 +34,7 @@ class FGTCSteps {
 					$this->addToWikipediaGoingsOn();
 				}
 				$this->removeFromFGTC();
-				$this->printReminderAcoutStep6();
+				$this->printReminderAboutStep6();
 				if ( ! $this->READ_ONLY_TEST_MODE ) {
 					$this->writeMessageOnArchivePage();
 				}
@@ -215,7 +215,7 @@ class FGTCSteps {
 	/**
 	  * Step 6
 	  */
-	private function printReminderAcoutStep6() {
+	private function printReminderAboutStep6() {
 		$this->eh->echoAndFlush("Step 6 must be done manually. Add {{{$this->topicWikipediaPageTitle}}} to the appropriate section of either [[Wikipedia:Featured topics]] or [[Wikipedia:Good topics]]", 'message');
 	}
 
