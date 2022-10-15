@@ -50,7 +50,7 @@ class FGTCSteps {
 		}
 		$this->removeFromFGTC();
 		$this->printReminderAboutStep6();
-		if ( ! $this->READ_ONLY_TEST_MODE ) {
+		if ( ! $this->READ_ONLY_TEST_MODE ) { // This check prevents test topics from throwing a "promote template not found" error, which is distracting.
 			$this->writeMessageOnArchivePage();
 		}
 	}
@@ -226,7 +226,9 @@ class FGTCSteps {
 	  * Step 6
 	  */
 	private function printReminderAboutStep6() {
-		$this->eh->echoAndFlush("Step 6 must be done manually. Add {{{$this->topicWikipediaPageTitle}}} to the appropriate section of either [[Wikipedia:Featured topics]] or [[Wikipedia:Good topics]]", 'message');
+		$pageToAddTo = ($this->goodOrFeatured == 'good') ? '[[Wikipedia:Good topics]]' : '[[Wikipedia:Featured topics]]';
+
+		$this->eh->echoAndFlush("Step 6 must be done manually. Add {{{$this->topicWikipediaPageTitle}}} to the appropriate section of $pageToAddTo", 'message');
 	}
 
 	/**
@@ -237,7 +239,12 @@ class FGTCSteps {
 		// Also change {{User:NovemBot/Promote}} to include |done=yes, which will prevent the bot from going into an endless loop every hour.
 		$this->nominationPageWikicode = $this->wapi->getpage($this->nominationPageTitle); // Fetch a fresh copy of the nomination page, to prevent edit conflicts.
 		$this->nominationPageWikicode = $this->p->markDoneAndSuccessful($this->nominationPageWikicode, $this->nominationPageTitle, $this->topicWikipediaPageTitle, $this->goodOrFeatured);
-		$this->wapi->edit($this->nominationPageTitle, $this->nominationPageWikicode, $this->topicWikipediaPageTitle, $this->goodOrFeatured);
+		$this->wapi->edit(
+			$this->nominationPageTitle,
+			$this->nominationPageWikicode,
+			$this->topicWikipediaPageTitle,
+			$this->goodOrFeatured
+		);
 	}
 
 	private function handleError($e) {
