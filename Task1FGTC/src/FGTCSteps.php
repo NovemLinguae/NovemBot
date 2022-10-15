@@ -12,35 +12,46 @@ class FGTCSteps {
 
 	public function execute($pagesToPromote) {
 		foreach ( $pagesToPromote as $key => $this->nominationPageTitle ) {
-			$this->goToNextArticle = false;
-
-			$this->eh->echoAndFlush($this->nominationPageTitle, 'newtopic');
-
+			// First pass that is read only, to check for errors.
+			$this->wapi->setReadOnlyMode(true);
 			try {
-				$this->readArchivePageAndSetVariables();
-				if ( $this->goToNextArticle ) {
-					continue;
-				}
-				$this->makeTopicPage();
-				$this->makeTopicTalkPage();
-				$this->updateTalkPagesOfArticles();
-				$this->updateCountPage();
-				$this->updateTemplateFeaturedTopicLog();
-				$this->createChildCategories();
-				$this->createParentCategory();
-				$this->addToLog();
-				if ( $this->goodOrFeatured == 'featured' ) {
-					$this->addToTemplateAnnouncements();
-					$this->addToWikipediaGoingsOn();
-				}
-				$this->removeFromFGTC();
-				$this->printReminderAboutStep6();
-				if ( ! $this->READ_ONLY_TEST_MODE ) {
-					$this->writeMessageOnArchivePage();
-				}
+				$this->doSteps();
+			} catch (GiveUpOnThisTopic $e) {
+				// If error, switch back to write mode so we can write the error message.
+				$this->wapi->setReadOnlyMode($this->READ_ONLY_TEST_MODE);
+				$this->handleError($e);
+				continue;
+			}
+
+			// Second pass that edits pages (if not in test mode)
+			$this->wapi->setReadOnlyMode($this->READ_ONLY_TEST_MODE);
+			try {
+				$this->doSteps();
 			} catch (GiveUpOnThisTopic $e) {
 				$this->handleError($e);
 			}
+		}
+	}
+
+	private function doSteps() {
+		$this->eh->echoAndFlush($this->nominationPageTitle, 'newtopic');
+		$this->readArchivePageAndSetVariables();
+		$this->makeTopicPage();
+		$this->makeTopicTalkPage();
+		$this->updateTalkPagesOfArticles();
+		$this->updateCountPage();
+		$this->updateTemplateFeaturedTopicLog();
+		$this->createChildCategories();
+		$this->createParentCategory();
+		$this->addToLog();
+		if ( $this->goodOrFeatured == 'featured' ) {
+			$this->addToTemplateAnnouncements();
+			$this->addToWikipediaGoingsOn();
+		}
+		$this->removeFromFGTC();
+		$this->printReminderAboutStep6();
+		if ( ! $this->READ_ONLY_TEST_MODE ) {
+			$this->writeMessageOnArchivePage();
 		}
 	}
 
@@ -54,11 +65,10 @@ class FGTCSteps {
 			// not all pings from featured topic pages need to be acted on
 			// silent error to prevent error spam
 			try {
-				$this->p->abortIfPromotionTemplateMissing($this->nominationPageWikicode, $this->nominationPageTitle);
+				$this->p->abortIfPromotionTemplateMissingOrDone($this->nominationPageWikicode, $this->nominationPageTitle);
 			} catch (Exception $e) {
 				$this->eh->logError('{{t|User:NovemBot/Promote}} template missing from page.');
-				$this->goToNextArticle = true;
-				return;
+				throw new GiveUpOnThisTopic('{{t|User:NovemBot/Promote}} template missing from page.');
 			}
 		}
 		

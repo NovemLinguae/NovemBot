@@ -2,8 +2,18 @@
 
 /** Wrapper for I/O. Makes it easier to test. botclasses.php getpage and edit methods can be replaced with other code when testing. For example, instead of writing to Wikipedia, I can change edit to write to a log file. */
 class WikiAPIWrapper {
-	function __construct(string $wiki_username, string $wiki_password, EchoHelper $eh) {
+	function __construct(
+		string $wiki_username,
+		string $wiki_password,
+		EchoHelper $eh,
+		bool $READ_ONLY_TEST_MODE,
+		int $SECONDS_BETWEEN_API_READS,
+		int $SECONDS_BETWEEN_API_EDITS
+	) {
 		$this->eh = $eh;
+		$this->READ_ONLY_TEST_MODE = $READ_ONLY_TEST_MODE;
+		$this->SECONDS_BETWEEN_API_READS = $SECONDS_BETWEEN_API_READS;
+		$this->SECONDS_BETWEEN_API_EDITS = $SECONDS_BETWEEN_API_EDITS;
 		
 		$this->eh->echoAndFlush("Log in", 'api_read');
 		$this->wapi = new wikipedia();
@@ -12,13 +22,16 @@ class WikiAPIWrapper {
 		$this->wapi->login($wiki_username, $wiki_password);
 	}
 
+	function setReadOnlyMode($READ_ONLY_TEST_MODE) {
+		$this->READ_ONLY_TEST_MODE = $READ_ONLY_TEST_MODE;
+	}
+
 	function getpage(string $namespace_and_title) {
-		global $SECONDS_BETWEEN_API_READS;
 		$output = $this->wapi->getpage($namespace_and_title);
 		$message = "Read data from page: $namespace_and_title";
 		$message .= "\n\n$output";
 		$this->eh->echoAndFlush($message, 'api_read');
-		sleep($SECONDS_BETWEEN_API_READS);
+		sleep($this->SECONDS_BETWEEN_API_READS);
 		return $output;
 	}
 	
@@ -52,38 +65,36 @@ class WikiAPIWrapper {
 
 	// TODO: does page title need underscores?
 	function edit(string $namespace_and_title, string $wikicode, string $topicPageTitle, string $goodOrFeatured): void {
-		global $READ_ONLY_TEST_MODE, $SECONDS_BETWEEN_API_EDITS;
 		$editSummary = "promote [[$topicPageTitle]] to $goodOrFeatured topic (NovemBot Task 1)";
 		$message = 'Write data to page:<br /><input type="text" value="' . htmlspecialchars($namespace_and_title) . '" />';
 		$message .= "<br />Wikitext:<br /><textarea>" . htmlspecialchars($wikicode) . "</textarea>";
 		$message .= "<br />" . 'Edit summary:<br /><input type="text" value="' . htmlspecialchars($editSummary) . '" />';
 		$this->eh->echoAndFlush($message, 'api_write');
 		//echoAndFlush($READ_ONLY_TEST_MODE, 'variable');
-		if ( ! $READ_ONLY_TEST_MODE ) {
+		if ( ! $this->READ_ONLY_TEST_MODE ) {
 			$this->wapi->edit(
 				$namespace_and_title,
 				$wikicode,
 				$editSummary
 			);
-			sleep($SECONDS_BETWEEN_API_EDITS);
+			sleep($this->SECONDS_BETWEEN_API_EDITS);
 		}
 	}
 	
 	// TODO: does page title need underscores?
 	function editSimple(string $namespace_and_title, string $wikicode, string $editSummary): void {
-		global $READ_ONLY_TEST_MODE, $SECONDS_BETWEEN_API_EDITS;
 		$message = 'Write data to page:<br /><input type="text" value="' . htmlspecialchars($namespace_and_title) . '" />';
 		$message .= "<br />Wikitext:<br /><textarea>" . htmlspecialchars($wikicode) . "</textarea>";
 		$message .= "<br />" . 'Edit summary:<br /><input type="text" value="' . htmlspecialchars($editSummary) . '" />';
 		$this->eh->echoAndFlush($message, 'api_write');
 		//echoAndFlush($READ_ONLY_TEST_MODE, 'variable');
-		if ( ! $READ_ONLY_TEST_MODE ) {
+		if ( ! $this->READ_ONLY_TEST_MODE ) {
 			$this->wapi->edit(
 				$namespace_and_title,
 				$wikicode,
 				$editSummary
 			);
-			sleep($SECONDS_BETWEEN_API_EDITS);
+			sleep($this->SECONDS_BETWEEN_API_EDITS);
 		}
 	}
 }

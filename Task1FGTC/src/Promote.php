@@ -23,7 +23,10 @@ class Promote {
 		}
 	}
 
-	function abortIfPromotionTemplateMissing($wikicode, $title) {
+	/**
+	  * Abort if 1) {{User:NovemBot/Promote}} is missing or 2) {{User:NovemBot/Promote|done=yes}}
+	  */
+	function abortIfPromotionTemplateMissingOrDone($wikicode, $title) {
 		$matches = stripos($wikicode, '{{User:NovemBot/Promote}}');
 		if ( $matches === false ) {
 			throw new GiveUpOnThisTopic("On page $title, could not find {{t|User:NovemBot/Promote}}.");
@@ -203,6 +206,17 @@ $wikiProjectBanners";
 
 	/** Determine next |action= number in {{Article history}} template. This is so we can insert an action. */
 	function determineNextActionNumber($talkPageWikicode, $ARTICLE_HISTORY_MAX_ACTIONS, $talkPageTitle) {
+		$isRedirect = preg_match("/^\s*#redirect/i", $talkPageWikicode);
+		if ( $isRedirect ) {
+			throw new GiveUpOnThisTopic("On page $talkPageTitle, the page is a redirect. Please update {{Featured topic box}} to not point at redirect pages.");
+		}
+		
+		// Earlier steps should have converted any {{GA}} templates to {{Article history}}. If there's no {{Article history}} template, then there were no {{GA}} templates earlier. Either way, it's a problem.
+		$hasArticleHistory = preg_match("/{{Article ?history/i", $talkPageWikicode);
+		if ( ! $hasArticleHistory ) {
+			throw new GiveUpOnThisTopic("On page $talkPageTitle, no {{GA}} and no {{Article history}} templates were found. One of these templates is required.");
+		}
+		
 		for ( $i = $ARTICLE_HISTORY_MAX_ACTIONS; $i >= 1; $i-- ) {
 			$hasAction = preg_match("/\|\s*action$i\s*=/i", $talkPageWikicode);
 			if ( $hasAction ) {

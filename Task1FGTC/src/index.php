@@ -49,7 +49,14 @@ if (
 
 // log in
 $eh->echoAndFlush("PHP version: " . PHP_VERSION, 'variable');
-$wapi = new WikiAPIWrapper($config['wikiUsername'], $config['wikiPassword'], $eh);
+$wapi = new WikiAPIWrapper(
+	$config['wikiUsername'],
+	$config['wikiPassword'],
+	$eh,
+	$READ_ONLY_TEST_MODE,
+	$SECONDS_BETWEEN_API_READS,
+	$SECONDS_BETWEEN_API_EDITS
+);
 
 if ( $READ_ONLY_TEST_MODE ) {
 	$message = 'In read only test mode. Set $READ_ONLY_TEST_MODE to false, and provide an HTTP or CLI password, in order to exit read only test mode and have the bot make live edits.';
