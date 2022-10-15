@@ -8,6 +8,7 @@ class FGTCSteps {
 		$this->READ_ONLY_TEST_MODE = $READ_ONLY_TEST_MODE;
 		$this->MAX_ARTICLES_ALLOWED_IN_TOPIC = $MAX_ARTICLES_ALLOWED_IN_TOPIC;
 		$this->ARTICLE_HISTORY_MAX_ACTIONS = $ARTICLE_HISTORY_MAX_ACTIONS;
+		$this->logPageTitle = 'User:NovemBot/Task1Log';
 	}
 
 	public function execute($pagesToPromote) {
@@ -43,16 +44,23 @@ class FGTCSteps {
 		$this->updateTemplateFeaturedTopicLog();
 		$this->createChildCategories();
 		$this->createParentCategory();
-		$this->addToLog();
+		$this->addToFGTCLog();
 		if ( $this->goodOrFeatured == 'featured' ) {
 			$this->addToTemplateAnnouncements();
 			$this->addToWikipediaGoingsOn();
 		}
 		$this->removeFromFGTC();
-		$this->printReminderAboutStep6();
 		if ( ! $this->READ_ONLY_TEST_MODE ) { // This check prevents test topics from throwing a "promote template not found" error, which is distracting.
 			$this->writeMessageOnArchivePage();
 		}
+		$this->addToUserspaceLog();
+		$this->printReminderAboutStep6();
+	}
+
+	private function addToUserspaceLog() {
+		$this->logPageWikicode = $this->wapi->getpage($this->logPageTitle);
+		$this->logPageWikicode .= "\n* [[$this->nominationPageTitle]] - ~~~~~";
+		$this->wapi->edit($this->logPageTitle, $this->logPageWikicode, $this->topicWikipediaPageTitle, $this->goodOrFeatured);
 	}
 
 	/**
@@ -183,7 +191,7 @@ class FGTCSteps {
 	/**
 	  * Step 9
 	  */
-	private function addToLog() {
+	private function addToFGTCLog() {
 		$logPageTitle = $this->p->getLogPageTitle($this->datetime, $this->goodOrFeatured);
 		$logPageWikicode = $this->wapi->getpage($logPageTitle);
 		$logPageWikicode = trim($logPageWikicode . "\n{{" . $this->nominationPageTitle . '}}');
@@ -252,10 +260,15 @@ class FGTCSteps {
 		
 		$this->eh->logError($errorMessage);
 		
-		// write error to /archive1 page
+		// write error to /archive1 page, and ping maintainer
 		$this->nominationPageWikicode = $this->wapi->getpage($this->nominationPageTitle);
 		$this->nominationPageWikicode = $this->p->markError($this->nominationPageWikicode, $this->nominationPageTitle, $errorMessage);
 		$editSummary = 'Log issue that prevented this topic from being promoted by the promotion bot. Ping [[User:Novem Linguae]]. (NovemBot Task 1)';
 		$this->wapi->editSimple($this->nominationPageTitle, $this->nominationPageWikicode, $editSummary);
+
+		// write error to log page
+		$this->logPageWikicode = $this->wapi->getpage($this->logPageTitle);
+		$this->logPageWikicode .= "\n* [[$this->nominationPageTitle]] - ~~~~~ - <span style=\"color: red; font-weight: bold;\">ERROR:</span> $errorMessage";
+		$this->wapi->edit($this->logPageTitle, $this->logPageWikicode, $this->topicWikipediaPageTitle, $this->goodOrFeatured);
 	}
 }
