@@ -19,7 +19,7 @@ class SuspiciousImageFinder {
 	}
 
 	private function checkPermissions() {
-		if ( ($this->get['password'] ?? '') != $this->http_get_password && ($$this->argv[1] ?? '') != $this->http_get_password ) {
+		if ( ($this->get['password'] ?? '') != $this->http_get_password && ($this->argv[1] ?? '') != $this->http_get_password ) {
 			die('Invalid password.');
 		}
 	}
