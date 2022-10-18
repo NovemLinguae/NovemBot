@@ -9,6 +9,34 @@ include("botclasses.php");
 include("logininfo.php");
 
 class SuspiciousImageFinder {
+	public function execute($get, $http_get_password, $argv, $wiki_username, $wiki_password, $databaseConfigFile) {
+		$this->get = $get;
+		$this->http_get_password = $http_get_password;
+		$this->argv = $argv;
+		$this->wiki_username = $wiki_username;
+		$this->wiki_password = $wiki_password;
+		$this->databaseConfigFile = $databaseConfigFile;
+
+		$this->setHeader();
+		$this->setErrorReporting();
+		$this->checkPermissions();
+		$this->printPHPVersion();
+		$this->connectToSQLDatabases();
+		$i = 1;
+		$result = true;
+		$filesMatchingCriteria = '';
+		while ( $result ) {
+			$filesToCheck = $this->getFiles($i);
+			$result = $this->checkFiles($filesToCheck);
+			$this->echoAndFlush("\n\nResult: " . var_export($result, true));
+			$filesMatchingCriteria .= $result;
+			$i++;
+		}
+		$this->logInToWikipedia();
+		$this->makeEdit($filesMatchingCriteria, 'User:Minorax/files');
+		$this->echoAndFlush("\n\nAll done!");
+	}
+	
 	private function setHeader() {
 		header('Content-Type:text/plain; charset=utf-8; Content-Encoding: none');
 	}
@@ -117,34 +145,7 @@ class SuspiciousImageFinder {
 			'NovemBot Task B'
 		);
 	}
-	
-	public function execute($get, $http_get_password, $argv, $wiki_username, $wiki_password, $databaseConfigFile) {
-		$this->get = $get;
-		$this->http_get_password = $http_get_password;
-		$this->argv = $argv;
-		$this->wiki_username = $wiki_username;
-		$this->wiki_password = $wiki_password;
-		$this->databaseConfigFile = $databaseConfigFile;
 
-		$this->setHeader();
-		$this->setErrorReporting();
-		$this->checkPermissions();
-		$this->printPHPVersion();
-		$this->connectToSQLDatabases();
-		$i = 1;
-		$result = true;
-		$filesMatchingCriteria = '';
-		while ( $result ) {
-			$filesToCheck = $this->getFiles($i);
-			$result = $this->checkFiles($filesToCheck);
-			$this->echoAndFlush("\n\nResult: " . var_export($result, true));
-			$filesMatchingCriteria .= $result;
-			$i++;
-		}
-		$this->logInToWikipedia();
-		$this->makeEdit($filesMatchingCriteria, 'User:Minorax/files');
-		$this->echoAndFlush("\n\nAll done!");
-	}
 }
 
 $workingDirectory = posix_getpwuid(posix_getuid());
