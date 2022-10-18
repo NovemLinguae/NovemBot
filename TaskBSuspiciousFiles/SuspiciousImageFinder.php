@@ -59,7 +59,11 @@ class SuspiciousImageFinder {
 				AND user_name NOT IN (
 					'Orange Suede Sofa',
 					'Centpacrr',
-					'Locke Cole'
+					'Locke Cole',
+					'Atsme',
+					'Patrickroque01',
+					'Xaosflux',
+					'Wilderf353'
 				)
 			ORDER BY img_name ASC
 			LIMIT $limit
