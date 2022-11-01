@@ -20,6 +20,9 @@ class WikiAPIWrapper {
 		$this->wapi->beQuiet();
 		$this->wapi->http->useragent = '[[en:User:NovemBot]], owner [[en:User:Novem Linguae]], framework [[en:User:RMCD_bot/botclasses.php]]';
 		$this->wapi->login($wiki_username, $wiki_password);
+
+		$this->editCount = 0;
+		$this->mostRecentRevisionNumber = null;
 	}
 
 	function setReadOnlyMode($READ_ONLY_TEST_MODE) {
@@ -72,11 +75,13 @@ class WikiAPIWrapper {
 		$this->eh->echoAndFlush($message, 'api_write');
 		//echoAndFlush($READ_ONLY_TEST_MODE, 'variable');
 		if ( ! $this->READ_ONLY_TEST_MODE ) {
-			$this->wapi->edit(
+			$response = $this->wapi->edit(
 				$namespace_and_title,
 				$wikicode,
 				$editSummary
 			);
+			$this->mostRecentRevisionNumber = $response['edit']['newrevid'];
+			$this->editCount++;
 			sleep($this->SECONDS_BETWEEN_API_EDITS);
 		}
 	}
@@ -89,12 +94,26 @@ class WikiAPIWrapper {
 		$this->eh->echoAndFlush($message, 'api_write');
 		//echoAndFlush($READ_ONLY_TEST_MODE, 'variable');
 		if ( ! $this->READ_ONLY_TEST_MODE ) {
-			$this->wapi->edit(
+			$response = $this->wapi->edit(
 				$namespace_and_title,
 				$wikicode,
 				$editSummary
 			);
+			$this->mostRecentRevisionNumber = $response['edit']['newrevid'];
+			$this->editCount++;
 			sleep($this->SECONDS_BETWEEN_API_EDITS);
 		}
+	}
+
+	function getEditCount() {
+		return $this->editCount;
+	}
+
+	function setEditCountToZero() {
+		$this->editCount = 0;
+	}
+
+	function getMostRecentRevisionNumber() {
+		return $this->mostRecentRevisionNumber;
 	}
 }

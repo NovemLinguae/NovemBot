@@ -1,7 +1,14 @@
 <?php
 
 class FGTCSteps {
-	function __construct($p, $eh, $wapi, $READ_ONLY_TEST_MODE, $MAX_ARTICLES_ALLOWED_IN_TOPIC, $ARTICLE_HISTORY_MAX_ACTIONS) {
+	function __construct(
+		Promote $p,
+		EchoHelper $eh,
+		WikiAPIWrapper $wapi,
+		bool $READ_ONLY_TEST_MODE,
+		int $MAX_ARTICLES_ALLOWED_IN_TOPIC,
+		int $ARTICLE_HISTORY_MAX_ACTIONS
+	) {
 		$this->p = $p;
 		$this->eh = $eh;
 		$this->wapi = $wapi;
@@ -35,6 +42,7 @@ class FGTCSteps {
 	}
 
 	private function doSteps() {
+		$this->wapi->setEditCountToZero();
 		$this->eh->echoAndFlush($this->nominationPageTitle, 'newtopic');
 		$this->readArchivePageAndSetVariables();
 		$this->makeTopicPage();
@@ -54,12 +62,16 @@ class FGTCSteps {
 			$this->writeMessageOnArchivePage();
 		}
 		$this->addToUserspaceLog();
-		$this->printReminderAboutStep6();
+		$this->printConsoleReminderAboutStep6(); // Also a visual aid to easily see where the end of the run is.
 	}
 
 	private function addToUserspaceLog() {
+		$editCount = $this->wapi->getEditCount();
+		$mostRecentRevisionNumber = $this->wapi->getMostRecentRevisionNumber();
+		$diffURL = "https://en.wikipedia.org/w/index.php?title=Special:Contributions&offset=$mostRecentRevisionNumber&target=NovemBot&limit=$editCount";
+		
 		$this->logPageWikicode = $this->wapi->getpage($this->logPageTitle);
-		$this->logPageWikicode .= "\n* [[$this->nominationPageTitle]] - ~~~~~";
+		$this->logPageWikicode .= "\n* [[$this->nominationPageTitle]] - ~~~~~ - [$diffURL Diffs]";
 		$this->wapi->edit($this->logPageTitle, $this->logPageWikicode, $this->topicWikipediaPageTitle, $this->goodOrFeatured);
 	}
 
@@ -233,7 +245,7 @@ class FGTCSteps {
 	/**
 	  * Step 6
 	  */
-	private function printReminderAboutStep6() {
+	private function printConsoleReminderAboutStep6() {
 		$pageToAddTo = ($this->goodOrFeatured == 'good') ? '[[Wikipedia:Good topics]]' : '[[Wikipedia:Featured topics]]';
 
 		$this->eh->echoAndFlush("Step 6 must be done manually. Add {{{$this->topicWikipediaPageTitle}}} to the appropriate section of $pageToAddTo", 'message');
