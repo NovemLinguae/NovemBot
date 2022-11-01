@@ -70,16 +70,16 @@ if ( $TEST_PAGES ) {
 	$eh->echoAndFlush($message, 'message');
 } else { // read pings
 	// example: ["Novem Linguae", "GamerPro64", "Sturmvogel 66", "Aza24"]
-	$whitelist = $wapi->getpage('User:Novem_Linguae/Scripts/NovemBotTask1Whitelist.js');
-	$whitelist = json_decode($whitelist);
+	$allowlist = $wapi->getpage('User:Novem_Linguae/Scripts/NovemBotTask1Allowlist.js');
+	$allowlist = json_decode($allowlist);
 
 	$listOfPings = $wapi->getUnreadPings();
 	$listOfPings = $listOfPings['query']['notifications']['list'];
 	$pagesToPromote = [];
 	foreach ( $listOfPings as $key => $value ) {
-		// make sure pinger is on whitelist
+		// make sure pinger is on allow list
 		$pingSender = $value['agent']['name'];
-		if ( in_array($pingSender, $whitelist) ) {
+		if ( in_array($pingSender, $allowlist) ) {
 			// make sure pinging page has {{Featured topic box}}
 			$pingTitle = $value['title']['full'];
 			$archivePageWikicode = $wapi->getpage($pingTitle);

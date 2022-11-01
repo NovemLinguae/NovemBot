@@ -4,7 +4,7 @@
 
 https://en.wikipedia.org/wiki/User:NovemBot
 
-- Task 1 - Promote featured and good topic candidates. Summon the bot to a FGTC voting page using {{User:NovemBot/Promote}} ~~~~. Person adding the template must be on the whitelist.
+- Task 1 - Promote featured and good topic candidates. Summon the bot to a FGTC voting page using {{User:NovemBot/Promote}} ~~~~. Person adding the template must be on the allowlist.
 - Task A - Edit own userspace to keep accurate lists of users who have permissions, for use with User:Novem Linguae/Scripts/UserHighlighterSimple.
 - Task B - Generate list of images that are possible copyright violations and publish it to User:Minorax/files.
 - Task C - Update User:Amalthea/RfX/RfA count every 30 minutes with an updated open RFA count.
