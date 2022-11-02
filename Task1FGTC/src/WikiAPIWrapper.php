@@ -105,6 +105,41 @@ class WikiAPIWrapper {
 		}
 	}
 
+	function getRevisionIDOfMostRecentRevision($pageTitle) {
+		$parameters = [
+			"action" => "query",
+			"format" => "json",
+			"prop" => "revisions",
+			"titles" => $pageTitle,
+			"formatversion" => "2",
+			"rvlimit" => "1",
+			"rvdir" => "older"
+		];
+
+		$output = $this->query($parameters);
+		$output = $output['query']['pages'][0]['revisions'][0]['revid'];
+
+		$message = "Getting revision ID of latest revision";
+		$message .= "\n\n" . var_export($output, true);
+		$this->eh->echoAndFlush($message, 'api_read');
+
+		return $output;
+	}
+
+	function query(Array $parameters) {
+		// urlencode() everything, and start building the $_GET[] string
+		array_walk($parameters, function(&$value, $key) {
+			$value = $key . '=' . urlencode($value);
+		});
+
+		// finish building the $_GET[] string
+		$string = '?' . implode('&', $parameters);
+
+		$output = $this->wapi->query($string);
+
+		return $output;
+	}
+
 	function getEditCount() {
 		return $this->editCount;
 	}

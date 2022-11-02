@@ -141,13 +141,42 @@ class FGTCSteps {
 		$this->p->abortIfTooManyArticlesInTopic($this->allArticleTitles, $this->MAX_ARTICLES_ALLOWED_IN_TOPIC, $this->nominationPageTitle);
 		foreach ( $this->allArticleTitles as $key => $articleTitle ) {
 			$talkPageTitle = 'Talk:' . $articleTitle;
+
 			$talkPageWikicode = $this->wapi->getpage($talkPageTitle);
+
 			// $talkPageWikicode = addHeadingIfNeeded($talkPageWikicode, $talkPageTitle);
+
 			$talkPageWikicode = $this->p->removeGTCFTCTemplate($talkPageWikicode);
+
 			$talkPageWikicode = $this->p->addArticleHistoryIfNotPresent($talkPageWikicode, $talkPageTitle);
-			$nextActionNumber = $this->p->determineNextActionNumber($talkPageWikicode, $this->ARTICLE_HISTORY_MAX_ACTIONS, $talkPageTitle);
-			$talkPageWikicode = $this->p->updateArticleHistory($talkPageWikicode, $nextActionNumber, $this->goodOrFeatured, $this->datetime, $this->mainArticleTitle, $this->topicTitle, $articleTitle, $talkPageTitle, $this->nominationPageTitle);
-			$this->wapi->edit($talkPageTitle, $talkPageWikicode, $this->topicWikipediaPageTitle, $this->goodOrFeatured);
+
+			$nextActionNumber = $this->p->determineNextActionNumber(
+				$talkPageWikicode,
+				$this->ARTICLE_HISTORY_MAX_ACTIONS,
+				$talkPageTitle
+			);
+
+			$oldid = $this->wapi->getRevisionIDOfMostRecentRevision($articleTitle);
+
+			$talkPageWikicode = $this->p->updateArticleHistory(
+				$talkPageWikicode,
+				$nextActionNumber,
+				$this->goodOrFeatured,
+				$this->datetime,
+				$this->mainArticleTitle,
+				$this->topicTitle,
+				$articleTitle,
+				$talkPageTitle,
+				$this->nominationPageTitle,
+				$oldid
+			);
+
+			$this->wapi->edit(
+				$talkPageTitle,
+				$talkPageWikicode,
+				$this->topicWikipediaPageTitle,
+				$this->goodOrFeatured
+			);
 		}
 	}
 

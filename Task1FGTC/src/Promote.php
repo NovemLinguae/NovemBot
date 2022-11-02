@@ -226,7 +226,7 @@ $wikiProjectBanners";
 		throw new GiveUpOnThisTopic("On page $talkPageTitle, in {{t|Article history}} template, unable to determine next |action= number.");
 	}
 
-	function updateArticleHistory($talkPageWikicode, $nextActionNumber, $goodOrFeatured, $datetime, $mainArticleTitle, $topicTitle, $articleTitle, $talkPageTitle, $nominationPageTitle) {
+	function updateArticleHistory($talkPageWikicode, $nextActionNumber, $goodOrFeatured, $datetime, $mainArticleTitle, $topicTitle, $articleTitle, $talkPageTitle, $nominationPageTitle, $oldid) {
 		assert($goodOrFeatured == 'good' || $goodOrFeatured == 'featured');
 		$main = ( $mainArticleTitle == $articleTitle ) ? 'yes' : 'no';
 		$ftcOrGTC = ( $goodOrFeatured == 'featured' ) ? 'FTC' : 'GTC';
@@ -235,6 +235,7 @@ $wikiProjectBanners";
 |action{$nextActionNumber}date = $datetime
 |action{$nextActionNumber}link = $nominationPageTitle
 |action{$nextActionNumber}result = promoted
+|action{$nextActionNumber}oldid = $oldid
 |ftname = $topicTitle
 |ftmain = $main";
 		$newWikicode = $this->h->insertCodeAtEndOfFirstTemplate($talkPageWikicode, 'Article ?history', $addToArticleHistory);
