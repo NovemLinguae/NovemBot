@@ -84,6 +84,14 @@ Class UserList {
 	}
 
 	function _addHardCodedSocks() {
+		// board of trustees: https://meta.wikimedia.org/wiki/Wikimedia_Foundation_Board_of_Trustees
+		$this->data['boardOfTrustees']['Jimbo Wales'] = 1;
+		$this->data['boardOfTrustees']['Esh77'] = 1;
+		$this->data['boardOfTrustees']['Pundit'] = 1;
+		$this->data['boardOfTrustees']['Rosiestep'] = 1;
+		$this->data['boardOfTrustees']['Victoria'] = 1;
+		$this->data['boardOfTrustees']['Laurentius'] = 1;
+
 		// https://gerrit.wikimedia.org/r/admin/groups/4cdcb3a1ef2e19d73bc9a97f1d0f109d2e0209cd,members
 		$this->data['mediawikiPlusTwo']['Aaron Schulz'] = 1;
 		$this->data['mediawikiPlusTwo']['Addshore'] = 1;
