@@ -230,19 +230,43 @@ $wikiProjectBanners";
 		assert($goodOrFeatured == 'good' || $goodOrFeatured == 'featured');
 		$main = ( $mainArticleTitle == $articleTitle ) ? 'yes' : 'no';
 		$ftcOrGTC = ( $goodOrFeatured == 'featured' ) ? 'FTC' : 'GTC';
+		$nextFTNumber = $this->getNextFTNumber($talkPageWikicode);
 		$addToArticleHistory = 
 "|action$nextActionNumber = $ftcOrGTC
 |action{$nextActionNumber}date = $datetime
 |action{$nextActionNumber}link = $nominationPageTitle
 |action{$nextActionNumber}result = promoted
 |action{$nextActionNumber}oldid = $oldid
-|ftname = $topicTitle
-|ftmain = $main";
+|ft{$nextFTNumber}name = $topicTitle
+|ft{$nextFTNumber}main = $main";
 		$newWikicode = $this->h->insertCodeAtEndOfFirstTemplate($talkPageWikicode, 'Article ?history', $addToArticleHistory);
 		if ( $newWikicode == $talkPageWikicode ) {
 			throw new GiveUpOnThisTopic("On page $talkPageTitle, in {{t|Article history}} template, unable to determine where to add new actions.");
 		}
 		return $newWikicode;
+	}
+
+	/**
+	 * @return string|int $ftNumber '' if the next FT number is 1, or the number if the next FT Number is 2+
+	 */
+	function getNextFTNumber($talkPageWikicode) {
+		// check ftname
+		$hasFTName = preg_match("/\|\s*ftname\s*=/", $talkPageWikicode, $matches);
+		if ( ! $hasFTName ) {
+			return '';
+		}
+
+		// check ft2name, ft3name, etc.
+		$count = 2;
+		while ( true ) {
+			$hasFTName = preg_match("/\|\s*ft{$count}name\s*=/", $talkPageWikicode, $matches);
+			if ( $hasFTName ) {
+				$count++;
+			} else {
+				break;
+			}
+		}
+		return $count;
 	}
 
 	/** There's a {{GA}} template that some people use instead of {{Article history}}. If this is present, replace it with {{Article history}}. */

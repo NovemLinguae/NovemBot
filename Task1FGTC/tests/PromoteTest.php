@@ -3545,4 +3545,107 @@ In the 1880s and 1890s, the [[French Navy]] built a series of [[protected cruise
 ";
 		$this->assertSame($expected, $result);
 	}
+
+	function test_updateArticleHistory_twoTopics() {
+		$talkPageWikicode = trim('
+
+{{ArticleHistory
+|action1=GAN
+|action1date=07:05, 14 August 2020
+|action1link=/GA1
+|action1result=listed
+|action1oldid=971810839
+
+|action2=GTC
+|action2date=03:11, 13 January 2021 (UTC)
+|action2link=Wikipedia:Featured and good topic candidates/Kanye West studio albums/archive2
+|action2result=promoted
+
+|ftname=Kanye West studio albums
+
+|topic=music
+|currentstatus=GA
+}}
+
+		');;
+		$nextActionNumber = 3;
+		$goodOrFeatured = 'good';
+		$datetime = '15:11, 24 November 2022';
+		$mainArticleTitle = 'Jesus Is King';
+		$topicTitle = 'Jesus Is King';
+		$articleTitle = 'Jesus Is King';
+		$talkPageTitle = 'Talk:Jesus Is King';
+		$nominationPageTitle = 'Wikipedia:Featured and good topic candidates/Jesus Is King/archive1';
+		$oldid = 1119199461;
+		$result = $this->p->updateArticleHistory(
+			$talkPageWikicode,
+			$nextActionNumber,
+			$goodOrFeatured,
+			$datetime,
+			$mainArticleTitle,
+			$topicTitle,
+			$articleTitle,
+			$talkPageTitle,
+			$nominationPageTitle,
+			$oldid
+		);
+		$expected = trim('
+		
+{{ArticleHistory
+|action1=GAN
+|action1date=07:05, 14 August 2020
+|action1link=/GA1
+|action1result=listed
+|action1oldid=971810839
+
+|action2=GTC
+|action2date=03:11, 13 January 2021 (UTC)
+|action2link=Wikipedia:Featured and good topic candidates/Kanye West studio albums/archive2
+|action2result=promoted
+
+|ftname=Kanye West studio albums
+
+|topic=music
+|currentstatus=GA
+
+|action3 = GTC
+|action3date = 15:11, 24 November 2022
+|action3link = Wikipedia:Featured and good topic candidates/Jesus Is King/archive1
+|action3result = promoted
+|action3oldid = 1119199461
+|ft2name = Jesus Is King
+|ft2main = yes
+}}
+
+		');
+		$this->assertSame($expected, $result);
+	}
+
+	function test_getNextFTNumber_zeroExistingTopics() {
+		$talkPageWikicode = '';
+		$result = $this->p->getNextFTNumber($talkPageWikicode);
+		$expected = '';
+		$this->assertSame($expected, $result);
+	}
+
+	function test_getNextFTNumber_oneExistingTopics() {
+		$talkPageWikicode = '|ftname=';
+		$result = $this->p->getNextFTNumber($talkPageWikicode);
+		$expected = 2;
+		$this->assertSame($expected, $result);
+	}
+
+	function test_getNextFTNumber_twoExistingTopics() {
+		$talkPageWikicode = '|ftname=  |ft2name=';
+		$result = $this->p->getNextFTNumber($talkPageWikicode);
+		$expected = 3;
+		$this->assertSame($expected, $result);
+	}
+
+	function test_getNextFTNumber_threeExistingTopics() {
+		$talkPageWikicode = '|ftname=  |ft2name=  |ft3name=';
+		$result = $this->p->getNextFTNumber($talkPageWikicode);
+		$expected = 4;
+		$this->assertSame($expected, $result);
+	}
 }
