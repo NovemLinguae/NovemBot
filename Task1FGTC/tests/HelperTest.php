@@ -256,4 +256,10 @@ test'
 		$expected = null;
 		$this->assertSame($expected, $result);
 	}
+
+	function test_convertTimestampToOffsetFormat_normal() {
+		$string = '2022-11-25T12:05:26Z';
+		$result = $this->h->convertTimestampToOffsetFormat($string);
+		$this->assertSame('20221125120526', $result);
+	}
 }

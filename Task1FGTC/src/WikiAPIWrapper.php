@@ -8,12 +8,14 @@ class WikiAPIWrapper {
 		EchoHelper $eh,
 		bool $READ_ONLY_TEST_MODE,
 		int $SECONDS_BETWEEN_API_READS,
-		int $SECONDS_BETWEEN_API_EDITS
+		int $SECONDS_BETWEEN_API_EDITS,
+		Helper $h
 	) {
 		$this->eh = $eh;
 		$this->READ_ONLY_TEST_MODE = $READ_ONLY_TEST_MODE;
 		$this->SECONDS_BETWEEN_API_READS = $SECONDS_BETWEEN_API_READS;
 		$this->SECONDS_BETWEEN_API_EDITS = $SECONDS_BETWEEN_API_EDITS;
+		$this->h = $h;
 		
 		$this->eh->echoAndFlush("Log in", 'api_read');
 		$this->wapi = new wikipedia();
@@ -22,7 +24,7 @@ class WikiAPIWrapper {
 		$this->wapi->login($wiki_username, $wiki_password);
 
 		$this->editCount = 0;
-		$this->mostRecentRevisionNumber = null;
+		$this->mostRecentRevisionTimestamp = null;
 	}
 
 	function setReadOnlyMode($READ_ONLY_TEST_MODE) {
@@ -80,7 +82,7 @@ class WikiAPIWrapper {
 				$wikicode,
 				$editSummary
 			);
-			$this->mostRecentRevisionNumber = $response['edit']['newrevid'];
+			$this->mostRecentRevisionTimestamp = $response['edit']['newtimestamp'];
 			$this->editCount++;
 			sleep($this->SECONDS_BETWEEN_API_EDITS);
 		}
@@ -99,7 +101,7 @@ class WikiAPIWrapper {
 				$wikicode,
 				$editSummary
 			);
-			$this->mostRecentRevisionNumber = $response['edit']['newrevid'];
+			$this->mostRecentRevisionTimestamp = $response['edit']['newtimestamp'];
 			$this->editCount++;
 			sleep($this->SECONDS_BETWEEN_API_EDITS);
 		}
@@ -148,7 +150,7 @@ class WikiAPIWrapper {
 		$this->editCount = 0;
 	}
 
-	function getMostRecentRevisionNumber() {
-		return $this->mostRecentRevisionNumber;
+	function getMostRecentRevisionTimestamp() {
+		return $this->h->convertTimestampToOffsetFormat($this->getMostRecentRevisionTimestamp);
 	}
 }

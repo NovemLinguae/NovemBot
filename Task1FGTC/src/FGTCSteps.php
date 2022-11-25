@@ -67,8 +67,8 @@ class FGTCSteps {
 
 	private function addToUserspaceLog() {
 		$editCount = $this->wapi->getEditCount();
-		$mostRecentRevisionNumber = $this->wapi->getMostRecentRevisionNumber();
-		$diffURL = "https://en.wikipedia.org/w/index.php?title=Special:Contributions&offset=$mostRecentRevisionNumber&target=NovemBot&limit=$editCount";
+		$mostRecentRevisionTimestamp = $this->wapi->getMostRecentRevisionTimestamp();
+		$diffURL = "https://en.wikipedia.org/w/index.php?title=Special:Contributions&offset=$mostRecentRevisionTimestamp&target=NovemBot&limit=$editCount";
 		
 		$this->logPageWikicode = $this->wapi->getpage($this->logPageTitle);
 		$this->logPageWikicode .= "\n* [[$this->nominationPageTitle]] - ~~~~~ - [$diffURL Diffs]";

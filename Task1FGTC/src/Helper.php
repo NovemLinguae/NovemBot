@@ -104,4 +104,11 @@ class Helper {
 	function str_starts_with( $haystack, $needle ) {
 		return strpos( $haystack , $needle ) === 0;
 	}
+
+	/**
+	 * convert '2022-11-25T12:05:26Z' to '20221125120526', for use in Special:Contributions?offset=
+	 */
+	function convertTimestampToOffsetFormat($string) {
+		return preg_replace("/[^\d]*/", '', $string);
+	}
 }
