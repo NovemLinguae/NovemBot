@@ -84,13 +84,35 @@ Class UserList {
 	}
 
 	function _addHardCodedSocks() {
-		// board of trustees: https://meta.wikimedia.org/wiki/Wikimedia_Foundation_Board_of_Trustees
+		// Wikimedia Foundation board of trustees: https://meta.wikimedia.org/wiki/Wikimedia_Foundation_Board_of_Trustees
 		$this->data['boardOfTrustees']['Jimbo Wales'] = 1;
-		$this->data['boardOfTrustees']['Esh77'] = 1;
+		$this->data['boardOfTrustees']['Esh77'] = 1; // Shani (WMF)
+		$this->data['boardOfTrustees']['Antanana'] = 1; // NTymkiv (WMF)
 		$this->data['boardOfTrustees']['Pundit'] = 1;
 		$this->data['boardOfTrustees']['Rosiestep'] = 1;
 		$this->data['boardOfTrustees']['Victoria'] = 1;
 		$this->data['boardOfTrustees']['Laurentius'] = 1;
+		$this->data['boardOfTrustees']['Mike Peel'] = 1;
+
+		// Wikimedia Endowment board of directors: https://meta.wikimedia.org/wiki/Wikimedia_Endowment#Wikimedia_Endowment_Advisory_Board_Members
+		$this->data['boardOfTrustees']['Phoebe'] = 1;
+		$this->data['boardOfTrustees']['Patricio.lorente'] = 1;
+
+		// WMF staff's personal accounts
+		$this->data['staff']['Cscott'] = 1; // SAnanian (WMF)
+		$this->data['staff']['the wub'] = 1; // Pcoombe (WMF)
+		$this->data['staff']['Matma Rex'] = 1; // Bartosz Dziewoński (WMF)
+		$this->data['staff']['Aaron Schulz'] = 1; // Aaron Schulz (WMF)
+		$this->data['staff']['Brion VIBBER'] = 1; // Brion Vibber (WMF)
+		$this->data['staff']['Catrope'] = 1; // Roan Kattouw (WMF)
+		$this->data['staff']['Hashar'] = 1; // Amusso (WMF)
+		$this->data['staff']['Seddon'] = 1; // Seddon (WMF)
+		$this->data['staff']['Krinkle'] = 1; // Timo Tijhof (WMF)
+		$this->data['staff']['Ladsgroup'] = 1; // ASarabadani (WMF)
+		$this->data['staff']['Lucas Werkmeister'] = 1; // Lucas Werkmeister (WMDE)
+		$this->data['staff']['Reedy'] = 1; // Reedy (WMF)
+		$this->data['staff']['Tim Starling'] = 1; // Tim Starling (WMF)
+		$this->data['staff']['Addshore'] = 1; // Adam Shorland (WMDE)
 
 		// https://gerrit.wikimedia.org/r/admin/groups/4cdcb3a1ef2e19d73bc9a97f1d0f109d2e0209cd,members
 		$this->data['mediawikiPlusTwo']['Aaron Schulz'] = 1;
