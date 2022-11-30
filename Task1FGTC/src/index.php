@@ -1,7 +1,6 @@
 <?php
 
 // Things to refactor now that I'm looking at this a year later...
-// TODO: each step should be a method in a class
 // TODO: multiple edits to the same page should be combined into one method that returns the final wikicode
 // TODO: public and private for Promote class methods
 
