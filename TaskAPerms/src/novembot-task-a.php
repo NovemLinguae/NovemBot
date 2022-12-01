@@ -113,7 +113,10 @@ Class UserList {
 		$this->data['staff']['Reedy'] = 1; // Reedy (WMF)
 		$this->data['staff']['Tim Starling'] = 1; // Tim Starling (WMF)
 		$this->data['staff']['Addshore'] = 1; // Adam Shorland (WMDE)
+		$this->data['staff']['Xeno'] = 1; // Xeno (WMF)
+		$this->data['staff']['Whatamidoing'] = 1; // Whatamidoing (WMF)
 
+		/*
 		// https://gerrit.wikimedia.org/r/admin/groups/4cdcb3a1ef2e19d73bc9a97f1d0f109d2e0209cd,members
 		$this->data['mediawikiPlusTwo']['Aaron Schulz'] = 1;
 		$this->data['mediawikiPlusTwo']['Addshore'] = 1;
@@ -159,6 +162,7 @@ Class UserList {
 		$this->data['mediawikiPlusTwo']['Martin Urbanec'] = 1;
 		$this->data['mediawikiPlusTwo']['Christoph Jauera (WMDE)'] = 1; //WMDE-Fisch
 		$this->data['mediawikiPlusTwo']['Leszek Manicki (WMDE)'] = 1;
+		*/
 
 		// On the list of former admins, but not highlighted by the two former admin queries
 		// TODO: link these to their renames instead
