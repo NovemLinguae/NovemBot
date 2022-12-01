@@ -203,6 +203,7 @@ Class UserList {
 		$this->data['formeradmin']['Vanished user'] = 1;
 		$this->data['formeradmin']['Viridian Bovary'] = 1;
 		$this->data['formeradmin']['User2004'] = 1;
+		$this->data['formeradmin']['Muriel Gottrop~enwiki'] = 1;
 	}
 
 	function _addLinkedUsernames() {
