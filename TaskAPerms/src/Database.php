@@ -3,6 +3,7 @@
 class Database {
 	static function create($databaseName) {
 		// get database credentials
+		// TODO: inject these globals
 		$ts_pw = posix_getpwuid(posix_getuid());
 		$ts_mycnf = parse_ini_file($ts_pw['dir'] . "/replica.my.cnf");
 

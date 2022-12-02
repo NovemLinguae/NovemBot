@@ -20,6 +20,7 @@ class View {
 
 	static function dieIfInvalidPassword($correctPassword) {
 		// Keep randos from running the bot in browser and in bash
+		// TODO: inject these globals
 		if ( ($_GET['password'] ?? '') != $correctPassword && ($argv[1] ?? '') != $correctPassword ) {
 			die('Invalid password.');
 		}

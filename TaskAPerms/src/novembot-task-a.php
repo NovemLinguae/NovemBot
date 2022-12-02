@@ -4,10 +4,11 @@
 
 // TODO: the "GET X" code below has a bunch of repetition, extract those into functions
 
-require_once("botclasses.php");
+require_once('botclasses.php');
+require_once('Controller.php');
 require_once('Database.php');
 require_once('HardCodedSocks.php');
-require_once("logininfo.php");
+require_once('logininfo.php');
 require_once('Query.php');
 require_once('UserList.php');
 require_once('View.php');
@@ -23,40 +24,15 @@ View::echoAndFlush("PHP version: " . PHP_VERSION . "\n\n");
 $enwiki = Database::create('enwiki');
 $metawiki = Database::create('metawiki');
 $centralauth = Database::create('centralauth');
-
 $ul = new UserList();
+$c = new Controller($enwiki, $metawiki, $centralauth, $ul);
 
-// CENTRALAUTH =========================================
-
-View::echoAndFlush("Get founder\n");
-$data = Query::getGlobalUsersWithPerm('founder', $centralauth);
-$ul->addUsers($data, 'founder');
-View::echoAndFlush("Done!\n");
-
-View::echoAndFlush("Get steward\n");
-$data = Query::getGlobalUsersWithPerm('steward', $centralauth);
-$ul->addUsers($data, 'steward');
-View::echoAndFlush("Done!\n");
-
-View::echoAndFlush("Get sysadmin\n");
-$data = Query::getGlobalUsersWithPerm('sysadmin', $centralauth);
-$ul->addUsers($data, 'sysadmin');
-View::echoAndFlush("Done!\n");
-
-View::echoAndFlush("Get staff\n");
-$data = Query::getGlobalUsersWithPerm('staff', $centralauth);
-$ul->addUsers($data, 'staff');
-View::echoAndFlush("Done!\n");
-
-View::echoAndFlush("Get global-interface-editor\n");
-$data = Query::getGlobalUsersWithPerm('global-interface-editor', $centralauth);
-$ul->addUsers($data, 'global-interface-editor');
-View::echoAndFlush("Done!\n");
-
-View::echoAndFlush("Get global-sysop\n");
-$data = Query::getGlobalUsersWithPerm('global-sysop', $centralauth);
-$ul->addUsers($data, 'global-sysop');
-View::echoAndFlush("Done!\n");
+$c->addCentralAuthUsers('founder');
+$c->addCentralAuthUsers('steward');
+$c->addCentralAuthUsers('sysadmin');
+$c->addCentralAuthUsers('staff');
+$c->addCentralAuthUsers('global-interface-editor');
+$c->addCentralAuthUsers('global-sysop');
 
 // META ==========================================
 
