@@ -1,6 +1,5 @@
 <?php
 
-// flushing doesn't appear to work on Toolforge web due to gzip compression. Works in CLI though.
 // https://novem-bot.toolforge.org/task-a/novembot-task-a.php?password=
 
 // Things to refactor now that I'm looking at this a year later...
@@ -196,19 +195,10 @@ Class UserList {
 	}
 }
 
+/** flushing (ob_flush, flush) doesn't appear to work on Toolforge web due to gzip compression. Works in CLI though. */
 function echoAndFlush($str) {
 	echo $str;
-	//ob_flush();
-	//flush();
 }
-
-//@ini_set('zlib.output_compression',0);
-//@ini_set('implicit_flush',1);
-//@ob_end_clean();
-//set_time_limit(0);
-//if (ob_get_level() == 0) ob_start();
-//ob_implicit_flush(true);
-//ob_end_flush();
 
 header('Content-Type:text/plain; charset=utf-8; Content-Encoding: none'); // Content-Encoding: none disables gzip compression, which may help fix an issue with flushing
 // set_time_limit(1440);    # 24 minutes
@@ -223,19 +213,6 @@ if ( ($_GET['password'] ?? '') != $http_get_password && ($argv[1] ?? '') != $htt
 }
 
 echoAndFlush("PHP version: " . PHP_VERSION . "\n\n");
-
-/*
-// workaround for Windows/localhost, where posix_* is not defined, and cannot be installed on Windows
-if ( ! function_exists('posix_getpwuid') ) {
-	function posix_getpwuid($user_id) {
-		return ['dir' => '..'];
-	}
-
-	function posix_getuid() {
-		return '';
-	}
-}
-*/
 
 // connect to replica SQL databases
 $ts_pw = posix_getpwuid(posix_getuid());
@@ -367,7 +344,6 @@ echoAndFlush("...done.\n");
 
 
 
-//print_r($ul->get_all_json());
 
 echoAndFlush("\nWriting data to User:NovemBot subpage...\n");
 $page_contents = $ul->get_all_json();
@@ -378,15 +354,4 @@ $objwiki->edit(
 );
 echoAndFlush("...done.\n");
 
-/*
-echoAndFlush("\nWrite it again to get past the edit filter...\n";
-$objwiki->edit(
-	'User:NovemBot/userlist.js',
-	$page_contents,
-	'Bot edit to keep user list up to date.'
-);
-echoAndFlush("...done.\n";
-*/
-
 echoAndFlush("\nMission accomplished.\n\n"); // extra line breaks at end for CLI
-//ob_end_flush();
