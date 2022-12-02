@@ -15,7 +15,7 @@ View::setHeaders();
 View::setErrorReporting();
 // set_time_limit(1440);    # 24 minutes
 
-View::dieIfInvalidPassword($httpGetPassword);
+View::dieIfInvalidPassword($urlAndCliPassword);
 
 View::echoAndFlush("PHP version: " . PHP_VERSION . "\n\n");
 
