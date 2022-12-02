@@ -2,8 +2,6 @@
 
 // https://novem-bot.toolforge.org/task-a/novembot-task-a.php?password=
 
-// TODO: the "GET X" code below has a bunch of repetition, extract those into functions
-
 require_once('botclasses.php');
 require_once('Controller.php');
 require_once('Database.php');
@@ -52,25 +50,9 @@ $c->addEnwikiUsersByEditCount('10k', 10000);
 
 $c->logIn();
 
-View::echoAndFlush("\nGet arbcom\n");
-$data = $wp->getpage('User:AmoryBot/crathighlighter.js/arbcom.json');
-$data = json_decode($data, true);
-$ul->addProperlyFormatted($data, 'arbcom');
-View::echoAndFlush("...done.\n");
+$c->addUsersFromEnwikiJsonPage('arbcom', 'User:AmoryBot/crathighlighter.js/arbcom.json');
+$c->addUsersFromEnwikiJsonPage('productiveIPs', 'User:Novem_Linguae/User_lists/Productive_IPs.js');
 
-View::echoAndFlush("\nGet productive IPs\n");
-$data = $wp->getpage('User:Novem_Linguae/User_lists/Productive_IPs.js');
-$data = json_decode($data, true);
-$ul->addProperlyFormatted($data, 'productiveIPs');
-View::echoAndFlush("...done.\n");
-
-View::echoAndFlush("\nWriting data to User:NovemBot subpage...\n");
-$page_contents = $ul->getAllJson();
-$wp->edit(
-	'User:NovemBot/userlist.js',
-	$page_contents,
-	'Update list of users who have permissions (NovemBot Task A)'
-);
-View::echoAndFlush("...done.\n");
+$c->writeUpdate();
 
 View::echoAndFlush("\nMission accomplished.\n\n"); // extra line breaks at end for CLI

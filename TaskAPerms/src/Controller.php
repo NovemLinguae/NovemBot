@@ -64,11 +64,26 @@ class Controller {
 		View::echoAndFlush("Done!\n");
 	}
 
-	function importJsonFromEnwiki($permission, $enwikiNamespaceAndPage) {
-
+	/**
+	 * @param string $permission
+	 * @param string $enwikiNamespaceAndPage
+	 */
+	function addUsersFromEnwikiJsonPage($permission, $enwikiNamespaceAndPage) {
+		View::echoAndFlush("\nGet $permission\n");
+		$data = $this->wp->getpage($enwikiNamespaceAndPage);
+		$data = json_decode($data, true);
+		$this->userList->addProperlyFormatted($data, $permission);
+		View::echoAndFlush("...done.\n");
 	}
 
 	function writeUpdate() {
-
+		View::echoAndFlush("\nWriting data to User:NovemBot subpage...\n");
+		$page_contents = $this->userList->getAllJson();
+		$this->wp->edit(
+			'User:NovemBot/userlist.js',
+			$page_contents,
+			'Update list of users who have permissions (NovemBot Task A)'
+		);
+		View::echoAndFlush("...done.\n");
 	}
 }
