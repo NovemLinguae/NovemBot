@@ -34,63 +34,20 @@ $c->addCentralAuthUsers('staff');
 $c->addCentralAuthUsers('global-interface-editor');
 $c->addCentralAuthUsers('global-sysop');
 
-// META ==========================================
+$c->addMetaUsers('wmf-supportsafety');
 
-View::echoAndFlush("Get wmf-supportsafety\n");
-$data = Query::getUsersWithPerm('wmf-supportsafety', $metawiki);
-$ul->addUsers($data, 'wmf-supportsafety');
-View::echoAndFlush("Done!\n");
+$c->addEnwikiUsers('bureaucrat');
+$c->addEnwikiUsers('sysop');
+$c->addEnwikiUsers('patroller'); // New Page Patroller
+$c->addEnwikiUsers('bot');
+$c->addEnwikiUsers('checkuser');
+$c->addEnwikiUsers('suppress'); // Oversighter
 
-// EN-WIKI =======================================
+$c->addFormerAdmins();
 
-View::echoAndFlush("Get bureaucrat\n");
-$data = Query::getUsersWithPerm('bureaucrat', $enwiki);
-$ul->addUsers($data, 'bureaucrat');
-View::echoAndFlush("Done!\n");
+$c->addEnwikiUsersByEditCount('extendedconfirmed', 500);
+$c->addEnwikiUsersByEditCount('10k', 10000);
 
-View::echoAndFlush("Get sysop\n");
-$data = Query::getUsersWithPerm('sysop', $enwiki);
-$ul->addUsers($data, 'sysop');
-View::echoAndFlush("Done!\n");
-
-View::echoAndFlush("Get formeradmins\n");
-$data1 = Query::getAllAdminsEverEnwiki($enwiki);
-$data2 = Query::getAllAdminsEverMetawiki($metawiki);
-$data = array_merge($data1, $data2);
-$ul->addUsers($data, 'formeradmin');
-View::echoAndFlush("Done!\n");
-
-View::echoAndFlush("Get patroller\n");
-$data = Query::getUsersWithPerm('patroller', $enwiki);
-$ul->addUsers($data, 'patroller');
-View::echoAndFlush("Done!\n");
-
-View::echoAndFlush("Get extendedconfirmed\n");
-$data = Query::getUsersWithEditCount(500, $enwiki); // doing by edit count instead of perm gets 14,000 additional users, and captures users who have above 500 edits but for some reason don't have the extendedconfirmed perm. however this is the slowest query we do, taking around 3 minutes
-$ul->addUsers($data, 'extendedconfirmed');
-View::echoAndFlush("Done!\n");
-
-View::echoAndFlush("Get bot\n");
-$data = Query::getUsersWithPerm('bot', $enwiki);
-$ul->addUsers($data, 'bot');
-View::echoAndFlush("Done!\n");
-
-// Not used by UserHighlighterSimple, but could potentially be used by other scripts
-View::echoAndFlush("Get checkuser\n");
-$data = Query::getUsersWithPerm('checkuser', $enwiki);
-$ul->addUsers($data, 'checkuser');
-View::echoAndFlush("Done!\n");
-
-// Not used by UserHighlighterSimple, but could potentially be used by other scripts
-View::echoAndFlush("Get suppress\n"); // oversighter
-$data = Query::getUsersWithPerm('suppress', $enwiki);
-$ul->addUsers($data, 'suppress');
-View::echoAndFlush("Done!\n");
-
-View::echoAndFlush("Get 10k editors\n");
-$data = Query::getUsersWithEditCount(10000, $enwiki);
-$ul->addUsers($data, '10k');
-View::echoAndFlush("Done!\n");
 
 
 
