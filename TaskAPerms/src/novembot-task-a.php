@@ -9,6 +9,7 @@
 // TODO: better class names, better file names
 
 require_once('Query.php');
+require_once('HardCodedSocks.php');
 
 Class UserList {
 	function __constructor() {
@@ -16,126 +17,7 @@ Class UserList {
 	}
 
 	function _addHardCodedSocks() {
-		// Wikimedia Foundation board of trustees: https://meta.wikimedia.org/wiki/Wikimedia_Foundation_Board_of_Trustees
-		$this->data['boardOfTrustees']['Jimbo Wales'] = 1;
-		$this->data['boardOfTrustees']['Esh77'] = 1; // Shani (WMF)
-		$this->data['boardOfTrustees']['Antanana'] = 1; // NTymkiv (WMF)
-		$this->data['boardOfTrustees']['Pundit'] = 1;
-		$this->data['boardOfTrustees']['Rosiestep'] = 1;
-		$this->data['boardOfTrustees']['Victoria'] = 1;
-		$this->data['boardOfTrustees']['Laurentius'] = 1;
-		$this->data['boardOfTrustees']['Mike Peel'] = 1;
-
-		// Wikimedia Endowment board of directors: https://meta.wikimedia.org/wiki/Wikimedia_Endowment#Wikimedia_Endowment_Advisory_Board_Members
-		$this->data['boardOfTrustees']['Phoebe'] = 1;
-		$this->data['boardOfTrustees']['Patricio.lorente'] = 1;
-
-		// WMF staff's personal accounts
-		$this->data['staff']['Cscott'] = 1; // SAnanian (WMF)
-		$this->data['staff']['the wub'] = 1; // Pcoombe (WMF)
-		$this->data['staff']['Matma Rex'] = 1; // Bartosz Dziewoński (WMF)
-		$this->data['staff']['Aaron Schulz'] = 1; // Aaron Schulz (WMF)
-		$this->data['staff']['Brion VIBBER'] = 1; // Brion Vibber (WMF)
-		$this->data['staff']['Catrope'] = 1; // Roan Kattouw (WMF)
-		$this->data['staff']['Hashar'] = 1; // Amusso (WMF)
-		$this->data['staff']['Seddon'] = 1; // Seddon (WMF)
-		$this->data['staff']['Krinkle'] = 1; // Timo Tijhof (WMF)
-		$this->data['staff']['Ladsgroup'] = 1; // ASarabadani (WMF)
-		$this->data['staff']['Lucas Werkmeister'] = 1; // Lucas Werkmeister (WMDE)
-		$this->data['staff']['Reedy'] = 1; // Reedy (WMF)
-		$this->data['staff']['Tim Starling'] = 1; // Tim Starling (WMF)
-		$this->data['staff']['Addshore'] = 1; // Adam Shorland (WMDE)
-		$this->data['staff']['Xeno'] = 1; // Xeno (WMF)
-		$this->data['staff']['Whatamidoing'] = 1; // Whatamidoing (WMF)
-
-		/*
-		// https://gerrit.wikimedia.org/r/admin/groups/4cdcb3a1ef2e19d73bc9a97f1d0f109d2e0209cd,members
-		$this->data['mediawikiPlusTwo']['Aaron Schulz'] = 1;
-		$this->data['mediawikiPlusTwo']['Addshore'] = 1;
-		$this->data['mediawikiPlusTwo']['Ammarpad'] = 1;
-		$this->data['mediawikiPlusTwo']['Anomie'] = 1;
-		$this->data['mediawikiPlusTwo']['Aude'] = 1;
-		$this->data['mediawikiPlusTwo']['Awjrichards'] = 1;
-		$this->data['mediawikiPlusTwo']['Matma Rex'] = 1; // Bartosz Dziewoński
-		$this->data['mediawikiPlusTwo']['Brion VIBBER'] = 1;
-		$this->data['mediawikiPlusTwo']['Catrope'] = 1; // Roan Kattouw
-		$this->data['mediawikiPlusTwo']['Daimona Eaytoy'] = 1;
-		$this->data['mediawikiPlusTwo']['DannyS712'] = 1;
-		$this->data['mediawikiPlusTwo']['Glaisher'] = 1;
-		$this->data['mediawikiPlusTwo']['Hashar'] = 1; // Antoine Musso
-		$this->data['mediawikiPlusTwo']['Hoo man'] = 1; // also a steward
-		$this->data['mediawikiPlusTwo']['Huji'] = 1;
-		$this->data['mediawikiPlusTwo']['Jack Phoenix'] = 1;
-		$this->data['mediawikiPlusTwo']['Jackmcbarn'] = 1;
-		$this->data['mediawikiPlusTwo']['JanZerebecki'] = 1;
-		$this->data['mediawikiPlusTwo']['Kaldari'] = 1;
-		$this->data['mediawikiPlusTwo']['Krinkle'] = 1;
-		$this->data['mediawikiPlusTwo']['Ladsgroup'] = 1;
-		$this->data['mediawikiPlusTwo']['Legoktm'] = 1;
-		$this->data['mediawikiPlusTwo']['Lucas Werkmeister'] = 1;
-		$this->data['mediawikiPlusTwo']['Lucas Werkmeister (WMDE)'] = 1;
-		$this->data['mediawikiPlusTwo']['Taavi'] = 1; // Majavah
-		$this->data['mediawikiPlusTwo']['MarkAHershberger'] = 1;
-		$this->data['mediawikiPlusTwo']['Matěj Suchánek'] = 1;
-		$this->data['mediawikiPlusTwo']['MaxSem'] = 1;
-		$this->data['mediawikiPlusTwo']['Mglaser'] = 1;
-		$this->data['mediawikiPlusTwo']['Mvolz'] = 1;
-		$this->data['mediawikiPlusTwo']['Parent5446'] = 1;
-		$this->data['mediawikiPlusTwo']['Platonides'] = 1;
-		$this->data['mediawikiPlusTwo']['PleaseStand'] = 1;
-		$this->data['mediawikiPlusTwo']['Reedy'] = 1;
-		$this->data['mediawikiPlusTwo']['SPQRobin'] = 1;
-		$this->data['mediawikiPlusTwo']['Siebrand'] = 1;
-		$this->data['mediawikiPlusTwo']['TheDJ'] = 1;
-		$this->data['mediawikiPlusTwo']['Thiemo Kreuz (WMDE)'] = 1;
-		$this->data['mediawikiPlusTwo']['Tim Starling'] = 1;
-		$this->data['mediawikiPlusTwo']['Trevor Parscal'] = 1;
-		$this->data['mediawikiPlusTwo']['Umherirrender'] = 1;
-		$this->data['mediawikiPlusTwo']['Martin Urbanec'] = 1;
-		$this->data['mediawikiPlusTwo']['Christoph Jauera (WMDE)'] = 1; //WMDE-Fisch
-		$this->data['mediawikiPlusTwo']['Leszek Manicki (WMDE)'] = 1;
-		*/
-
-		// On the list of former admins, but not highlighted by the two former admin queries
-		// TODO: link these to their renames instead
-		$this->data['formeradmin']['168...'] = 1;
-		$this->data['formeradmin']['172'] = 1;
-		$this->data['formeradmin']['1Angela'] = 1;
-		$this->data['formeradmin']['Ævar Arnfjörð Bjarmason'] = 1;
-		$this->data['formeradmin']['Andre Engels'] = 1;
-		$this->data['formeradmin']['Ark30inf'] = 1;
-		$this->data['formeradmin']['Aussie Article Writer'] = 1;
-		$this->data['formeradmin']['Baldhur'] = 1;
-		$this->data['formeradmin']['Blankfaze'] = 1;
-		$this->data['formeradmin']['Cedar-Guardian'] = 1;
-		$this->data['formeradmin']['Chuck Smith'] = 1;
-		$this->data['formeradmin']['Fire'] = 1;
-		$this->data['formeradmin']['Isis~enwiki'] = 1;
-		$this->data['formeradmin']['Jeronim'] = 1;
-		$this->data['formeradmin']['Kate'] = 1;
-		$this->data['formeradmin']['Kils'] = 1;
-		$this->data['formeradmin']['KimvdLinde'] = 1;
-		$this->data['formeradmin']['Koyaanis Qatsi'] = 1;
-		$this->data['formeradmin']['KRS'] = 1;
-		$this->data['formeradmin']['Kyle Barbour'] = 1;
-		$this->data['formeradmin']['Looxix'] = 1;
-		$this->data['formeradmin']['Mentoz86'] = 1;
-		$this->data['formeradmin']['TheCustomOfLife'] = 1;
-		$this->data['formeradmin']['Muriel Gottrop'] = 1;
-		$this->data['formeradmin']['Paul Benjamin Austin'] = 1;
-		$this->data['formeradmin']['Pcb22'] = 1;
-		$this->data['formeradmin']['Rootology'] = 1;
-		$this->data['formeradmin']['SalopianJames'] = 1;
-		$this->data['formeradmin']['Fys'] = 1;
-		$this->data['formeradmin']['Secret (renamed)'] = 1;
-		$this->data['formeradmin']['Sewing'] = 1;
-		$this->data['formeradmin']['Stephen Gilbert'] = 1;
-		$this->data['formeradmin']['StringTheory11'] = 1;
-		$this->data['formeradmin']['Testuser2'] = 1;
-		$this->data['formeradmin']['Vanished user'] = 1;
-		$this->data['formeradmin']['Viridian Bovary'] = 1;
-		$this->data['formeradmin']['User2004'] = 1;
-		$this->data['formeradmin']['Muriel Gottrop~enwiki'] = 1;
+		$this->data = HardCodedSocks::add($this->data);
 	}
 
 	function _addLinkedUsernames() {
@@ -145,7 +27,7 @@ Class UserList {
 
 	function _buildLinkedUsernamesList() {
 		// { "oldName": "currentName" }
-		$fileString = file_get_contents('linkedUsernames.json', true);
+		$fileString = file_get_contents('LinkedUsernames.json', true);
 		// $this->linkedUsernames['oldName'] = 'currentName';
 		$this->linkedUsernames = json_decode($fileString, true);
 	}
@@ -168,17 +50,23 @@ Class UserList {
 		return $flattened;
 	}
 	
-	/** Input should be in the format ['username1', 'username2', 'etc.'] */
-	function addList($list, $name) {
-		$this->data[$name] = $this->flatten_sql($list);
+	/**
+	 * Input should be in the format ['username1', 'username2', 'etc.']
+	 */
+	function addUsers($list, $permission) {
+		$this->data[$permission] = $this->flatten_sql($list);
 	}
 	
-	/** Input should already be in the ['username'] = 1 format. */
-	function addProperlyFormatted($json, $name) {
-		$this->data[$name] = $json;
+	/**
+	 * Input should already be in the ['username'] = 1 format.
+	 */
+	function addProperlyFormatted($json, $permission) {
+		$this->data[$permission] = $json;
 	}
 	
-	// Array with multiple perms
+	/**
+	 * @return array Array with multiple perms
+	 */
 	function get_all_json() {
 		$this->_addHardCodedSocks();
 		$this->_addLinkedUsernames();
@@ -186,7 +74,9 @@ Class UserList {
 		return json_encode($this->data, JSON_UNESCAPED_UNICODE);
 	}
 	
-	// Array with one perm only, and it is flatter than the multiple perm array
+	/**
+	 * @return array Array with one perm only, and it is flatter than the multiple perm array
+	 */
 	function get_one_json() {
 		$this->_addHardCodedSocks();
 		$this->_addLinkedUsernames();
@@ -195,7 +85,9 @@ Class UserList {
 	}
 }
 
-/** flushing (ob_flush, flush) doesn't appear to work on Toolforge web due to gzip compression. Works in CLI though. */
+/**
+ * flushing (ob_flush, flush) doesn't appear to work on Toolforge web due to gzip compression. Works in CLI though.
+ */
 function echoAndFlush($str) {
 	echo $str;
 }
@@ -233,88 +125,88 @@ $ul = new UserList();
 
 echoAndFlush("Get founder\n");
 $data = Query::getGlobalUsersWithPerm('founder', $centralauth);
-$ul->addList($data, 'founder');
+$ul->addUsers($data, 'founder');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get steward\n");
 $data = Query::getGlobalUsersWithPerm('steward', $centralauth);
-$ul->addList($data, 'steward');
+$ul->addUsers($data, 'steward');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get sysadmin\n");
 $data = Query::getGlobalUsersWithPerm('sysadmin', $centralauth);
-$ul->addList($data, 'sysadmin');
+$ul->addUsers($data, 'sysadmin');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get staff\n");
 $data = Query::getGlobalUsersWithPerm('staff', $centralauth);
-$ul->addList($data, 'staff');
+$ul->addUsers($data, 'staff');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get global-interface-editor\n");
 $data = Query::getGlobalUsersWithPerm('global-interface-editor', $centralauth);
-$ul->addList($data, 'global-interface-editor');
+$ul->addUsers($data, 'global-interface-editor');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get global-sysop\n");
 $data = Query::getGlobalUsersWithPerm('global-sysop', $centralauth);
-$ul->addList($data, 'global-sysop');
+$ul->addUsers($data, 'global-sysop');
 echoAndFlush("Done!\n");
 
 // META ==========================================
 
 echoAndFlush("Get wmf-supportsafety\n");
 $data = Query::getUsersWithPerm('wmf-supportsafety', $metawiki);
-$ul->addList($data, 'wmf-supportsafety');
+$ul->addUsers($data, 'wmf-supportsafety');
 echoAndFlush("Done!\n");
 
 // EN-WIKI =======================================
 
 echoAndFlush("Get bureaucrat\n");
 $data = Query::getUsersWithPerm('bureaucrat', $enwiki);
-$ul->addList($data, 'bureaucrat');
+$ul->addUsers($data, 'bureaucrat');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get sysop\n");
 $data = Query::getUsersWithPerm('sysop', $enwiki);
-$ul->addList($data, 'sysop');
+$ul->addUsers($data, 'sysop');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get formeradmins\n");
 $data1 = Query::getAllAdminsEverEnwiki($enwiki);
 $data2 = Query::getAllAdminsEverMetawiki($metawiki);
 $data = array_merge($data1, $data2);
-$ul->addList($data, 'formeradmin');
+$ul->addUsers($data, 'formeradmin');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get patroller\n");
 $data = Query::getUsersWithPerm('patroller', $enwiki);
-$ul->addList($data, 'patroller');
+$ul->addUsers($data, 'patroller');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get extendedconfirmed\n");
 $data = Query::getUsersWithEditCount(500, $enwiki); // doing by edit count instead of perm gets 14,000 additional users, and captures users who have above 500 edits but for some reason don't have the extendedconfirmed perm. however this is the slowest query we do, taking around 3 minutes
-$ul->addList($data, 'extendedconfirmed');
+$ul->addUsers($data, 'extendedconfirmed');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get bot\n");
 $data = Query::getUsersWithPerm('bot', $enwiki);
-$ul->addList($data, 'bot');
+$ul->addUsers($data, 'bot');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get checkuser\n");
 $data = Query::getUsersWithPerm('checkuser', $enwiki);
-$ul->addList($data, 'checkuser');
+$ul->addUsers($data, 'checkuser');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get suppress\n"); // oversighter
 $data = Query::getUsersWithPerm('suppress', $enwiki);
-$ul->addList($data, 'suppress');
+$ul->addUsers($data, 'suppress');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get 10k editors\n");
 $data = Query::getUsersWithEditCount(10000, $enwiki);
-$ul->addList($data, '10k');
+$ul->addUsers($data, '10k');
 echoAndFlush("Done!\n");
 
 
