@@ -5,9 +5,10 @@
 // TODO: the "GET X" code below has a bunch of repetition, extract those into functions
 
 require_once("botclasses.php");
+require_once('Database.php');
+require_once('HardCodedSocks.php');
 require_once("logininfo.php");
 require_once('Query.php');
-require_once('HardCodedSocks.php');
 require_once('UserList.php');
 require_once('View.php');
 
@@ -19,18 +20,9 @@ View::dieIfInvalidPassword($http_get_password);
 
 View::echoAndFlush("PHP version: " . PHP_VERSION . "\n\n");
 
-// connect to replica SQL databases
-$ts_pw = posix_getpwuid(posix_getuid());
-$ts_mycnf = parse_ini_file($ts_pw['dir'] . "/replica.my.cnf");
-
-// Must use database_p. database will not work.
-$enwiki = new PDO("mysql:host=enwiki.analytics.db.svc.wikimedia.cloud;dbname=enwiki_p", $ts_mycnf['user'], $ts_mycnf['password']);
-$metawiki = new PDO("mysql:host=metawiki.analytics.db.svc.wikimedia.cloud;dbname=metawiki_p", $ts_mycnf['user'], $ts_mycnf['password']);
-$centralauth = new PDO("mysql:host=metawiki.analytics.db.svc.wikimedia.cloud;dbname=centralauth_p", $ts_mycnf['user'], $ts_mycnf['password']);
-
-$enwiki->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
-$metawiki->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
-$centralauth->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
+$enwiki = Database::create('enwiki');
+$metawiki = Database::create('metawiki');
+$centralauth = Database::create('centralauth');
 
 $ul = new UserList();
 

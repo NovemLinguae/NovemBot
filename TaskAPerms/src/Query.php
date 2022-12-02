@@ -30,7 +30,8 @@ Class Query {
 	}
 	
 	/**
-	 * For 10k, takes 11 to 22 seconds. Removing ORDER BY doesn't speed it up.
+	 * For 10k edits, takes 11 to 22 seconds. Removing ORDER BY doesn't speed it up. For 500
+	 * edits, takes 3 minutes. More thorough than relying on extendedconfirmed perm though.
 	 */
 	static function getUsersWithEditCount($minimum_edits, $db) {
 		$query = $db->prepare("
