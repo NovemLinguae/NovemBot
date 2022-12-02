@@ -2,88 +2,11 @@
 
 // https://novem-bot.toolforge.org/task-a/novembot-task-a.php?password=
 
-// Things to refactor now that I'm looking at this a year later...
 // TODO: the "GET X" code below has a bunch of repetition, extract those into functions
-// TODO: get hard coded socks out of this and into its own JSON file. if i want to keep the comments, make those data instead. so something like { 'name': 'abc', 'comment': 'def' }. or use .yml, which supports #comments. example .yml file in MusikBot repository
-// TODO: delete dead code and thick comment blocks
-// TODO: better class names, better file names
 
 require_once('Query.php');
 require_once('HardCodedSocks.php');
-
-Class UserList {
-	function __constructor() {
-		$this->data = [];
-	}
-
-	function _addHardCodedSocks() {
-		$this->data = HardCodedSocks::add($this->data);
-	}
-
-	function _addLinkedUsernames() {
-		$this->_buildLinkedUsernamesList();
-		$this->_linkMainAndAltUsernames();
-	}
-
-	function _buildLinkedUsernamesList() {
-		// { "oldName": "currentName" }
-		$fileString = file_get_contents('LinkedUsernames.json', true);
-		// $this->linkedUsernames['oldName'] = 'currentName';
-		$this->linkedUsernames = json_decode($fileString, true);
-	}
-
-	function _linkMainAndAltUsernames() {
-		foreach ( $this->linkedUsernames as $altUsername => $mainUsername ) {
-			foreach ( $this->data as $permission => $arrayOfUsernames ) {
-				if ( $this->data[$permission][$mainUsername] ?? '' ) {
-					$this->data[$permission][$altUsername] = 1;
-				}
-			}
-		}
-	}
-
-	function flatten_sql($list) {
-		$flattened = [];
-		foreach ( $list as $value ) {
-			$flattened[$value[0]] = 1;
-		}
-		return $flattened;
-	}
-	
-	/**
-	 * Input should be in the format ['username1', 'username2', 'etc.']
-	 */
-	function addUsers($list, $permission) {
-		$this->data[$permission] = $this->flatten_sql($list);
-	}
-	
-	/**
-	 * Input should already be in the ['username'] = 1 format.
-	 */
-	function addProperlyFormatted($json, $permission) {
-		$this->data[$permission] = $json;
-	}
-	
-	/**
-	 * @return array Array with multiple perms
-	 */
-	function get_all_json() {
-		$this->_addHardCodedSocks();
-		$this->_addLinkedUsernames();
-		// Format data. Escape backslashes.
-		return json_encode($this->data, JSON_UNESCAPED_UNICODE);
-	}
-	
-	/**
-	 * @return array Array with one perm only, and it is flatter than the multiple perm array
-	 */
-	function get_one_json() {
-		$this->_addHardCodedSocks();
-		$this->_addLinkedUsernames();
-		$first_key = array_key_first($this->data);
-		return json_encode($this->data[$first_key], JSON_UNESCAPED_UNICODE);
-	}
-}
+require_once('UserList.php');
 
 /**
  * flushing (ob_flush, flush) doesn't appear to work on Toolforge web due to gzip compression. Works in CLI though.
@@ -194,11 +117,13 @@ $data = Query::getUsersWithPerm('bot', $enwiki);
 $ul->addUsers($data, 'bot');
 echoAndFlush("Done!\n");
 
+// Not used by UserHighlighterSimple, but could potentially be used by other scripts
 echoAndFlush("Get checkuser\n");
 $data = Query::getUsersWithPerm('checkuser', $enwiki);
 $ul->addUsers($data, 'checkuser');
 echoAndFlush("Done!\n");
 
+// Not used by UserHighlighterSimple, but could potentially be used by other scripts
 echoAndFlush("Get suppress\n"); // oversighter
 $data = Query::getUsersWithPerm('suppress', $enwiki);
 $ul->addUsers($data, 'suppress');
@@ -238,7 +163,7 @@ echoAndFlush("...done.\n");
 
 
 echoAndFlush("\nWriting data to User:NovemBot subpage...\n");
-$page_contents = $ul->get_all_json();
+$page_contents = $ul->getAllJson();
 $objwiki->edit(
 	'User:NovemBot/userlist.js',
 	$page_contents,
