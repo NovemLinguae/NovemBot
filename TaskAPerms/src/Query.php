@@ -1,7 +1,9 @@
 <?php
 
 Class Query {
-	/** Takes 0 seconds */
+	/**
+	 * Takes 0 seconds
+	 */
 	static function getUsersWithPerm($perm, $db) {
 		$query = $db->prepare("
 			SELECT user_name
@@ -27,7 +29,9 @@ Class Query {
 		return $query->fetchAll();
 	}
 	
-	/** For 10k, takes 11 to 22 seconds. Removing ORDER BY doesn't speed it up. */
+	/**
+	 * For 10k, takes 11 to 22 seconds. Removing ORDER BY doesn't speed it up.
+	 */
 	static function getUsersWithEditCount($minimum_edits, $db) {
 		$query = $db->prepare("
 			SELECT user_name
@@ -39,7 +43,9 @@ Class Query {
 		return $query->fetchAll();
 	}
 
-	/** Includes former admins */
+	/**
+	 * Includes former admins
+	 */
 	static function getAllAdminsEverEnwiki($db) {
 		$query = $db->prepare("
 			SELECT DISTINCT REPLACE(log_title, '_', ' ') AS promoted_to_admin
@@ -53,7 +59,9 @@ Class Query {
 		return $query->fetchAll();
 	}
 
-	/** Includes former admins */
+	/**
+	 * Includes former admins
+	 */
 	static function getAllAdminsEverMetawiki($db) {
 		$query = $db->prepare("
 			SELECT DISTINCT REPLACE(REPLACE(log_title, '_', ' '), '@enwiki', '') AS promoted_to_admin
