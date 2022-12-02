@@ -9,74 +9,7 @@
 // TODO: delete dead code and thick comment blocks
 // TODO: better class names, better file names
 
-Class DataRetriever {
-	// Takes 0 seconds
-	static function get_users_with_perm($perm, $db) {
-		$query = $db->prepare("
-			SELECT user_name
-			FROM user
-			JOIN user_groups ON ug_user = user_id
-			WHERE ug_group = '".$perm."'
-			ORDER BY user_name ASC;
-		");
-		$query->execute();
-		return $query->fetchAll();
-	}
-
-	static function get_global_users_with_perm($perm, $db) {
-		// globaluser is a special SQL table created by [[mw:Extension:CentralAuth]]
-		$query = $db->prepare("
-			SELECT gu_name
-			FROM globaluser
-			JOIN global_user_groups ON gug_user = gu_id
-			WHERE gug_group = '".$perm."'
-			ORDER BY gu_name ASC;
-		");
-		$query->execute();
-		return $query->fetchAll();
-	}
-	
-	// For 10k, takes 11 to 22 seconds. Removing ORDER BY doesn't speed it up.
-	static function get_users_with_edit_count($minimum_edits, $db) {
-		$query = $db->prepare("
-			SELECT user_name
-			FROM user
-			WHERE user_editcount >= ".$minimum_edits."
-			ORDER BY user_editcount DESC;
-		");
-		$query->execute();
-		return $query->fetchAll();
-	}
-
-	/** Includes former admins */
-	static function get_all_admins_ever_enwiki_db($db) {
-		$query = $db->prepare("
-			SELECT DISTINCT REPLACE(log_title, '_', ' ') AS promoted_to_admin
-			FROM logging
-			WHERE log_type = 'rights'
-				AND log_action = 'rights'
-				AND log_params LIKE '%sysop%'
-			ORDER BY log_title ASC;
-		");
-		$query->execute();
-		return $query->fetchAll();
-	}
-
-	/** Includes former admins */
-	static function get_all_admins_ever_metawiki_db($db) {
-		$query = $db->prepare("
-			SELECT DISTINCT REPLACE(REPLACE(log_title, '_', ' '), '@enwiki', '') AS promoted_to_admin
-			FROM logging_logindex
-			WHERE log_type = 'rights'
-				AND log_action = 'rights'
-				AND log_title LIKE '%@enwiki'
-				AND log_params LIKE '%sysop%'
-			ORDER BY log_title ASC
-		");
-		$query->execute();
-		return $query->fetchAll();
-	}
-}
+require_once('Query.php');
 
 Class UserList {
 	function __constructor() {
@@ -322,78 +255,88 @@ $ul = new UserList();
 // CENTRALAUTH =========================================
 
 echoAndFlush("Get founder\n");
-$data = DataRetriever::get_global_users_with_perm('founder', $centralauth);
+$data = Query::getGlobalUsersWithPerm('founder', $centralauth);
 $ul->addList($data, 'founder');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get steward\n");
-$data = DataRetriever::get_global_users_with_perm('steward', $centralauth);
+$data = Query::getGlobalUsersWithPerm('steward', $centralauth);
 $ul->addList($data, 'steward');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get sysadmin\n");
-$data = DataRetriever::get_global_users_with_perm('sysadmin', $centralauth);
+$data = Query::getGlobalUsersWithPerm('sysadmin', $centralauth);
 $ul->addList($data, 'sysadmin');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get staff\n");
-$data = DataRetriever::get_global_users_with_perm('staff', $centralauth);
+$data = Query::getGlobalUsersWithPerm('staff', $centralauth);
 $ul->addList($data, 'staff');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get global-interface-editor\n");
-$data = DataRetriever::get_global_users_with_perm('global-interface-editor', $centralauth);
+$data = Query::getGlobalUsersWithPerm('global-interface-editor', $centralauth);
 $ul->addList($data, 'global-interface-editor');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get global-sysop\n");
-$data = DataRetriever::get_global_users_with_perm('global-sysop', $centralauth);
+$data = Query::getGlobalUsersWithPerm('global-sysop', $centralauth);
 $ul->addList($data, 'global-sysop');
 echoAndFlush("Done!\n");
 
 // META ==========================================
 
 echoAndFlush("Get wmf-supportsafety\n");
-$data = DataRetriever::get_users_with_perm('wmf-supportsafety', $metawiki);
+$data = Query::getUsersWithPerm('wmf-supportsafety', $metawiki);
 $ul->addList($data, 'wmf-supportsafety');
 echoAndFlush("Done!\n");
 
 // EN-WIKI =======================================
 
 echoAndFlush("Get bureaucrat\n");
-$data = DataRetriever::get_users_with_perm('bureaucrat', $enwiki);
+$data = Query::getUsersWithPerm('bureaucrat', $enwiki);
 $ul->addList($data, 'bureaucrat');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get sysop\n");
-$data = DataRetriever::get_users_with_perm('sysop', $enwiki);
+$data = Query::getUsersWithPerm('sysop', $enwiki);
 $ul->addList($data, 'sysop');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get formeradmins\n");
-$data1 = DataRetriever::get_all_admins_ever_enwiki_db($enwiki);
-$data2 = DataRetriever::get_all_admins_ever_metawiki_db($metawiki);
+$data1 = Query::getAllAdminsEverEnwiki($enwiki);
+$data2 = Query::getAllAdminsEverMetawiki($metawiki);
 $data = array_merge($data1, $data2);
 $ul->addList($data, 'formeradmin');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get patroller\n");
-$data = DataRetriever::get_users_with_perm('patroller', $enwiki);
+$data = Query::getUsersWithPerm('patroller', $enwiki);
 $ul->addList($data, 'patroller');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get extendedconfirmed\n");
-$data = DataRetriever::get_users_with_edit_count(500, $enwiki); // doing by edit count instead of perm gets 14,000 additional users, and captures users who have above 500 edits but for some reason don't have the extendedconfirmed perm. however this is the slowest query we do, taking around 3 minutes
+$data = Query::getUsersWithEditCount(500, $enwiki); // doing by edit count instead of perm gets 14,000 additional users, and captures users who have above 500 edits but for some reason don't have the extendedconfirmed perm. however this is the slowest query we do, taking around 3 minutes
 $ul->addList($data, 'extendedconfirmed');
 echoAndFlush("Done!\n");
 
 echoAndFlush("Get bot\n");
-$data = DataRetriever::get_users_with_perm('bot', $enwiki);
+$data = Query::getUsersWithPerm('bot', $enwiki);
 $ul->addList($data, 'bot');
 echoAndFlush("Done!\n");
 
+echoAndFlush("Get checkuser\n");
+$data = Query::getUsersWithPerm('checkuser', $enwiki);
+$ul->addList($data, 'checkuser');
+echoAndFlush("Done!\n");
+
+echoAndFlush("Get suppress\n"); // oversighter
+$data = Query::getUsersWithPerm('suppress', $enwiki);
+$ul->addList($data, 'suppress');
+echoAndFlush("Done!\n");
+
 echoAndFlush("Get 10k editors\n");
-$data = DataRetriever::get_users_with_edit_count(10000, $enwiki);
+$data = Query::getUsersWithEditCount(10000, $enwiki);
 $ul->addList($data, '10k');
 echoAndFlush("Done!\n");
 
