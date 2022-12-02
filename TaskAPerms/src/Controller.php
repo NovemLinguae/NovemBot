@@ -1,11 +1,23 @@
 <?php
 
 class Controller {
-	function __construct($enwiki, $metawiki, $centralauth, $userList) {
+	/**
+	 * @param PDO $enwiki
+	 * @param PDO $metawiki
+	 * @param PDO $centralauth
+	 * @param UserList $userlist
+	 * @param wikipedia $wp
+	 * @param string $wikiUsername
+	 * @param string $wikiPassword
+	 */
+	function __construct($enwiki, $metawiki, $centralauth, $userList, $wp, $wikiUsername, $wikiPassword) {
 		$this->enwiki = $enwiki;
 		$this->metawiki = $metawiki;
 		$this->centralauth = $centralauth;
 		$this->userList = $userList;
+		$this->wp = $wp;
+		$this->wikiUsername = $wikiUsername;
+		$this->wikiPassword = $wikiPassword;
 	}
 
 	function addCentralAuthUsers($permission) {
@@ -43,5 +55,20 @@ class Controller {
 		$data = Query::getUsersWithEditCount($minimumEditCount, $this->enwiki);
 		$this->userList->addUsers($data, $permission);
 		View::echoAndFlush("Done!\n");
+	}
+
+	function logIn() {
+		View::echoAndFlush("\nLogging in...\n");
+		$this->wp->http->useragent = '[[en:User:NovemBot]] task A, owner [[en:User:Novem Linguae]], framework [[en:User:RMCD_bot/botclasses.php]]';
+		$this->wp->login($this->wikiUsername, $this->wikiPassword);
+		View::echoAndFlush("Done!\n");
+	}
+
+	function importJsonFromEnwiki($permission, $enwikiNamespaceAndPage) {
+
+	}
+
+	function writeUpdate() {
+
 	}
 }
