@@ -10,6 +10,7 @@ Novem Linguae Todo:
 - Trying to write 1,000,000 bytes when not autoconfirmed causes an error from the API, but it is not displayed by the framework.
 - PHP 8
 - Unit tests
+- @return api, @return Api, @return The need to have return type inserted, e.g. string
 
 */
 
@@ -258,7 +259,7 @@ class wikipedia {
      * Gets the content of a page. Returns false on error.
      * @param $page The wikipedia page to fetch.
      * @param $revid The revision id to fetch (optional)
-     * @return The wikitext for the page.
+     * @return string|false The wikitext for the page.
      **/
     function getpage ($page,$revid=null,$detectEditConflict=false) {
         $append = '';
