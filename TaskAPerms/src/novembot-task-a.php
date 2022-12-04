@@ -17,7 +17,7 @@ View::setErrorReporting();
 
 View::dieIfInvalidPassword($urlAndCliPassword);
 
-View::echoAndFlush("PHP version: " . PHP_VERSION . "\n\n");
+View::print("PHP version: " . PHP_VERSION . "\n\n");
 
 $enwiki = Database::create('enwiki');
 $metawiki = Database::create('metawiki');
@@ -55,4 +55,4 @@ $c->addUsersFromEnwikiJsonPage('productiveIPs', 'User:Novem_Linguae/User_lists/P
 
 $c->writeUpdate();
 
-View::echoAndFlush("\nMission accomplished.\n\n"); // extra line breaks at end for CLI
+View::print("\nMission accomplished.\n\n"); // extra line breaks at end for CLI
