@@ -18,7 +18,7 @@ class HardCodedSocks {
 
 		// WMF staff's personal accounts
 		$data['staff']['Cscott'] = 1; // SAnanian (WMF)
-		$data['staff']['the wub'] = 1; // Pcoombe (WMF)
+		$data['staff']['The wub'] = 1; // Pcoombe (WMF)
 		$data['staff']['Matma Rex'] = 1; // Bartosz Dziewoński (WMF)
 		$data['staff']['Aaron Schulz'] = 1; // Aaron Schulz (WMF)
 		$data['staff']['Brion VIBBER'] = 1; // Brion Vibber (WMF)
@@ -33,6 +33,8 @@ class HardCodedSocks {
 		$data['staff']['Addshore'] = 1; // Adam Shorland (WMDE)
 		$data['staff']['Xeno'] = 1; // Xeno (WMF)
 		$data['staff']['Whatamidoing'] = 1; // Whatamidoing (WMF)
+		$data['staff']['Deskana'] = 1; // Deskana (WMF)
+		$data['staff']['Jdforrester'] = 1; // Jdforrester (WMF)
 
 		// On the list of former admins, but not highlighted by the two former admin queries
 		// TODO: link these to their renames instead
