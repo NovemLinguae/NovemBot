@@ -35,6 +35,8 @@ class HardCodedSocks {
 		$data['staff']['Whatamidoing'] = 1; // Whatamidoing (WMF)
 		$data['staff']['Deskana'] = 1; // Deskana (WMF)
 		$data['staff']['Jdforrester'] = 1; // Jdforrester (WMF)
+		$data['staff']['ArielGlenn'] = 1;
+		$data['staff']['Jdlrobson'] = 1; // User:Jon (WMF)
 
 		// On the list of former admins, but not highlighted by the two former admin queries
 		// TODO: link these to their renames instead
