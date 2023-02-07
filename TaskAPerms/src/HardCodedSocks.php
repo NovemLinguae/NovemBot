@@ -32,11 +32,15 @@ class HardCodedSocks {
 		$data['staff']['Tim Starling'] = 1; // Tim Starling (WMF)
 		$data['staff']['Addshore'] = 1; // Adam Shorland (WMDE)
 		$data['staff']['Xeno'] = 1; // Xeno (WMF)
-		$data['staff']['Whatamidoing'] = 1; // Whatamidoing (WMF)
+		$data['staff']['WhatamIdoing'] = 1; // Whatamidoing (WMF)
 		$data['staff']['Deskana'] = 1; // Deskana (WMF)
 		$data['staff']['Jdforrester'] = 1; // Jdforrester (WMF)
 		$data['staff']['ArielGlenn'] = 1;
 		$data['staff']['Jdlrobson'] = 1; // User:Jon (WMF)
+		$data['staff']['Denny'] = 1; // User:DVrandecic (WMF)
+		$data['staff']['Slaporte'] = 1; // Stephen LaPorte
+		$data['staff']['Neil Shah-Quinn'] = 1;
+		$data['staff']['Tgr'] = 1;
 
 		// On the list of former admins, but not highlighted by the two former admin queries
 		// TODO: link these to their renames instead
@@ -78,7 +82,6 @@ class HardCodedSocks {
 		$data['formeradmin']['Viridian Bovary'] = 1;
 		$data['formeradmin']['User2004'] = 1;
 		$data['formeradmin']['Muriel Gottrop~enwiki'] = 1;
-
 
 		/*
 		// https://gerrit.wikimedia.org/r/admin/groups/4cdcb3a1ef2e19d73bc9a97f1d0f109d2e0209cd,members
