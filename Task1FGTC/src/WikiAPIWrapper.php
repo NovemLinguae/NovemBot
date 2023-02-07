@@ -2,6 +2,16 @@
 
 /** Wrapper for I/O. Makes it easier to test. botclasses.php getpage and edit methods can be replaced with other code when testing. For example, instead of writing to Wikipedia, I can change edit to write to a log file. */
 class WikiAPIWrapper {
+	protected $eh;
+	protected $READ_ONLY_TEST_MODE;
+	protected $SECONDS_BETWEEN_API_READS;
+	protected $SECONDS_BETWEEN_API_EDITS;
+	protected $h;
+	protected $wapi;
+	protected $editCount;
+	protected $mostRecentRevisionTimestamp;
+	protected $getMostRecentRevisionTimestamp;
+
 	function __construct(
 		string $wiki_username,
 		string $wiki_password,

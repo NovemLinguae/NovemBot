@@ -249,7 +249,7 @@ class wikipedia {
      * Gets the content of a page. Returns false on error.
      * @param $page The wikipedia page to fetch.
      * @param $revid The revision id to fetch (optional)
-     * @return The wikitext for the page.
+     * @return string|false The wikitext for the page.
      **/
     function getpage ($page,$revid=null,$detectEditConflict=false) {
         $append = '';
@@ -270,7 +270,7 @@ class wikipedia {
     /**
      * Gets the page id for a page.
      * @param $page The wikipedia page to get the id for.
-     * @return The page id of the page.
+     * @return int The page id of the page.
      **/
     function getpageid ($page) {
         $x = $this->query('?action=query&format=json&prop=revisions&titles='.urlencode($page).'&rvlimit=1&rvprop=content');
@@ -282,7 +282,7 @@ class wikipedia {
     /**
      * Gets the number of contributions a user has.
      * @param $user The username for which to get the edit count.
-     * @return The number of contributions the user has.
+     * @return int The number of contributions the user has.
      **/
     function contribcount ($user) {
         $x = $this->query('?action=query&list=allusers&format=json&auprop=editcount&aulimit=1&aufrom='.urlencode($user));
@@ -520,7 +520,7 @@ class wikipedia {
     /**
      * Purges the cache of $page.
      * @param $page The page to purge.
-     * @return Api result.
+     * @return array Api result.
      **/
     function purgeCache($page) {
         return $this->query('?action=purge&titles='.urlencode($page).'&format=json');
@@ -576,7 +576,7 @@ class wikipedia {
      * @param $summary Edit summary to use.
      * @param $minor Whether or not to mark edit as minor.  (Default false)
      * @param $bot Whether or not to mark edit as a bot edit.  (Default true)
-     * @return api result
+     * @return array api result
      **/
     function edit($page,$data,$summary = '',$minor = false,$bot = true,$section = null,$detectEC=false,$maxlag='') {
         if ($this->token==null) {
@@ -610,7 +610,7 @@ class wikipedia {
     * @param $summary Edit summary to use.
     * @param $minor Whether or not to mark edit as minor.  (Default false)
     * @param $bot Whether or not to mark edit as a bot edit.  (Default true)
-    * @return api result
+    * @return array api result
     **/
     function addtext( $page, $text, $summary = '', $minor = false, $bot = true )
     {
@@ -625,7 +625,7 @@ class wikipedia {
      * @param $new New page title.
      * @param $reason Move summary to use.
      * @param $movetalk Move the page's talkpage as well.
-     * @return api result
+     * @return array api result
      **/
     function move ($old,$new,$reason,$options=null) {
         if ($this->token==null) {
@@ -652,7 +652,7 @@ class wikipedia {
      * @param $user Username of last edit to the page to rollback.
      * @param $reason Edit summary to use for rollback.
      * @param $bot mark the rollback as bot.
-     * @return api result
+     * @return array api result
      **/
     function rollback ($title,$user,$reason=null,$bot=false) {
         $ret = $this->query('?action=query&prop=revisions&rvtoken=rollback&titles='.urlencode($title).'&format=json');
@@ -678,7 +678,7 @@ class wikipedia {
      * @param $reason The block reason.
      * @param $expiry The block expiry.
      * @param $options a piped string containing the block options.
-     * @return api result
+     * @return array api result
      **/
     function block ($user,$reason='vand',$expiry='infinite',$options=null,$retry=true) {
         if ($this->token==null) {
@@ -709,7 +709,7 @@ class wikipedia {
      * Unblocks a user.
      * @param $user The user to unblock.
      * @param $reason The unblock reason.
-     * @return api result
+     * @return array api result
      **/
     function unblock ($user,$reason) {
         if ($this->token==null) {
@@ -729,7 +729,7 @@ class wikipedia {
      * @param $subject The email subject.
      * @param $text The body of the email.
      * @param $ccme Send a copy of the email to the user logged in.
-     * @return api result
+     * @return array api result
      **/
     function email ($target,$subject,$text,$ccme=false) {
         if ($this->token==null) {
@@ -751,7 +751,7 @@ class wikipedia {
      * Deletes a page.
      * @param $title The page to delete.
      * @param $reason The delete reason.
-     * @return api result
+     * @return array api result
      **/
     function delete ($title,$reason) {
         if ($this->token==null) {
@@ -769,7 +769,7 @@ class wikipedia {
      * Undeletes a page.
      * @param $title The page to undelete.
      * @param $reason The undelete reason.
-     * @return api result
+     * @return array api result
      **/
     function undelete ($title,$reason) {
         if ($this->token==null) {
@@ -790,7 +790,7 @@ class wikipedia {
      * @param $expiry When the protection should expire (e.g. '1 day|infinite')
      * @param $reason The (un)protect reason.
      * @param $cascade Enable cascading protection? (defaults to false)
-     * @return api result
+     * @return array api result
      **/
     function protect ($title,$protections,$expiry,$reason,$cascade=false) {
         if ($this->token==null) {
@@ -830,11 +830,11 @@ class wikipedia {
         return $this->query('?action=upload&format=json&assert=user',$params);
      }
 
-    /*
-    $page - page
-    $revs - rev ids to delete (seperated with ,)
-    $comment - delete comment
-    */
+    /**
+      * @param $page - page
+      * @param $revs - rev ids to delete (seperated with ,)
+      * @param $comment - delete comment
+      */
     function revdel ($page,$revs,$comment) {
 
         if ($this->token==null) {
@@ -900,7 +900,7 @@ class wikipedia {
     /**
      * Gets the number of images matching a particular sha1 hash.
      * @param $hash The sha1 hash for an image.
-     * @return The number of images with the same sha1 hash.
+     * @return int The number of images with the same sha1 hash.
      **/
     function imagematches ($hash) {
 		$x = $this->query('?action=query&list=allimages&format=json&aisha1='.$hash);
@@ -910,7 +910,7 @@ class wikipedia {
 	/**  BMcN 2012-09-16
      * Retrieve a media file's actual location.
      * @param $page The "File:" page on the wiki which the URL of is desired.
-     * @return The URL pointing directly to the media file (Eg http://upload.mediawiki.org/wikipedia/en/1/1/Example.jpg)
+     * @return string|false The URL pointing directly to the media file (Eg http://upload.mediawiki.org/wikipedia/en/1/1/Example.jpg)
      **/
     function getfilelocation ($page) {
         $x = $this->query('?action=query&format=json&prop=imageinfo&titles='.urlencode($page).'&iilimit=1&iiprop=url');
@@ -925,7 +925,7 @@ class wikipedia {
     /**  BMcN 2012-09-16
      * Retrieve a media file's uploader.
      * @param $page The "File:" page
-     * @return The user who uploaded the topmost version of the file.
+     * @return string|false The user who uploaded the topmost version of the file.
      **/
     function getfileuploader ($page) {
         $x = $this->query('?action=query&format=json&prop=imageinfo&titles='.urlencode($page).'&iilimit=1&iiprop=user');
@@ -951,7 +951,7 @@ class extended extends wikipedia
      * @param $summary Edit summary to use.
      * @param $minor Whether or not to mark edit as minor.  (Default false)
      * @param $bot Whether or not to mark edit as a bot edit.  (Default true)
-     * @return api result
+     * @return array api result
      **/
     function addcategory( $page, $category, $summary = '', $minor = false, $bot = true )
     {
@@ -980,7 +980,7 @@ class extended extends wikipedia
      * @param $page The page we're working with.
      * @param $string The string that you want to replace.
      * @param $newstring The string that will replace the present string.
-     * @return the new text of page
+     * @return string the new text of page
      **/
     function replacestring( $page, $string, $newstring )
     {
@@ -992,7 +992,7 @@ class extended extends wikipedia
      * Get a template from a page
      * @param $page The page we're working with
      * @param $template The name of the template we are looking for
-     * @return the searched (NULL if the template has not been found)
+     * @return string|null the searched (NULL if the template has not been found)
      **/
     function gettemplate( $page, $template ) {
        $data = $this->getpage( $page );

@@ -1,6 +1,14 @@
 <?php
 
 class Controller {
+	protected $enwiki;
+	protected $metawiki;
+	protected $centralauth;
+	protected $userList;
+	protected $wp;
+	protected $wikiUsername;
+	protected $wikiPassword;
+
 	/**
 	 * @param PDO $enwiki
 	 * @param PDO $metawiki

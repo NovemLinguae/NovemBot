@@ -1,6 +1,9 @@
 <?php
 
 class Promote {
+	protected $eh;
+	protected $h;
+
 	function __construct(EchoHelper $eh, Helper $h) {
 		$this->eh = $eh;
 		$this->h = $h;

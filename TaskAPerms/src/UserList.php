@@ -1,6 +1,9 @@
 <?php
 
 Class UserList {
+	protected $data;
+	protected $linkedUsernames;
+
 	function __constructor() {
 		$this->data = [];
 	}

@@ -9,6 +9,15 @@ include("botclasses.php");
 include("logininfo.php");
 
 class SuspiciousImageFinder {
+	protected $get;
+	protected $http_get_password;
+	protected $argv;
+	protected $wiki_username;
+	protected $wiki_password;
+	protected $databaseConfigFile;
+	protected $enwiki;
+	protected $wikiAPI;
+
 	public function execute($get, $http_get_password, $argv, $wiki_username, $wiki_password, $databaseConfigFile) {
 		$this->get = $get;
 		$this->http_get_password = $http_get_password;

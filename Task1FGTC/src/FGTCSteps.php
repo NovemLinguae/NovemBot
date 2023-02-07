@@ -1,6 +1,26 @@
 <?php
 
 class FGTCSteps {
+	protected $p;
+	protected $eh;
+	protected $wapi;
+	protected $READ_ONLY_TEST_MODE;
+	protected $MAX_ARTICLES_ALLOWED_IN_TOPIC;
+	protected $ARTICLE_HISTORY_MAX_ACTIONS;
+	protected $logPageTitle;
+	protected $nominationPageTitle;
+	protected $goodOrFeatured;
+	protected $logPageWikicode;
+	protected $topicWikipediaPageTitle;
+	protected $nominationPageWikicode;
+	protected $topicBoxWikicode;
+	protected $mainArticleTitle;
+	protected $topicTitle;
+	protected $allArticleTitles;
+	protected $goodArticleCount;
+	protected $featuredArticleCount;
+	protected $datetime;
+
 	function __construct(
 		Promote $p,
 		EchoHelper $eh,
