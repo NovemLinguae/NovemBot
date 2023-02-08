@@ -17,6 +17,7 @@ class RFACountTest extends TestCase {
 		$return = json_decode($string, true);
 		return $return;
 	}
+
 	/**
 	  * @dataProvider provideCountRFBData
 	  */
@@ -29,4 +30,5 @@ class RFACountTest extends TestCase {
 		$string = file_get_contents(__DIR__ . '/RFBCountTest.json');
 		$return = json_decode($string, true);
 		return $return;
-	}}
+	}
+}

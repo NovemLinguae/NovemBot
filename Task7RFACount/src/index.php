@@ -7,7 +7,7 @@ function doRFA($wapi, $rfaPageWikitext) {
 "$count<noinclude>
 {{Documentation}}
 </noinclude>";
-	$editSummary = "set RFA count to $count (NovemBot Task C)";
+	$editSummary = "set RFA count to $count (NovemBot Task 7)";
 	$wapi->edit('User:Amalthea/RfX/RfA count', $wikicodeToWrite, $editSummary);
 }
 
@@ -15,7 +15,7 @@ function doRFB($wapi, $rfaPageWikitext) {
 	$count = countRFBs($rfaPageWikitext);
 
 	$wikicodeToWrite = $count;
-	$editSummary = "set RFB count to $count (NovemBot Task C)";
+	$editSummary = "set RFB count to $count (NovemBot Task 7)";
 	$wapi->edit('User:Amalthea/RfX/RfB count', $wikicodeToWrite, $editSummary);
 }
 

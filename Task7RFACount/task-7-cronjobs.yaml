@@ -1,9 +1,9 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: task-c
+  name: task-7
   labels:
-    name: novem-bot.task-c
+    name: novem-bot.task-7
     # The toolforge=tool label will cause $HOME and other paths to be mounted from Toolforge
     toolforge: tool
 spec:
@@ -22,7 +22,7 @@ spec:
             args:
             - /bin/sh
             - -c
-            - /data/project/novem-bot/task-c.sh
+            - /data/project/novem-bot/task-7.sh
             env:
             - name: HOME
               value: /data/project/novem-bot
