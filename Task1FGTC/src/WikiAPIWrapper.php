@@ -10,7 +10,6 @@ class WikiAPIWrapper {
 	protected $wapi;
 	protected $editCount;
 	protected $mostRecentRevisionTimestamp;
-	protected $getMostRecentRevisionTimestamp;
 
 	function __construct(
 		string $wiki_username,
@@ -161,6 +160,6 @@ class WikiAPIWrapper {
 	}
 
 	function getMostRecentRevisionTimestamp() {
-		return $this->h->convertTimestampToOffsetFormat($this->getMostRecentRevisionTimestamp);
+		return $this->h->convertTimestampToOffsetFormat($this->mostRecentRevisionTimestamp);
 	}
 }
