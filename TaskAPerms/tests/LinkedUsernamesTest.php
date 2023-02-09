@@ -3,6 +3,9 @@
 use PHPUnit\Framework\TestCase;
 
 class LinkedUsernamesTest extends TestCase {
+	protected $linkedUsernames;
+	protected $data;
+
 	function linkMainAndAltUsernames() {
 		foreach ( $this->linkedUsernames as $altUsername => $mainUsername ) {
 			foreach ( $this->data as $permission => $arrayOfUsernames ) {

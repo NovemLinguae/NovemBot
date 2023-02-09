@@ -3,6 +3,8 @@
 use PHPUnit\Framework\TestCase;
 
 class PromoteTest extends TestCase {
+	protected $p;
+
 	function setUp(): void {
 		// stub EchoHelper so that it doesn't echo
 		$eh = $this->createStub(EchoHelper::class);

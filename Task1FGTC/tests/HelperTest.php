@@ -3,6 +3,8 @@
 use PHPUnit\Framework\TestCase;
 
 class HelperTest extends TestCase {
+	protected $h;
+
 	function setUp(): void {
 		$this->h = new Helper();
 	}
