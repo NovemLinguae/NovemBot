@@ -1,8 +1,9 @@
 <?php
 
 Class UserList {
-	protected $data;
-	protected $linkedUsernames;
+	/** Making these public for unit test reasons */
+	public $data;
+	public $linkedUsernames;
 
 	function __constructor() {
 		$this->data = [];
@@ -71,10 +72,9 @@ Class UserList {
 	}
 
 	/**
-	 * There's a unit test for this logic. This function is copy pasted into PHPUnit. Be sure to
-	 * keep the copy pasted function in sync with this one.
+	 * Making this public so I can unit test it
 	 */ 
-	private function linkMainAndAltUsernames() {
+	function linkMainAndAltUsernames() {
 		foreach ( $this->linkedUsernames as $altUsername => $mainUsername ) {
 			foreach ( $this->data as $permission => $arrayOfUsernames ) {
 				if ( $this->data[$permission][$mainUsername] ?? '' ) {
