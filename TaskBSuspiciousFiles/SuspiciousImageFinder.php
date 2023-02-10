@@ -42,7 +42,7 @@ class SuspiciousImageFinder {
 			$i++;
 		}
 		$this->logInToWikipedia();
-		$this->makeEdit($filesMatchingCriteria, 'User:Minorax/files');
+		$this->makeEdit($filesMatchingCriteria, 'User:NovemBot/files'); // 'User:Minorax/files'
 		$this->echoAndFlush("\n\nAll done!");
 	}
 	
