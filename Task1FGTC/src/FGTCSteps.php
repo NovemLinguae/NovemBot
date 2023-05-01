@@ -329,7 +329,7 @@ class FGTCSteps {
 
 		// write error to log page
 		$this->logPageWikicode = $this->wapi->getpage($this->logPageTitle);
-		$this->logPageWikicode .= "\n* [[$this->nominationPageTitle]] - ~~~~~ - <span style=\"color: red; font-weight: bold;\">ERROR:</span> $errorMessage";
+		$this->logPageWikicode .= "\n* [[$this->nominationPageTitle]] - ~~~~~ - <span style=\"color: red; font-weight: bold;\">ERROR:</span> <code><nowiki>$errorMessage</nowiki></code>";
 		$this->wapi->edit(
 			$this->logPageTitle,
 			$this->logPageWikicode,
