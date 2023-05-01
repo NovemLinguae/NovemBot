@@ -107,7 +107,14 @@ if ( count($pagesToPromote) > $MAX_TOPICS_ALLOWED_IN_BOT_RUN ) {
 	die();
 }
 
-$fgtc = new FGTCSteps($p, $eh, $wapi, $READ_ONLY_TEST_MODE, $MAX_ARTICLES_ALLOWED_IN_TOPIC, $ARTICLE_HISTORY_MAX_ACTIONS);
+$fgtc = new FGTCSteps(
+	$p,
+	$eh,
+	$wapi,
+	$READ_ONLY_TEST_MODE,
+	$MAX_ARTICLES_ALLOWED_IN_TOPIC,
+	$ARTICLE_HISTORY_MAX_ACTIONS
+);
 $fgtc->execute($pagesToPromote);
 
 $eh->echoAndFlush('', 'complete');
