@@ -5,6 +5,8 @@
 // TODO: dependency inject foreign classes: wikipedia and PDO
 // TODO: to solve out of memory errors, can probably just create a ToolForge webservice with more memory: webservice --mem=2g or similar
 
+// Note: SDZeroBot's {{Database report}} template is a good option to replace this kind of bot (a bot that runs an SQL query and then prints a result somewhere). Example: https://en.wikipedia.org/wiki/User:Minorax/upf
+
 include("botclasses.php");
 include("logininfo.php");
 
