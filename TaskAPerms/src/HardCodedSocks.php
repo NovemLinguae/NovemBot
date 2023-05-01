@@ -41,6 +41,8 @@ class HardCodedSocks {
 		$data['staff']['Slaporte'] = 1; // Stephen LaPorte
 		$data['staff']['Neil Shah-Quinn'] = 1;
 		$data['staff']['Tgr'] = 1;
+		$data['staff']['TheresNoTime'] = 1;
+		$data['staff']['Samwalton9'] = 1;
 
 		// On the list of former admins, but not highlighted by the two former admin queries
 		// TODO: link these to their renames instead
