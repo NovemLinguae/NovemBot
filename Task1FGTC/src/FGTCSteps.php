@@ -21,7 +21,7 @@ class FGTCSteps {
 	protected $featuredArticleCount;
 	protected $datetime;
 
-	function __construct(
+	public function __construct(
 		Promote $p,
 		EchoHelper $eh,
 		WikiAPIWrapper $wapi,
@@ -89,7 +89,7 @@ class FGTCSteps {
 		$editCount = $this->wapi->getEditCount();
 		$mostRecentRevisionTimestamp = $this->wapi->getMostRecentRevisionTimestamp();
 		$diffURL = "https://en.wikipedia.org/w/index.php?title=Special:Contributions&offset=$mostRecentRevisionTimestamp&target=NovemBot&limit=$editCount";
-		
+
 		$this->logPageWikicode = $this->wapi->getpage($this->logPageTitle);
 		$this->logPageWikicode .= "\n* [[$this->nominationPageTitle]] - ~~~~~ - [$diffURL Diffs]";
 		$this->wapi->edit($this->logPageTitle, $this->logPageWikicode, $this->topicWikipediaPageTitle, $this->goodOrFeatured);
@@ -100,7 +100,7 @@ class FGTCSteps {
 	  */
 	private function readArchivePageAndSetVariables() {
 		$this->nominationPageWikicode = $this->wapi->getpage($this->nominationPageTitle);
-		
+
 		if ( ! $this->READ_ONLY_TEST_MODE ) {
 			// not all pings from featured topic pages need to be acted on
 			// silent error to prevent error spam
@@ -111,7 +111,7 @@ class FGTCSteps {
 				throw new GiveUpOnThisTopic('{{t|User:NovemBot/Promote}} template missing from page.');
 			}
 		}
-		
+
 		// couple of checks
 		$this->p->abortIfAddToTopic($this->nominationPageWikicode, $this->nominationPageTitle);
 		$this->topicBoxWikicode = $this->p->getTopicBoxWikicode($this->nominationPageWikicode, $this->nominationPageTitle);
@@ -124,7 +124,7 @@ class FGTCSteps {
 		$this->goodArticleCount = $this->p->getGoodArticleCount($this->topicBoxWikicode);
 		$this->featuredArticleCount = $this->p->getFeaturedArticleCount($this->topicBoxWikicode);
 		$this->p->checkCounts($this->goodArticleCount, $this->featuredArticleCount, $this->allArticleTitles);
-		
+
 		// decide if good topic or featured topic
 		$this->goodOrFeatured = $this->p->decideIfGoodOrFeatured($this->goodArticleCount, $this->featuredArticleCount);
 		$this->eh->echoAndFlush($this->goodOrFeatured, 'variable');
@@ -318,9 +318,9 @@ class FGTCSteps {
 
 	private function handleError($e) {
 		$errorMessage = $e->getMessage();
-		
+
 		$this->eh->logError($errorMessage);
-		
+
 		// write error to /archive1 page, and ping maintainer
 		$this->nominationPageWikicode = $this->wapi->getpage($this->nominationPageTitle);
 		$this->nominationPageWikicode = $this->p->markError($this->nominationPageWikicode, $this->nominationPageTitle, $errorMessage);

@@ -1,10 +1,10 @@
 <?php
 
-Class Query {
+class Query {
 	/**
 	 * Takes 0 seconds
 	 */
-	static function getUsersWithPerm($perm, $db) {
+	public static function getUsersWithPerm($perm, $db) {
 		$query = $db->prepare("
 			SELECT user_name
 			FROM user
@@ -16,7 +16,7 @@ Class Query {
 		return $query->fetchAll();
 	}
 
-	static function getGlobalUsersWithPerm($perm, $db) {
+	public static function getGlobalUsersWithPerm($perm, $db) {
 		// globaluser is a special SQL table created by [[mw:Extension:CentralAuth]]
 		$query = $db->prepare("
 			SELECT gu_name
@@ -28,13 +28,13 @@ Class Query {
 		$query->execute();
 		return $query->fetchAll();
 	}
-	
+
 	/**
 	 * For 10k edits, takes 11 to 22 seconds. Removing ORDER BY doesn't speed it up. For 500
 	 * edits, takes 3 minutes. More thorough than relying on extendedconfirmed perm though.
 	 * Doing it this way gets us 14,000 more folks than relying on extendedconfirmed perm.
 	 */
-	static function getUsersWithEditCount($minimum_edits, $db) {
+	public static function getUsersWithEditCount($minimum_edits, $db) {
 		$query = $db->prepare("
 			SELECT user_name
 			FROM user
@@ -48,7 +48,7 @@ Class Query {
 	/**
 	 * Includes former admins
 	 */
-	static function getAllAdminsEverEnwiki($db) {
+	public static function getAllAdminsEverEnwiki($db) {
 		$query = $db->prepare("
 			SELECT DISTINCT REPLACE(log_title, '_', ' ') AS promoted_to_admin
 			FROM logging
@@ -64,7 +64,7 @@ Class Query {
 	/**
 	 * Includes former admins
 	 */
-	static function getAllAdminsEverMetawiki($db) {
+	public static function getAllAdminsEverMetawiki($db) {
 		$query = $db->prepare("
 			SELECT DISTINCT REPLACE(REPLACE(log_title, '_', ' '), '@enwiki', '') AS promoted_to_admin
 			FROM logging_logindex

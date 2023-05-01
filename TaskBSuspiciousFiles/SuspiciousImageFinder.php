@@ -47,7 +47,7 @@ class SuspiciousImageFinder {
 		$this->makeEdit($filesMatchingCriteria, 'User:NovemBot/files'); // 'User:Minorax/files'
 		$this->echoAndFlush("\n\nAll done!");
 	}
-	
+
 	private function setHeader() {
 		header('Content-Type:text/plain; charset=utf-8; Content-Encoding: none');
 	}
@@ -74,7 +74,7 @@ class SuspiciousImageFinder {
 	private function connectToSQLDatabases() {
 		// Must use database_p. database will not work.
 		$this->enwiki = new PDO("mysql:host=enwiki.analytics.db.svc.wikimedia.cloud;dbname=enwiki_p", $this->databaseConfigFile['user'], $this->databaseConfigFile['password']);
-		$this->enwiki->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
+		$this->enwiki->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 	}
 
 	private function getFiles($i) {

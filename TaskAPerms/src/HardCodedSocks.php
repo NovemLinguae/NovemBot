@@ -1,7 +1,7 @@
 <?php
 
 class HardCodedSocks {
-	static function add($data) {
+	public static function add($data) {
 		// Wikimedia Foundation board of trustees: https://meta.wikimedia.org/wiki/Wikimedia_Foundation_Board_of_Trustees
 		$data['boardOfTrustees']['Jimbo Wales'] = 1;
 		$data['boardOfTrustees']['Esh77'] = 1; // Shani (WMF)

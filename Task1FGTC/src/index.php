@@ -86,7 +86,9 @@ if ( $TEST_PAGES ) {
 			$containsFeaturedTopicBox = false;
 			try {
 				$containsFeaturedTopicBox = $p->getTopicBoxWikicode($archivePageWikicode, $pingTitle);
-			} catch (Exception $e) {}
+			} catch (Exception $e) {
+				// do nothing
+			}
 			if ( $containsFeaturedTopicBox ) {
 				// add to list of pages to promote
 				$pagesToPromote[] = $pingTitle;

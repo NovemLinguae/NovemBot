@@ -18,7 +18,7 @@ class Controller {
 	 * @param string $wikiUsername
 	 * @param string $wikiPassword
 	 */
-	function __construct($enwiki, $metawiki, $centralauth, $userList, $wp, $wikiUsername, $wikiPassword) {
+	public function __construct($enwiki, $metawiki, $centralauth, $userList, $wp, $wikiUsername, $wikiPassword) {
 		$this->enwiki = $enwiki;
 		$this->metawiki = $metawiki;
 		$this->centralauth = $centralauth;
@@ -28,28 +28,28 @@ class Controller {
 		$this->wikiPassword = $wikiPassword;
 	}
 
-	function addCentralAuthUsers($permission) {
+	public function addCentralAuthUsers($permission) {
 		View::print("Get $permission\n");
 		$data = Query::getGlobalUsersWithPerm($permission, $this->centralauth);
 		$this->userList->addUsers($data, $permission);
 		View::print("Done!\n");
 	}
 
-	function addMetaUsers($permission) {
+	public function addMetaUsers($permission) {
 		View::print("Get $permission\n");
 		$data = Query::getUsersWithPerm($permission, $this->metawiki);
 		$this->userList->addUsers($data, $permission);
 		View::print("Done!\n");
 	}
 
-	function addEnwikiUsers($permission) {
+	public function addEnwikiUsers($permission) {
 		View::print("Get $permission\n");
 		$data = Query::getUsersWithPerm($permission, $this->enwiki);
 		$this->userList->addUsers($data, $permission);
 		View::print("Done!\n");
 	}
 
-	function addFormerAdmins() {
+	public function addFormerAdmins() {
 		View::print("Get formeradmins\n");
 		$data1 = Query::getAllAdminsEverEnwiki($this->enwiki);
 		$data2 = Query::getAllAdminsEverMetawiki($this->metawiki);
@@ -58,14 +58,14 @@ class Controller {
 		View::print("Done!\n");
 	}
 
-	function addEnwikiUsersByEditCount($permission, $minimumEditCount) {
+	public function addEnwikiUsersByEditCount($permission, $minimumEditCount) {
 		View::print("Get $permission\n");
 		$data = Query::getUsersWithEditCount($minimumEditCount, $this->enwiki);
 		$this->userList->addUsers($data, $permission);
 		View::print("Done!\n");
 	}
 
-	function logIn() {
+	public function logIn() {
 		View::print("\nLogging in...\n");
 		$this->wp->http->useragent = '[[en:User:NovemBot]] task A, owner [[en:User:Novem Linguae]], framework [[en:User:RMCD_bot/botclasses.php]]';
 		$this->wp->login($this->wikiUsername, $this->wikiPassword);
@@ -76,7 +76,7 @@ class Controller {
 	 * @param string $permission
 	 * @param string $enwikiNamespaceAndPage
 	 */
-	function addUsersFromEnwikiJsonPage($permission, $enwikiNamespaceAndPage) {
+	public function addUsersFromEnwikiJsonPage($permission, $enwikiNamespaceAndPage) {
 		View::print("\nGet $permission\n");
 		$data = $this->wp->getpage($enwikiNamespaceAndPage);
 		$data = json_decode($data, true);
@@ -84,7 +84,7 @@ class Controller {
 		View::print("...done.\n");
 	}
 
-	function writeUpdate() {
+	public function writeUpdate() {
 		View::print("\nWriting data to User:NovemBot subpage...\n");
 		$page_contents = $this->userList->getAllJson();
 		$this->wp->edit(

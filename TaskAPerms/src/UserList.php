@@ -1,11 +1,11 @@
 <?php
 
-Class UserList {
+class UserList {
 	/** Making these public for unit test reasons */
 	public $data;
 	public $linkedUsernames;
 
-	function __constructor() {
+	public function __constructor() {
 		$this->data = [];
 	}
 
@@ -16,7 +16,7 @@ Class UserList {
 		}
 		return $flattened;
 	}
-	
+
 	/**
 	 * @param array $list should be in the format ['username1', 'username2', 'etc.']
 	 * @param string $permission
@@ -24,7 +24,7 @@ Class UserList {
 	public function addUsers($list, $permission) {
 		$this->data[$permission] = $this->flatten_sql($list);
 	}
-	
+
 	/**
 	 * @param array $json should be in the ['username'] = 1 format.
 	 * @param string $permission
@@ -32,7 +32,7 @@ Class UserList {
 	public function addProperlyFormatted($json, $permission) {
 		$this->data[$permission] = $json;
 	}
-	
+
 	/**
 	 * @return array Array with multiple perms
 	 */
@@ -42,7 +42,7 @@ Class UserList {
 		// Format data. Escape backslashes.
 		return json_encode($this->data, JSON_UNESCAPED_UNICODE);
 	}
-	
+
 	/**
 	 * Used for debugging.
 	 *
@@ -73,8 +73,8 @@ Class UserList {
 
 	/**
 	 * Making this public so I can unit test it
-	 */ 
-	function linkMainAndAltUsernames() {
+	 */
+	public function linkMainAndAltUsernames() {
 		foreach ( $this->linkedUsernames as $altUsername => $mainUsername ) {
 			foreach ( $this->data as $permission => $arrayOfUsernames ) {
 				if ( $this->data[$permission][$mainUsername] ?? '' ) {

@@ -11,7 +11,7 @@ class WikiAPIWrapper {
 	protected $editCount;
 	protected $mostRecentRevisionTimestamp;
 
-	function __construct(
+	public function __construct(
 		string $wiki_username,
 		string $wiki_password,
 		EchoHelper $eh,
@@ -25,7 +25,7 @@ class WikiAPIWrapper {
 		$this->SECONDS_BETWEEN_API_READS = $SECONDS_BETWEEN_API_READS;
 		$this->SECONDS_BETWEEN_API_EDITS = $SECONDS_BETWEEN_API_EDITS;
 		$this->h = $h;
-		
+
 		$this->eh->echoAndFlush("Log in", 'api_read');
 		$this->wapi = new wikipedia();
 		$this->wapi->beQuiet();
@@ -36,11 +36,11 @@ class WikiAPIWrapper {
 		$this->mostRecentRevisionTimestamp = null;
 	}
 
-	function setReadOnlyMode($READ_ONLY_TEST_MODE) {
+	public function setReadOnlyMode($READ_ONLY_TEST_MODE) {
 		$this->READ_ONLY_TEST_MODE = $READ_ONLY_TEST_MODE;
 	}
 
-	function getpage(string $namespace_and_title) {
+	public function getpage(string $namespace_and_title) {
 		$output = $this->wapi->getpage($namespace_and_title);
 		$message = "Read data from page: $namespace_and_title";
 		$message .= "\n\n$output";
@@ -48,10 +48,10 @@ class WikiAPIWrapper {
 		sleep($this->SECONDS_BETWEEN_API_READS);
 		return $output;
 	}
-	
+
 	/** must include Category: in category name */
 	/*
-	function categorymembers($category) {
+	public function categorymembers($category) {
 		$output = $this->wapi->categorymembers($category);
 		$message = "Get members of category: $category";
 		$message .= "\n\n" . var_export($output, true);
@@ -60,7 +60,7 @@ class WikiAPIWrapper {
 	}
 	*/
 
-	function getUnreadPings() {
+	public function getUnreadPings() {
 		$output = $this->wapi->query('?action=query&format=json&meta=notifications&notfilter=!read');
 		$message = "Getting list of pings";
 		$message .= "\n\n" . var_export($output, true);
@@ -68,7 +68,7 @@ class WikiAPIWrapper {
 		return $output;
 	}
 
-	function markAllPingsRead() {
+	public function markAllPingsRead() {
 		$csrfToken = $this->wapi->query('?action=query&format=json&meta=tokens');
 		$csrfToken = $csrfToken['query']['tokens']['csrftoken'];
 		$output = $this->wapi->query("?action=echomarkread&format=json&all=1", ['token' => $csrfToken]);
@@ -78,7 +78,7 @@ class WikiAPIWrapper {
 	}
 
 	// TODO: does page title need underscores?
-	function edit(
+	public function edit(
 		string $namespace_and_title,
 		string $wikicode,
 		string $topicPageTitle,
@@ -101,9 +101,9 @@ class WikiAPIWrapper {
 			sleep($this->SECONDS_BETWEEN_API_EDITS);
 		}
 	}
-	
+
 	// TODO: does page title need underscores?
-	function editSimple(string $namespace_and_title, string $wikicode, string $editSummary): void {
+	public function editSimple(string $namespace_and_title, string $wikicode, string $editSummary): void {
 		$message = 'Write data to page:<br /><input type="text" value="' . htmlspecialchars($namespace_and_title) . '" />';
 		$message .= "<br />Wikitext:<br /><textarea>" . htmlspecialchars($wikicode) . "</textarea>";
 		$message .= "<br />" . 'Edit summary:<br /><input type="text" value="' . htmlspecialchars($editSummary) . '" />';
@@ -121,7 +121,7 @@ class WikiAPIWrapper {
 		}
 	}
 
-	function getRevisionIDOfMostRecentRevision($pageTitle) {
+	public function getRevisionIDOfMostRecentRevision($pageTitle) {
 		$parameters = [
 			"action" => "query",
 			"format" => "json",
@@ -142,7 +142,7 @@ class WikiAPIWrapper {
 		return $output;
 	}
 
-	function query(Array $parameters) {
+	public function query(array $parameters) {
 		// urlencode() everything, and start building the $_GET[] string
 		array_walk($parameters, function(&$value, $key) {
 			$value = $key . '=' . urlencode($value);
@@ -156,15 +156,15 @@ class WikiAPIWrapper {
 		return $output;
 	}
 
-	function getEditCount() {
+	public function getEditCount() {
 		return $this->editCount;
 	}
 
-	function setEditCountToZero() {
+	public function setEditCountToZero() {
 		$this->editCount = 0;
 	}
 
-	function getMostRecentRevisionTimestamp() {
+	public function getMostRecentRevisionTimestamp() {
 		return $this->h->convertTimestampToOffsetFormat($this->mostRecentRevisionTimestamp);
 	}
 }

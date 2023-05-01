@@ -1,7 +1,7 @@
 <?php
 
 class Database {
-	static function create($databaseName) {
+	public static function create($databaseName) {
 		// get database credentials
 		// TODO: inject these globals
 		$ts_pw = posix_getpwuid(posix_getuid());
@@ -11,7 +11,7 @@ class Database {
 		$pdo = new PDO("mysql:host=$databaseName.analytics.db.svc.wikimedia.cloud;dbname={$databaseName}_p", $ts_mycnf['user'], $ts_mycnf['password']);
 
 		// Turn on error reporting
-		$pdo->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
+		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 
 		return $pdo;
 	}
