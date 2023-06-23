@@ -8,11 +8,11 @@ class UserListTest extends TestCase {
 	protected $ul;
 
 	/** Runs before every test method */
-	function setUp(): void {
+	public function setUp(): void {
 		$this->ul = new UserList();
 	}
 
-	function test_linkMainAndAltUsernames_basic() {
+	public function test_linkMainAndAltUsernames_basic() {
 		// data for this test
 		$this->ul->data = [
 			'sysop' => [
