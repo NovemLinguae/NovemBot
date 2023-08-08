@@ -49,6 +49,7 @@ class Query {
 	 * Includes former admins
 	 */
 	public static function getAllAdminsEverEnwiki($db) {
+		// TODO: use user_former_groups table instead?
 		$query = $db->prepare("
 			SELECT DISTINCT REPLACE(log_title, '_', ' ') AS promoted_to_admin
 			FROM logging
@@ -65,6 +66,7 @@ class Query {
 	 * Includes former admins
 	 */
 	public static function getAllAdminsEverMetawiki($db) {
+		// TODO: use user_former_groups table instead?
 		$query = $db->prepare("
 			SELECT DISTINCT REPLACE(REPLACE(log_title, '_', ' '), '@enwiki', '') AS promoted_to_admin
 			FROM logging_logindex
