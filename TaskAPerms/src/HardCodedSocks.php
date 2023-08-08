@@ -44,6 +44,10 @@ class HardCodedSocks {
 		$data['staff']['TheresNoTime'] = 1;
 		$data['staff']['Samwalton9'] = 1;
 		$data['staff']['Samwilson'] = 1;
+		$data['staff']['MusikAnimal'] = 1;
+		$data['staff']['Mutante'] = 1; // DZahn (WMF)
+		$data['staff']['Quiddity'] = 1;
+		$data['staff']['Mooeypoo'] = 1; // Moriel Schottlender
 
 		// On the list of former admins, but not highlighted by the two former admin queries
 		// TODO: link these to their renames instead
