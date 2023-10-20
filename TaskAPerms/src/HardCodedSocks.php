@@ -49,9 +49,17 @@ class HardCodedSocks {
 		$data['staff']['Quiddity'] = 1;
 		$data['staff']['Mooeypoo'] = 1; // Moriel Schottlender
 		$data['staff']['Mvolz'] = 1; // Marielle Volz
+		$data['staff']['Vermont'] = 1; // RAdimer (WMF)
+		$data['staff']['Dreamy Jazz'] = 1; // WBrown (WMF)
+		$data['staff']['Fox'] = 1; // JSutherland (WMF)
+		$data['staff']['Selena Deckelmann'] = 1;
+		$data['staff']['Daimona Eaytoy'] = 1;
+		$data['staff']['Arlolra'] = 1; // Arlo Breault
+		$data['staff']['Tar Lócesilion'] = 1; // SGrabarczuk (WMF)
 
 		// On the list of former admins, but not highlighted by the two former admin queries
 		// TODO: link these to their renames instead
+		// https://en.wikipedia.org/wiki/Wikipedia:Former_administrators/reason
 		$data['formeradmin']['168...'] = 1;
 		$data['formeradmin']['172'] = 1;
 		$data['formeradmin']['1Angela'] = 1;
@@ -90,6 +98,33 @@ class HardCodedSocks {
 		$data['formeradmin']['Viridian Bovary'] = 1;
 		$data['formeradmin']['User2004'] = 1;
 		$data['formeradmin']['Muriel Gottrop~enwiki'] = 1;
+
+		// https://en.wikipedia.org/wiki/Wikipedia:Former_administrators/full
+		$data['formeradmin']['LC~enwiki'] = 1;
+		$data['formeradmin']['Looxix~enwiki'] = 1;
+		$data['formeradmin']['AntonioMartin'] = 1;
+		$data['formeradmin']['Nobot~enwiki'] = 1;
+		$data['formeradmin']['Dannyisme~enwiki'] = 1;
+		$data['formeradmin']['RetiredUser2'] = 1;
+		$data['formeradmin']['Fire~enwiki'] = 1;
+		$data['formeradmin']['Formeruser-81'] = 1;
+		$data['formeradmin']['Formeruser-82'] = 1;
+		$data['formeradmin']['Shallot~enwiki'] = 1;
+		$data['formeradmin']['Gaz~enwiki'] = 1;
+		$data['formeradmin']['Testuser2~enwiki'] = 1;
+		$data['formeradmin']['Vanished user 456745753784'] = 1;
+		$data['formeradmin'][''] = 1;
+		$data['formeradmin'][''] = 1;
+		$data['formeradmin'][''] = 1;
+		$data['formeradmin'][''] = 1;
+		$data['formeradmin'][''] = 1;
+		$data['formeradmin'][''] = 1;
+		$data['formeradmin'][''] = 1;
+		$data['formeradmin'][''] = 1;
+		$data['formeradmin'][''] = 1;
+
+		// https://en.wikipedia.org/wiki/Wikipedia:List_of_resysopped_users
+		$data['formeradmin']['Ocsar'] = 1;
 
 		/*
 		// https://gerrit.wikimedia.org/r/admin/groups/4cdcb3a1ef2e19d73bc9a97f1d0f109d2e0209cd,members
