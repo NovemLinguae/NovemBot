@@ -32,7 +32,7 @@ class HardCodedSocks {
 		$data['staff']['Tim Starling'] = 1; // Tim Starling (WMF)
 		$data['staff']['Addshore'] = 1; // Adam Shorland (WMDE)
 		$data['staff']['Xeno'] = 1; // Xeno (WMF)
-		$data['staff']['WhatamIdoing'] = 1; // Whatamidoing (WMF)
+		// $data['staff']['WhatamIdoing'] = 1; // Whatamidoing (WMF)
 		$data['staff']['Deskana'] = 1; // Deskana (WMF)
 		$data['staff']['Jdforrester'] = 1; // Jdforrester (WMF)
 		$data['staff']['ArielGlenn'] = 1;
@@ -56,6 +56,8 @@ class HardCodedSocks {
 		$data['staff']['Daimona Eaytoy'] = 1;
 		$data['staff']['Arlolra'] = 1; // Arlo Breault
 		$data['staff']['Tar Lócesilion'] = 1; // SGrabarczuk (WMF)
+		$data['staff']['Airplaneman'] = 1; // BChoo (WMF)
+		$data['staff']['Accedie'] = 1; // MPinchuk (WMF)
 
 		// On the list of former admins, but not highlighted by the two former admin queries
 		// TODO: link these to their renames instead
@@ -113,15 +115,65 @@ class HardCodedSocks {
 		$data['formeradmin']['Gaz~enwiki'] = 1;
 		$data['formeradmin']['Testuser2~enwiki'] = 1;
 		$data['formeradmin']['Vanished user 456745753784'] = 1;
-		$data['formeradmin'][''] = 1;
-		$data['formeradmin'][''] = 1;
-		$data['formeradmin'][''] = 1;
-		$data['formeradmin'][''] = 1;
-		$data['formeradmin'][''] = 1;
-		$data['formeradmin'][''] = 1;
-		$data['formeradmin'][''] = 1;
-		$data['formeradmin'][''] = 1;
-		$data['formeradmin'][''] = 1;
+
+		// https://en.wikipedia.org/wiki/Wikipedia:Historical_archive/List_of_administrators_by_edit_count
+		$data['formeradmin']['1ne'] = 1;
+		$data['formeradmin']['Alabamaboy'] = 1;
+		$data['formeradmin']['AudeVivere'] = 1;
+		$data['formeradmin']['AYArktos'] = 1;
+		$data['formeradmin']['Ben W Bell'] = 1;
+		$data['formeradmin']['Biekko'] = 1;
+		$data['formeradmin']['BrianSmithson'] = 1;
+		$data['formeradmin']['Cuivienen'] = 1;
+		$data['formeradmin']['DakotaKahn'] = 1;
+		$data['formeradmin']['Deco'] = 1;
+		$data['formeradmin']['Deepujoseph'] = 1;
+		$data['formeradmin']['EdwinHJ'] = 1;
+		$data['formeradmin']['Fred Chess'] = 1;
+		$data['formeradmin']['Fred chessplayer'] = 1;
+		$data['formeradmin']['Gflores'] = 1;
+		$data['formeradmin']['Glen S'] = 1;
+		$data['formeradmin']['Golden Wattle'] = 1;
+		$data['formeradmin']['Jareth'] = 1;
+		$data['formeradmin']['Kmf164'] = 1;
+		$data['formeradmin']['Mathwiz2020'] = 1;
+		$data['formeradmin']['Metros232'] = 1;
+		$data['formeradmin']['Paolo Liberatore'] = 1;
+		$data['formeradmin']['Physicq210'] = 1;
+		$data['formeradmin']['Punkmorten'] = 1;
+		$data['formeradmin']['Snottygobble'] = 1;
+		$data['formeradmin']['Snoutwood'] = 1;
+		$data['formeradmin']['SushiGeek'] = 1;
+		$data['formeradmin']['Teke'] = 1;
+		$data['formeradmin']['Thames'] = 1;
+		$data['formeradmin']['Changlc'] = 1;
+		$data['formeradmin']['Cimon avaro'] = 1;
+		$data['formeradmin']['ContiE'] = 1;
+		$data['formeradmin']['Cyberjunkie'] = 1;
+		$data['formeradmin']['Dalbury'] = 1;
+		$data['formeradmin']['Esteffect'] = 1;
+		$data['formeradmin']['Evil saltine'] = 1;
+		$data['formeradmin']['Ingoolemo'] = 1;
+		$data['formeradmin']['Lacrimosus'] = 1;
+		$data['formeradmin']['Larry V'] = 1;
+		$data['formeradmin']['Lbmixpro'] = 1;
+		$data['formeradmin']['Mikkalai'] = 1;
+		$data['formeradmin']['Natalinasmpf'] = 1;
+		$data['formeradmin']['Ngb'] = 1;
+		$data['formeradmin']['Oven Fresh'] = 1;
+		$data['formeradmin']['Petaholmes'] = 1;
+		$data['formeradmin']['Petros471'] = 1;
+		$data['formeradmin']['Philip Baird Shearer'] = 1;
+		$data['formeradmin']['Phroziac'] = 1;
+		$data['formeradmin']['R. Koot'] = 1;
+		$data['formeradmin']['SamuelWantman'] = 1;
+		$data['formeradmin']['Sarah Ewart'] = 1;
+		$data['formeradmin']['Shimgray'] = 1;
+		$data['formeradmin']['Sn0wflake'] = 1;
+		$data['formeradmin']['Steve block'] = 1;
+		$data['formeradmin']['Superm401'] = 1;
+		$data['formeradmin']['Tomf688'] = 1;
+		$data['formeradmin']['XJamRastafire'] = 1;
 
 		// https://en.wikipedia.org/wiki/Wikipedia:List_of_resysopped_users
 		$data['formeradmin']['Ocsar'] = 1;
