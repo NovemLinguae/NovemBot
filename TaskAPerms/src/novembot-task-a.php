@@ -33,6 +33,7 @@ $c->addCentralAuthUsers('sysadmin');
 $c->addCentralAuthUsers('staff');
 $c->addCentralAuthUsers('global-interface-editor');
 $c->addCentralAuthUsers('global-sysop');
+$c->addCentralAuthUsers('ombuds');
 
 $c->addMetaUsers('wmf-supportsafety');
 
