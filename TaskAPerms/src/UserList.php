@@ -9,7 +9,7 @@ class UserList {
 		$this->data = [];
 	}
 
-	public function flatten_sql($list) {
+	public function FlattenSql($list) {
 		$flattened = [];
 		foreach ( $list as $value ) {
 			$flattened[$value[0]] = 1;
@@ -22,7 +22,7 @@ class UserList {
 	 * @param string $permission
 	 */
 	public function addUsers($list, $permission) {
-		$this->data[$permission] = $this->flatten_sql($list);
+		$this->data[$permission] = $this->FlattenSql($list);
 	}
 
 	/**
@@ -33,12 +33,19 @@ class UserList {
 		$this->data[$permission] = $json;
 	}
 
+	public function sortUsers() {
+		foreach ( $this->data as $permission => $data ) {
+			ksort($this->data[$permission]);
+		}
+	}
+
 	/**
 	 * @return array Array with multiple perms
 	 */
 	public function getAllJson() {
 		$this->addHardCodedSocks();
 		$this->addLinkedUsernames();
+		$this->sortUsers();
 		// Format data. Escape backslashes.
 		return json_encode($this->data, JSON_UNESCAPED_UNICODE);
 	}
