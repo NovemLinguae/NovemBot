@@ -1,6 +1,6 @@
 <?php
 
-// https://novem-bot.toolforge.org/task-a/novembot-task-a.php?password=
+// https://novem-bot.toolforge.org/task-a/index.php?password=
 
 require_once('botclasses.php');
 require_once('Controller.php');
