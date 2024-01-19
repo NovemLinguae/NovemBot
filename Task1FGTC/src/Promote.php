@@ -22,7 +22,7 @@ class Promote {
 	public function abortIfAddToTopic($callerPageWikicode, $title) {
 		preg_match('/\{\{Add to topic/i', $callerPageWikicode, $matches);
 		if ( $matches ) {
-			throw new GiveUpOnThisTopic("On page $title, {{t|Add to topic}} is present. Bot does not know how to handle these.");
+			throw new GiveUpOnThisTopic("On page $title, {{t|Add to topic}} is present, indicating that this is an addition of articles to an existing topic rather than a brand new topic. Bot can only create brand new topics at this time.");
 		}
 	}
 
