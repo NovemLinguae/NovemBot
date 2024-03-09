@@ -87,6 +87,10 @@ class Controller {
 	public function writeUpdate() {
 		View::print("\nWriting data to User:NovemBot subpage...\n");
 		$page_contents = $this->userList->getAllJson();
+		if ( strlen($page_contents) < 1000000 ) {
+			View::print("...Error: User list size is less than 1 million bytes. This means one of our SQL queries returned blank instead of its actual data. Aborting.\n");
+			return;
+		}
 		$this->wp->edit(
 			'User:NovemBot/userlist.js',
 			$page_contents,
