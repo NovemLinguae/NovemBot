@@ -88,6 +88,8 @@ class FGTCSteps {
 	private function addToUserspaceLog() {
 		$editCount = $this->wapi->getEditCount();
 		$mostRecentRevisionTimestamp = $this->wapi->getMostRecentRevisionTimestamp();
+		// add one second, to fix #85 Task1Log "diff" link is off by one
+		$mostRecentRevisionTimestamp++;
 		$diffURL = "https://en.wikipedia.org/w/index.php?title=Special:Contributions&offset=$mostRecentRevisionTimestamp&target=NovemBot&limit=$editCount";
 
 		$this->logPageWikicode = $this->wapi->getpage($this->logPageTitle);
