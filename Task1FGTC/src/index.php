@@ -9,7 +9,6 @@
 
 ini_set("display_errors", '1');
 error_reporting(E_ALL);
-assert_options(ASSERT_BAIL, true);
 date_default_timezone_set('UTC');
 
 set_time_limit(55 * 60); // 55 minutes
