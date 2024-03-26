@@ -139,6 +139,12 @@ class FGTCSteps {
 		$topicDescriptionWikicode = $this->p->getTopicDescriptionWikicode($this->nominationPageWikicode);
 		$topicDescriptionWikicode = $this->p->removeSignaturesFromTopicDescription($topicDescriptionWikicode);
 		$this->topicWikipediaPageTitle = $this->p->getTopicWikipediaPageTitle($this->topicTitle);
+
+		$topicWikipediaPageWikicode = $this->wapi->getpage($this->topicWikipediaPageTitle);
+		if ( $topicWikipediaPageWikicode ) {
+			throw new GiveUpOnThisTopic("Page {$this->topicWikipediaPageTitle} already exists and is not blank. Is this a topic that's been promoted before? NovemBot can't handle a topic that's been promoted before.");
+		}
+
 		$topicWikipediaPageWikicode = $this->p->getTopicWikipediaPageWikicode($topicDescriptionWikicode, $this->topicBoxWikicode);
 		$this->wapi->edit($this->topicWikipediaPageTitle, $topicWikipediaPageWikicode, $this->topicWikipediaPageTitle, $this->goodOrFeatured); // This is our first edit. Everything before here is read only (except for clearing unread pings)
 	}
@@ -148,6 +154,12 @@ class FGTCSteps {
 	  */
 	private function makeTopicTalkPage() {
 		$topicTalkPageTitle = $this->p->getTopicTalkPageTitle($this->topicTitle);
+
+		$topicTalkPageWikicode = $this->wapi->getpage($topicTalkPageTitle);
+		if ( $topicTalkPageWikicode ) {
+			throw new GiveUpOnThisTopic("Page $topicTalkPageTitle already exists and is not blank. Is this a topic that's been promoted before? NovemBot can't handle a topic that's been promoted before.");
+		}
+
 		$this->datetime = $this->p->getDatetime();
 		$nonMainArticleTitles = $this->p->getNonMainArticleTitles($this->allArticleTitles, $this->mainArticleTitle);
 		$mainArticleTalkPageWikicode = $this->wapi->getpage('Talk:'.$this->mainArticleTitle);
