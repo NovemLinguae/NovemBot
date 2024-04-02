@@ -114,6 +114,15 @@ class WikiAPIWrapper {
 		}
 	}
 
+	public function purgeCache( string $namespaceAndTitle ): void {
+		$message = 'Clear cache of page:<br /><input type="text" value="' . htmlspecialchars( $namespaceAndTitle ) . '" />';
+		$this->eh->echoAndFlush( $message, 'message' );
+		if ( !$this->READ_ONLY_TEST_MODE ) {
+			$this->wapi->purgeCache( $namespaceAndTitle );
+			sleep( $this->SECONDS_BETWEEN_API_EDITS );
+		}
+	}
+
 	public function getRevisionIDOfMostRecentRevision( $pageTitle ) {
 		$parameters = [
 			"action" => "query",

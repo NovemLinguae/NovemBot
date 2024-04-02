@@ -169,6 +169,7 @@ class FGTCSteps {
 		$wikiProjectBanners = $this->p->getWikiProjectBanners( $mainArticleTalkPageWikicode, $this->topicTitle );
 		$topicTalkPageWikicode = $this->p->makeTopicTalkPageWikicode( $this->mainArticleTitle, $this->topicTitle, $nonMainArticleTitles, $this->goodOrFeatured, $this->datetime, $wikiProjectBanners, $this->nominationPageTitle );
 		$this->wapi->edit( $topicTalkPageTitle, $topicTalkPageWikicode, $this->topicWikipediaPageTitle, $this->goodOrFeatured );
+		$this->wapi->purgeCache( $topicTalkPageTitle );
 	}
 
 	/**
