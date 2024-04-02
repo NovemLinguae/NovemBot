@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 
 /**
- * TODO: add @group for grouping. this is equivlent to Jest's "describe"
+ * @todo add @group for grouping. this is equivlent to Jest's "describe"
  */
 class HelperTest extends TestCase {
 	protected $h;

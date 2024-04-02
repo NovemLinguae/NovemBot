@@ -10,7 +10,7 @@ class Promote {
 	}
 
 	/**
-	 * TODO: is this dead code?
+	 * @todo is this dead code?
 	 */
 	public function sliceNovemBotPromoteTemplate( $wikicode, $title ) {
 		preg_match( '/\{\{User:NovemBot\/Promote([^\}]*)\}\}/i', $wikicode, $matches );

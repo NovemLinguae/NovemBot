@@ -67,23 +67,26 @@ class WikiAPIWrapper {
 	}
 
 	/**
-	 * TODO: does page title need underscores?
+	 * Make an edit, and also leave the bot's edit summary that mentions the topic and the bot task.
+	 * @param string $namespaceAndTitle Title of the page to edit.
+	 * @param string $wikicode
+	 * @param string $topicPageTitle Title of the topic page of the topic. For wikilinking in the edit summary.
+	 * @param string $goodOrFeatured For the edit summary.
 	 */
 	public function edit(
-		string $namespace_and_title,
+		string $namespaceAndTitle,
 		string $wikicode,
 		string $topicPageTitle,
 		string $goodOrFeatured
 	): void {
 		$editSummary = "promote [[$topicPageTitle]] to $goodOrFeatured topic (NovemBot Task 1)";
-		$message = 'Write data to page:<br /><input type="text" value="' . htmlspecialchars( $namespace_and_title ) . '" />';
+		$message = 'Write data to page:<br /><input type="text" value="' . htmlspecialchars( $namespaceAndTitle ) . '" />';
 		$message .= "<br />Wikitext:<br /><textarea>" . htmlspecialchars( $wikicode ) . "</textarea>";
 		$message .= "<br />" . 'Edit summary:<br /><input type="text" value="' . htmlspecialchars( $editSummary ) . '" />';
 		$this->eh->echoAndFlush( $message, 'api_write' );
-		// echoAndFlush($READ_ONLY_TEST_MODE, 'variable');
 		if ( !$this->READ_ONLY_TEST_MODE ) {
 			$response = $this->wapi->edit(
-				$namespace_and_title,
+				$namespaceAndTitle,
 				$wikicode,
 				$editSummary
 			);
@@ -94,17 +97,16 @@ class WikiAPIWrapper {
 	}
 
 	/**
-	 * TODO: does page title need underscores?
+	 * Make an edit, with a custom edit summary.
 	 */
-	public function editSimple( string $namespace_and_title, string $wikicode, string $editSummary ): void {
-		$message = 'Write data to page:<br /><input type="text" value="' . htmlspecialchars( $namespace_and_title ) . '" />';
+	public function editSimple( string $namespaceAndTitle, string $wikicode, string $editSummary ): void {
+		$message = 'Write data to page:<br /><input type="text" value="' . htmlspecialchars( $namespaceAndTitle ) . '" />';
 		$message .= "<br />Wikitext:<br /><textarea>" . htmlspecialchars( $wikicode ) . "</textarea>";
 		$message .= "<br />" . 'Edit summary:<br /><input type="text" value="' . htmlspecialchars( $editSummary ) . '" />';
 		$this->eh->echoAndFlush( $message, 'api_write' );
-		// echoAndFlush($READ_ONLY_TEST_MODE, 'variable');
 		if ( !$this->READ_ONLY_TEST_MODE ) {
 			$response = $this->wapi->edit(
-				$namespace_and_title,
+				$namespaceAndTitle,
 				$wikicode,
 				$editSummary
 			);
