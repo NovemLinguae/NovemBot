@@ -9,18 +9,6 @@ class Promote {
 		$this->h = $h;
 	}
 
-	/**
-	 * @todo is this dead code?
-	 */
-	public function sliceNovemBotPromoteTemplate( $wikicode, $title ) {
-		preg_match( '/\{\{User:NovemBot\/Promote([^\}]*)\}\}/i', $wikicode, $matches );
-		if ( !$matches ) {
-			throw new GiveUpOnThisTopic( "On page $title, unable to find {{t|User:NovemBot/Promote}} template." );
-		}
-		$templateWikicode = $matches[1];
-		return $templateWikicode;
-	}
-
 	public function abortIfAddToTopic( $callerPageWikicode, $title ) {
 		preg_match( '/\{\{Add to topic/i', $callerPageWikicode, $matches );
 		if ( $matches ) {
