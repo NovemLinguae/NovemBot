@@ -63,7 +63,7 @@ class http {
     public $useragent;
 
 	public function http_code () {
-		return curl_getinfo( $this->ch, CURLINFO_HTTP_CODE );
+        return curl_getinfo( $this->ch, CURLINFO_HTTP_CODE );
 	}
 
     function data_encode ($data, $keyprefix = "", $keypostfix = "") {
@@ -114,21 +114,21 @@ class http {
         curl_setopt($this->ch,CURLOPT_TIMEOUT,30);
         curl_setopt($this->ch,CURLOPT_CONNECTTIMEOUT,10);
         curl_setopt($this->ch,CURLOPT_POST,1);
-//      curl_setopt($this->ch,CURLOPT_FAILONERROR,1);
-//	curl_setopt($this->ch,CURLOPT_POSTFIELDS, substr($this->data_encode($data), 0, -1) );
+        //      curl_setopt($this->ch,CURLOPT_FAILONERROR,1);
+        //	curl_setopt($this->ch,CURLOPT_POSTFIELDS, substr($this->data_encode($data), 0, -1) );
         curl_setopt($this->ch,CURLOPT_POSTFIELDS, $data);
         $data = curl_exec($this->ch);
         if($data === false) {
             echo "cURL Error: ".curl_error($this->ch)."\n";
         }
-//	var_dump($data);
-//	global $logfd;
-//	if (!is_resource($logfd)) {
-//		$logfd = fopen('php://stderr','w');
-	if (!$this->quiet) {
+        //	var_dump($data);
+        //	global $logfd;
+        //	if (!is_resource($logfd)) {
+        //		$logfd = fopen('php://stderr','w');
+        if (!$this->quiet) {
             echo 'POST: '.$url.' ('.(microtime(1) - $time).' s) ('.strlen($data)." b)\n";
-	}
-// 	}
+        }
+        // 	}
         return $data;
     }
 
@@ -206,18 +206,18 @@ class wikipedia {
         $this->url = $url;
         $this->ecTimestamp = null;
         if ($hu!==null) {
-        	$this->http->setHTTPcreds($hu,$hp);
+            $this->http->setHTTPcreds($hu,$hp);
         }
     }
 
     function __set($var,$val) {
-	switch($var) {
-  		case 'quiet':
-			$this->http->quiet=$val;
-     			break;
-   		default:
-     			echo "WARNING: Unknown variable ($var)!\n";
- 	}
+        switch($var) {
+            case 'quiet':
+                $this->http->quiet=$val;
+                break;
+            default:
+                echo "WARNING: Unknown variable ($var)!\n";
+        }
     }
 
     /**
@@ -229,24 +229,24 @@ class wikipedia {
      * @throws Exception on HTTP errors
      **/
     function query ($query,$post=null,$repeat=0) {
-	    global $AssumeHTTPFailuresAreJustTimeoutsAndShouldBeSuppressed;
+        global $AssumeHTTPFailuresAreJustTimeoutsAndShouldBeSuppressed;
         if ($post==null) {
             $ret = $this->http->get($this->url.$query);
         } else {
             $ret = $this->http->post($this->url.$query,$post);
         }
-		//var_dump($this->http->http_code());
+        //var_dump($this->http->http_code());
 	    if ($this->http->http_code() == 0 && $AssumeHTTPFailuresAreJustTimeoutsAndShouldBeSuppressed) {
-			return array(); // Meh
+            return array(); // Meh
 	    }
 		if ($this->http->http_code() != "200") {
-			if ($repeat < 10) {
-				sleep(10);
-				echo "\n *** Retry query, attempt " . $repeat . " ***\n";
-				return $this->query($query,$post,++$repeat);
-			} else {
-				throw new Exception("HTTP Error.");
-			}
+            if ($repeat < 10) {
+                sleep(10);
+                echo "\n *** Retry query, attempt " . $repeat . " ***\n";
+                return $this->query($query,$post,++$repeat);
+            } else {
+                throw new Exception("HTTP Error.");
+            }
 		}
         return json_decode($ret, true);
     }
@@ -510,7 +510,7 @@ class wikipedia {
      * @return array
      **/
     function login ($user,$pass) {
-    	$post = array('lgname' => $user, 'lgpassword' => $pass);
+        $post = array('lgname' => $user, 'lgpassword' => $pass);
         $ret = $this->query('?action=query&meta=tokens&type=login&format=json');
         #print_r($ret);
         /* This is now required - see https://bugzilla.wikimedia.org/show_bug.cgi?id=23076 */
@@ -914,12 +914,12 @@ class wikipedia {
                 $this->token = $this->getedittoken();
         }
         $params = array(
-                'filename'        => $page,
-                'comment'         => $desc,
-                'text'            => $desc,
-                'token'           => $this->token,
-                'ignorewarnings'  => '1',
-                'file'            => '@'.$file
+            'filename'        => $page,
+            'comment'         => $desc,
+            'text'            => $desc,
+            'token'           => $this->token,
+            'ignorewarnings'  => '1',
+            'file'            => '@'.$file
         );
         return $this->query('?action=upload&format=json&assert=user',$params);
      }
@@ -997,11 +997,11 @@ class wikipedia {
      * @return int The number of images with the same sha1 hash.
      **/
     function imagematches ($hash) {
-		$x = $this->query('?action=query&list=allimages&format=json&aisha1='.$hash);
-		return count($x['query']['allimages']);
+        $x = $this->query('?action=query&list=allimages&format=json&aisha1='.$hash);
+        return count($x['query']['allimages']);
     }
 
-	/**  BMcN 2012-09-16
+    /**  BMcN 2012-09-16
      * Retrieve a media file's actual location.
      * @param $page The "File:" page on the wiki which the URL of is desired.
      * @return string|false The URL pointing directly to the media file (Eg http://upload.mediawiki.org/wikipedia/en/1/1/Example.jpg)
@@ -1092,15 +1092,15 @@ class extended extends wikipedia
      * @return string|null the searched (NULL if the template has not been found)
      **/
     function gettemplate( $page, $template ) {
-       $data = $this->getpage( $page );
-       $template = preg_quote( $template, " " );
-       $r = "/{{" . $template . "(?:[^{}]*(?:{{[^}]*}})?)+(?:[^}]*}})?/i";
-       preg_match_all( $r, $data, $matches );
-       if( isset( $matches[0][0] ) ) {
-           return $matches[0][0];
-       } else {
-           return NULL;
-       }
-     }
+        $data = $this->getpage( $page );
+        $template = preg_quote( $template, " " );
+        $r = "/{{" . $template . "(?:[^{}]*(?:{{[^}]*}})?)+(?:[^}]*}})?/i";
+        preg_match_all( $r, $data, $matches );
+        if( isset( $matches[0][0] ) ) {
+            return $matches[0][0];
+        } else {
+            return NULL;
+        }
+    }
 }
 ?>
