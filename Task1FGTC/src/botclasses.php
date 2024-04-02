@@ -1103,4 +1103,3 @@ class extended extends wikipedia
         }
     }
 }
-?>
