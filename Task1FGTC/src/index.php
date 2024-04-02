@@ -18,7 +18,7 @@ set_time_limit( 55 * 60 );
 $READ_ONLY_TEST_MODE = false;
 // Make this array empty to pull from the list of pings instead.
 $TEST_PAGES = [
-	// "Wikipedia:Featured and good topic candidates/World Professional Match-play Championship/archive1"
+	// "Wikipedia:Featured and good topic candidates/Overview of Ben&Ben/archive1"
 ];
 
 // constants

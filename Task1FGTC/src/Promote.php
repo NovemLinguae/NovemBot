@@ -536,7 +536,7 @@ $wikiProjectBanners";
 
 		$pageToAddTo = ( $goodOrFeatured == 'good' ) ? '[[Wikipedia:Good topics]]' : '[[Wikipedia:Featured topics]]';
 
-		$nominationPageWikicode2 = trim( $nominationPageWikicode2 ) . "\n* {{Done}}. Promotion completed successfully. Don't forget to add <nowiki>{{{$topicWikipediaPageTitle}}}</nowiki> to the appropriate section of $pageToAddTo. ~~~~";
+		$nominationPageWikicode2 = trim( $nominationPageWikicode2 ) . "\n* {{Done}}. Promotion completed successfully. Don't forget to add <code><nowiki>{{{$topicWikipediaPageTitle}}}</nowiki></code> to the appropriate section of $pageToAddTo. ~~~~";
 
 		return $nominationPageWikicode2;
 	}
