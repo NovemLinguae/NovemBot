@@ -1,5 +1,16 @@
 {
-    "require-dev": {
-        "squizlabs/php_codesniffer": "*"
-    }
+	"require-dev": {
+		"mediawiki/mediawiki-codesniffer": "*"
+	},
+	"scripts": {
+		"test": [
+			"phpcs -p -s"
+		],
+		"fix": "phpcbf"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	}
 }
