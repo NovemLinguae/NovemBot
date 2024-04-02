@@ -70,10 +70,11 @@ class http {
         assert( is_array($data) );
         $vars=null;
         foreach($data as $key=>$value) {
-            if(is_array($value))
+            if(is_array($value)) {
                 $vars .= $this->data_encode($value, $keyprefix.$key.$keypostfix.urlencode("["), urlencode("]"));
-            else
+            } else {
                 $vars .= $keyprefix.$key.$keypostfix."=".urlencode($value)."&";
+            }
         }
         return $vars;
     }
@@ -97,13 +98,15 @@ class http {
         /* Crappy hack to add extra cookies, should be cleaned up */
         $cookies = null;
         foreach ($this->cookie_jar as $name => $value) {
-            if (empty($cookies))
+            if (empty($cookies)) {
                 $cookies = "$name=$value";
-            else
+            } else {
                 $cookies .= "; $name=$value";
+            }
         }
-        if ($cookies != null)
+        if ($cookies != null) {
             curl_setopt($this->ch,CURLOPT_COOKIE,$cookies);
+        }
         curl_setopt($this->ch,CURLOPT_FOLLOWLOCATION,$this->postfollowredirs);
         curl_setopt($this->ch,CURLOPT_MAXREDIRS,10);
         curl_setopt($this->ch,CURLOPT_HTTPHEADER, array('Expect:'));
@@ -115,14 +118,16 @@ class http {
 //	curl_setopt($this->ch,CURLOPT_POSTFIELDS, substr($this->data_encode($data), 0, -1) );
         curl_setopt($this->ch,CURLOPT_POSTFIELDS, $data);
         $data = curl_exec($this->ch);
-        if($data === false)
+        if($data === false) {
             echo "cURL Error: ".curl_error($this->ch)."\n";
+        }
 //	var_dump($data);
 //	global $logfd;
 //	if (!is_resource($logfd)) {
 //		$logfd = fopen('php://stderr','w');
-	if (!$this->quiet)
+	if (!$this->quiet) {
             echo 'POST: '.$url.' ('.(microtime(1) - $time).' s) ('.strlen($data)." b)\n";
+	}
 // 	}
         return $data;
     }
@@ -135,13 +140,15 @@ class http {
         /* Crappy hack to add extra cookies, should be cleaned up */
         $cookies = null;
         foreach ($this->cookie_jar as $name => $value) {
-            if (empty($cookies))
+            if (empty($cookies)) {
                 $cookies = "$name=$value";
-            else
+            } else {
                 $cookies .= "; $name=$value";
+            }
         }
-        if ($cookies != null)
+        if ($cookies != null) {
             curl_setopt($this->ch,CURLOPT_COOKIE,$cookies);
+        }
         curl_setopt($this->ch,CURLOPT_FOLLOWLOCATION,$this->getfollowredirs);
         curl_setopt($this->ch,CURLOPT_MAXREDIRS,10);
         curl_setopt($this->ch,CURLOPT_HEADER,0);
@@ -151,14 +158,16 @@ class http {
         curl_setopt($this->ch,CURLOPT_HTTPGET,1);
         //curl_setopt($this->ch,CURLOPT_FAILONERROR,1);
         $data = curl_exec($this->ch);
-        if($data === false)
+        if($data === false) {
             echo "cURL error: ".curl_error($this->ch)."\n";
+        }
         //var_dump($data);
         //global $logfd;
         //if (!is_resource($logfd)) {
         //    $logfd = fopen('php://stderr','w');
-        if (!$this->quiet)
+        if (!$this->quiet) {
             echo 'GET: '.$url.' ('.(microtime(1) - $time).' s) ('.strlen($data)." b)\n";
+        }
         //}
         return $data;
     }
@@ -190,12 +199,15 @@ class wikipedia {
      **/
     function __construct ($url='https://en.wikipedia.org/w/api.php',$hu=null,$hp=null) {
         $this->http = new http;
-        if ($this->http->useragent==null) $this->http->useragent = 'php wikibot classes [[User:RMCD bot/botclasses.php]]';
+        if ($this->http->useragent==null) {
+            $this->http->useragent = 'php wikibot classes [[User:RMCD bot/botclasses.php]]';
+        }
         $this->token = null;
         $this->url = $url;
         $this->ecTimestamp = null;
-        if ($hu!==null)
+        if ($hu!==null) {
         	$this->http->setHTTPcreds($hu,$hp);
+        }
     }
 
     function __set($var,$val) {
@@ -247,17 +259,20 @@ class wikipedia {
      **/
     function getpage ($page,$revid=null,$detectEditConflict=false) {
         $append = '';
-        if ($revid!=null)
+        if ($revid!=null) {
             $append = '&rvstartid='.$revid;
+        }
         $x = $this->query('?action=query&format=json&prop=revisions&rvslots=main&titles='.urlencode($page).'&rvlimit=1&rvprop=content|timestamp'.$append);
         #print_r($x);
         foreach ($x['query']['pages'] as $ret) {
             if (isset($ret['revisions'][0]['slots']['main']['*'])) {
-                if ($detectEditConflict)
+                if ($detectEditConflict) {
                     $this->ecTimestamp = $ret['revisions'][0]['timestamp'];
+                }
                 return $ret['revisions'][0]['slots']['main']['*'];
-            } else
+            } else {
                 return false;
+            }
         }
     }
 
@@ -279,8 +294,9 @@ class wikipedia {
             if (isset($ret['revisions'])) {
                 #print_r($ret['revisions']);
                 return count($ret['revisions']);
-            } else
+            } else {
                 return 0;
+            }
         }
     }
 
@@ -297,8 +313,9 @@ class wikipedia {
             if (isset($ret['revisions'])) {
                 #print_r($ret['revisions']);
                 return count($ret['revisions']);
-            } else
+            } else {
                 return 0;
+            }
         }
     }
 
@@ -415,15 +432,17 @@ class wikipedia {
         $pages = array();
         while (true) {
             $res = $this->query('?action=query&list=imageusage&iutitle='.urlencode($image).'&iulimit=500&format=json'.$continue.$extra);
-            if (isset($res['error']))
+            if (isset($res['error'])) {
                 return false;
+            }
             foreach ($res['query']['imageusage'] as $x) {
                 $pages[] = $x['title'];
             }
-            if (empty($res['query-continue']['imageusage']['iucontinue']))
+            if (empty($res['query-continue']['imageusage']['iucontinue'])) {
                 return $pages;
-            else
+            } else {
                 $continue = '&rawcontinue=&iucontinue='.urlencode($res['query-continue']['imageusage']['iucontinue']);
+            }
         }
     }
 
@@ -741,9 +760,11 @@ class wikipedia {
         if ($bot) {
             $params['markbot'] = true;
         }
-        if ($reason != null) { $params['summary'] = $reason; }
-            return $this->query('?action=rollback&format=json&assert=user',$params);
+        if ($reason != null) {
+            $params['summary'] = $reason;
         }
+        return $this->query('?action=rollback&format=json&assert=user',$params);
+    }
 
     /**
      * Blocks a user.
@@ -990,8 +1011,9 @@ class wikipedia {
         foreach ($x['query']['pages'] as $ret ) {
             if (isset($ret['imageinfo'][0]['url'])) {
                 return $ret['imageinfo'][0]['url'];
-            } else
+            } else {
                 return false;
+            }
         }
     }
 
@@ -1005,8 +1027,9 @@ class wikipedia {
         foreach ($x['query']['pages'] as $ret ) {
             if (isset($ret['imageinfo'][0]['user'])) {
                 return $ret['imageinfo'][0]['user'];
-            } else
+            } else {
                 return false;
+            }
         }
     }
 }
@@ -1042,10 +1065,11 @@ class extended extends wikipedia
     function findstring( $page, $string )
     {
         $data = $this->getpage( $page );
-        if( strstr( $data, $string ) )
+        if( strstr( $data, $string ) ) {
             return 1;
-        else
+        } else {
             return 0;
+        }
     }
 
     /**
@@ -1072,10 +1096,11 @@ class extended extends wikipedia
        $template = preg_quote( $template, " " );
        $r = "/{{" . $template . "(?:[^{}]*(?:{{[^}]*}})?)+(?:[^}]*}})?/i";
        preg_match_all( $r, $data, $matches );
-       if( isset( $matches[0][0] ) )
+       if( isset( $matches[0][0] ) ) {
            return $matches[0][0];
-       else
+       } else {
            return NULL;
+       }
      }
 }
 ?>
