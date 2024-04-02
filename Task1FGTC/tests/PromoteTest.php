@@ -353,6 +353,7 @@ Test', $result );
 |action1result = listed
 |action1oldid = 995658831
 }}
+
 {{WikiProject football|class=GA|importance=low|season=yes|england=yes}}', $result );
 	}
 
@@ -370,7 +371,8 @@ Test', $result );
 |action1link = Talk:History of Burnley F.C./GA1
 |action1result = listed
 |action1oldid = 998352580
-}}', $result );
+}}
+', $result );
 	}
 
 	public function test_addArticleHistoryIfNotPresent_gaTemplateWithNoPage() {
@@ -387,7 +389,8 @@ Test', $result );
 |action1link = Talk:2007 Football League Two play-off Final/GA1
 |action1result = listed
 |action1oldid = 1031742022
-}}', $result );
+}}
+', $result );
 	}
 
 	public function test_addArticleHistoryIfNotPresent_gaSubtopic() {
@@ -404,7 +407,8 @@ Test', $result );
 |action1link = Talk:2014 Football League Two play-off Final/GA1
 |action1result = listed
 |action1oldid = 1003985565
-}}', $result );
+}}
+', $result );
 	}
 
 	public function test_addArticleHistoryIfNotPresent_gaNoTopic() {
@@ -420,7 +424,73 @@ Test', $result );
 |action1link = Talk:2014 Football League Two play-off Final/GA1
 |action1result = listed
 |action1oldid = 1003985565
-}}', $result );
+}}
+', $result );
+	}
+
+	public function test_addArticleHistoryIfNotPresent_dontDeleteSimilarTemplateGAList() {
+		$talkPageWikicode =
+'{{GA|16:37, 31 January 2021 (UTC)|nominator=[[User:The Rambling Man|The Rambling Man]] <small>([[User talk:The Rambling Man|Stay alert! Control the virus! Save lives!&#33;!&#33;]])</small>|page=1|note=|oldid=1003985565}}
+
+== Test ==
+{{GAList/check|aye}}
+';
+		$talkPageTitle = 'Talk:2014 Football League Two play-off Final';
+		$result = $this->p->addArticleHistoryIfNotPresent( $talkPageWikicode, $talkPageTitle );
+		$this->assertSame(
+'{{Article history
+|currentstatus = GA
+
+|action1 = GAN
+|action1date = 2021-01-31
+|action1link = Talk:2014 Football League Two play-off Final/GA1
+|action1result = listed
+|action1oldid = 1003985565
+}}
+
+== Test ==
+{{GAList/check|aye}}', $result );
+	}
+
+	public function test_addArticleHistoryIfNotPresent_detectArticleHistoryTemplateWithNoSpace() {
+		$talkPageWikicode =
+'{{ArticleHistory
+|currentstatus = GA
+
+|action1 = GAN
+|action1date = 2021-01-31
+|action1link = Talk:2014 Football League Two play-off Final/GA1
+|action1result = listed
+|action1oldid = 1003985565
+}} {{GAList/check|aye}}';
+		$talkPageTitle = 'Talk:2014 Football League Two play-off Final';
+		$result = $this->p->addArticleHistoryIfNotPresent( $talkPageWikicode, $talkPageTitle );
+		$this->assertSame(
+'{{ArticleHistory
+|currentstatus = GA
+
+|action1 = GAN
+|action1date = 2021-01-31
+|action1link = Talk:2014 Football League Two play-off Final/GA1
+|action1result = listed
+|action1oldid = 1003985565
+}} {{GAList/check|aye}}', $result );
+	}
+
+	public function test_addArticleHistoryIfNotPresent_gaTemplateWithNoOldId() {
+		$talkPageWikicode = '{{GA|16:37, 31 January 2021 (UTC)|nominator=[[User:The Rambling Man|The Rambling Man]] <small>([[User talk:The Rambling Man|Stay alert! Control the virus! Save lives!&#33;!&#33;]])</small>|page=1|note=}}';
+		$talkPageTitle = 'Talk:2014 Football League Two play-off Final';
+		$result = $this->p->addArticleHistoryIfNotPresent( $talkPageWikicode, $talkPageTitle );
+		$this->assertSame(
+'{{Article history
+|currentstatus = GA
+
+|action1 = GAN
+|action1date = 2021-01-31
+|action1link = Talk:2014 Football League Two play-off Final/GA1
+|action1result = listed
+}}
+', $result );
 	}
 
 	public function test_getAllArticleTitles_normal() {
@@ -3468,6 +3538,67 @@ In the 1880s and 1890s, the [[French Navy]] built a series of [[protected cruise
 		$this->assertSame( $expected, $result );
 	}
 
+	public function test_updateArticleHistory_oneTopic() {
+		$talkPageWikicode = trim( '
+
+{{ArticleHistory
+|action1=GAN
+|action1date=07:05, 14 August 2020
+|action1link=/GA1
+|action1result=listed
+|action1oldid=971810839
+
+|topic=music
+|currentstatus=GA
+}}
+
+		' );
+		$nextActionNumber = 2;
+		$goodOrFeatured = 'good';
+		$datetime = '15:11, 24 November 2022';
+		$mainArticleTitle = 'Jesus Is King';
+		$topicTitle = 'Jesus Is King';
+		$articleTitle = 'Jesus Is King';
+		$talkPageTitle = 'Talk:Jesus Is King';
+		$nominationPageTitle = 'Wikipedia:Featured and good topic candidates/Jesus Is King/archive1';
+		$oldid = 1119199461;
+		$result = $this->p->updateArticleHistory(
+			$talkPageWikicode,
+			$nextActionNumber,
+			$goodOrFeatured,
+			$datetime,
+			$mainArticleTitle,
+			$topicTitle,
+			$articleTitle,
+			$talkPageTitle,
+			$nominationPageTitle,
+			$oldid
+		);
+		$expected = trim( '
+
+{{ArticleHistory
+|action1=GAN
+|action1date=07:05, 14 August 2020
+|action1link=/GA1
+|action1result=listed
+|action1oldid=971810839
+
+|topic=music
+|currentstatus=GA
+
+|action2 = GTC
+|action2date = 15:11, 24 November 2022
+|action2link = Wikipedia:Featured and good topic candidates/Jesus Is King/archive1
+|action2result = promoted
+|action2oldid = 1119199461
+|ftname = Jesus Is King
+|ftmain = yes
+}}
+
+		' );
+		$this->assertSame( $expected, $result );
+	}
+
 	public function test_updateArticleHistory_twoTopics() {
 		$talkPageWikicode = trim( '
 
@@ -3538,6 +3669,67 @@ In the 1880s and 1890s, the [[French Navy]] built a series of [[protected cruise
 |ft2name = Jesus Is King
 |ft2main = yes
 }}
+
+		' );
+		$this->assertSame( $expected, $result );
+	}
+
+	public function test_updateArticleHistory_dontMisreadSimilarTemplateGAList() {
+		$talkPageWikicode = trim( '
+
+{{ArticleHistory
+|action1=GAN
+|action1date=07:05, 14 August 2020
+|action1link=/GA1
+|action1result=listed
+|action1oldid=971810839
+
+|topic=music
+|currentstatus=GA
+}} {{GAList/check|aye}}
+
+		' );
+		$nextActionNumber = 2;
+		$goodOrFeatured = 'good';
+		$datetime = '15:11, 24 November 2022';
+		$mainArticleTitle = 'Jesus Is King';
+		$topicTitle = 'Jesus Is King';
+		$articleTitle = 'Jesus Is King';
+		$talkPageTitle = 'Talk:Jesus Is King';
+		$nominationPageTitle = 'Wikipedia:Featured and good topic candidates/Jesus Is King/archive1';
+		$oldid = 1119199461;
+		$result = $this->p->updateArticleHistory(
+			$talkPageWikicode,
+			$nextActionNumber,
+			$goodOrFeatured,
+			$datetime,
+			$mainArticleTitle,
+			$topicTitle,
+			$articleTitle,
+			$talkPageTitle,
+			$nominationPageTitle,
+			$oldid
+		);
+		$expected = trim( '
+
+{{ArticleHistory
+|action1=GAN
+|action1date=07:05, 14 August 2020
+|action1link=/GA1
+|action1result=listed
+|action1oldid=971810839
+
+|topic=music
+|currentstatus=GA
+
+|action2 = GTC
+|action2date = 15:11, 24 November 2022
+|action2link = Wikipedia:Featured and good topic candidates/Jesus Is King/archive1
+|action2result = promoted
+|action2oldid = 1119199461
+|ftname = Jesus Is King
+|ftmain = yes
+}} {{GAList/check|aye}}
 
 		' );
 		$this->assertSame( $expected, $result );

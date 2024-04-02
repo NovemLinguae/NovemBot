@@ -285,11 +285,11 @@ $wikiProjectBanners";
 
 	/** There's a {{GA}} template that some people use instead of {{Article history}}. If this is present, replace it with {{Article history}}. */
 	public function addArticleHistoryIfNotPresent( $talkPageWikicode, $talkPageTitle ) {
-		$hasArticleHistory = preg_match( '/\{\{Article ? history([^\}]*)\}\}/i', $talkPageWikicode );
-		$gaTemplateWikicode = $this->h->preg_first_match( '/(\{\{GA[^\}]*\}\})/i', $talkPageWikicode );
+		$hasArticleHistory = preg_match( '/\{\{Article ?history([^\}]*)\}\}/i', $talkPageWikicode );
+		$gaTemplateWikicode = $this->h->preg_first_match( '/(\{\{GA\b[^\}]*\}\})/i', $talkPageWikicode );
 		if ( !$hasArticleHistory && $gaTemplateWikicode ) {
 			// delete {{ga}} template
-			$talkPageWikicode = preg_replace( '/\{\{GA[^\}]*\}\}\n?/i', '', $talkPageWikicode );
+			$talkPageWikicode = preg_replace( '/\{\{GA\b[^\}]*\}\}\n?/i', '', $talkPageWikicode );
 			$talkPageWikicode = trim( $talkPageWikicode );
 
 			// parse its parameters
@@ -309,6 +309,11 @@ $wikiProjectBanners";
 				$topicString = "\n|topic = {$parameters['subtopic']}";
 			}
 
+			$oldIdString = '';
+			if ( isset( $parameters['oldid'] ) ) {
+				$oldIdString = "\n|action1oldid = " . $parameters['oldid'];
+			}
+
 			$date = date( 'Y-m-d', strtotime( $parameters[1] ) );
 
 			// insert {{article history}} template
@@ -320,9 +325,9 @@ $wikiProjectBanners";
 |action1 = GAN
 |action1date = $date
 |action1link = $talkPageTitle/GA{$parameters['page']}
-|action1result = listed
-|action1oldid = {$parameters['oldid']}
-}}";
+|action1result = listed"
+			. $oldIdString . "
+}}\n";
 			$talkPageWikicode = $this->addToTalkPageAboveWikiProjects( $talkPageWikicode, $addToTalkPageAboveWikiProjects );
 		}
 		return $talkPageWikicode;
