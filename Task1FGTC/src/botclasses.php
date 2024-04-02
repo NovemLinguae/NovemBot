@@ -1,16 +1,4 @@
 <?php
-
-/* User:Novem_Linguae changes:
-    - ce
-    - elaborate on a comment
-	- function beQuiet() {
-	- add if (!$this->http->quiet) to print_r's in login() method
-*/
-
-// https://en.wikipedia.org/wiki/User:RMCD_bot/botclasses.php
-// Maintainer: [[en:User:wbm1058]]
-// How to invoke this framework: https://en.wikipedia.org/wiki/User:RMCD_bot/requestedmoves.php
-
 /**
  * botclasses.php - Bot classes for interacting with mediawiki.
  *
@@ -20,7 +8,7 @@
  *  (c) 2011      Gutza - http://en.wikipedia.org/wiki/User:Gutza
  *  (c) 2012      Sean - http://en.wikipedia.org/wiki/User:SColombo
  *  (c) 2012      Brian - http://en.wikipedia.org/wiki/User:Brian_McNeil
- *  (c) 2020      Bill - http://en.wikipedia.org/wiki/User:wbm1058
+ *  (c) 2020-2024 Bill - http://en.wikipedia.org/wiki/User:wbm1058
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -44,7 +32,7 @@
  *      Gutza   - [[User:Gutza]]        - Submitted a patch for http->setHTTPcreds(), and http->quiet
  *      Sean    - [[User:SColombo]]     - Wrote the lyricwiki class (now moved to lyricswiki.php)
  *      Brian   - [[User:Brian_McNeil]] - Wrote wikipedia->getfileuploader() and wikipedia->getfilelocation
- *      Bill    - [[User:wbm1058]]      - Wrote wikipedia->categories
+ *      Bill    - [[User:wbm1058]]      - Wrote wikipedia->categories, wikipedia->getTalkTransclusions, wikipedia->recent_page_edits, and wikipedia->ten_latest_edits
  **/
 
 /*
@@ -118,7 +106,7 @@ class http {
             curl_setopt($this->ch,CURLOPT_COOKIE,$cookies);
         curl_setopt($this->ch,CURLOPT_FOLLOWLOCATION,$this->postfollowredirs);
         curl_setopt($this->ch,CURLOPT_MAXREDIRS,10);
-        curl_setopt($this->ch, CURLOPT_HTTPHEADER, array('Expect:'));
+        curl_setopt($this->ch,CURLOPT_HTTPHEADER, array('Expect:'));
         curl_setopt($this->ch,CURLOPT_RETURNTRANSFER,1);
         curl_setopt($this->ch,CURLOPT_TIMEOUT,30);
         curl_setopt($this->ch,CURLOPT_CONNECTTIMEOUT,10);
@@ -210,8 +198,14 @@ class wikipedia {
         	$this->http->setHTTPcreds($hu,$hp);
     }
 
-    function beQuiet() {
-		$this->http->quiet = true;
+    function __set($var,$val) {
+	switch($var) {
+  		case 'quiet':
+			$this->http->quiet=$val;
+     			break;
+   		default:
+     			echo "WARNING: Unknown variable ($var)!\n";
+ 	}
     }
 
     /**
@@ -268,6 +262,47 @@ class wikipedia {
     }
 
     /**
+     * Gets up to nine recent edits to a page by a specified editor. Used to prevent bots from edit warring.
+     * @param $page The wikipedia page to fetch.
+     * @param $editor The editor's edits to fetch (usually the bot's user ID).
+     * @return int The number of recent edits the user has made to the page (up to 9). "Recent edits" are edits made in the past day (24 hours).
+     **/
+    function recent_page_edits ($page,$editor) {
+        $ds = 86400;    #number of seconds in a day
+        $timestamp = date(DATE_ISO8601, time() - $ds);
+        #echo $timestamp . "\n";
+        $x = $this->query('?action=query&format=json&prop=revisions&rvslots=main&titles='.urlencode($page).'&rvuser='.urlencode($editor).
+            '&rvend='.urlencode($timestamp).'&rvlimit=9&rvprop=user|timestamp|comment');
+        #print_r($x);
+        foreach ($x['query']['pages'] as $ret) {
+            #print_r($ret);
+            if (isset($ret['revisions'])) {
+                #print_r($ret['revisions']);
+                return count($ret['revisions']);
+            } else
+                return 0;
+        }
+    }
+
+    /**
+     * Gets the ten latest edits to a page. Used to find history that blocks page-movers from moving.
+     * @param $page The wikipedia page to fetch.
+     * @return int The number of page-edits found (up to 10).
+     **/
+    function ten_latest_edits ($page) {
+        $x = $this->query('?action=query&format=json&prop=revisions&rvslots=main&titles='.urlencode($page).'&rvlimit=10&rvprop=user|timestamp|comment');
+        #print_r($x);
+        foreach ($x['query']['pages'] as $ret) {
+            #print_r($ret);
+            if (isset($ret['revisions'])) {
+                #print_r($ret['revisions']);
+                return count($ret['revisions']);
+            } else
+                return 0;
+        }
+    }
+
+    /**
      * Gets the page id for a page.
      * @param $page The wikipedia page to get the id for.
      * @return int The page id of the page.
@@ -296,7 +331,7 @@ class wikipedia {
      **/
     function categories ($page) {
         $x = $this->query('?action=query&format=json&prop=categories&titles='.urlencode($page));
-	foreach ($x['query']['pages'] as $ret) {
+        foreach ($x['query']['pages'] as $ret) {
             return $ret['categories'];
         }
     }
@@ -458,17 +493,16 @@ class wikipedia {
     function login ($user,$pass) {
     	$post = array('lgname' => $user, 'lgpassword' => $pass);
         $ret = $this->query('?action=query&meta=tokens&type=login&format=json');
- 		if (!$this->http->quiet) print_r($ret);
+        #print_r($ret);
         /* This is now required - see https://bugzilla.wikimedia.org/show_bug.cgi?id=23076 */
         $post['lgtoken'] = $ret['query']['tokens']['logintoken'];
         $ret = $this->query( '?action=login&format=json', $post );
 
         if ($ret['login']['result'] != 'Success') {
             echo "Login error: \n";
-            if (!$this->http->quiet) print_r($ret);
+            print_r($ret);
             die();
         } else {
-            if (!$this->http->quiet) print_r($ret);
             return $ret;
         }
     }
@@ -518,15 +552,6 @@ class wikipedia {
     }
 
     /**
-     * Purges the cache of $page.
-     * @param $page The page to purge.
-     * @return array Api result.
-     **/
-    function purgeCache($page) {
-        return $this->query('?action=purge&titles='.urlencode($page).'&format=json');
-    }
-
-    /**
      * Checks if $user has email enabled.
      * Uses index.php.
      * @param $user The user to check.
@@ -570,15 +595,63 @@ class wikipedia {
     }
 
     /**
+     * Returns all the talk pages (namespace=1) $page is transcluded on.
+     * @param $page The page to get the transclusions from.
+     * @param $sleep The time to sleep between requests (set to null to disable).
+     * @return array.
+     **/
+    function getTalkTransclusions($page,$sleep=null,$extra=null) {
+        $continue = '&rawcontinue=';
+        $pages = array();
+        while (true) {
+            $ret = $this->query('?action=query&list=embeddedin&einamespace=1&eititle='.urlencode($page).$continue.$extra.'&eilimit=500&format=json');
+            if ($sleep != null) {
+                sleep($sleep);
+            }
+            foreach ($ret['query']['embeddedin'] as $x) {
+                $pages[] = $x['title'];
+            }
+            if (isset($ret['query-continue']['embeddedin']['eicontinue'])) {
+                $continue = '&rawcontinue=&eicontinue='.$ret['query-continue']['embeddedin']['eicontinue'];
+            } else {
+                return $pages;
+            }
+        }
+    }
+
+    /**
+     * Purges the cache of $page.
+     * @param $page The page to purge.
+     * @return array Api result.
+     **/
+    function purgeCache($page) {
+        $params = array(
+            'titles' => $page,
+        );
+        $ret = $this->query('?action=purge&format=json&formatversion=2&assert=user&forcerecursivelinkupdate=1',$params);
+        foreach ($ret['purge'] as $x) {
+            if (!array_key_exists('purged', $x) or $x['purged'] != true) {
+                echo "\n? Not purged!\n";
+                print_r($ret);
+            }
+            else if (!array_key_exists('linkupdate', $x) or $x['linkupdate'] != true) {
+                echo "\n? No linkupdate!\n";
+                print_r($x);
+            }
+        }
+        return $ret;
+    }
+
+    /**
      * Edits a page.
-     * @param $page Page name to edit. Spaces instead of underscores. Include namespace.
+     * @param $page Page name to edit.
      * @param $data Data to post to page.
      * @param $summary Edit summary to use.
      * @param $minor Whether or not to mark edit as minor.  (Default false)
      * @param $bot Whether or not to mark edit as a bot edit.  (Default true)
      * @return array api result
      **/
-    function edit($page,$data,$summary = '',$minor = false,$bot = true,$section = null,$detectEC=false,$maxlag='') {
+    function edit ($page,$data,$summary = '',$minor = false,$bot = true,$section = null,$detectEC=false,$maxlag='') {
         if ($this->token==null) {
             $this->token = $this->getedittoken();
         }
@@ -831,10 +904,10 @@ class wikipedia {
      }
 
     /**
-      * @param $page - page
-      * @param $revs - rev ids to delete (seperated with ,)
-      * @param $comment - delete comment
-      */
+     * @param $page - page
+     * @param $revs - rev ids to delete (seperated with ,)
+     * @param $comment - delete comment
+     */
     function revdel ($page,$revs,$comment) {
 
         if ($this->token==null) {
@@ -1005,3 +1078,4 @@ class extended extends wikipedia
            return NULL;
      }
 }
+?>

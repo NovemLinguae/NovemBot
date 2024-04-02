@@ -28,7 +28,7 @@ class WikiAPIWrapper {
 
 		$this->eh->echoAndFlush( "Log in", 'api_read' );
 		$this->wapi = new wikipedia();
-		$this->wapi->beQuiet();
+		$this->wapi->quiet = true;
 		$this->wapi->http->useragent = '[[en:User:NovemBot]], owner [[en:User:Novem Linguae]], framework [[en:User:RMCD_bot/botclasses.php]]';
 		$this->wapi->login( $wiki_username, $wiki_password );
 
