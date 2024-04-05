@@ -517,6 +517,13 @@ $wikiProjectBanners";
 	}
 
 	public function markDoneAndSuccessful( $nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured ) {
+		// Figure out who the bot summoner was. For use in a later step. Too hard to read who pinged us, so figure it out from the wikicode.
+		$botSummoner = '';
+		preg_match( '/{{\s*User:NovemBot\/Promote\s*}}.*?\[\[User:([^\|]+).*?\(UTC\)/is', $nominationPageWikicode, $matches );
+		if ( isset( $matches[1] ) ) {
+			$botSummoner = $matches[1];
+		}
+
 		// Change {{User:NovemBot/Promote}} to include |done=yes, which will prevent the bot from going into an endless loop every hour.
 		$nominationPageWikicode2 = preg_replace( '/({{\s*User:NovemBot\/Promote\s*)(}}.*?\(UTC\))/is', "$1|done=yes$2", $nominationPageWikicode );
 		if ( $nominationPageWikicode == $nominationPageWikicode2 ) {
@@ -532,7 +539,7 @@ $wikiProjectBanners";
 		$wikicodeTop = trim( $wikicodeTop ) . "\n* {{Done}}. Promotion completed successfully. Don't forget to add <code><nowiki>{{{$topicWikipediaPageTitle}}}</nowiki></code> to the appropriate section of $pageToAddTo. ~~~~";
 
 		// Add {{Fa top}} and {{Fa bottom}}
-		// $wikicodeTop = "{{Fa top}}\n" . trim( $wikicodeTop ) . "\n{{Fa bottom}}\n";
+		$wikicodeTop = "{{Fa top|result = '''promoted''' by [[User:$botSummoner|$botSummoner]] via ~~~~}}\n" . trim( $wikicodeTop ) . "\n{{Fa bottom}}";
 
 		// Add categories back
 		if ( $wikicodeTop && $wikicodeBottom ) {
