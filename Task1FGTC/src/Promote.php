@@ -517,14 +517,19 @@ $wikiProjectBanners";
 	}
 
 	public function markDoneAndSuccessful( $nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured ) {
+		// Change {{User:NovemBot/Promote}} to include |done=yes, which will prevent the bot from going into an endless loop every hour.
 		$nominationPageWikicode2 = preg_replace( '/({{\s*User:NovemBot\/Promote\s*)(}}.*?\(UTC\))/is', "$1|done=yes$2", $nominationPageWikicode );
 		if ( $nominationPageWikicode == $nominationPageWikicode2 ) {
 			throw new GiveUpOnThisTopic( "On page $nominationPageTitle, unable to find {{t|User:NovemBot/Promote}} template and signature." );
 		}
 
-		$pageToAddTo = ( $goodOrFeatured == 'good' ) ? '[[Wikipedia:Good topics]]' : '[[Wikipedia:Featured topics]]';
+		// TODO: split wikicode variable in half, removing categories from the bottom
 
+		$pageToAddTo = ( $goodOrFeatured == 'good' ) ? '[[Wikipedia:Good topics]]' : '[[Wikipedia:Featured topics]]';
 		$nominationPageWikicode2 = trim( $nominationPageWikicode2 ) . "\n* {{Done}}. Promotion completed successfully. Don't forget to add <code><nowiki>{{{$topicWikipediaPageTitle}}}</nowiki></code> to the appropriate section of $pageToAddTo. ~~~~";
+
+		// Add {{Fa top}} and {{Fa bottom}}
+		// $nominationPageWikicode2 = "{{Fa top}}\n" . trim( $nominationPageWikicode2 ) . "\n{{Fa bottom}}\n";
 
 		return $nominationPageWikicode2;
 	}

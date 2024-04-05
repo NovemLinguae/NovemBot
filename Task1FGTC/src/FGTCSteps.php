@@ -80,7 +80,7 @@ class FGTCSteps {
 		$this->removeFromFGTC();
 		// This check prevents test topics from throwing a "promote template not found" error, which is distracting.
 		if ( !$this->READ_ONLY_TEST_MODE ) {
-			$this->writeMessageOnArchivePage();
+			$this->writeSuccessMessageOnArchivePage();
 		}
 		$this->addToUserspaceLog();
 		// Also a visual aid to easily see where the end of the run is.
@@ -319,12 +319,15 @@ class FGTCSteps {
 	/**
 	 * Step 1
 	 */
-	private function writeMessageOnArchivePage() {
-		// Replace template invokation with Success. ~~~~ or Error. ~~~~
-		// Also change {{User:NovemBot/Promote}} to include |done=yes, which will prevent the bot from going into an endless loop every hour.
+	private function writeSuccessMessageOnArchivePage() {
 		// Fetch a fresh copy of the nomination page, to prevent edit conflicts.
 		$this->nominationPageWikicode = $this->wapi->getpage( $this->nominationPageTitle );
-		$this->nominationPageWikicode = $this->p->markDoneAndSuccessful( $this->nominationPageWikicode, $this->nominationPageTitle, $this->topicWikipediaPageTitle, $this->goodOrFeatured );
+		$this->nominationPageWikicode = $this->p->markDoneAndSuccessful(
+			$this->nominationPageWikicode,
+			$this->nominationPageTitle,
+			$this->topicWikipediaPageTitle,
+			$this->goodOrFeatured
+		);
 		$this->wapi->edit(
 			$this->nominationPageTitle,
 			$this->nominationPageWikicode,

@@ -3762,4 +3762,31 @@ In the 1880s and 1890s, the [[French Navy]] built a series of [[protected cruise
 		$expected = 4;
 		$this->assertSame( $expected, $result );
 	}
+
+	public function test_markDoneAndSuccessful_normal() {
+		$nominationPageWikicode = <<<WIKICODE
+* Test
+* {{User:NovemBot/Promote}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 05:20, 1 April 2024 (UTC)
+WIKICODE;
+		$nominationPageTitle = 'Wikipedia:Featured and good topic candidates/Overview of Ben&Ben/archive1';
+		$topicWikipediaPageTitle = 'Wikipedia:Featured topics/Overview of Ben&Ben';
+		$goodOrFeatured = 'featured';
+		$result = $this->p->markDoneAndSuccessful( $nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured );
+		$expected =
+<<<WIKICODE
+* Test
+* {{User:NovemBot/Promote|done=yes}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 05:20, 1 April 2024 (UTC)
+* {{Done}}. Promotion completed successfully. Don't forget to add <code><nowiki>{{Wikipedia:Featured topics/Overview of Ben&Ben}}</nowiki></code> to the appropriate section of [[Wikipedia:Featured topics]]. ~~~~
+WIKICODE;
+		$this->assertSame( $expected, $result );
+	}
+
+	public function test_markDoneAndSuccessful_missingTemplate() {
+		$nominationPageWikicode = '* Test';
+		$nominationPageTitle = 'Wikipedia:Featured and good topic candidates/Overview of Ben&Ben/archive1';
+		$topicWikipediaPageTitle = 'Wikipedia:Featured topics/Overview of Ben&Ben';
+		$goodOrFeatured = 'featured';
+		$this->expectException( GiveUpOnThisTopic::class );
+		$this->p->markDoneAndSuccessful( $nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured );
+	}
 }
