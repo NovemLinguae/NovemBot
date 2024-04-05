@@ -3840,10 +3840,10 @@ WIKICODE;
 Test';
 		$result = $this->p->splitWikicodeIntoWikicodeAndCategories( $wikicode );
 		$expected = [
-			'wikicodeNoCategories' =>
+			'wikicodeTop' =>
 'Test
 Test',
-			'wikicodeCategories' => '',
+			'wikicodeBottom' => '',
 		];
 		$this->assertSame( $expected, $result );
 	}
@@ -3853,8 +3853,8 @@ Test',
 '[[Category:Test]]';
 		$result = $this->p->splitWikicodeIntoWikicodeAndCategories( $wikicode );
 		$expected = [
-			'wikicodeNoCategories' => '',
-			'wikicodeCategories' => '[[Category:Test]]',
+			'wikicodeTop' => '',
+			'wikicodeBottom' => '[[Category:Test]]',
 		];
 		$this->assertSame( $expected, $result );
 	}
@@ -3865,8 +3865,8 @@ Test',
 [[Category:Test]]';
 		$result = $this->p->splitWikicodeIntoWikicodeAndCategories( $wikicode );
 		$expected = [
-			'wikicodeNoCategories' => 'Bob',
-			'wikicodeCategories' => '[[Category:Test]]',
+			'wikicodeTop' => 'Bob',
+			'wikicodeBottom' => '[[Category:Test]]',
 		];
 		$this->assertSame( $expected, $result );
 	}
@@ -3880,10 +3880,10 @@ Jill
 </noinclude>';
 		$result = $this->p->splitWikicodeIntoWikicodeAndCategories( $wikicode );
 		$expected = [
-			'wikicodeNoCategories' =>
+			'wikicodeTop' =>
 'Bob
 Jill',
-			'wikicodeCategories' =>
+			'wikicodeBottom' =>
 '<noinclude>
 [[Category:Test]]
 </noinclude>',
@@ -3904,10 +3904,10 @@ Jill
 ';
 		$result = $this->p->splitWikicodeIntoWikicodeAndCategories( $wikicode );
 		$expected = [
-			'wikicodeNoCategories' =>
+			'wikicodeTop' =>
 'Bob
 Jill',
-			'wikicodeCategories' =>
+			'wikicodeBottom' =>
 '
 
 <noinclude>

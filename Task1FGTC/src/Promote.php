@@ -523,21 +523,22 @@ $wikiProjectBanners";
 			throw new GiveUpOnThisTopic( "On page $nominationPageTitle, unable to find {{t|User:NovemBot/Promote}} template and signature." );
 		}
 
+		// Remove categories for the next couple operations. Will add them back later.
 		$res = $this->splitWikicodeIntoWikicodeAndCategories( $nominationPageWikicode2 );
-		$wikicodeNoCategories = $res[ 'wikicodeNoCategories' ];
-		$wikicodeCategories = $res[ 'wikicodeCategories' ];
+		$wikicodeTop = $res[ 'wikicodeTop' ];
+		$wikicodeBottom = $res[ 'wikicodeBottom' ];
 
 		$pageToAddTo = ( $goodOrFeatured == 'good' ) ? '[[Wikipedia:Good topics]]' : '[[Wikipedia:Featured topics]]';
-		$wikicodeNoCategories = trim( $wikicodeNoCategories ) . "\n* {{Done}}. Promotion completed successfully. Don't forget to add <code><nowiki>{{{$topicWikipediaPageTitle}}}</nowiki></code> to the appropriate section of $pageToAddTo. ~~~~";
+		$wikicodeTop = trim( $wikicodeTop ) . "\n* {{Done}}. Promotion completed successfully. Don't forget to add <code><nowiki>{{{$topicWikipediaPageTitle}}}</nowiki></code> to the appropriate section of $pageToAddTo. ~~~~";
 
 		// Add {{Fa top}} and {{Fa bottom}}
-		// $wikicodeNoCategories = "{{Fa top}}\n" . trim( $wikicodeNoCategories ) . "\n{{Fa bottom}}\n";
+		// $wikicodeTop = "{{Fa top}}\n" . trim( $wikicodeTop ) . "\n{{Fa bottom}}\n";
 
 		// Add categories back
-		if ( $wikicodeNoCategories && $wikicodeCategories ) {
-			$nominationPageWikicode3 = $wikicodeNoCategories . "\n" . $wikicodeCategories;
+		if ( $wikicodeTop && $wikicodeBottom ) {
+			$nominationPageWikicode3 = $wikicodeTop . "\n" . $wikicodeBottom;
 		} else {
-			$nominationPageWikicode3 = $wikicodeNoCategories . $wikicodeCategories;
+			$nominationPageWikicode3 = $wikicodeTop . $wikicodeBottom;
 		}
 
 		return $nominationPageWikicode3;
@@ -557,7 +558,7 @@ $wikiProjectBanners";
 		$lineCount = count( $lines );
 		for ( $i = $lineCount - 1; $i >= 0; $i-- ) {
 			$line = $lines[ $i ];
-			// lines starting with our keywords go in the "wikicodeCategories" section
+			// lines starting with our keywords go in the "wikicodeBottom" section
 			foreach ( $lineStartKeywords as $keyword ) {
 				if ( str_starts_with( $line, $keyword ) ) {
 					continue 2;
@@ -567,11 +568,11 @@ $wikiProjectBanners";
 			if ( $line === '' ) {
 				continue;
 			}
-			// iterating from the bottom line up, once we encounter a line that does not meet any of our criteria, we're done building our "wikicodeCategories" variable. the rest goes in the "wikicodeNoCategories" variable
+			// iterating from the bottom line up, once we encounter a line that does not meet any of our criteria, we're done building our "wikicodeBottom" variable. the rest goes in the "wikicodeTop" variable
 			break;
 		}
-		$ret[ 'wikicodeNoCategories' ] = implode( "\n", array_slice( $lines, 0, $i + 1 ) );
-		$ret[ 'wikicodeCategories' ] = implode( "\n", array_slice( $lines, $i + 1 ) );
+		$ret[ 'wikicodeTop' ] = implode( "\n", array_slice( $lines, 0, $i + 1 ) );
+		$ret[ 'wikicodeBottom' ] = implode( "\n", array_slice( $lines, $i + 1 ) );
 		return $ret;
 	}
 
@@ -579,11 +580,20 @@ $wikiProjectBanners";
 		// toggle the original summoning code to done=yes, so that this page doesn't get processed over and over again, and so this error doesn't get written over and over again
 		$nominationPageWikicode = preg_replace( '/({{\s*User:NovemBot\/Promote\s*)(}}.*?\(UTC\))/is', "$1|done=yes$2", $nominationPageWikicode );
 
-		// TODO: also look for and remove [[Category: blah blah]]
-		// TODO: if neither of those changes resulted in a change to the Wikitext, throw a fatal error, to prevent a loop where the bot writes an error message every hour
+		// Remove categories for the next couple operations. Will add them back later.
+		$res = $this->splitWikicodeIntoWikicodeAndCategories( $nominationPageWikicode );
+		$wikicodeTop = $res[ 'wikicodeTop' ];
+		$wikicodeBottom = $res[ 'wikicodeBottom' ];
 
 		// add an error message to the summoning page
-		$nominationPageWikicode .= "\n* {{N.b.}} There was an issue that prevented the promotion bot from promoting this topic. Please solve the issue and run the bot again. The error description is: <code><nowiki>$errorMessage</nowiki></code> ~~~~";
+		$wikicodeTop .= "\n* {{N.b.}} There was an issue that prevented the promotion bot from promoting this topic. Please solve the issue and run the bot again. The error description is: <code><nowiki>$errorMessage</nowiki></code> ~~~~";
+
+		// Add categories back
+		if ( $wikicodeTop && $wikicodeBottom ) {
+			$nominationPageWikicode = $wikicodeTop . "\n" . $wikicodeBottom;
+		} else {
+			$nominationPageWikicode = $wikicodeTop . $wikicodeBottom;
+		}
 
 		return $nominationPageWikicode;
 	}
