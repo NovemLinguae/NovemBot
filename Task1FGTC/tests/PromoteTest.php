@@ -3774,11 +3774,11 @@ WIKICODE;
 		$result = $this->p->markDoneAndSuccessful( $nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured );
 		$expected =
 <<<WIKICODE
-{{Fa top|result = '''promoted''' by [[User:Aza24|Aza24]] via ~~~~}}
+{{Archive top|result = The topic was '''promoted''' by [[User:Aza24|Aza24]] via ~~~~}}
 * Test
 * {{User:NovemBot/Promote|done=yes}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 05:20, 1 April 2024 (UTC)
 * {{Done}}. Promotion completed successfully. Don't forget to add <code><nowiki>{{Wikipedia:Featured topics/Overview of Ben&Ben}}</nowiki></code> to the appropriate section of [[Wikipedia:Featured topics]]. ~~~~
-{{Fa bottom}}
+{{Archive bottom}}
 WIKICODE;
 		$this->assertSame( $expected, $result );
 	}
@@ -3795,11 +3795,11 @@ WIKICODE;
 		$result = $this->p->markDoneAndSuccessful( $nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured );
 		$expected =
 <<<WIKICODE
-{{Fa top|result = '''promoted''' by [[User:Aza24|Aza24]] via ~~~~}}
+{{Archive top|result = The topic was '''promoted''' by [[User:Aza24|Aza24]] via ~~~~}}
 * Test
 * {{User:NovemBot/Promote|done=yes}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 05:20, 1 April 2024 (UTC)
 * {{Done}}. Promotion completed successfully. Don't forget to add <code><nowiki>{{Wikipedia:Featured topics/Overview of Ben&Ben}}</nowiki></code> to the appropriate section of [[Wikipedia:Featured topics]]. ~~~~
-{{Fa bottom}}
+{{Archive bottom}}
 [[Category:Marvel Cinematic Universe task force|Featured topics]]
 WIKICODE;
 		$this->assertSame( $expected, $result );
@@ -3819,11 +3819,11 @@ WIKICODE;
 		$result = $this->p->markDoneAndSuccessful( $nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured );
 		$expected =
 <<<WIKICODE
-{{Fa top|result = '''promoted''' by [[User:Aza24|Aza24]] via ~~~~}}
+{{Archive top|result = The topic was '''promoted''' by [[User:Aza24|Aza24]] via ~~~~}}
 * Test
 * {{User:NovemBot/Promote|done=yes}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 05:20, 1 April 2024 (UTC)
 * {{Done}}. Promotion completed successfully. Don't forget to add <code><nowiki>{{Wikipedia:Featured topics/Overview of Ben&Ben}}</nowiki></code> to the appropriate section of [[Wikipedia:Featured topics]]. ~~~~
-{{Fa bottom}}
+{{Archive bottom}}
 <noinclude>
 [[Category:Marvel Cinematic Universe task force|Featured topics]]
 </noinclude>
