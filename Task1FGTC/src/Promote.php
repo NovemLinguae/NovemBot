@@ -523,15 +523,56 @@ $wikiProjectBanners";
 			throw new GiveUpOnThisTopic( "On page $nominationPageTitle, unable to find {{t|User:NovemBot/Promote}} template and signature." );
 		}
 
-		// TODO: split wikicode variable in half, removing categories from the bottom
+		$res = $this->splitWikicodeIntoWikicodeAndCategories( $nominationPageWikicode2 );
+		$wikicodeNoCategories = $res[ 'wikicodeNoCategories' ];
+		$wikicodeCategories = $res[ 'wikicodeCategories' ];
 
 		$pageToAddTo = ( $goodOrFeatured == 'good' ) ? '[[Wikipedia:Good topics]]' : '[[Wikipedia:Featured topics]]';
-		$nominationPageWikicode2 = trim( $nominationPageWikicode2 ) . "\n* {{Done}}. Promotion completed successfully. Don't forget to add <code><nowiki>{{{$topicWikipediaPageTitle}}}</nowiki></code> to the appropriate section of $pageToAddTo. ~~~~";
+		$wikicodeNoCategories = trim( $wikicodeNoCategories ) . "\n* {{Done}}. Promotion completed successfully. Don't forget to add <code><nowiki>{{{$topicWikipediaPageTitle}}}</nowiki></code> to the appropriate section of $pageToAddTo. ~~~~";
 
 		// Add {{Fa top}} and {{Fa bottom}}
-		// $nominationPageWikicode2 = "{{Fa top}}\n" . trim( $nominationPageWikicode2 ) . "\n{{Fa bottom}}\n";
+		// $wikicodeNoCategories = "{{Fa top}}\n" . trim( $wikicodeNoCategories ) . "\n{{Fa bottom}}\n";
 
-		return $nominationPageWikicode2;
+		// Add categories back
+		if ( $wikicodeNoCategories && $wikicodeCategories ) {
+			$nominationPageWikicode3 = $wikicodeNoCategories . "\n" . $wikicodeCategories;
+		} else {
+			$nominationPageWikicode3 = $wikicodeNoCategories . $wikicodeCategories;
+		}
+
+		return $nominationPageWikicode3;
+	}
+
+	/**
+	 * split wikicode variable in half. goal is to put the bottom categories into its own variable, so we can do stuff like hat the rest of the wikicode or add a comment to the bulleted list, without messing up the position of the categories
+	 */
+	public function splitWikicodeIntoWikicodeAndCategories( $wikicode ) {
+		$lineStartKeywords = [
+			'<noinclude',
+			'[[Category',
+			'[[category',
+			'</noinclude',
+		];
+		$lines = explode( "\n", $wikicode );
+		$lineCount = count( $lines );
+		for ( $i = $lineCount - 1; $i >= 0; $i-- ) {
+			$line = $lines[ $i ];
+			// lines starting with our keywords go in the "wikicodeCategories" section
+			foreach ( $lineStartKeywords as $keyword ) {
+				if ( str_starts_with( $line, $keyword ) ) {
+					continue 2;
+				}
+			}
+			// so do blank lines
+			if ( $line === '' ) {
+				continue;
+			}
+			// iterating from the bottom line up, once we encounter a line that does not meet any of our criteria, we're done building our "wikicodeCategories" variable. the rest goes in the "wikicodeNoCategories" variable
+			break;
+		}
+		$ret[ 'wikicodeNoCategories' ] = implode( "\n", array_slice( $lines, 0, $i + 1 ) );
+		$ret[ 'wikicodeCategories' ] = implode( "\n", array_slice( $lines, $i + 1 ) );
+		return $ret;
 	}
 
 	public function markError( $nominationPageWikicode, $nominationPageTitle, $errorMessage ) {

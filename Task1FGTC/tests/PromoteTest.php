@@ -3781,6 +3781,50 @@ WIKICODE;
 		$this->assertSame( $expected, $result );
 	}
 
+	public function test_markDoneAndSuccessful_categories() {
+		$nominationPageWikicode = <<<WIKICODE
+* Test
+* {{User:NovemBot/Promote}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 05:20, 1 April 2024 (UTC)
+[[Category:Marvel Cinematic Universe task force|Featured topics]]
+WIKICODE;
+		$nominationPageTitle = 'Wikipedia:Featured and good topic candidates/Overview of Ben&Ben/archive1';
+		$topicWikipediaPageTitle = 'Wikipedia:Featured topics/Overview of Ben&Ben';
+		$goodOrFeatured = 'featured';
+		$result = $this->p->markDoneAndSuccessful( $nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured );
+		$expected =
+<<<WIKICODE
+* Test
+* {{User:NovemBot/Promote|done=yes}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 05:20, 1 April 2024 (UTC)
+* {{Done}}. Promotion completed successfully. Don't forget to add <code><nowiki>{{Wikipedia:Featured topics/Overview of Ben&Ben}}</nowiki></code> to the appropriate section of [[Wikipedia:Featured topics]]. ~~~~
+[[Category:Marvel Cinematic Universe task force|Featured topics]]
+WIKICODE;
+		$this->assertSame( $expected, $result );
+	}
+
+	public function test_markDoneAndSuccessful_noIncludeAndCategories() {
+		$nominationPageWikicode = <<<WIKICODE
+* Test
+* {{User:NovemBot/Promote}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 05:20, 1 April 2024 (UTC)
+<noinclude>
+[[Category:Marvel Cinematic Universe task force|Featured topics]]
+</noinclude>
+WIKICODE;
+		$nominationPageTitle = 'Wikipedia:Featured and good topic candidates/Overview of Ben&Ben/archive1';
+		$topicWikipediaPageTitle = 'Wikipedia:Featured topics/Overview of Ben&Ben';
+		$goodOrFeatured = 'featured';
+		$result = $this->p->markDoneAndSuccessful( $nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured );
+		$expected =
+<<<WIKICODE
+* Test
+* {{User:NovemBot/Promote|done=yes}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 05:20, 1 April 2024 (UTC)
+* {{Done}}. Promotion completed successfully. Don't forget to add <code><nowiki>{{Wikipedia:Featured topics/Overview of Ben&Ben}}</nowiki></code> to the appropriate section of [[Wikipedia:Featured topics]]. ~~~~
+<noinclude>
+[[Category:Marvel Cinematic Universe task force|Featured topics]]
+</noinclude>
+WIKICODE;
+		$this->assertSame( $expected, $result );
+	}
+
 	public function test_markDoneAndSuccessful_missingTemplate() {
 		$nominationPageWikicode = '* Test';
 		$nominationPageTitle = 'Wikipedia:Featured and good topic candidates/Overview of Ben&Ben/archive1';
@@ -3788,5 +3832,90 @@ WIKICODE;
 		$goodOrFeatured = 'featured';
 		$this->expectException( GiveUpOnThisTopic::class );
 		$this->p->markDoneAndSuccessful( $nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured );
+	}
+
+	public function test_splitWikicodeIntoWikicodeAndCategories_noCategories() {
+		$wikicode =
+'Test
+Test';
+		$result = $this->p->splitWikicodeIntoWikicodeAndCategories( $wikicode );
+		$expected = [
+			'wikicodeNoCategories' =>
+'Test
+Test',
+			'wikicodeCategories' => '',
+		];
+		$this->assertSame( $expected, $result );
+	}
+
+	public function test_splitWikicodeIntoWikicodeAndCategories_noWikicode() {
+		$wikicode =
+'[[Category:Test]]';
+		$result = $this->p->splitWikicodeIntoWikicodeAndCategories( $wikicode );
+		$expected = [
+			'wikicodeNoCategories' => '',
+			'wikicodeCategories' => '[[Category:Test]]',
+		];
+		$this->assertSame( $expected, $result );
+	}
+
+	public function test_splitWikicodeIntoWikicodeAndCategories_both() {
+		$wikicode =
+'Bob
+[[Category:Test]]';
+		$result = $this->p->splitWikicodeIntoWikicodeAndCategories( $wikicode );
+		$expected = [
+			'wikicodeNoCategories' => 'Bob',
+			'wikicodeCategories' => '[[Category:Test]]',
+		];
+		$this->assertSame( $expected, $result );
+	}
+
+	public function test_splitWikicodeIntoWikicodeAndCategories_bothAndLong() {
+		$wikicode =
+'Bob
+Jill
+<noinclude>
+[[Category:Test]]
+</noinclude>';
+		$result = $this->p->splitWikicodeIntoWikicodeAndCategories( $wikicode );
+		$expected = [
+			'wikicodeNoCategories' =>
+'Bob
+Jill',
+			'wikicodeCategories' =>
+'<noinclude>
+[[Category:Test]]
+</noinclude>',
+		];
+		$this->assertSame( $expected, $result );
+	}
+
+	public function test_splitWikicodeIntoWikicodeAndCategories_bothAndExtraLineBreaks() {
+		$wikicode =
+'Bob
+Jill
+
+
+<noinclude>
+[[Category:Test]]
+</noinclude>
+
+';
+		$result = $this->p->splitWikicodeIntoWikicodeAndCategories( $wikicode );
+		$expected = [
+			'wikicodeNoCategories' =>
+'Bob
+Jill',
+			'wikicodeCategories' =>
+'
+
+<noinclude>
+[[Category:Test]]
+</noinclude>
+
+',
+		];
+		$this->assertSame( $expected, $result );
 	}
 }
