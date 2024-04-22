@@ -60,6 +60,7 @@ class HardCodedSocks {
 		$data['staff']['Accedie'] = 1; // MPinchuk (WMF)
 		$data['staff']['Duesentrieb'] = 1; // DKinzler (WMF)
 		$data['staff']['Taavi'] = 1;
+		$data['staff']['I JethroBT'] = 1; // I JethroBT (WMF)
 
 		// On the list of former admins, but not highlighted by the two former admin queries
 		// TODO: link these to their renames instead
