@@ -582,7 +582,7 @@ Test', $result );
 		$this->assertSame( $expected, $result );
 	}
 
-	public function test_getAllArticleTitles_edgeCase() {
+	public function test_getAllArticleTitles_missingLineBreaks() {
 		$topicBoxWikicode =
 "{{Featured topic box|title=Hypericum sect. Androsaemum|lead={{icon|GA}} [[Hypericum sect. Androsaemum|''Hypericum'' sect. ''Androsaemum'']]|view=|count=6|image=Hypericum inodorum 'Golden Beacon' J1.jpg|imagesize=100|column1=: {{icon|GA}} ''[[Hypericum androsaemum]]''
 : {{icon|GA}} ''[[Hypericum hircinum]]''|column2=: {{icon|GA}} ''[[Hypericum foliosum]]''
@@ -595,6 +595,29 @@ Test', $result );
 			'Hypericum foliosum',
 			'Hypericum × inodorum',
 			'Hypericum grandifolium',
+		];
+		$result = $this->p->getAllArticleTitles( $topicBoxWikicode, $title );
+		$this->assertSame( $expected, $result );
+	}
+
+	public function test_getAllArticleTitles_templatesInWikilink() {
+		$topicBoxWikicode =
+"{{Featured topic box |title=1989 (Taylor's Version) |count=5 |image=Taylor Swift The Eras Tour 1989 Era Set (53109542801) (cropped).jpg |imagesize=100px 
+|lead={{classicon|GA}} ''[[1989 (Taylor's Version)]]''
+|column1=
+: {{classicon|GA}} \"[[\"Slut!\"|{{-'}}Slut!{{'-}}]]\"
+: {{classicon|GA}} \"[[Say Don't Go]]\" 
+|column2=
+: {{classicon|GA}} \"[[Now That We Don't Talk]]\" 
+|column3=
+: {{classicon|GA}} \"[[Is It Over Now?]]\" }}";
+		$title = 'Hypericum sect. Androsaemum';
+		$expected = [
+			'1989 (Taylor\'s Version)',
+			'"Slut!"',
+			'Say Don\'t Go',
+			'Now That We Don\'t Talk',
+			'Is It Over Now?',
 		];
 		$result = $this->p->getAllArticleTitles( $topicBoxWikicode, $title );
 		$this->assertSame( $expected, $result );
