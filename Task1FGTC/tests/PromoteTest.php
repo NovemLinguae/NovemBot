@@ -582,6 +582,24 @@ Test', $result );
 		$this->assertSame( $expected, $result );
 	}
 
+	public function test_getAllArticleTitles_edgeCase() {
+		$topicBoxWikicode =
+"{{Featured topic box|title=Hypericum sect. Androsaemum|lead={{icon|GA}} [[Hypericum sect. Androsaemum|''Hypericum'' sect. ''Androsaemum'']]|view=|count=6|image=Hypericum inodorum 'Golden Beacon' J1.jpg|imagesize=100|column1=: {{icon|GA}} ''[[Hypericum androsaemum]]''
+: {{icon|GA}} ''[[Hypericum hircinum]]''|column2=: {{icon|GA}} ''[[Hypericum foliosum]]''
+: {{icon|GA}} ''[[Hypericum × inodorum]]''|column3=: {{icon|GA}} ''[[Hypericum grandifolium]]''}}";
+		$title = 'Hypericum sect. Androsaemum';
+		$expected = [
+			'Hypericum sect. Androsaemum',
+			'Hypericum androsaemum',
+			'Hypericum hircinum',
+			'Hypericum foliosum',
+			'Hypericum × inodorum',
+			'Hypericum grandifolium',
+		];
+		$result = $this->p->getAllArticleTitles( $topicBoxWikicode, $title );
+		$this->assertSame( $expected, $result );
+	}
+
 	public function test_checkCounts_normal() {
 		$goodArticleCount = 1;
 		$featuredArticleCount = 1;
