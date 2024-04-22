@@ -539,7 +539,7 @@ $wikiProjectBanners";
 		$wikicodeTop = trim( $wikicodeTop ) . "\n* {{Done}}. Promotion completed successfully. Don't forget to add <code><nowiki>{{{$topicWikipediaPageTitle}}}</nowiki></code> to the appropriate section of $pageToAddTo. ~~~~";
 
 		// Add {{Fa top}} and {{Fa bottom}}
-		$wikicodeTop = "{{Archive top|result = The topic was '''promoted''' by [[User:$botSummoner|$botSummoner]] via ~~~~}}\n" . trim( $wikicodeTop ) . "\n{{Archive bottom}}";
+		$wikicodeTop = "{{Archive top|result = The topic was '''promoted''' by {{noping|$botSummoner}} via ~~~~}}\n" . trim( $wikicodeTop ) . "\n{{Archive bottom}}";
 
 		// Add categories back
 		if ( $wikicodeTop && $wikicodeBottom ) {
