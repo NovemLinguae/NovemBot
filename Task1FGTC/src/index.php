@@ -83,6 +83,7 @@ if ( $TEST_PAGES ) {
 	$listOfPings = $wapi->getUnreadPings();
 	$listOfPings = $listOfPings['query']['notifications']['list'];
 	$pagesToPromote = [];
+	// this will detect any unread ping, both red/new ones and gray/old ones
 	foreach ( $listOfPings as $key => $value ) {
 		// make sure pinger is on allow list
 		$pingSender = $value['agent']['name'];
