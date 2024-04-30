@@ -536,23 +536,32 @@ $wikiProjectBanners";
 
 		// Remove categories for the next couple operations. Will add them back later.
 		$res = $this->splitWikicodeIntoWikicodeAndCategories( $nominationPageWikicode2 );
-		$wikicodeTop = $res[ 'wikicodeTop' ];
+		$wikicodeTopAndMiddle = $res[ 'wikicodeTop' ];
 		$wikicodeBottom = $res[ 'wikicodeBottom' ];
 
+		// Remove ==Heading== for the next couple operations. Will add it back later.
+		preg_match_all( '/^(\s*==[^=]+==\n)(.+)$/s', $wikicodeTopAndMiddle, $matches );
+		$wikicodeTop = $matches[ 1 ][ 0 ];
+		$wikicodeMiddle = $matches[ 2 ][ 0 ];
+
+		// Write a "promotion completed successfully" message at the bottom of the page.
 		$pageToAddTo = ( $goodOrFeatured == 'good' ) ? '[[Wikipedia:Good topics]]' : '[[Wikipedia:Featured topics]]';
-		$wikicodeTop = trim( $wikicodeTop ) . "\n* {{Done}}. Promotion completed successfully. Don't forget to add <code><nowiki>{{{$topicWikipediaPageTitle}}}</nowiki></code> to the appropriate section of $pageToAddTo. ~~~~";
+		$wikicodeMiddle = trim( $wikicodeMiddle ) . "\n* {{Done}}. Promotion completed successfully. Don't forget to add <code><nowiki>{{{$topicWikipediaPageTitle}}}</nowiki></code> to the appropriate section of $pageToAddTo. ~~~~";
 
 		// Add {{Fa top}} and {{Fa bottom}}
-		$wikicodeTop = "{{Archive top|result = The topic was '''promoted''' by {{noping|$botSummoner}} via ~~~~}}\n" . trim( $wikicodeTop ) . "\n{{Archive bottom}}";
+		$wikicodeMiddle = "{{Archive top|result = The topic was '''promoted''' by {{noping|$botSummoner}} via ~~~~}}\n" . trim( $wikicodeMiddle ) . "\n{{Archive bottom}}";
+
+		// Add heading back
+		$wikicodeTopAndMiddle = $wikicodeTop . $wikicodeMiddle;
 
 		// Add categories back
-		if ( $wikicodeTop && $wikicodeBottom ) {
-			$nominationPageWikicode3 = $wikicodeTop . "\n" . $wikicodeBottom;
+		if ( $wikicodeTopAndMiddle && $wikicodeBottom ) {
+			$nominationPageWikicode = $wikicodeTopAndMiddle . "\n" . $wikicodeBottom;
 		} else {
-			$nominationPageWikicode3 = $wikicodeTop . $wikicodeBottom;
+			$nominationPageWikicode = $wikicodeTopAndMiddle . $wikicodeBottom;
 		}
 
-		return $nominationPageWikicode3;
+		return $nominationPageWikicode;
 	}
 
 	/**
