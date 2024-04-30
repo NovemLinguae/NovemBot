@@ -200,8 +200,12 @@ $wikiProjectBanners";
 		}
 	}
 
-	public function removeGTCFTCTemplate( $talkPageWikicode ) {
-		return preg_replace( '/\{\{(?:gtc|ftc)[^\}]*\}\}\n/i', '', $talkPageWikicode );
+	public function removeGTCFTCTemplate( $talkPageWikicode, $topicTitle ) {
+		// Possible templates are {{GTC}}, {{GTCmain}}, {{FTC}}, {{FTCmain}}. The main article gets the main template, and the other articles get the non-main template.
+		// preg_replace acts like /g and replaces multiple.
+		// It's possible to have two templates on the same page for different topics. it's a bug to delete both of them. just delete one. bad: https://en.wikipedia.org/w/index.php?title=Talk:The_Avengers_(2012_film)&diff=prev&oldid=1220005921
+		$topic_title = preg_quote( $topicTitle );
+		return preg_replace( '/\{\{(?:gtc|gtcmain|ftc|ftcmain)\s*\|\s*' . $topic_title . '\s*\|\s*\d\}\}\n/i', '', $talkPageWikicode );
 	}
 
 	/** Determine next |action= number in {{Article history}} template. This is so we can insert an action. */

@@ -182,7 +182,7 @@ class FGTCSteps {
 
 			$talkPageWikicode = $this->wapi->getpage( $talkPageTitle );
 
-			$talkPageWikicode = $this->p->removeGTCFTCTemplate( $talkPageWikicode );
+			$talkPageWikicode = $this->p->removeGTCFTCTemplate( $talkPageWikicode, $this->topicTitle );
 
 			$talkPageWikicode = $this->p->addArticleHistoryIfNotPresent( $talkPageWikicode, $talkPageTitle );
 

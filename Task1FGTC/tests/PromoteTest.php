@@ -3965,4 +3965,104 @@ Jill',
 		];
 		$this->assertSame( $expected, $result );
 	}
+
+	public function test_removeGTCFTCTemplate_top() {
+		$talkPageWikicode =
+'{{FTC|Overview of Ben&Ben|1}}
+{{Talk header}}
+';
+		$topicTitle = 'Overview of Ben&Ben';
+		$result = $this->p->removeGTCFTCTemplate( $talkPageWikicode, $topicTitle );
+		$expected =
+'{{Talk header}}
+';
+		$this->assertSame( $expected, $result );
+	}
+
+	public function test_removeGTCFTCTemplate_middle() {
+		$talkPageWikicode =
+'{{Talk header}}
+{{FTC|Overview of Ben&Ben|1}}
+{{Talk header}}
+';
+		$topicTitle = 'Overview of Ben&Ben';
+		$result = $this->p->removeGTCFTCTemplate( $talkPageWikicode, $topicTitle );
+		$expected =
+'{{Talk header}}
+{{Talk header}}
+';
+		$this->assertSame( $expected, $result );
+	}
+
+	public function test_removeGTCFTCTemplate_lowercase() {
+		$talkPageWikicode =
+'{{ftc|Overview of Ben&Ben|1}}
+{{Talk header}}
+';
+		$topicTitle = 'Overview of Ben&Ben';
+		$result = $this->p->removeGTCFTCTemplate( $talkPageWikicode, $topicTitle );
+		$expected =
+'{{Talk header}}
+';
+		$this->assertSame( $expected, $result );
+	}
+
+	public function test_removeGTCFTCTemplate_mainArticle() {
+		$talkPageWikicode =
+'{{FTCmain|Overview of Ben&Ben|1}}
+{{Talk header}}
+';
+		$topicTitle = 'Overview of Ben&Ben';
+		$result = $this->p->removeGTCFTCTemplate( $talkPageWikicode, $topicTitle );
+		$expected =
+'{{Talk header}}
+';
+		$this->assertSame( $expected, $result );
+	}
+
+	public function test_removeGTCFTCTemplate_twoTopics() {
+		$talkPageWikicode =
+'{{Talk header|archive_age=30|archive_units=days|archive_bot=Lowercase sigmabot III}}
+{{GTC|Marvel Cinematic Universe Phase One films|1}}
+{{GTC|Avengers films|1}}
+{{FAQ|collapsed=no}}
+';
+		$topicTitle = 'Avengers films';
+		$result = $this->p->removeGTCFTCTemplate( $talkPageWikicode, $topicTitle );
+		$expected =
+'{{Talk header|archive_age=30|archive_units=days|archive_bot=Lowercase sigmabot III}}
+{{GTC|Marvel Cinematic Universe Phase One films|1}}
+{{FAQ|collapsed=no}}
+';
+		$this->assertSame( $expected, $result );
+	}
+
+	public function test_removeGTCFTCTemplate_none() {
+		$talkPageWikicode =
+'{{Talk header|archive_age=30|archive_units=days|archive_bot=Lowercase sigmabot III}}
+{{FAQ|collapsed=no}}
+';
+		$topicTitle = 'Avengers films';
+		$result = $this->p->removeGTCFTCTemplate( $talkPageWikicode, $topicTitle );
+		$expected =
+'{{Talk header|archive_age=30|archive_units=days|archive_bot=Lowercase sigmabot III}}
+{{FAQ|collapsed=no}}
+';
+		$this->assertSame( $expected, $result );
+	}
+
+	public function test_removeGTCFTCTemplate_whitespaceInTemplate() {
+		$talkPageWikicode =
+'{{Talk header|archive_age=30|archive_units=days|archive_bot=Lowercase sigmabot III}}
+{{GTC | Avengers films	|	1}}
+{{FAQ|collapsed=no}}
+';
+		$topicTitle = 'Avengers films';
+		$result = $this->p->removeGTCFTCTemplate( $talkPageWikicode, $topicTitle );
+		$expected =
+'{{Talk header|archive_age=30|archive_units=days|archive_bot=Lowercase sigmabot III}}
+{{FAQ|collapsed=no}}
+';
+		$this->assertSame( $expected, $result );
+	}
 }
