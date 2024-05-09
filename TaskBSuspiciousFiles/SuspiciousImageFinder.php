@@ -7,8 +7,8 @@
 
 // Note: SDZeroBot's {{Database report}} template is a good option to replace this kind of bot (a bot that runs an SQL query and then prints a result somewhere). Example: https://en.wikipedia.org/wiki/User:Minorax/upf
 
-include("botclasses.php");
-include("logininfo.php");
+include "botclasses.php";
+include "logininfo.php";
 
 class SuspiciousImageFinder {
 	protected $get;
@@ -20,7 +20,7 @@ class SuspiciousImageFinder {
 	protected $enwiki;
 	protected $wikiAPI;
 
-	public function execute($get, $http_get_password, $argv, $wiki_username, $wiki_password, $databaseConfigFile) {
+	public function execute( $get, $http_get_password, $argv, $wiki_username, $wiki_password, $databaseConfigFile ) {
 		$this->get = $get;
 		$this->http_get_password = $http_get_password;
 		$this->argv = $argv;
@@ -37,52 +37,54 @@ class SuspiciousImageFinder {
 		$result = true;
 		$filesMatchingCriteria = '';
 		while ( $result ) {
-			$filesToCheck = $this->getFiles($i);
-			$result = $this->checkFiles($filesToCheck);
-			$this->echoAndFlush("\n\nResult: " . var_export($result, true));
+			$filesToCheck = $this->getFiles( $i );
+			$result = $this->checkFiles( $filesToCheck );
+			$this->echoAndFlush( "\n\nResult: " . var_export( $result, true ) );
 			$filesMatchingCriteria .= $result;
 			$i++;
 		}
 		$this->logInToWikipedia();
-		$this->makeEdit($filesMatchingCriteria, 'User:NovemBot/files'); // 'User:Minorax/files'
-		$this->echoAndFlush("\n\nAll done!");
+		// 'User:Minorax/files'
+		$this->makeEdit( $filesMatchingCriteria, 'User:NovemBot/files' );
+		$this->echoAndFlush( "\n\nAll done!" );
 	}
 
 	private function setHeader() {
-		header('Content-Type:text/plain; charset=utf-8; Content-Encoding: none');
+		header( 'Content-Type:text/plain; charset=utf-8; Content-Encoding: none' );
 	}
 
 	private function setErrorReporting() {
-		ini_set("display_errors", 1);
-		error_reporting(E_ALL);
+		ini_set( "display_errors", 1 );
+		error_reporting( E_ALL );
 	}
 
 	private function checkPermissions() {
-		if ( ($this->get['password'] ?? '') != $this->http_get_password && ($this->argv[1] ?? '') != $this->http_get_password ) {
-			die('Invalid password.');
+		if ( ( $this->get['password'] ?? '' ) != $this->http_get_password && ( $this->argv[1] ?? '' ) != $this->http_get_password ) {
+			die( 'Invalid password.' );
 		}
 	}
 
 	private function printPHPVersion() {
-		$this->echoAndFlush("PHP version: " . PHP_VERSION);
+		$this->echoAndFlush( "PHP version: " . PHP_VERSION );
 	}
 
-	private function echoAndFlush($str) {
+	private function echoAndFlush( $str ) {
 		echo $str;
 	}
 
 	private function connectToSQLDatabases() {
 		// Must use database_p. database will not work.
-		$this->enwiki = new PDO("mysql:host=enwiki.analytics.db.svc.wikimedia.cloud;dbname=enwiki_p", $this->databaseConfigFile['user'], $this->databaseConfigFile['password']);
-		$this->enwiki->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+		$this->enwiki = new PDO( "mysql:host=enwiki.analytics.db.svc.wikimedia.cloud;dbname=enwiki_p", $this->databaseConfigFile['user'], $this->databaseConfigFile['password'] );
+		$this->enwiki->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 	}
 
-	private function getFiles($i) {
-		$this->echoAndFlush("\n\nGenerating list of files to check (batch $i)...");
-		$limit = 30000; // due to PHP running out of memory
-		$offset = ($i - 1) * $limit;
-		$this->echoAndFlush("\nLimit: $limit\nOffset: $offset");
-		$query = $this->enwiki->prepare("
+	private function getFiles( $i ) {
+		$this->echoAndFlush( "\n\nGenerating list of files to check (batch $i)..." );
+		// due to PHP running out of memory
+		$limit = 30000;
+		$offset = ( $i - 1 ) * $limit;
+		$this->echoAndFlush( "\nLimit: $limit\nOffset: $offset" );
+		$query = $this->enwiki->prepare( "
 			SELECT img_name, img_metadata
 			FROM categorylinks
 			JOIN page ON page_id = cl_from
@@ -107,34 +109,34 @@ class SuspiciousImageFinder {
 			ORDER BY img_name ASC
 			LIMIT $limit
 			OFFSET $offset
-		");
+		" );
 		$query->execute();
 		return $query->fetchAll();
 	}
 
-	private function checkFiles($filesToCheck) {
-		$this->echoAndFlush("\n\nChecking files. This may take awhile...");
+	private function checkFiles( $filesToCheck ) {
+		$this->echoAndFlush( "\n\nChecking files. This may take awhile..." );
 		$result = '';
 		foreach ( $filesToCheck as $key => $file ) {
 			$fileName = $file['img_name'];
 
 			// Strangely, img_metadata can be stored as either PHP serialized, or JSON. We need to decode one, see if that fails, then try to decode the other.
-			$metaData = @unserialize($file['img_metadata']);
-			if ( ! $metaData ) {
-				$metaData = json_decode($file['img_metadata'], true);
+			$metaData = @unserialize( $file['img_metadata'] );
+			if ( !$metaData ) {
+				$metaData = json_decode( $file['img_metadata'], true );
 			}
 
 			$author = $metaData['Artist'] ?? '';
 			$copyrightHolder = $metaData['Copyright'] ?? '';
-			if ( is_array($copyrightHolder) ) {
+			if ( is_array( $copyrightHolder ) ) {
 				$copyrightHolder = '';
 			}
-			$copyrightHolderContainsYear = preg_match("/\d{4}/", $copyrightHolder);
+			$copyrightHolderContainsYear = preg_match( "/\d{4}/", $copyrightHolder );
 
 			if (
 				( $author || $copyrightHolder ) &&
 				$author !== 'Picasa' &&
-				! $copyrightHolderContainsYear
+				!$copyrightHolderContainsYear
 			) {
 				$result .= "\n# [[:File:$fileName]]";
 			}
@@ -146,10 +148,10 @@ class SuspiciousImageFinder {
 		$this->wikiAPI = new wikipedia();
 		$this->wikiAPI->beQuiet();
 		$this->wikiAPI->http->useragent = '[[en:User:NovemBot]] task B, owner [[en:User:Novem Linguae]], framework [[en:User:RMCD_bot/botclasses.php]]';
-		$this->wikiAPI->login($this->wiki_username, $this->wiki_password);
+		$this->wikiAPI->login( $this->wiki_username, $this->wiki_password );
 	}
 
-	private function makeEdit($wikicode, $pageTitle) {
+	private function makeEdit( $wikicode, $pageTitle ) {
 		$this->wikiAPI->edit(
 			$pageTitle,
 			$wikicode,
@@ -159,7 +161,7 @@ class SuspiciousImageFinder {
 
 }
 
-$workingDirectory = posix_getpwuid(posix_getuid());
-$databaseConfigFile = parse_ini_file($workingDirectory['dir'] . "/replica.my.cnf");
+$workingDirectory = posix_getpwuid( posix_getuid() );
+$databaseConfigFile = parse_ini_file( $workingDirectory['dir'] . "/replica.my.cnf" );
 $sff = new SuspiciousImageFinder();
-$sff->execute($_GET, $http_get_password, $argv, $wiki_username, $wiki_password, $databaseConfigFile);
+$sff->execute( $_GET, $http_get_password, $argv, $wiki_username, $wiki_password, $databaseConfigFile );
