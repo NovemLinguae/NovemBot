@@ -5,9 +5,9 @@ class RFACount {
 		$count = $this->countRFAs( $rfaPageWikitext );
 
 		$wikicodeToWrite =
-	"$count<noinclude>
-	{{Documentation}}
-	</noinclude>";
+"$count<noinclude>
+{{Documentation}}
+</noinclude>";
 		$editSummary = "set RFA count to $count (NovemBot Task 7)";
 		$wapi->edit( 'User:Amalthea/RfX/RfA count', $wikicodeToWrite, $editSummary );
 	}
