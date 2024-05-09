@@ -1,24 +1,5 @@
 <?php
 
-function doRFA( $wapi, $rfaPageWikitext ) {
-	$count = countRFAs( $rfaPageWikitext );
-
-	$wikicodeToWrite =
-"$count<noinclude>
-{{Documentation}}
-</noinclude>";
-	$editSummary = "set RFA count to $count (NovemBot Task 7)";
-	$wapi->edit( 'User:Amalthea/RfX/RfA count', $wikicodeToWrite, $editSummary );
-}
-
-function doRFB( $wapi, $rfaPageWikitext ) {
-	$count = countRFBs( $rfaPageWikitext );
-
-	$wikicodeToWrite = $count;
-	$editSummary = "set RFB count to $count (NovemBot Task 7)";
-	$wapi->edit( 'User:Amalthea/RfX/RfB count', $wikicodeToWrite, $editSummary );
-}
-
 require_once 'config.php';
 require_once 'css.php';
 require_once 'botclasses.php';
@@ -53,12 +34,13 @@ if (
 $h = new Helper();
 $eh = new EchoHelper( $h );
 $wapi = new WikiAPIWrapper( $config['wikiUsername'], $config['wikiPassword'], $eh );
+$rfaCount = new RFACount();
 
 $eh->echoAndFlush( "PHP version: " . PHP_VERSION, 'variable' );
 
 $rfaPageWikitext = $wapi->getpage( 'Wikipedia:Requests for adminship' );
 
-doRFA( $wapi, $rfaPageWikitext );
-doRFB( $wapi, $rfaPageWikitext );
+$rfaCount->doRFA( $wapi, $rfaPageWikitext );
+$rfaCount->doRFB( $wapi, $rfaPageWikitext );
 
 $eh->echoAndFlush( '', 'complete' );
