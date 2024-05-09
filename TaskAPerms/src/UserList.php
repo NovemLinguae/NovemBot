@@ -1,7 +1,7 @@
 <?php
 
 class UserList {
-	/** Making these public for unit test reasons */
+	// Making these public for unit test reasons
 	public $data;
 	public $linkedUsernames;
 
@@ -9,7 +9,7 @@ class UserList {
 		$this->data = [];
 	}
 
-	public function FlattenSql($list) {
+	public function flattenSql( $list ) {
 		$flattened = [];
 		foreach ( $list as $value ) {
 			$flattened[$value[0]] = 1;
@@ -21,33 +21,33 @@ class UserList {
 	 * @param array $list should be in the format ['username1', 'username2', 'etc.']
 	 * @param string $permission
 	 */
-	public function addUsers($list, $permission) {
-		$this->data[$permission] = $this->FlattenSql($list);
+	public function addUsers( $list, $permission ) {
+		$this->data[$permission] = $this->flattenSql( $list );
 	}
 
 	/**
 	 * @param array $json should be in the ['username'] = 1 format.
 	 * @param string $permission
 	 */
-	public function addProperlyFormatted($json, $permission) {
+	public function addProperlyFormatted( $json, $permission ) {
 		$this->data[$permission] = $json;
 	}
 
 	public function sortUsers() {
 		foreach ( $this->data as $permission => $data ) {
-			ksort($this->data[$permission]);
+			ksort( $this->data[$permission] );
 		}
 	}
 
 	/**
-	 * @return array Array with multiple perms
+	 * @return string JSON.stringify of object with first layer as perm, second layer as { "userName": 1 }
 	 */
 	public function getAllJson() {
 		$this->addHardCodedSocks();
 		$this->addLinkedUsernames();
 		$this->sortUsers();
 		// Format data. Escape backslashes.
-		return json_encode($this->data, JSON_UNESCAPED_UNICODE);
+		return json_encode( $this->data, JSON_UNESCAPED_UNICODE );
 	}
 
 	/**
@@ -58,12 +58,12 @@ class UserList {
 	public function getOneJson() {
 		$this->addHardCodedSocks();
 		$this->addLinkedUsernames();
-		$first_key = array_key_first($this->data);
-		return json_encode($this->data[$first_key], JSON_UNESCAPED_UNICODE);
+		$first_key = array_key_first( $this->data );
+		return json_encode( $this->data[$first_key], JSON_UNESCAPED_UNICODE );
 	}
 
 	private function addHardCodedSocks() {
-		$this->data = HardCodedSocks::add($this->data);
+		$this->data = HardCodedSocks::add( $this->data );
 	}
 
 	private function addLinkedUsernames() {
@@ -73,9 +73,9 @@ class UserList {
 
 	private function buildLinkedUsernamesList() {
 		// { "oldName": "currentName" }
-		$fileString = file_get_contents('LinkedUsernames.json', true);
+		$fileString = file_get_contents( 'LinkedUsernames.json', true );
 		// $this->linkedUsernames['oldName'] = 'currentName';
-		$this->linkedUsernames = json_decode($fileString, true);
+		$this->linkedUsernames = json_decode( $fileString, true );
 	}
 
 	/**
