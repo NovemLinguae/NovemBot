@@ -20,7 +20,7 @@ class RFACount {
 		$wapi->edit( 'User:Amalthea/RfX/RfB count', $wikicodeToWrite, $editSummary );
 	}
 
-	private function countRFAs( $wikicode ) {
+	public function countRFAs( $wikicode ) {
 		preg_match_all( '/\{\{Wikipedia:Requests for adminship\/[^\}]+\}\}/i', $wikicode, $matches );
 
 		// don't count {{Wikipedia:Requests for adminship/Header}} and {{Wikipedia:Requests for adminship/bureaucratship}}
@@ -34,7 +34,7 @@ class RFACount {
 		return $count;
 	}
 
-	private function countRFBs( $wikicode ) {
+	public function countRFBs( $wikicode ) {
 		preg_match_all( '/\{\{Wikipedia:Requests for bureaucratship\/[^\}]+\}\}/i', $wikicode, $matches );
 
 		$count = count( $matches[0] );
