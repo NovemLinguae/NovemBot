@@ -1,6 +1,8 @@
 <?php
 
 class EchoHelper {
+	protected $h;
+
 	public function __construct( Helper $h ) {
 		$this->h = $h;
 	}
