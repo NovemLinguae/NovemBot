@@ -14,12 +14,6 @@ date_default_timezone_set( 'UTC' );
 // 55 minutes
 set_time_limit( 55 * 60 );
 
-// defaults
-$READ_ONLY_TEST_MODE = false;
-$TEST_PAGES = [];
-// can override these defaults in the test file. putting it a directory up to reduce chances of accidentally deploying it, which I've done before and has caused bugs
-require_once '../testsettings.php';
-
 // constants
 $MAX_TOPICS_ALLOWED_IN_BOT_RUN = 7;
 $MAX_ARTICLES_ALLOWED_IN_TOPIC = 200;
@@ -35,6 +29,11 @@ $SHORT_WIKICODE_IN_CONSOLE = false;
 // When $SHORT_WIKICODE_IN_CONSOLE is set to true, how many characters to display.
 $CHARACTERS_TO_ECHO = 3000;
 $SHOW_API_READS = false;
+
+// test defaults
+// can override these defaults in the config file. putting it in the config file, which I usually skip deploying, reduces chances of accidentally deploying it, which I've done before and has caused bugs
+$READ_ONLY_TEST_MODE = false;
+$TEST_PAGES = [];
 
 require_once 'config.php';
 require_once 'bootstrap.php';
