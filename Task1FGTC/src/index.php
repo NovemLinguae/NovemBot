@@ -14,12 +14,11 @@ date_default_timezone_set( 'UTC' );
 // 55 minutes
 set_time_limit( 55 * 60 );
 
-// test mode
+// defaults
 $READ_ONLY_TEST_MODE = false;
-// Make this array empty to pull from the list of pings instead.
-$TEST_PAGES = [
-	// "Wikipedia:Featured and good topic candidates/Overview of Ben&Ben/archive1"
-];
+$TEST_PAGES = [];
+// can override these defaults in the test file. putting it a directory up to reduce chances of accidentally deploying it, which I've done before and has caused bugs
+require_once '../testsettings.php';
 
 // constants
 $MAX_TOPICS_ALLOWED_IN_BOT_RUN = 7;
