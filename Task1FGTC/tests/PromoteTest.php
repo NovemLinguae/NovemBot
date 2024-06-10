@@ -3806,7 +3806,7 @@ In the 1880s and 1890s, the [[French Navy]] built a series of [[protected cruise
 
 	public function test_markDoneAndSuccessful_normal() {
 		$nominationPageWikicode = <<<WIKICODE
-== Topic name ==
+=== Topic name ===
 * Test
 * {{User:NovemBot/Promote}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 05:20, 1 April 2024 (UTC)
 WIKICODE;
@@ -3816,7 +3816,7 @@ WIKICODE;
 		$result = $this->p->markDoneAndSuccessful( $nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured );
 		$expected =
 <<<WIKICODE
-== Topic name ==
+=== Topic name ===
 {{Archive top|result = The topic was '''promoted''' by {{noping|Aza24}} via ~~~~}}
 * Test
 * {{User:NovemBot/Promote|done=yes}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 05:20, 1 April 2024 (UTC)
@@ -3829,7 +3829,7 @@ WIKICODE;
 	public function test_markDoneAndSuccessful_whitespaceAtTop() {
 		$nominationPageWikicode = <<<WIKICODE
 
-== Topic name ==
+=== Topic name ===
 * Test
 * {{User:NovemBot/Promote}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 05:20, 1 April 2024 (UTC)
 WIKICODE;
@@ -3840,7 +3840,7 @@ WIKICODE;
 		$expected =
 <<<WIKICODE
 
-== Topic name ==
+=== Topic name ===
 {{Archive top|result = The topic was '''promoted''' by {{noping|Aza24}} via ~~~~}}
 * Test
 * {{User:NovemBot/Promote|done=yes}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 05:20, 1 April 2024 (UTC)
@@ -3852,7 +3852,7 @@ WIKICODE;
 
 	public function test_markDoneAndSuccessful_categories() {
 		$nominationPageWikicode = <<<WIKICODE
-== Topic name ==
+=== Topic name ===
 * Test
 * {{User:NovemBot/Promote}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 05:20, 1 April 2024 (UTC)
 [[Category:Marvel Cinematic Universe task force|Featured topics]]
@@ -3863,7 +3863,7 @@ WIKICODE;
 		$result = $this->p->markDoneAndSuccessful( $nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured );
 		$expected =
 <<<WIKICODE
-== Topic name ==
+=== Topic name ===
 {{Archive top|result = The topic was '''promoted''' by {{noping|Aza24}} via ~~~~}}
 * Test
 * {{User:NovemBot/Promote|done=yes}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 05:20, 1 April 2024 (UTC)
@@ -3876,7 +3876,7 @@ WIKICODE;
 
 	public function test_markDoneAndSuccessful_noIncludeAndCategories() {
 		$nominationPageWikicode = <<<WIKICODE
-== Topic name ==
+=== Topic name ===
 * Test
 * {{User:NovemBot/Promote}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 05:20, 1 April 2024 (UTC)
 <noinclude>
@@ -3889,7 +3889,7 @@ WIKICODE;
 		$result = $this->p->markDoneAndSuccessful( $nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured );
 		$expected =
 <<<WIKICODE
-== Topic name ==
+=== Topic name ===
 {{Archive top|result = The topic was '''promoted''' by {{noping|Aza24}} via ~~~~}}
 * Test
 * {{User:NovemBot/Promote|done=yes}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 05:20, 1 April 2024 (UTC)
@@ -3909,6 +3909,69 @@ WIKICODE;
 		$goodOrFeatured = 'featured';
 		$this->expectException( GiveUpOnThisTopic::class );
 		$this->p->markDoneAndSuccessful( $nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured );
+	}
+
+	public function test_markDoneAndSuccessful_normal2() {
+		$nominationPageWikicode = <<<WIKICODE
+
+===[[Wikipedia:Featured and good topic candidates/I&#39;m Breathless/archive1|I'm Breathless]]===
+<!---<noinclude>--->'''''I'm Breathless''''' is an album released on May 22, 1990, by [[Sire Records]] to accompany the film ''[[Dick Tracy (1990 film)|Dick Tracy]]''. The album contains three songs written by [[Stephen Sondheim]], which were used in the film, in addition to several songs co-written by Madonna that were inspired by but not included in the film. Madonna starred as [[Breathless Mahoney]] alongside her then-boyfriend [[Warren Beatty]] who played the title role, [[Dick Tracy]]. After filming was complete, Madonna began work on the album, with Sondheim, producer [[Patrick Leonard]] and engineer [[Bill Bottrell]]. In support of both ''I'm Breathless'' and her previous album, ''[[Like a Prayer (album)|Like a Prayer]]'', Madonna embarked on the [[Blond Ambition World Tour]] where a section was dedicated to the songs from the album.<!---</noinclude>--->
+
+{{Featured topic box |title=I'm Breathless |count=8 |image=NowImFollowingYouUnderGround (cropped2).jpg |imagesize=90 
+|lead={{icon|GA}} ''[[I'm Breathless]]''
+|column1=
+:{{icon|GA}} "[[Vogue (Madonna song)|Vogue]]"
+:{{icon|GA}} "[[Hanky Panky (Madonna song)|Hanky Panky]]"
+:{{icon|GA}} "[[Sooner or Later (Madonna song)|Sooner or Later]]" 
+|column2=
+:{{icon|GA}}  [[Blond Ambition World Tour]] 
+:{{icon|GA}} ''[[Blond Ambition World Tour Live]]''
+:{{icon|GA}} ''[[Madonna: Truth or Dare]]'' }}
+::<small>''Contributor(s): {{u|Chrishm21}}, {{u|11JORN}}, {{u|IndianBio}}, {{u|Wildroot}}''</small>
+Another work from [[WP:MADONNA]], the soundtrack to ''[[Dick Tracy (1990 film)|Dick Tracy]]'' with all related articles - the movie, the Oscar-winning song out of it, two singles not related to the film, the album's accompanying world tour and the two movies that it inspired (a concert video and a documentary). [[User:Igordebraga|igordebraga]] [[User_talk:Igordebraga|≠]] 19:09, 21 April 2024 (UTC) --[[User:Igordebraga|igordebraga]] [[User_talk:Igordebraga|≠]] 19:09, 21 April 2024 (UTC) 
+<noinclude>[[Category:Featured topic nominations]] [[Category:Featured topic nominations/2024]]</noinclude>
+*'''Comment''' – I am not yet convinced that the film article, ''[[Dick Tracy (1990 film)|Dick Tracy]]'', should be included. The film could probably have its own topic which might include [[I'm Breathless|this album]], the [[Dick Tracy (soundtrack)|motion picture soundtrack]] and possibly the [[Dick Tracy (video game)|successive video games]]. The album should be considered a subsidiarity of the film, not the other way around; that being said, ''I'm Breathless'' should still be a topic. [[User:Idiosincrático|Idiosincrático]] ([[User talk:Idiosincrático|talk]]) 02:13, 1 May 2024 (UTC)
+** Duly noted. Removing ''Dick Tracy'', albeit if others disagree with you I'll bring it back. [[User:Igordebraga|igordebraga]] [[User_talk:Igordebraga|≠]] 16:25, 3 May 2024 (UTC)
+***'''Support''' – [[User:Idiosincrático|Idiosincrático]] ([[User talk:Idiosincrático|talk]]) 18:32, 5 June 2024 (UTC)
+*'''Comment''' Hi. I'm Breathless' impact section might need a second look. I added it, but I'm not that good in grammar. Thanks. --[[User:Apoxyomenus|Apoxyomenus]] ([[User talk:Apoxyomenus|talk]]) 03:17, 8 May 2024 (UTC)
+*'''Support''' - now that the topic has been simplified per Idiosincrático's suggestion. [[User:Pseud 14|Pseud 14]] ([[User talk:Pseud 14|talk]]) 17:19, 20 May 2024 (UTC)
+* {{User:NovemBot/Promote}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 00:40, 10 June 2024 (UTC)
+
+WIKICODE;
+		$nominationPageTitle = 'Wikipedia:Featured and good topic candidates/I\'m Breathless/archive1';
+		$topicWikipediaPageTitle = 'Wikipedia:Featured topics/I\'m Breathless';
+		$goodOrFeatured = 'good';
+		$result = $this->p->markDoneAndSuccessful( $nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured );
+		$expected =
+<<<WIKICODE
+
+===[[Wikipedia:Featured and good topic candidates/I&#39;m Breathless/archive1|I'm Breathless]]===
+{{Archive top|result = The topic was '''promoted''' by {{noping|Aza24}} via ~~~~}}
+<!---<noinclude>--->'''''I'm Breathless''''' is an album released on May 22, 1990, by [[Sire Records]] to accompany the film ''[[Dick Tracy (1990 film)|Dick Tracy]]''. The album contains three songs written by [[Stephen Sondheim]], which were used in the film, in addition to several songs co-written by Madonna that were inspired by but not included in the film. Madonna starred as [[Breathless Mahoney]] alongside her then-boyfriend [[Warren Beatty]] who played the title role, [[Dick Tracy]]. After filming was complete, Madonna began work on the album, with Sondheim, producer [[Patrick Leonard]] and engineer [[Bill Bottrell]]. In support of both ''I'm Breathless'' and her previous album, ''[[Like a Prayer (album)|Like a Prayer]]'', Madonna embarked on the [[Blond Ambition World Tour]] where a section was dedicated to the songs from the album.<!---</noinclude>--->
+
+{{Featured topic box |title=I'm Breathless |count=8 |image=NowImFollowingYouUnderGround (cropped2).jpg |imagesize=90 
+|lead={{icon|GA}} ''[[I'm Breathless]]''
+|column1=
+:{{icon|GA}} "[[Vogue (Madonna song)|Vogue]]"
+:{{icon|GA}} "[[Hanky Panky (Madonna song)|Hanky Panky]]"
+:{{icon|GA}} "[[Sooner or Later (Madonna song)|Sooner or Later]]" 
+|column2=
+:{{icon|GA}}  [[Blond Ambition World Tour]] 
+:{{icon|GA}} ''[[Blond Ambition World Tour Live]]''
+:{{icon|GA}} ''[[Madonna: Truth or Dare]]'' }}
+::<small>''Contributor(s): {{u|Chrishm21}}, {{u|11JORN}}, {{u|IndianBio}}, {{u|Wildroot}}''</small>
+Another work from [[WP:MADONNA]], the soundtrack to ''[[Dick Tracy (1990 film)|Dick Tracy]]'' with all related articles - the movie, the Oscar-winning song out of it, two singles not related to the film, the album's accompanying world tour and the two movies that it inspired (a concert video and a documentary). [[User:Igordebraga|igordebraga]] [[User_talk:Igordebraga|≠]] 19:09, 21 April 2024 (UTC) --[[User:Igordebraga|igordebraga]] [[User_talk:Igordebraga|≠]] 19:09, 21 April 2024 (UTC) 
+<noinclude>[[Category:Featured topic nominations]] [[Category:Featured topic nominations/2024]]</noinclude>
+*'''Comment''' – I am not yet convinced that the film article, ''[[Dick Tracy (1990 film)|Dick Tracy]]'', should be included. The film could probably have its own topic which might include [[I'm Breathless|this album]], the [[Dick Tracy (soundtrack)|motion picture soundtrack]] and possibly the [[Dick Tracy (video game)|successive video games]]. The album should be considered a subsidiarity of the film, not the other way around; that being said, ''I'm Breathless'' should still be a topic. [[User:Idiosincrático|Idiosincrático]] ([[User talk:Idiosincrático|talk]]) 02:13, 1 May 2024 (UTC)
+** Duly noted. Removing ''Dick Tracy'', albeit if others disagree with you I'll bring it back. [[User:Igordebraga|igordebraga]] [[User_talk:Igordebraga|≠]] 16:25, 3 May 2024 (UTC)
+***'''Support''' – [[User:Idiosincrático|Idiosincrático]] ([[User talk:Idiosincrático|talk]]) 18:32, 5 June 2024 (UTC)
+*'''Comment''' Hi. I'm Breathless' impact section might need a second look. I added it, but I'm not that good in grammar. Thanks. --[[User:Apoxyomenus|Apoxyomenus]] ([[User talk:Apoxyomenus|talk]]) 03:17, 8 May 2024 (UTC)
+*'''Support''' - now that the topic has been simplified per Idiosincrático's suggestion. [[User:Pseud 14|Pseud 14]] ([[User talk:Pseud 14|talk]]) 17:19, 20 May 2024 (UTC)
+* {{User:NovemBot/Promote|done=yes}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 00:40, 10 June 2024 (UTC)
+* {{Done}}. Promotion completed successfully. Don't forget to add <code><nowiki>{{Wikipedia:Featured topics/I'm Breathless}}</nowiki></code> to the appropriate section of [[Wikipedia:Good topics]]. ~~~~
+{{Archive bottom}}
+WIKICODE;
+		$this->assertSame( $expected, $result );
 	}
 
 	public function test_splitWikicodeIntoWikicodeAndCategories_noCategories() {

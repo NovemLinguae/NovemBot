@@ -540,7 +540,7 @@ $wikiProjectBanners";
 		$wikicodeBottom = $res[ 'wikicodeBottom' ];
 
 		// Remove ==Heading== for the next couple operations. Will add it back later.
-		preg_match_all( '/^(\s*==[^=]+==\n)(.+)$/s', $wikicodeTopAndMiddle, $matches );
+		preg_match_all( '/^(\s*===[^=]+===\n)(.+)$/s', $wikicodeTopAndMiddle, $matches );
 		$wikicodeTop = $matches[ 1 ][ 0 ];
 		$wikicodeMiddle = $matches[ 2 ][ 0 ];
 
