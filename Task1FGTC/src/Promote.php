@@ -541,6 +541,9 @@ $wikiProjectBanners";
 
 		// Remove ==Heading== for the next couple operations. Will add it back later.
 		preg_match_all( '/^(\s*===[^=]+===\n)(.+)$/s', $wikicodeTopAndMiddle, $matches );
+		if ( !isset( $matches[ 1 ][ 0 ] ) ) {
+			throw new GiveUpOnThisTopic( "On page [[$nominationPageTitle]], unable to find a level 3 heading." );
+		}
 		$wikicodeTop = $matches[ 1 ][ 0 ];
 		$wikicodeMiddle = $matches[ 2 ][ 0 ];
 

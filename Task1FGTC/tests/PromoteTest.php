@@ -3911,6 +3911,37 @@ WIKICODE;
 		$this->p->markDoneAndSuccessful( $nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured );
 	}
 
+	public function test_markDoneAndSuccessful_wrongHeading() {
+		$nominationPageWikicode = <<<WIKICODE
+== Topic name ==
+* Test
+* {{User:NovemBot/Promote}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 05:20, 1 April 2024 (UTC)
+<noinclude>
+[[Category:Marvel Cinematic Universe task force|Featured topics]]
+</noinclude>
+WIKICODE;
+		$nominationPageTitle = 'Wikipedia:Featured and good topic candidates/Overview of Ben&Ben/archive1';
+		$topicWikipediaPageTitle = 'Wikipedia:Featured topics/Overview of Ben&Ben';
+		$goodOrFeatured = 'featured';
+		$this->expectException( GiveUpOnThisTopic::class );
+		$this->p->markDoneAndSuccessful( $nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured );
+	}
+
+	public function test_markDoneAndSuccessful_missingHeading() {
+		$nominationPageWikicode = <<<WIKICODE
+* Test
+* {{User:NovemBot/Promote}} '''<span style="font-family:Lucida;">[[User:Aza24|<span style="color:darkred">Aza24</span>]][[User talk:Aza24|<span style="color:#848484"> (talk)</span>]]</span>''' 05:20, 1 April 2024 (UTC)
+<noinclude>
+[[Category:Marvel Cinematic Universe task force|Featured topics]]
+</noinclude>
+WIKICODE;
+		$nominationPageTitle = 'Wikipedia:Featured and good topic candidates/Overview of Ben&Ben/archive1';
+		$topicWikipediaPageTitle = 'Wikipedia:Featured topics/Overview of Ben&Ben';
+		$goodOrFeatured = 'featured';
+		$this->expectException( GiveUpOnThisTopic::class );
+		$this->p->markDoneAndSuccessful( $nominationPageWikicode, $nominationPageTitle, $topicWikipediaPageTitle, $goodOrFeatured );
+	}
+
 	public function test_markDoneAndSuccessful_normal2() {
 		$nominationPageWikicode = <<<WIKICODE
 
