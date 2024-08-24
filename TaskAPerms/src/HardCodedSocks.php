@@ -1,5 +1,7 @@
 <?php
 
+// phpcs:disable MediaWiki.WhiteSpace.SpaceBeforeSingleLineComment.NewLineComment
+
 class HardCodedSocks {
 	public static function add( $data ) {
 		// Wikimedia Foundation board of trustees: https://meta.wikimedia.org/wiki/Wikimedia_Foundation_Board_of_Trustees
@@ -61,6 +63,8 @@ class HardCodedSocks {
 		$data['staff']['Duesentrieb'] = 1; // DKinzler (WMF)
 		$data['staff']['Taavi'] = 1;
 		$data['staff']['I JethroBT'] = 1; // I JethroBT (WMF)
+		$data['staff']['Filippo Giunchedi'] = 1; // SRE
+		$data['staff']['Mark Bergsma'] = 1; // SRE
 
 		// On the list of former admins, but not highlighted by the two former admin queries
 		// TODO: link these to their renames instead
