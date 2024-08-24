@@ -14,11 +14,6 @@ class View {
 		header( 'Content-Type:text/plain; charset=utf-8; Content-Encoding: none' );
 	}
 
-	public static function setErrorReporting() {
-		ini_set( "display_errors", 1 );
-		error_reporting( E_ALL );
-	}
-
 	public static function dieIfInvalidPassword( $correctPassword ) {
 		// Keep randos from running the bot in browser and in bash
 		$hasWrongWebPassword = ( $_GET['password'] ?? '' ) != $correctPassword;

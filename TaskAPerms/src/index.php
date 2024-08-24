@@ -2,6 +2,9 @@
 
 // https://novem-bot.toolforge.org/task-a/index.php?password=
 
+ini_set( "display_errors", 1 );
+error_reporting( E_ALL );
+
 require_once 'botclasses.php';
 require_once 'Controller.php';
 require_once 'Database.php';
@@ -12,7 +15,6 @@ require_once 'UserList.php';
 require_once 'View.php';
 
 View::setHeaders();
-View::setErrorReporting();
 // set_time_limit(1440);    # 24 minutes
 
 View::dieIfInvalidPassword( $urlAndCliPassword );
@@ -55,5 +57,10 @@ $c->addUsersFromEnwikiJsonPage( 'arbcom', 'User:AmoryBot/crathighlighter.js/arbc
 $c->addUsersFromEnwikiJsonPage( 'productiveIPs', 'User:Novem_Linguae/User_lists/Productive_IPs.js' );
 
 $c->writeUpdate();
+
+// Close PDO connections.
+unset( $enwiki );
+unset( $metawiki );
+unset( $centralauth );
 
 View::print( "\nMission accomplished.\n\n" ); // extra line breaks at end for CLI
