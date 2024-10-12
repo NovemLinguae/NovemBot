@@ -33,7 +33,7 @@ $SHOW_API_READS = false;
 // test defaults
 // can override these defaults in the config file. putting it in the config file, which I usually skip deploying, reduces chances of accidentally deploying it, which I've done before and has caused bugs
 $READ_ONLY_TEST_MODE = false;
-$TEST_PAGES = [];
+$TEST_PAGES = []; // Do not write your pages to test here. Write them in the config file.
 
 require_once 'config.php';
 require_once 'bootstrap.php';
