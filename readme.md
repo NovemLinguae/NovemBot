@@ -30,3 +30,14 @@ toolforge jobs run task-7 --command ./task-7.sh --image php8.2 --schedule "22,52
 - Task A (userlist.js) runs daily at 5AM
 - Task 1 (FGTC) runs hourly at :05
 - Task 7 (RFA count) runs twice an hour at :22 and :52
+
+### Webservice start
+
+The webservice (which is helpful for manually running the bot / debugging) does not automatically start. Start it with the below command. Keep in mind that the version of PHP it uses can get out of sync with what you're using for your cron jobs above. They are completely separate.
+
+```
+become novem-bot
+toolforge webservice status
+toolforge webservice stop
+toolforge webservice php8.2 start
+```
