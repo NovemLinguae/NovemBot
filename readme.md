@@ -33,7 +33,7 @@ toolforge jobs run task-7 --command ./task-7.sh --image php8.2 --schedule "22,52
 
 ### Webservice start
 
-The webservice (which is helpful for manually running the bot / debugging) does not automatically start. Start it with the below command. Keep in mind that the version of PHP it uses can get out of sync with what you're using for your cron jobs above. They are completely separate.
+The webservice (which is helpful for manually running the bot / debugging) needs to be started one time, then keeps running until you turn it off. Start it with the below command. Keep in mind that the version of PHP it uses can get out of sync with what you're using for your cron jobs above. They are completely separate. So every once in awhile, you will want to update the version of PHP it uses to match your cron jobs.
 
 ```
 become novem-bot
