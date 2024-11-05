@@ -5,13 +5,17 @@
 class HardCodedSocks {
 	public static function add( $data ) {
 		// Wikimedia Foundation board of trustees: https://meta.wikimedia.org/wiki/Wikimedia_Foundation_Board_of_Trustees
+		// Founder
 		$data['boardOfTrustees']['Jimbo Wales'] = 1;
-		$data['boardOfTrustees']['Esh77'] = 1; // Shani (WMF)
+		// Appointed
 		$data['boardOfTrustees']['Antanana'] = 1; // NTymkiv (WMF)
-		$data['boardOfTrustees']['Pundit'] = 1;
-		$data['boardOfTrustees']['Rosiestep'] = 1;
+		// Community
 		$data['boardOfTrustees']['Victoria'] = 1;
 		$data['boardOfTrustees']['Laurentius'] = 1;
+		$data['boardOfTrustees']['Kritzolina'] = 1;
+		$data['boardOfTrustees']['Nadzik'] = 1;
+		// Affiliate
+		$data['boardOfTrustees']['Esh77'] = 1; // Shani (WMF)
 		$data['boardOfTrustees']['Mike Peel'] = 1;
 
 		// Wikimedia Endowment board of directors: https://meta.wikimedia.org/wiki/Wikimedia_Endowment#Wikimedia_Endowment_Advisory_Board_Members
