@@ -27,7 +27,7 @@ class HardCodedSocks {
 		$data['staff']['The wub'] = 1; // Pcoombe (WMF)
 		$data['staff']['Matma Rex'] = 1; // Bartosz Dziewoński (WMF)
 		$data['staff']['Aaron Schulz'] = 1; // Aaron Schulz (WMF)
-		$data['staff']['Brion VIBBER'] = 1; // Brion Vibber (WMF)
+		$data['staff']['Brooke Vibber'] = 1; // Brooke Vibber (WMF)
 		$data['staff']['Catrope'] = 1; // Roan Kattouw (WMF)
 		$data['staff']['Hashar'] = 1; // Amusso (WMF)
 		$data['staff']['Seddon'] = 1; // Seddon (WMF)
@@ -38,7 +38,6 @@ class HardCodedSocks {
 		$data['staff']['Tim Starling'] = 1; // Tim Starling (WMF)
 		$data['staff']['Addshore'] = 1; // Adam Shorland (WMDE)
 		$data['staff']['Xeno'] = 1; // Xeno (WMF)
-		// $data['staff']['WhatamIdoing'] = 1; // Whatamidoing (WMF)
 		$data['staff']['Deskana'] = 1; // Deskana (WMF)
 		$data['staff']['Jdforrester'] = 1; // Jdforrester (WMF)
 		$data['staff']['ArielGlenn'] = 1;
@@ -65,10 +64,12 @@ class HardCodedSocks {
 		$data['staff']['Airplaneman'] = 1; // BChoo (WMF)
 		$data['staff']['Accedie'] = 1; // MPinchuk (WMF)
 		$data['staff']['Duesentrieb'] = 1; // DKinzler (WMF)
-		$data['staff']['Taavi'] = 1;
 		$data['staff']['I JethroBT'] = 1; // I JethroBT (WMF)
 		$data['staff']['Filippo Giunchedi'] = 1; // SRE
 		$data['staff']['Mark Bergsma'] = 1; // SRE
+		$data['staff']['Fluffernutter'] = 1; // Kbrown (WMF), T&S
+		$data['staff']['BrokenSegue'] = 1; // DErenrich-WMF
+		$data['staff']['The ed17'] = 1; // Ed Erhart (WMF)
 
 		// On the list of former admins, but not highlighted by the two former admin queries
 		// TODO: link these to their renames instead
