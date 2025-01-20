@@ -40,6 +40,48 @@ class UserListTest extends TestCase {
 		$this->assertSame($expected, $actual);
 	}
 
+	public function test_linkMainAndAltUsernames_multiplePerms() {
+		// data for this test
+		$this->ul->data = [
+			"sysop" => [
+				"Admin" => 1,
+			],
+			"formeradmin" => [
+				"Admin" => 1,
+			],
+			"10k" => [
+				"Admin AWB Account" => 1,
+				"Admin" => 1,
+			],
+			"extendedconfirmed" => [
+				"Admin AWB Account" => 1,
+			],
+		];
+		$this->ul->linkedUsernames['Admin AWB Account'] = 'Admin';
+
+		// test
+		$this->ul->linkMainAndAltUsernames();
+		$actual = $this->ul->data;
+		$expected = [
+			"sysop" => [
+				"Admin" => 1,
+				"Admin AWB Account" => 1,
+			],
+			"formeradmin" => [
+				"Admin" => 1,
+				"Admin AWB Account" => 1,
+			],
+			"10k" => [
+				"Admin AWB Account" => 1,
+				"Admin" => 1,
+			],
+			"extendedconfirmed" => [
+				"Admin AWB Account" => 1,
+			],
+		];
+		$this->assertSame($expected, $actual);
+	}
+
 	public function test_sortUsers_sort() {
 		// data for this test
 		$this->ul->data = [

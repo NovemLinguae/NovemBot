@@ -79,7 +79,7 @@ class UserList {
 	}
 
 	/**
-	 * Making this public so I can unit test it
+	 * Add all of the main's perms to the alt. They don't correspond 1:1. Rather the perms are added. Making this public so I can unit test it.
 	 */
 	public function linkMainAndAltUsernames() {
 		foreach ( $this->linkedUsernames as $altUsername => $mainUsername ) {
