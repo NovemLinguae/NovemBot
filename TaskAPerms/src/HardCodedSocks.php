@@ -66,12 +66,19 @@ class HardCodedSocks {
 		$data['staff']['Duesentrieb'] = 1; // DKinzler (WMF)
 		$data['staff']['I JethroBT'] = 1; // I JethroBT (WMF)
 		$data['staff']['Filippo Giunchedi'] = 1; // SRE
-		$data['staff']['Mark Bergsma'] = 1; // SRE
+		$data['staff']['Mark Bergsma'] = 1; // SRE manager
 		$data['staff']['Fluffernutter'] = 1; // Kbrown (WMF), T&S
 		$data['staff']['BrokenSegue'] = 1; // DErenrich-WMF
 		$data['staff']['The ed17'] = 1; // Ed Erhart (WMF)
 		$data['staff']['NahidSultan'] = 1;
-		$data['staff']['Taavi'] = 1;
+		$data['staff']['Taavi'] = 1; // Taavi-WMF
+		$data['staff']['Aude'] = 1; // KFilbert-WMF
+		$data['staff']['😂'] = 1; // Chad (WMF)
+		$data['staff']['^demon'] = 1; // Chad (WMF)
+		$data['staff']['Niharika'] = 1; // NKohli (WMF)
+		$data['staff']['BryanDavis'] = 1; // BDavis (WMF)
+		$data['staff']['Sdkb'] = 1; // Sdkb-WMF
+		$data['staff']['PinkZip'] = 1; // Zoe-WMF
 
 		// On the list of former admins, but not highlighted by the two former admin queries
 		// TODO: link these to their renames instead
