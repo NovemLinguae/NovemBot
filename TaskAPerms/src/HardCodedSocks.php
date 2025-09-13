@@ -12,7 +12,7 @@ class HardCodedSocks {
 		// Community
 		$data['boardOfTrustees']['Victoria'] = 1;
 		$data['boardOfTrustees']['Laurentius'] = 1;
-		$data['boardOfTrustees']['Kritzolina'] = 1;
+		$data['boardOfTrustees']['Kritzolina'] = 1; // Christel Steigenberger
 		$data['boardOfTrustees']['Nadzik'] = 1;
 		// Affiliate
 		$data['boardOfTrustees']['Esh77'] = 1; // Shani (WMF)
@@ -79,6 +79,24 @@ class HardCodedSocks {
 		$data['staff']['BryanDavis'] = 1; // BDavis (WMF)
 		$data['staff']['Sdkb'] = 1; // Sdkb-WMF
 		$data['staff']['PinkZip'] = 1; // Zoe-WMF
+		$data['staff']['RobH'] = 1; // SRE
+		$data['staff']['Tiziano Fogli'] = 1; // SRE
+		$data['staff']['Akosiaris'] = 1; // SRE
+		$data['staff']['Ottomata'] = 1; // AOtto (WMF)
+		$data['staff']['Martin Urbanec'] = 1;
+		$data['staff']['DLynch'] = 1;
+		$data['staff']['Neil Shah-Quinn'] = 1; // Neil Shah-Quinn (WMF)
+		$data['staff']['Nikerabbit'] = 1; // Nlaxstrom-WMF
+		$data['staff']['Adam Wight (WMDE)'] = 1;
+		$data['staff']['Lucas Werkmeister (WMDE)'] = 1;
+		$data['staff']['Andrewbogott'] = 1; // SRE
+		$data['staff']['Phuedx'] = 1; // Phuedx (WMF)
+		$data['staff']['Aotto'] = 1; // AOtto (WMF)
+		$data['staff']['Jobo~labswiki'] = 1; // JBorun (WMF)
+		$data['staff']['Daniel Kinzler (WMDE)'] = 1;
+		$data['staff']['Mayakp.wiki'] = 1; // Maya Kampurath
+		$data['staff']['Volker E.'] = 1;
+		$data['staff']['Amire80'] = 1; // Aaharoni-WMF
 
 		// On the list of former admins, but not highlighted by the two former admin queries
 		// TODO: link these to their renames instead
