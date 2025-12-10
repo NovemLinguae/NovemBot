@@ -14,6 +14,8 @@ class HardCodedSocks {
 		$data['boardOfTrustees']['Laurentius'] = 1;
 		$data['boardOfTrustees']['Kritzolina'] = 1; // Christel Steigenberger
 		$data['boardOfTrustees']['Nadzik'] = 1;
+		$data['boardOfTrustees']['Bobbyshabangu'] = 1;
+		$data['boardOfTrustees']['Aegis Maelstrom'] = 1;
 		// Affiliate
 		$data['boardOfTrustees']['Esh77'] = 1; // Shani (WMF)
 		$data['boardOfTrustees']['Mike Peel'] = 1;
@@ -97,6 +99,8 @@ class HardCodedSocks {
 		$data['staff']['Mayakp.wiki'] = 1; // Maya Kampurath
 		$data['staff']['Volker E.'] = 1;
 		$data['staff']['Amire80'] = 1; // Aaharoni-WMF
+		$data['staff']['xSavitar'] = 1; // DAlangi (WMF)
+		$data['staff']['Denny'] = 1; // Denny Vrandecic (WMF)
 
 		// On the list of former admins, but not highlighted by the two former admin queries
 		// TODO: link these to their renames instead
