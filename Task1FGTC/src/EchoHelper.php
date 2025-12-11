@@ -8,7 +8,7 @@ class EchoHelper {
 	}
 
 	/** Echo to the browser instantly, without a delay. Also, convert to HTML so we don't need to use Content-Type:text/plain, which displays HTML error messages incorrectly. Also, put a border around each message. */
-	public function echoAndFlush( string $str, string $type ): void {
+	public function echoAndFlush( string $str, string $type, string $variableName = '' ): void {
 		global $SHORT_WIKICODE_IN_CONSOLE, $CHARACTERS_TO_ECHO, $SHOW_API_READS;
 
 		if ( $type == 'api_read' && !$SHOW_API_READS ) {
@@ -30,6 +30,9 @@ class EchoHelper {
 			case 'variable':
 				$color = 'lawngreen';
 				$description = 'Variable';
+				if ( $variableName ) {
+					$str = $variableName . "\r\n" . $str;
+				}
 				$str = htmlentities( $str );
 				$str = nl2br( $str );
 				$str = $this->h->nbsp( $str );
@@ -78,8 +81,8 @@ class EchoHelper {
 		}
 	}
 
-	public function html_var_export( $arr, $type ) {
-		return $this->echoAndFlush( var_export( $arr, true ), $type );
+	public function html_var_export( $arr, $type, $variableName = '' ) {
+		return $this->echoAndFlush( var_export( $arr, true ), $type, $variableName );
 	}
 
 	/** Don't forget to use continue; after this is called, to continue execution of the outer loop */

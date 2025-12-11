@@ -51,7 +51,7 @@ if (
 }
 
 // log in
-$eh->echoAndFlush( "PHP version: " . PHP_VERSION, 'variable' );
+$eh->echoAndFlush( PHP_VERSION, 'variable', 'PHP_VERSION' );
 $wapi = new WikiAPIWrapper(
 	$config['wikiUsername'],
 	$config['wikiPassword'],
@@ -107,7 +107,7 @@ if ( $TEST_PAGES ) {
 	}
 }
 
-$eh->html_var_export( $pagesToPromote, 'variable' );
+$eh->html_var_export( $pagesToPromote, 'variable', '$pagesToPromote' );
 
 // check how many valid pings. if too many, don't run. probably vandalism.
 if ( count( $pagesToPromote ) > $MAX_TOPICS_ALLOWED_IN_BOT_RUN ) {

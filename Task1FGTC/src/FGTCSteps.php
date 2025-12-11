@@ -131,7 +131,7 @@ class FGTCSteps {
 
 		// decide if good topic or featured topic
 		$this->goodOrFeatured = $this->p->decideIfGoodOrFeatured( $this->goodArticleCount, $this->featuredArticleCount );
-		$this->eh->echoAndFlush( $this->goodOrFeatured, 'variable' );
+		$this->eh->echoAndFlush( $this->goodOrFeatured, 'variable', '$this->goodOrFeatured' );
 	}
 
 	/**

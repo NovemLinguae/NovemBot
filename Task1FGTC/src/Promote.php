@@ -110,7 +110,7 @@ class Promote {
 			throw new GiveUpOnThisTopic( "On page [[$title]], could not find list of topics inside of {{t|Featured topic box}}." );
 		}
 		$listOfTitles = $matches[1];
-		$this->eh->html_var_export( $listOfTitles, 'variable' );
+		$this->eh->html_var_export( $listOfTitles, 'variable', '$listOfTitles, before getAllArticleTitles() cleans it up' );
 
 		// parse each potential title
 		foreach ( $listOfTitles as $key => $title2 ) {
@@ -133,7 +133,7 @@ class Promote {
 			$listOfTitles[$key] = trim( $listOfTitles[$key] );
 		}
 
-		$this->eh->html_var_export( $listOfTitles, 'variable' );
+		$this->eh->html_var_export( $listOfTitles, 'variable', '$listOfTitles, after getAllArticleTitles() cleans it up' );
 		return $listOfTitles;
 	}
 
@@ -509,14 +509,14 @@ $wikiProjectBanners";
 	public function getGoodArticleCount( $topicBoxWikicode ) {
 		preg_match_all( '/{{\s*(?:class)?icon\s*\|\s*(?:GA)\s*}}/i', $topicBoxWikicode, $matches );
 		$count = count( $matches[0] );
-		$this->eh->echoAndFlush( $count, 'variable' );
+		$this->eh->echoAndFlush( $count, 'variable', '$count (good articles)' );
 		return $count;
 	}
 
 	public function getFeaturedArticleCount( $topicBoxWikicode ) {
 		preg_match_all( '/{{\s*(?:class)?icon\s*\|\s*(?:FA|FL)\s*}}/i', $topicBoxWikicode, $matches );
 		$count = count( $matches[0] );
-		$this->eh->echoAndFlush( $count, 'variable' );
+		$this->eh->echoAndFlush( $count, 'variable', '$count (featured articles)' );
 		return $count;
 	}
 
