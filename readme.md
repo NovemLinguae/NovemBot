@@ -1,6 +1,6 @@
-## Novem Linguae's Wikipedia bots
+# Novem Linguae's Wikipedia bots
 
-### Tasks
+## Tasks
 
 https://en.wikipedia.org/wiki/User:NovemBot
 
@@ -11,15 +11,43 @@ https://en.wikipedia.org/wiki/User:NovemBot
 
 I have some AWB, one time run bot tasks as well, but those are not documented here.
 
-### PHP + Toolforge bot tutorial
+## PHP + Toolforge bot tutorial
 
 I found the learning curve for Toolforge pretty hard. I've written a tutorial at
 
 https://en.wikipedia.org/wiki/User:Novem_Linguae/Essays/Toolforge_bot_tutorial
 
-Nowadays I use WSL/Ubuntu to SSH into the command line: `ssh login.toolforge.org`. Then `become novem-bot`.
+## Files omitted from this repo
+
+If you're reconstructing this repo from scratch, note the following config files are omitted since they contain passwords. You'll need to create them yourself:
+
+- src/public_html/Task1FGTC/config.php
+- src/public_html/Task7RFACount/config.php
+- src/public_html/TaskAPerms/logininfo.php
+- src/public_html/TaskBSuspiciousFiles/logininfo.php
+- src/replica.my.cnf
+- src/task-1.sh
+- src/task-7.sh
+- src/task-a.sh
+
+Also, on the Toolforge server, I have folders such as Task1FGTC named task-1, Task7RFACount named task-7, etc.
+
+Make sure to `chmod 0700` these files since they contain passwords. This will keep other Toolforge users from viewing the files.
+
+## Localhost
+
+Create a localhost environment to do testing before deploying to production.
+
+- `docker compose up -d` to start the Docker container (https://localhost:8083 to visit on the web)
+- `docker exec -it novembot-php-1 /bin/bash` to open a shell
+- `composer update`
+- `composer exec phpunit tests` to run all test suites
+
+## Production
 
 ### Toolforge jobs framework setup commands
+
+Nowadays I use WSL/Ubuntu to SSH into the command line: `ssh login.toolforge.org`. Then `become novem-bot`.
 
 ```
 toolforge jobs run task-1 --command ./task-1.sh --image php8.4 --schedule "5 * * * *" --emails onfailure
@@ -55,27 +83,3 @@ toolforge webservice status
 toolforge webservice stop
 toolforge webservice php8.4 start
 ```
-
-### Files omitted from this repo
-
-If you're reconstructing this repo from scratch, note the following config files are omitted since they contain passwords. You'll need to create them yourself:
-
-- src/public_html/Task1FGTC/config.php
-- src/public_html/Task7RFACount/config.php
-- src/public_html/TaskAPerms/logininfo.php
-- src/public_html/TaskBSuspiciousFiles/logininfo.php
-- src/replica.my.cnf
-- src/task-1.sh
-- src/task-7.sh
-- src/task-a.sh
-
-Also, on the Toolforge server, I have folders such as Task1FGTC named task-1, Task7RFACount named task-7, etc.
-
-Make sure to `chmod 0700` these files since they contain passwords. This will keep other Toolforge users from viewing the files.
-
-### Some bash commands
-
-- `docker compose up -d` to start the Docker container (https://localhost:8083 to visit on the web)
-- `docker exec -it novembot-php-1 /bin/bash` to open a shell
-- `composer update`
-- `composer exec phpunit tests` to run all test suites
