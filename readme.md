@@ -17,23 +17,6 @@ I found the learning curve for Toolforge pretty hard. I've written a tutorial at
 
 https://en.wikipedia.org/wiki/User:Novem_Linguae/Essays/Toolforge_bot_tutorial
 
-## Files omitted from this repo
-
-If you're reconstructing this repo from scratch, note the following config files are omitted since they contain passwords. You'll need to create them yourself:
-
-- src/public_html/Task1FGTC/config.php
-- src/public_html/Task7RFACount/config.php
-- src/public_html/TaskAPerms/logininfo.php
-- src/public_html/TaskBSuspiciousFiles/logininfo.php
-- src/replica.my.cnf
-- src/task-1.sh
-- src/task-7.sh
-- src/task-a.sh
-
-Also, on the Toolforge server, I have folders such as Task1FGTC named task-1, Task7RFACount named task-7, etc.
-
-Make sure to `chmod 0700` these files since they contain passwords. This will keep other Toolforge users from viewing the files.
-
 ## Localhost
 
 Create a localhost environment to do testing before deploying to production.

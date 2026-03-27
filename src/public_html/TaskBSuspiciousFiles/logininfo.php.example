@@ -1,0 +1,6 @@
+<?php
+
+$wiki_username = '';
+$wiki_password = '';
+
+$http_get_password = '';
