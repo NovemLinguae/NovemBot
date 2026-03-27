@@ -71,6 +71,8 @@ If you're reconstructing this repo from scratch, note the following config files
 
 Also, on the Toolforge server, I have folders such as Task1FGTC named task-1, Task7RFACount named task-7, etc.
 
+Make sure to `chmod 0700` these files since they contain passwords. This will keep other Toolforge users from viewing the files.
+
 ### Some bash commands
 
 - `docker compose up -d` to start the Docker container (https://localhost:8083 to visit on the web)
