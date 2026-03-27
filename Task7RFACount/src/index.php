@@ -20,7 +20,6 @@ $SHOW_API_READS = true;
 
 ini_set( "display_errors", '1' );
 error_reporting( E_ALL );
-assert_options( ASSERT_BAIL, true );
 date_default_timezone_set( 'UTC' );
 
 // Make sure randos can't run the bot
