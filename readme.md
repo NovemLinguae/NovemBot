@@ -17,19 +17,33 @@ I found the learning curve for Toolforge pretty hard. I've written a tutorial at
 
 https://en.wikipedia.org/wiki/User:Novem_Linguae/Essays/Toolforge_bot_tutorial
 
+Nowadays I use WSL/Ubuntu to SSH into the command line: `ssh login.toolforge.org`. Then `become novem-bot`.
+
 ### Toolforge jobs framework setup commands
 
 ```
-toolforge jobs run task-a --command ./task-a.sh --image php8.2 --schedule "0 13 * * *" --emails onfailure
+toolforge jobs run task-a --command ./task-a.sh --image php8.4 --schedule "0 13 * * *" --emails onfailure
 
-toolforge jobs run task-1 --command ./task-1.sh --image php8.2 --schedule "5 * * * *" --emails onfailure
+toolforge jobs run task-1 --command ./task-1.sh --image php8.4 --schedule "5 * * * *" --emails onfailure
 
-toolforge jobs run task-7 --command ./task-7.sh --image php8.2 --schedule "22,52 * * * *" --emails onfailure
+toolforge jobs run task-7 --command ./task-7.sh --image php8.4 --schedule "22,52 * * * *" --emails onfailure
 ```
 
 - Task A (userlist.js) runs daily at 5AM
 - Task 1 (FGTC) runs hourly at :05
 - Task 7 (RFA count) runs twice an hour at :22 and :52
+
+If you want to make sure all of these are programmed in, run `toolforge jobs list`.
+
+If you want to delete and readd these (for example, to upgrade the PHP version), here's the delete commands:
+
+```
+toolforge jobs delete task-1
+
+toolforge jobs delete task-7
+
+toolforge jobs delete task-a
+```
 
 ### Webservice start
 
@@ -39,5 +53,5 @@ The webservice (which is helpful for manually running the bot / debugging) needs
 become novem-bot
 toolforge webservice status
 toolforge webservice stop
-toolforge webservice php8.2 start
+toolforge webservice php8.4 start
 ```
