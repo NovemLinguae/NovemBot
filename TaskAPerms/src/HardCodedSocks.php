@@ -99,8 +99,10 @@ class HardCodedSocks {
 		$data['staff']['Mayakp.wiki'] = 1; // Maya Kampurath
 		$data['staff']['Volker E.'] = 1;
 		$data['staff']['Amire80'] = 1; // Aaharoni-WMF
-		$data['staff']['xSavitar'] = 1; // DAlangi (WMF)
+		$data['staff']['X-Savitar'] = 1; // DAlangi (WMF)
 		$data['staff']['Denny'] = 1; // Denny Vrandecic (WMF)
+		$data['staff']['MikeGodwin'] = 1; // former WMF attorney
+		$data['staff']['Geoffbrigham'] = 1; // former WMF attorney
 
 		// On the list of former admins, but not highlighted by the two former admin queries
 		// TODO: link these to their renames instead
