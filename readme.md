@@ -69,6 +69,8 @@ If you're reconstructing this repo from scratch, note the following config files
 - src/task-7.sh
 - src/task-a.sh
 
+Also, on the Toolforge server, I have folders such as Task1FGTC named task-1, Task7RFACount named task-7, etc.
+
 ### Some bash commands
 
 - `docker compose up -d` to start the Docker container (https://localhost:8083 to visit on the web)
