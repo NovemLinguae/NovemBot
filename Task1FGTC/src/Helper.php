@@ -117,9 +117,10 @@ class Helper {
 	/**
 	 * convert '2022-11-25T12:05:26Z' to '20221125120526', for use in Special:Contributions?offset=
 	 */
-	public function convertTimestampToOffsetFormat( $string ) {
+	public function convertTimestampToOffsetFormat( ?string $string ): string {
+		// Passing null to preg_replace. This is fine. It only happens in read only test mode, because the contribs offset is messed up.
 		if ( $string === null ) {
-			echo "<br>Passing null to preg_replace. This is fine. It only happens in read only test mode, because the contribs offset is messed up.<br>";
+			return '';
 		}
 		return preg_replace( "/[^\d]*/", '', $string );
 	}
