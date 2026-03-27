@@ -4,10 +4,10 @@
 
 https://en.wikipedia.org/wiki/User:NovemBot
 
-- Task A - Edit own userspace to keep accurate lists of users who have permissions, for use with User:Novem Linguae/Scripts/UserHighlighterSimple.
-- Task B - Generate list of images that are possible copyright violations and publish it to User:NovemBot/files.
 - Task 1 - Promote featured and good topic candidates. Summon the bot to a FGTC voting page using {{User:NovemBot/Promote}} ~~~~. Person adding the template must be on the allowlist.
 - Task 7 - Update User:Amalthea/RfX/RfA count every 30 minutes with an updated open RFA count.
+- Task A - Edit own userspace to keep accurate lists of users who have permissions, for use with User:Novem Linguae/Scripts/UserHighlighterSimple.
+- Task B - Generate list of images that are possible copyright violations and publish it to User:NovemBot/files.
 
 I have some AWB, one time run bot tasks as well, but those are not documented here.
 
@@ -22,16 +22,16 @@ Nowadays I use WSL/Ubuntu to SSH into the command line: `ssh login.toolforge.org
 ### Toolforge jobs framework setup commands
 
 ```
-toolforge jobs run task-a --command ./task-a.sh --image php8.4 --schedule "0 13 * * *" --emails onfailure
-
 toolforge jobs run task-1 --command ./task-1.sh --image php8.4 --schedule "5 * * * *" --emails onfailure
 
 toolforge jobs run task-7 --command ./task-7.sh --image php8.4 --schedule "22,52 * * * *" --emails onfailure
+
+toolforge jobs run task-a --command ./task-a.sh --image php8.4 --schedule "0 13 * * *" --emails onfailure
 ```
 
-- Task A (userlist.js) runs daily at 5AM
 - Task 1 (FGTC) runs hourly at :05
 - Task 7 (RFA count) runs twice an hour at :22 and :52
+- Task A (userlist.js) runs daily at 5AM
 
 If you want to make sure all of these are programmed in, run `toolforge jobs list`.
 
@@ -58,7 +58,7 @@ toolforge webservice php8.4 start
 
 ### Files omitted from this repo
 
-If you're reconstructing this repo from scratch, notice the following config files are omitted since they contain passwords. You'll need to create them yourself:
+If you're reconstructing this repo from scratch, note the following config files are omitted since they contain passwords. You'll need to create them yourself:
 
 - src/public_html/Task1FGTC/config.php
 - src/public_html/Task7RFACount/config.php
@@ -68,3 +68,10 @@ If you're reconstructing this repo from scratch, notice the following config fil
 - src/task-1.sh
 - src/task-7.sh
 - src/task-a.sh
+
+### Some bash commands
+
+- `docker compose up -d` to start the Docker container (https://localhost:8083 to visit on the web)
+- `docker exec -it novembot-php-1 /bin/bash` to open a shell
+- `composer update`
+- `composer exec phpunit tests` to run all test suites
