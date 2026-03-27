@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-include 'src/RFACount.php';
+include 'src/public_html/Task7RFACount/RFACount.php';
 
 class RFACountTest extends TestCase {
 	protected $rfaCount;

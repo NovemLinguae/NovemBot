@@ -4,13 +4,7 @@
 config.php
 coverage-reports/
 coverage/
-Gerrit SSH key
-gitignore/
-kubernetes
 logininfo.php
-php-project-example-main
-php-project-example-main.zip
 replica.my.cnf
 task-*.sh
-Task1FGTC-Old
 vendor/

@@ -2,8 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
-require __DIR__ . "/../src/UserList.php";
-require __DIR__ . "/../src/HardCodedSocks.php";
+require "src/public_html/TaskAPerms/UserList.php";
+require "src/public_html/TaskAPerms/HardCodedSocks.php";
 
 class UserListTest extends TestCase {
 	protected $ul;

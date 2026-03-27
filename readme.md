@@ -55,3 +55,16 @@ toolforge webservice status
 toolforge webservice stop
 toolforge webservice php8.4 start
 ```
+
+### Files omitted from this repo
+
+If you're reconstructing this repo from scratch, notice the following config files are omitted since they contain passwords. You'll need to create them yourself:
+
+- src/public_html/Task1FGTC/config.php
+- src/public_html/Task7RFACount/config.php
+- src/public_html/TaskAPerms/logininfo.php
+- src/public_html/TaskBSuspiciousFiles/logininfo.php
+- src/replica.my.cnf
+- src/task-1.sh
+- src/task-7.sh
+- src/task-a.sh

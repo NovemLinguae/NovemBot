@@ -14,20 +14,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - working-directory: ./Task1FGTC
-      run: composer update
-    - working-directory: ./Task1FGTC
-      run: composer exec phpunit tests
-      name: Task1FGTC unit tests
-
-    - working-directory: ./Task7RFACount
-      run: composer update
-    - working-directory: ./Task7RFACount
-      run: composer exec phpunit tests
-      name: Task7RFACount unit tests
-
-    - working-directory: ./TaskAPerms
-      run: composer update
-    - working-directory: ./TaskAPerms
-      run: composer exec phpunit tests
-      name: TaskAPerms unit tests
+    - run: composer update
+    - run: composer exec phpunit tests

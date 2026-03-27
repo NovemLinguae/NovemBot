@@ -1,6 +1,7 @@
 {
 	"require-dev": {
-		"mediawiki/mediawiki-codesniffer": "*"
+		"mediawiki/mediawiki-codesniffer": "*",
+		"phpunit/phpunit": "^9"
 	},
 	"scripts": {
 		"test": [
