@@ -45,9 +45,11 @@ Create a localhost environment to do testing before deploying to production.
 
 ## Production
 
-### Toolforge jobs framework setup commands
+### Cron jobs
 
-Nowadays I use WSL/Ubuntu to SSH into the command line: `ssh login.toolforge.org`. Then `become novem-bot`.
+Cron jobs on Toolforge are done using the [jobs framework](https://wikitech.wikimedia.org/wiki/Help:Toolforge/Running_jobs).
+
+To access a Toolforge shell, I use WSL/Ubuntu to SSH into the command line: `ssh login.toolforge.org`. Then `become novem-bot`.
 
 ```
 toolforge jobs run task-1 --command ./task-1.sh --image php8.4 --schedule "5 * * * *" --emails onfailure
