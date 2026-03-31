@@ -2,13 +2,14 @@
 /**
  * botclasses.php - Bot classes for interacting with mediawiki.
  *
- *  (c) 2008-2012 Chris G - http://en.wikipedia.org/wiki/User:Chris_G
- *  (c) 2009-2010 Fale - http://en.wikipedia.org/wiki/User:Fale
- *  (c) 2010      Kaldari - http://en.wikipedia.org/wiki/User:Kaldari
- *  (c) 2011      Gutza - http://en.wikipedia.org/wiki/User:Gutza
- *  (c) 2012      Sean - http://en.wikipedia.org/wiki/User:SColombo
- *  (c) 2012      Brian - http://en.wikipedia.org/wiki/User:Brian_McNeil
- *  (c) 2020-2024 Bill - http://en.wikipedia.org/wiki/User:wbm1058
+ *  (c) 2008-2012 Chris G - https://en.wikipedia.org/wiki/User:Chris_G
+ *  (c) 2009-2010 Fale - https://en.wikipedia.org/wiki/User:Fale
+ *  (c) 2010      Kaldari - https://en.wikipedia.org/wiki/User:Kaldari
+ *  (c) 2011      Gutza - https://en.wikipedia.org/wiki/User:Gutza
+ *  (c) 2012      Sean - https://en.wikipedia.org/wiki/User:SColombo
+ *  (c) 2012      Brian - https://en.wikipedia.org/wiki/User:Brian_McNeil
+ *  (c) 2012-2018 Pavel Malahov - https://en.wikipedia.org/wiki/User:24pm
+ *  (c) 2020-2025 Bill - https://en.wikipedia.org/wiki/User:wbm1058
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -32,15 +33,19 @@
  *      Gutza   - [[User:Gutza]]        - Submitted a patch for http->setHTTPcreds(), and http->quiet
  *      Sean    - [[User:SColombo]]     - Wrote the lyricwiki class (now moved to lyricswiki.php)
  *      Brian   - [[User:Brian_McNeil]] - Wrote wikipedia->getfileuploader() and wikipedia->getfilelocation
- *      Bill    - [[User:wbm1058]]      - Wrote wikipedia->categories, wikipedia->getTalkTransclusions, wikipedia->recent_page_edits, and wikipedia->ten_latest_edits
- **/
+ *      Pavel   - [[User:24pm]]         - Wrote 10 new functions for class "extended"
+ *      Bill    - [[User:wbm1058]]      - Wrote wikipedia-> categories, getMainTransclusions, getTalkTransclusions, recent_page_edits, ten_latest_edits,
+ *                                        oldest_revision, getpagetitle, and getOldestDeletedRevisionTimestamp
+ *      Furkan  - [[User:Orfur]]        - Adapting the upload function to current PHP versions, Added Pavel Malahov's changes
+ */
 
 /*
  * Forks/Alternative versions:
  * There's a couple of different versions of this code lying around.
  * I'll try to list them here for reference purpopses:
- *		https://raw.githubusercontent.com/legoktm/harej-bots/master/botclasses.php
- * 		https://en.wikinews.org/wiki/User:NewsieBot/botclasses.php
+ *        https://raw.githubusercontent.com/legoktm/harej-bots/master/botclasses.php
+ *        https://en.wikinews.org/wiki/User:NewsieBot/botclasses.php
+ *        https://raw.githubusercontent.com/teopedia/mediawiki-botclasses/refs/heads/master/botclasses.php
  */
 
 /**
@@ -52,7 +57,7 @@ $AssumeHTTPFailuresAreJustTimeoutsAndShouldBeSuppressed = false;
 /**
  * This class is designed to provide a simplified interface to cURL which maintains cookies.
  * @author Cobi
- **/
+ */
 class http {
     private $ch;
     private $uid;
@@ -62,9 +67,9 @@ class http {
     public $quiet=false;
     public $useragent;
 
-	public function http_code () {
+    public function http_code () {
         return curl_getinfo( $this->ch, CURLINFO_HTTP_CODE );
-	}
+    }
 
     function data_encode ($data, $keyprefix = "", $keypostfix = "") {
         assert( is_array($data) );
@@ -114,21 +119,21 @@ class http {
         curl_setopt($this->ch,CURLOPT_TIMEOUT,30);
         curl_setopt($this->ch,CURLOPT_CONNECTTIMEOUT,10);
         curl_setopt($this->ch,CURLOPT_POST,1);
-        //      curl_setopt($this->ch,CURLOPT_FAILONERROR,1);
-        //	curl_setopt($this->ch,CURLOPT_POSTFIELDS, substr($this->data_encode($data), 0, -1) );
+        //    curl_setopt($this->ch,CURLOPT_FAILONERROR,1);
+        //    curl_setopt($this->ch,CURLOPT_POSTFIELDS, substr($this->data_encode($data), 0, -1) );
         curl_setopt($this->ch,CURLOPT_POSTFIELDS, $data);
         $data = curl_exec($this->ch);
         if($data === false) {
             echo "cURL Error: ".curl_error($this->ch)."\n";
         }
-        //	var_dump($data);
-        //	global $logfd;
-        //	if (!is_resource($logfd)) {
-        //		$logfd = fopen('php://stderr','w');
+        //    var_dump($data);
+        //    global $logfd;
+        //    if (!is_resource($logfd)) {
+        //        $logfd = fopen('php://stderr','w');
         if (!$this->quiet) {
             echo 'POST: '.$url.' ('.(microtime(1) - $time).' s) ('.strlen($data)." b)\n";
         }
-        // 	}
+        //     }
         return $data;
     }
 
@@ -178,7 +183,6 @@ class http {
     }
 
     function __destruct () {
-        curl_close($this->ch);
         @unlink('/tmp/cluewikibot.cookies.'.$this->uid.'.dat');
     }
 }
@@ -186,7 +190,7 @@ class http {
 /**
  * This class is interacts with wikipedia using api.php
  * @author Chris G and Cobi
- **/
+ */
 class wikipedia {
     public $http;
     private $token;
@@ -196,7 +200,7 @@ class wikipedia {
     /**
      * This is our constructor.
      * @return void
-     **/
+     */
     function __construct ($url='https://en.wikipedia.org/w/api.php',$hu=null,$hp=null) {
         $this->http = new http;
         if ($this->http->useragent==null) {
@@ -222,12 +226,12 @@ class wikipedia {
 
     /**
      * Sends a query to the api.
-     * @param $query string The query string.
-     * @param $post string POST data if its a post request (optional).
-     * @param $repeat int how many times we've repeated this request
+     * @param string $query The query string.
+     * @param string|null $post POST data if its a post request (optional).
+     * @param int $repeat How many times we've repeated this request
      * @return array The api result.
      * @throws Exception on HTTP errors
-     **/
+     */
     function query ($query,$post=null,$repeat=0) {
         global $AssumeHTTPFailuresAreJustTimeoutsAndShouldBeSuppressed;
         if ($post==null) {
@@ -236,10 +240,10 @@ class wikipedia {
             $ret = $this->http->post($this->url.$query,$post);
         }
         //var_dump($this->http->http_code());
-	    if ($this->http->http_code() == 0 && $AssumeHTTPFailuresAreJustTimeoutsAndShouldBeSuppressed) {
+        if ($this->http->http_code() == 0 && $AssumeHTTPFailuresAreJustTimeoutsAndShouldBeSuppressed) {
             return array(); // Meh
-	    }
-		if ($this->http->http_code() != "200") {
+        }
+        if ($this->http->http_code() != "200") {
             if ($repeat < 10) {
                 sleep(10);
                 echo "\n *** Retry query, attempt " . $repeat . " ***\n";
@@ -247,7 +251,7 @@ class wikipedia {
             } else {
                 throw new Exception("HTTP Error.");
             }
-		}
+        }
         return json_decode($ret, true);
     }
 
@@ -256,19 +260,21 @@ class wikipedia {
      * @param $page The wikipedia page to fetch.
      * @param $revid The revision id to fetch (optional)
      * @return string|false The wikitext for the page.
-     **/
-    function getpage ($page,$revid=null,$detectEditConflict=false) {
+     */
+    function getpage ($page,$revid=null,$detectEditConflict=false,&$timestamp=null,&$user=null) {
         $append = '';
         if ($revid!=null) {
             $append = '&rvstartid='.$revid;
         }
-        $x = $this->query('?action=query&format=json&prop=revisions&rvslots=main&titles='.urlencode($page).'&rvlimit=1&rvprop=content|timestamp'.$append);
+        $x = $this->query('?action=query&format=json&prop=revisions&rvslots=main&titles='.urlencode($page).'&rvlimit=1&rvprop=content|timestamp|user'.$append);
         #print_r($x);
         foreach ($x['query']['pages'] as $ret) {
             if (isset($ret['revisions'][0]['slots']['main']['*'])) {
                 if ($detectEditConflict) {
                     $this->ecTimestamp = $ret['revisions'][0]['timestamp'];
                 }
+                $timestamp = $ret['revisions'][0]['timestamp'];
+                $user = $ret['revisions'][0]['user'];
                 return $ret['revisions'][0]['slots']['main']['*'];
             } else {
                 return false;
@@ -278,13 +284,13 @@ class wikipedia {
 
     /**
      * Gets up to nine recent edits to a page by a specified editor. Used to prevent bots from edit warring.
-     * @param $page The wikipedia page to fetch.
-     * @param $editor The editor's edits to fetch (usually the bot's user ID).
+     * @param string $page The wikipedia page to fetch.
+     * @param string $editor The editor's edits to fetch (usually the bot's user name).
      * @return int The number of recent edits the user has made to the page (up to 9). "Recent edits" are edits made in the past day (24 hours).
-     **/
+     */
     function recent_page_edits ($page,$editor) {
         $ds = 86400;    #number of seconds in a day
-        $timestamp = date(DATE_ISO8601, time() - $ds);
+        $timestamp = date(DATE_ATOM, time() - $ds);
         #echo $timestamp . "\n";
         $x = $this->query('?action=query&format=json&prop=revisions&rvslots=main&titles='.urlencode($page).'&rvuser='.urlencode($editor).
             '&rvend='.urlencode($timestamp).'&rvlimit=9&rvprop=user|timestamp|comment');
@@ -304,7 +310,7 @@ class wikipedia {
      * Gets the ten latest edits to a page. Used to find history that blocks page-movers from moving.
      * @param $page The wikipedia page to fetch.
      * @return int The number of page-edits found (up to 10).
-     **/
+     */
     function ten_latest_edits ($page) {
         $x = $this->query('?action=query&format=json&prop=revisions&rvslots=main&titles='.urlencode($page).'&rvlimit=10&rvprop=user|timestamp|comment');
         #print_r($x);
@@ -320,10 +326,23 @@ class wikipedia {
     }
 
     /**
+     * Returns true if $revid is the oldest revision of $page
+     */
+    function oldest_revision ($page,$revid) {
+        $x = $this->query('?action=query&format=json&prop=revisions&titles='.urlencode($page).'&rvlimit=2&rvstartid='.$revid.'&rvdir=older');
+        foreach ($x['query']['pages'] as $ret) {
+            if (isset($ret['revisions'][1]['revid'])) {
+                return false;
+            } else
+                return true;
+        }
+    }
+
+    /**
      * Gets the page id for a page.
      * @param $page The wikipedia page to get the id for.
      * @return int The page id of the page.
-     **/
+     */
     function getpageid ($page) {
         $x = $this->query('?action=query&format=json&prop=revisions&titles='.urlencode($page).'&rvlimit=1&rvprop=content');
         foreach ($x['query']['pages'] as $ret) {
@@ -332,10 +351,22 @@ class wikipedia {
     }
 
     /**
+     * Gets the page title for a revision.
+     * @param $revid The revision id to get the title for.
+     * @return The title of the page.
+     */
+    function getpagetitle ($revid) {
+        $x = $this->query('?action=query&format=json&revids='.$revid);
+        foreach ($x['query']['pages'] as $ret) {
+            return $ret['title'];
+        }
+    }
+
+    /**
      * Gets the number of contributions a user has.
      * @param $user The username for which to get the edit count.
      * @return int The number of contributions the user has.
-     **/
+     */
     function contribcount ($user) {
         $x = $this->query('?action=query&list=allusers&format=json&auprop=editcount&aulimit=1&aufrom='.urlencode($user));
         return $x['query']['allusers'][0]['editcount'];
@@ -345,7 +376,7 @@ class wikipedia {
      * Returns an array with all the categories $page belongs to
      * @param $page
      * @return array
-     **/
+     */
     function categories ($page) {
         $x = $this->query('?action=query&format=json&prop=categories&titles='.urlencode($page));
         foreach ($x['query']['pages'] as $ret) {
@@ -358,7 +389,7 @@ class wikipedia {
      * @param $category The category to use.
      * @param $subcat (bool) Go into sub categories?
      * @return array
-     **/
+     */
     function categorymembers ($category,$subcat=false) {
         $continue = '&rawcontinue=';
         $pages = array();
@@ -390,7 +421,7 @@ class wikipedia {
      * Returns the number of pages in a category
      * @param $category The category to use (including prefix)
      * @return integer
-     **/
+     */
     function categorypagecount ($category) {
         $res = $this->query('?action=query&format=json&titles='.urlencode($category).'&prop=categoryinfo&formatversion=2');
         return $res['query']['pages'][0]['categoryinfo']['pages'];
@@ -400,13 +431,14 @@ class wikipedia {
      * Returns a list of pages that link to $page.
      * @param $page
      * @param $extra (defaults to null)
+     * @param $ns (defaults to null)
      * @return array
-     **/
-    function whatlinkshere ($page,$extra=null) {
+     */
+    function whatlinkshere ($page,$extra=null,$ns=null) {
         $continue = '&rawcontinue=';
         $pages = array();
         while (true) {
-            $res = $this->query('?action=query&list=backlinks&bltitle='.urlencode($page).'&bllimit=500&format=json'.$continue.$extra);
+            $res = $this->query('?action=query&list=backlinks&bltitle='.urlencode($page).'&blnamespace='.$ns.'&bllimit=500&format=json'.$continue.$extra);
             if (isset($res['error'])) {
                 return false;
             }
@@ -426,7 +458,7 @@ class wikipedia {
     * @param $image
     * @param $extra (defaults to null)
     * @return array
-    **/
+    */
     function whereisincluded ($image,$extra=null) {
         $continue = '&rawcontinue=';
         $pages = array();
@@ -451,7 +483,7 @@ class wikipedia {
     * @param $template the template we are interested in
     * @param $extra (defaults to null)
     * @return array
-    **/
+    */
     function whatusethetemplate ($template,$extra=null) {
         $continue = '&rawcontinue=';
         $pages = array();
@@ -475,7 +507,7 @@ class wikipedia {
      * Returns an array with all the subpages of $page
      * @param $page
      * @return array
-     **/
+     */
     function subpages ($page) {
         /* Calculate all the namespace codes */
         $ret = $this->query('?action=query&meta=siteinfo&siprop=namespaces&format=json');
@@ -508,7 +540,7 @@ class wikipedia {
      * @param $user Username to login as.
      * @param $pass Password that corrisponds to the username.
      * @return array
-     **/
+     */
     function login ($user,$pass) {
         $post = array('lgname' => $user, 'lgpassword' => $pass);
         $ret = $this->query('?action=query&meta=tokens&type=login&format=json');
@@ -538,13 +570,13 @@ class wikipedia {
 
     /**
      * Check if we're allowed to edit $page.
-     * See http://en.wikipedia.org/wiki/Template:Bots
+     * See https://en.wikipedia.org/wiki/Template:Bots
      * for more info.
-     * @param $page MediaWikiPage The page we want to edit.
-     * @param $user string The bot's username.
-     * @param $text string page text, will override page
+     * @param string $page The page we want to edit.
+     * @param string $user The bot's username.
+     * @param string $text Page text, will override page
      * @return bool true if we can edit
-     **/
+     */
     function nobots ($page,$user=null,$text=null) {
         if ($text == null) {
             $text = $this->getpage($page);
@@ -564,7 +596,7 @@ class wikipedia {
     /**
      * This function returns the edit token for the current user.
      * @return string edit token.
-     **/
+     */
     function getedittoken() {
         $x = $this->query('?action=query&meta=tokens&format=json');
         return $x['query']['tokens']['csrftoken'];
@@ -575,7 +607,7 @@ class wikipedia {
      * Uses index.php.
      * @param $user The user to check.
      * @return bool.
-     **/
+     */
     function checkEmail($user) {
         $x = $this->query('?action=query&meta=allmessages&ammessages=noemailtext|notargettext&amlang=en&format=json');
         $messages[0] = $x['query']['allmessages'][0]['*'];
@@ -593,7 +625,7 @@ class wikipedia {
      * @param $page The page to get the transclusions from.
      * @param $sleep The time to sleep between requests (set to null to disable).
      * @return array.
-     **/
+     */
     function getTransclusions($page,$sleep=null,$extra=null) {
         $continue = '&rawcontinue=';
         $pages = array();
@@ -613,12 +645,37 @@ class wikipedia {
         }
     }
 
+ /**
+     * Returns all the mainspace pages (namespace=0) $page is transcluded on.
+     * @param $page The page to get the transclusions from.
+     * @param $sleep The time to sleep between requests (set to null to disable).
+     * @return array.
+     */
+    function getMainTransclusions($page,$sleep=null,$extra=null) {
+        $continue = '&rawcontinue=';
+        $pages = array();
+        while (true) {
+            $ret = $this->query('?action=query&list=embeddedin&einamespace=0&eititle='.urlencode($page).$continue.$extra.'&eilimit=500&format=json');
+            if ($sleep != null) {
+                sleep($sleep);
+            }
+            foreach ($ret['query']['embeddedin'] as $x) {
+                $pages[] = $x['title'];
+            }
+            if (isset($ret['query-continue']['embeddedin']['eicontinue'])) {
+                $continue = '&rawcontinue=&eicontinue='.$ret['query-continue']['embeddedin']['eicontinue'];
+            } else {
+                return $pages;
+            }
+        }
+    }
+
     /**
      * Returns all the talk pages (namespace=1) $page is transcluded on.
      * @param $page The page to get the transclusions from.
      * @param $sleep The time to sleep between requests (set to null to disable).
      * @return array.
-     **/
+     */
     function getTalkTransclusions($page,$sleep=null,$extra=null) {
         $continue = '&rawcontinue=';
         $pages = array();
@@ -639,15 +696,36 @@ class wikipedia {
     }
 
     /**
+     * Returns the timestamp of the oldest deleted revision of $page.
+     * @param $page
+     * @return timestamp
+     */
+    function getOldestDeletedRevisionTimestamp($page) {
+        $res = $this->query('?action=query&format=json&prop=deletedrevisions&titles='.urlencode($page).'&drvprop=timestamp&drvlimit=1&drvdir=newer');
+        if (isset($res['error'])) {
+            return false;
+        }
+        foreach ($res['query']['pages'] as $x) {
+            if (isset($x['deletedrevisions'][0]['timestamp'])) {
+                return $x['deletedrevisions'][0]['timestamp'];
+            }
+        }
+    }
+
+    /**
      * Purges the cache of $page.
      * @param $page The page to purge.
      * @return array Api result.
-     **/
+     */
     function purgeCache($page) {
         $params = array(
             'titles' => $page,
         );
         $ret = $this->query('?action=purge&format=json&formatversion=2&assert=user&forcerecursivelinkupdate=1',$params);
+        if (!array_key_exists('purge', $ret)) {
+            print_r($ret);
+            return $ret;
+        }
         foreach ($ret['purge'] as $x) {
             if (!array_key_exists('purged', $x) or $x['purged'] != true) {
                 echo "\n? Not purged!\n";
@@ -669,7 +747,7 @@ class wikipedia {
      * @param $minor Whether or not to mark edit as minor.  (Default false)
      * @param $bot Whether or not to mark edit as a bot edit.  (Default true)
      * @return array api result
-     **/
+     */
     function edit ($page,$data,$summary = '',$minor = false,$bot = true,$section = null,$detectEC=false,$maxlag='') {
         if ($this->token==null) {
             $this->token = $this->getedittoken();
@@ -697,13 +775,13 @@ class wikipedia {
 
     /**
     * Add a text at the bottom of a page
-    * @param $page The page we're working with.
-    * @param $text The text that you want to add.
-    * @param $summary Edit summary to use.
-    * @param $minor Whether or not to mark edit as minor.  (Default false)
-    * @param $bot Whether or not to mark edit as a bot edit.  (Default true)
+    * @param string $page The page we're working with.
+    * @param string $text The text that you want to add.
+    * @param string $summary Edit summary to use.
+    * @param bool $minor Whether or not to mark edit as minor.  (Default false)
+    * @param bool $bot Whether or not to mark edit as a bot edit.  (Default true)
     * @return array api result
-    **/
+    */
     function addtext( $page, $text, $summary = '', $minor = false, $bot = true )
     {
         $data = $this->getpage( $page );
@@ -718,7 +796,7 @@ class wikipedia {
      * @param $reason Move summary to use.
      * @param $movetalk Move the page's talkpage as well.
      * @return array api result
-     **/
+     */
     function move ($old,$new,$reason,$options=null) {
         if ($this->token==null) {
             $this->token = $this->getedittoken();
@@ -745,7 +823,7 @@ class wikipedia {
      * @param $reason Edit summary to use for rollback.
      * @param $bot mark the rollback as bot.
      * @return array api result
-     **/
+     */
     function rollback ($title,$user,$reason=null,$bot=false) {
         $ret = $this->query('?action=query&prop=revisions&rvtoken=rollback&titles='.urlencode($title).'&format=json');
         foreach ($ret['query']['pages'] as $x) {
@@ -773,7 +851,7 @@ class wikipedia {
      * @param $expiry The block expiry.
      * @param $options a piped string containing the block options.
      * @return array api result
-     **/
+     */
     function block ($user,$reason='vand',$expiry='infinite',$options=null,$retry=true) {
         if ($this->token==null) {
             $this->token = $this->getedittoken();
@@ -804,7 +882,7 @@ class wikipedia {
      * @param $user The user to unblock.
      * @param $reason The unblock reason.
      * @return array api result
-     **/
+     */
     function unblock ($user,$reason) {
         if ($this->token==null) {
             $this->token = $this->getedittoken();
@@ -824,7 +902,7 @@ class wikipedia {
      * @param $text The body of the email.
      * @param $ccme Send a copy of the email to the user logged in.
      * @return array api result
-     **/
+     */
     function email ($target,$subject,$text,$ccme=false) {
         if ($this->token==null) {
             $this->token = $this->getedittoken();
@@ -846,7 +924,7 @@ class wikipedia {
      * @param $title The page to delete.
      * @param $reason The delete reason.
      * @return array api result
-     **/
+     */
     function delete ($title,$reason) {
         if ($this->token==null) {
             $this->token = $this->getedittoken();
@@ -864,7 +942,7 @@ class wikipedia {
      * @param $title The page to undelete.
      * @param $reason The undelete reason.
      * @return array api result
-     **/
+     */
     function undelete ($title,$reason) {
         if ($this->token==null) {
             $this->token = $this->getedittoken();
@@ -885,7 +963,7 @@ class wikipedia {
      * @param $reason The (un)protect reason.
      * @param $cascade Enable cascading protection? (defaults to false)
      * @return array api result
-     **/
+     */
     function protect ($title,$protections,$expiry,$reason,$cascade=false) {
         if ($this->token==null) {
             $this->token = $this->getedittoken();
@@ -908,7 +986,7 @@ class wikipedia {
      * @param $page The destination file name.
      * @param $file The local file path.
      * @param $desc The upload discrption (defaults to '').
-     **/
+     */
      function upload ($page,$file,$desc='') {
         if ($this->token == null) {
                 $this->token = $this->getedittoken();
@@ -919,7 +997,7 @@ class wikipedia {
             'text'            => $desc,
             'token'           => $this->token,
             'ignorewarnings'  => '1',
-            'file'            => '@'.$file
+            'file'            => new CURLFile(realpath($file))
         );
         return $this->query('?action=upload&format=json&assert=user',$params);
      }
@@ -956,7 +1034,7 @@ class wikipedia {
      * @param $username The username the new account will have.
      * @param $password The password the new account will have.
      * @param $email The email the new account will have.
-     **/
+     */
     function createaccount ($username,$password,$email=null) {
         $post = array(
             'wpName' => $username,
@@ -972,11 +1050,11 @@ class wikipedia {
 
     /**
      * Changes a users rights.
-     * @param $user   The user we're working with.
-     * @param $add    A pipe-separated list of groups you want to add.
-     * @param $remove A pipe-separated list of groups you want to remove.
-     * @param $reason The reason for the change (defaults to '').
-     **/
+     * @param string $user The user we're working with.
+     * @param string $add A pipe-separated list of groups you want to add.
+     * @param string $remove A pipe-separated list of groups you want to remove.
+     * @param string $reason The reason for the change (defaults to '').
+     */
     function userrights ($user,$add,$remove,$reason='') {
         // get the userrights token
         $token = $this->query('?action=query&list=users&ususers='.urlencode($user).'&ustoken=userrights&format=json');
@@ -993,19 +1071,20 @@ class wikipedia {
 
     /**
      * Gets the number of images matching a particular sha1 hash.
-     * @param $hash The sha1 hash for an image.
+     * @param string $hash The sha1 hash for an image.
      * @return int The number of images with the same sha1 hash.
-     **/
+     */
     function imagematches ($hash) {
         $x = $this->query('?action=query&list=allimages&format=json&aisha1='.$hash);
         return count($x['query']['allimages']);
     }
 
-    /**  BMcN 2012-09-16
+    /**
      * Retrieve a media file's actual location.
      * @param $page The "File:" page on the wiki which the URL of is desired.
-     * @return string|false The URL pointing directly to the media file (Eg http://upload.mediawiki.org/wikipedia/en/1/1/Example.jpg)
-     **/
+     * @return string|false The URL pointing directly to the media file (Eg https://upload.mediawiki.org/wikipedia/en/1/1/Example.jpg)
+     * @author BMcN 2012-09-16
+     */
     function getfilelocation ($page) {
         $x = $this->query('?action=query&format=json&prop=imageinfo&titles='.urlencode($page).'&iilimit=1&iiprop=url');
         foreach ($x['query']['pages'] as $ret ) {
@@ -1017,11 +1096,12 @@ class wikipedia {
         }
     }
 
-    /**  BMcN 2012-09-16
+    /**
      * Retrieve a media file's uploader.
-     * @param $page The "File:" page
+     * @param string $page The "File:" page
      * @return string|false The user who uploaded the topmost version of the file.
-     **/
+     * @author BMcN 2012-09-16
+     */
     function getfileuploader ($page) {
         $x = $this->query('?action=query&format=json&prop=imageinfo&titles='.urlencode($page).'&iilimit=1&iiprop=user');
         foreach ($x['query']['pages'] as $ret ) {
@@ -1035,20 +1115,21 @@ class wikipedia {
 }
 
 /**
- * This class extends the wiki class to provide an high level API for the most commons actions.
+ * This class extends the wiki class to provide a high level API for the most commons actions.
  * @author Fale
- **/
+ * @author Pavel Malahov
+ */
 class extended extends wikipedia
 {
     /**
      * Add a category to a page
-     * @param $page The page we're working with.
-     * @param $category The category that you want to add.
-     * @param $summary Edit summary to use.
-     * @param $minor Whether or not to mark edit as minor.  (Default false)
-     * @param $bot Whether or not to mark edit as a bot edit.  (Default true)
+     * @param string $page The page we're working with.
+     * @param string $category The category that you want to add.
+     * @param string $summary Edit summary to use.
+     * @param bool $minor Whether or not to mark edit as minor.  (Default false)
+     * @param bool $bot Whether or not to mark edit as a bot edit.  (Default true)
      * @return array api result
-     **/
+     */
     function addcategory( $page, $category, $summary = '', $minor = false, $bot = true )
     {
         $data = $this->getpage( $page );
@@ -1058,10 +1139,10 @@ class extended extends wikipedia
 
     /**
      * Find a string
-     * @param $page The page we're working with.
-     * @param $string The string that you want to find.
-     * @return bool value (1 found and 0 not-found)
-     **/
+     * @param string $page The page we're working with.
+     * @param string $string The string that you want to find.
+     * @return int value (1 found and 0 not-found)
+     */
     function findstring( $page, $string )
     {
         $data = $this->getpage( $page );
@@ -1074,11 +1155,11 @@ class extended extends wikipedia
 
     /**
      * Replace a string
-     * @param $page The page we're working with.
-     * @param $string The string that you want to replace.
-     * @param $newstring The string that will replace the present string.
+     * @param string $page The page we're working with.
+     * @param string $string The string that you want to replace.
+     * @param string $newstring The string that will replace the present string.
      * @return string the new text of page
-     **/
+     */
     function replacestring( $page, $string, $newstring )
     {
         $data = $this->getpage( $page );
@@ -1087,10 +1168,10 @@ class extended extends wikipedia
 
     /**
      * Get a template from a page
-     * @param $page The page we're working with
-     * @param $template The name of the template we are looking for
+     * @param string $page The page we're working with
+     * @param string $template The name of the template we are looking for
      * @return string|null the searched (NULL if the template has not been found)
-     **/
+     */
     function gettemplate( $page, $template ) {
         $data = $this->getpage( $page );
         $template = preg_quote( $template, " " );
@@ -1101,5 +1182,226 @@ class extended extends wikipedia
         } else {
             return NULL;
         }
+    }
+
+    /**
+     * Get a list of all pages
+     * @param $namespace Namespace to query (default=0)
+     * @param $from Start list from the given page name
+     * @param $to End list with the given page name
+     * @return array with all pages if the following format:
+            array (
+              0 => array (
+                'pageid' => 1,
+                'ns' => 0,
+                'title' => 'Page 1 name',
+              ),
+              1 => array (
+                'pageid' => 2,
+                'ns' => 0,
+                'title' => 'Page 2 name',
+              ),
+            )
+     * @author Pavel Malahov
+     *
+     * more info: https://www.mediawiki.org/wiki/API:Allpages
+     */
+    function allpages($from, $namespace = 0, $limit = 100) {
+        $q = "?action=query&list=allpages&apfrom=$from&apnamespace=$namespace&aplimit=$limit&format=php";
+        //wfDebug("WikiFarm. Bot allpages query  \n\tname: $wikiname  \n\tapi: $api  \n\tquery: $q\n");
+        $arr = $this->query($q);
+        $res = $arr['query']['allpages'];
+        return $res;
+    }
+
+    /**
+     * Get a list of recent changes
+     * @param $namespace Namespace to query (default=0)
+     * @return array with changes:
+            array (
+              0 =>
+              array (
+                'type' => 'new',
+                'ns' => 0,
+                'title' => 'Page 1 name',
+                'rcid' => 24,
+                'pageid' => 7,
+                'revid' => 15,
+                'old_revid' => 0,
+                'user' => 'User name or IP',
+                'minor' => '',
+                'anon' => '',
+                'new' => '',
+                'oldlen' => 0,
+                'newlen' => 53,
+                'timestamp' => '2012-02-15T04:15:26Z',
+                'comment' => 'summary for the page',
+              ),
+             )
+     * @author Pavel Malahov
+     *
+     * more info: https://www.mediawiki.org/wiki/API:Recentchanges
+     */
+    function recentchanges( $request, $user) {
+        $prop = '&rcprop=timestamp|title|ids|sizes|flags|user|comment';
+        $type = '&rctype=edit|new';
+
+        $limit = $request->getInt('limit');            if (empty($limit))    { $limit = 50; }
+        $limit = "&rclimit=$limit";
+
+        $namespace = $request->getInt('namespace');    if (empty($namespace))    { $namespace = '0|8'; }
+        $namespace = "&rcnamespace=$namespace";
+
+        $hms = $request->getInt('hidemyself');
+        if ($hms) {$hms = "&rcexcludeuser=". $user->getName();}
+
+        $hide = '';
+        $hide .= $request->getInt('hideminor') ? '!minor|' : '';
+        $hide .= $request->getInt('hidebots') ? '!bot|' : '';
+        $hide .= $request->getInt('hideanons') ? '!anon' : '';
+        $hide_filter =  empty($hide) ? '' : "&rcshow=". $hide;
+
+        $days = $request->getInt('days');            if (empty($days))    { $days = 7; }
+        $start = "&rcstart=". time();
+        $end = "&rcend=" . mktime(0, 0, 0, date("m"), date("d") - $days, date("Y"));
+        $sort_direction = "&rcdir=older";
+
+        $q = "?action=query&list=recentchanges&format=php". $prop . $type . $limit . $namespace. $start . $end . $sort_direction . $hide_filter;
+        $arr = $this->query($q);
+        $res = $arr['query']['recentchanges'];
+        return $res;
+    }
+
+    /**
+     * Get a list of interwiki
+     * @return array
+     * @author Pavel Malahov
+     */
+    function interwikilist() {
+        $q = "?action=query&meta=siteinfo&siprop=interwikimap&format=php";
+        //wfDebug("WikiFarm. Interwiki list\n\tquery: $q\n");
+        $arr = $this->query($q);
+        $res = $arr['query']['interwikimap'];
+        return $res;
+    }
+
+    /**
+     * Get a list of all users
+     * @return array
+     * @author Pavel Malahov
+     *
+     * more info: https://www.mediawiki.org/wiki/API:Allusers
+     */
+    function allusers() {
+        $q = "?action=query&list=allusers&format=php&aulimit=5000&auprop=blockinfo|groups|editcount|registration";
+        //wfDebug("WikiFarm. Bot all users \n\tquery: $q\n");
+        $arr = $this->query($q);
+        $res = $arr['query']['allusers'];
+        return $res;
+    }
+
+    /**
+     * Get a list of all non-empty categories
+     * @return array
+     * @author Pavel Malahov
+     *
+     * more info: https://www.mediawiki.org/wiki/API:Allcategories
+     */
+    function allcategories() {
+        $q = "?action=query&list=allcategories&aclimit=5000&format=php";
+        //wfDebug("WikiFarm. Bot all categories \n\tquery: $q\n");
+        $arr = $this->query($q);
+        $res = $arr['query']['allcategories'];
+        return $res;
+    }
+
+    /**
+     * Get a list of all templates
+     * @return array
+     * @author Pavel Malahov
+     *
+     * more info: https://www.mediawiki.org/wiki/API:Allpages
+     */
+    function alltemplates() {
+        $q = "?action=query&list=allpages&apnamespace=10&aplimit=500&format=php";
+        //wfDebug("\tWikiFarm. Bot all categories \n\tquery: $q\n");
+        $arr = $this->query($q);
+        $res = $arr['query']['allpages'];
+        return $res;
+    }
+
+    /**
+     * Get wiki general info
+     * @return array
+     * @author Pavel Malahov
+     *
+     * more info: https://www.mediawiki.org/wiki/API:Meta
+     */
+    function siteinfo() {
+        $q = "?action=query&meta=siteinfo&format=php";
+        //wfDebug("\tWikiFarm. Bot site info \n\tquery: $q\n");
+        $arr = $this->query($q);
+        $res = $arr['query']['general'];
+        return $res;
+    }
+
+    /**
+     * Get wiki statistics
+     * @return array
+     * @author Pavel Malahov
+     *
+     * more info: https://www.mediawiki.org/wiki/API:Meta
+     */
+    function sitestatistics() {
+        $q = "?action=query&meta=siteinfo&format=php&siprop=statistics";
+        //wfDebug("\tWikiFarm. Bot site statistics \n\tquery: $q\n");
+        $arr = $this->query($q);
+        $res = $arr['query']['statistics'];
+        return $res;
+    }
+    
+    /**
+     * Get certain statistics value
+     * @param $item Name of an item
+     * @param $value Parameter if needed
+     * @return value for item
+     * @author Pavel Malahov
+     */
+    function statvalue($item, $value='') {
+        switch ($item) {
+            case 'pages':        /* return number of ...*/
+            case 'articles':
+            case 'edits':
+            case 'images':
+            case 'users':
+            case 'activeusers':
+            case 'admins':
+                $arr = $this->sitestatistics();
+                $res = $arr[$item];
+                break;
+
+            case 'category':    /* return number of articles in category */
+                $arr = $this->categorymembers($value);
+                $res = count($arr);
+                break;
+        }
+        return $res;
+    }
+
+    /**
+     * Search for string
+     * @param $str String to search
+     * @return array with search result
+     * @author Pavel Malahov
+     *
+     * more info:    https://www.mediawiki.org/wiki/API:Search
+     *               https://www.mediawiki.org/wiki/API:Opensearch
+     */
+    function search($str, $what='title', $limit=10) {
+        $q = "?action=query&list=search&format=php&srsearch=$str&srlimit=$limit&srwhat=$what";
+        //wfDebug("\tWikiFarm. Bot search \n\tquery: $q\n");
+        $arr = $this->query($q);
+        $res = $arr['query']['search'];
+        return $res;
     }
 }

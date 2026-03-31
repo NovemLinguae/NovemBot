@@ -146,7 +146,7 @@ class SuspiciousImageFinder {
 
 	private function logInToWikipedia() {
 		$this->wikiAPI = new wikipedia();
-		$this->wikiAPI->beQuiet();
+		$this->wikiAPI->quiet = true;
 		$this->wikiAPI->http->useragent = '[[en:User:NovemBot]] task B, owner [[en:User:Novem Linguae]], framework [[en:User:RMCD_bot/botclasses.php]]';
 		$this->wikiAPI->login( $this->wiki_username, $this->wiki_password );
 	}
