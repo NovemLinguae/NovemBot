@@ -79,6 +79,10 @@ class Controller {
 	public function addUsersFromEnwikiJsonPage( $permission, $enwikiNamespaceAndPage ) {
 		View::print( "\nGet $permission\n" );
 		$data = $this->wp->getpage( $enwikiNamespaceAndPage );
+		if ( !$data ) {
+			throw new Exception( "API error. Couldn't get the data we needed from wiki page $enwikiNamespaceAndPage. Maybe Wikipedia is down? Abort this particular update since continuing would result in some users missing from the dataset." );
+			return;
+		}
 		$data = json_decode( $data, true );
 		$this->userList->addProperlyFormatted( $data, $permission );
 		View::print( "...done.\n" );
