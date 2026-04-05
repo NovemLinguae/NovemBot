@@ -2,8 +2,7 @@
 
 class View {
 	/**
-	 * flushing (ob_flush, flush) doesn't appear to work on Toolforge web due to gzip compression.
-	 * Works in CLI though. Deleting all the flushing code for now and just using echo.
+	 * flushing (ob_flush, flush) doesn't appear to work on Toolforge web due to gzip compression. Works in CLI though. Deleting all the flushing code for now and just using echo.
 	 */
 	public static function print( $str ) {
 		echo $str;

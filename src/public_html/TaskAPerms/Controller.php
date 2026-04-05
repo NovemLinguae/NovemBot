@@ -1,5 +1,9 @@
 <?php
 
+use View;
+use Query;
+use UserList;
+
 class Controller {
 	protected $enwiki;
 	protected $metawiki;
