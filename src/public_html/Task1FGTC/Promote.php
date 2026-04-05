@@ -88,8 +88,8 @@ class Promote {
 		return $output;
 	}
 
-	public function getTopicWikipediaPageTitle( $topicTitle ) {
-		return "Wikipedia:Featured topics/$topicTitle";
+	public function getTopicWikipediaPageTitle( $topicTitle, $goodOrFeatured ) {
+		return "Wikipedia:" . ucfirst( $goodOrFeatured ) . " topics/$topicTitle";
 	}
 
 	public function getTopicWikipediaPageWikicode( $topicDescriptionWikicode, $topicBoxWikicode ) {
@@ -166,8 +166,8 @@ $wikiProjectBanners";
 		return $talkWikicode;
 	}
 
-	public function getTopicTalkPageTitle( $topicTitle ) {
-		return 'Wikipedia talk:Featured topics/' . $topicTitle;
+	public function getTopicTalkPageTitle( $topicTitle, $goodOrFeatured ) {
+		return 'Wikipedia talk:' . ucfirst( $goodOrFeatured ) . ' topics/' . $topicTitle;
 	}
 
 	public function getWikiProjectBanners( $mainArticleTalkPageWikicode, $title ) {

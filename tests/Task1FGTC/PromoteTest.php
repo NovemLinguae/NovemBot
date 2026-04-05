@@ -16,9 +16,16 @@ class PromoteTest extends TestCase {
 		$this->p = new Promote( $eh, $h );
 	}
 
-	public function test_getTopicWikipediaPageTitle_dontWriteToWikipediaGoodTopics() {
+	public function test_getTopicWikipediaPageTitle_goodTopic() {
 		$mainArticleTitle = 'TestPage';
 		$goodOrFeatured = 'good';
+		$result = $this->p->getTopicWikipediaPageTitle( $mainArticleTitle, $goodOrFeatured );
+		$this->assertSame( 'Wikipedia:Good topics/TestPage', $result );
+	}
+
+	public function test_getTopicWikipediaPageTitle_featuredTopic() {
+		$mainArticleTitle = 'TestPage';
+		$goodOrFeatured = 'featured';
 		$result = $this->p->getTopicWikipediaPageTitle( $mainArticleTitle, $goodOrFeatured );
 		$this->assertSame( 'Wikipedia:Featured topics/TestPage', $result );
 	}
@@ -892,9 +899,17 @@ Only this one should be detected:
 		$this->assertSame( '{{WikiProject Cue Sports}}', $result );
 	}
 
-	public function test_getTopicTalkPageTitle() {
+	public function test_getTopicTalkPageTitle_goodTopic() {
 		$mainArticleTitle = 'Dua Lipa (album)';
-		$result = $this->p->getTopicTalkPageTitle( $mainArticleTitle );
+		$goodOrFeatured = 'good';
+		$result = $this->p->getTopicTalkPageTitle( $mainArticleTitle, $goodOrFeatured );
+		$this->assertSame( 'Wikipedia talk:Good topics/Dua Lipa (album)', $result );
+	}
+
+	public function test_getTopicTalkPageTitle_featuredTopic() {
+		$mainArticleTitle = 'Dua Lipa (album)';
+		$goodOrFeatured = 'featured';
+		$result = $this->p->getTopicTalkPageTitle( $mainArticleTitle, $goodOrFeatured );
 		$this->assertSame( 'Wikipedia talk:Featured topics/Dua Lipa (album)', $result );
 	}
 

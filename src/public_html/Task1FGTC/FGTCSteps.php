@@ -140,7 +140,7 @@ class FGTCSteps {
 	private function makeTopicPage() {
 		$topicDescriptionWikicode = $this->p->getTopicDescriptionWikicode( $this->nominationPageWikicode );
 		$topicDescriptionWikicode = $this->p->removeSignaturesFromTopicDescription( $topicDescriptionWikicode );
-		$this->topicWikipediaPageTitle = $this->p->getTopicWikipediaPageTitle( $this->topicTitle );
+		$this->topicWikipediaPageTitle = $this->p->getTopicWikipediaPageTitle( $this->topicTitle, $this->goodOrFeatured );
 
 		$topicWikipediaPageWikicode = $this->wapi->getpage( $this->topicWikipediaPageTitle );
 		if ( $topicWikipediaPageWikicode ) {
@@ -156,7 +156,7 @@ class FGTCSteps {
 	 * Step 3
 	 */
 	private function makeTopicTalkPage() {
-		$topicTalkPageTitle = $this->p->getTopicTalkPageTitle( $this->topicTitle );
+		$topicTalkPageTitle = $this->p->getTopicTalkPageTitle( $this->topicTitle, $this->goodOrFeatured );
 
 		$topicTalkPageWikicode = $this->wapi->getpage( $topicTalkPageTitle );
 		if ( $topicTalkPageWikicode ) {
