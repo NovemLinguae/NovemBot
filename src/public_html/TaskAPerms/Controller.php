@@ -1,8 +1,6 @@
 <?php
 
-use View;
-use Query;
-use UserList;
+// don't put use statements up here, or it generates a PHP warning
 
 class Controller {
 	protected $enwiki;
