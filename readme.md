@@ -69,7 +69,7 @@ toolforge webservice stop
 toolforge webservice php8.4 start
 ```
 
-### Special:BotPassword permissions
+### Special:BotPasswords permissions
 
 * Task1FGTC
     * Edit existing pages
