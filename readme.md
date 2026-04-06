@@ -68,3 +68,19 @@ toolforge webservice status
 toolforge webservice stop
 toolforge webservice php8.4 start
 ```
+
+### Special:BotPassword permissions
+
+* Task1FGTC
+    * Edit existing pages
+	* Edit protected pages
+	* Create, edit, and move pages
+	* Read my notifications - the bot is summoned by ping
+* Task7RFA Count
+	* TODO
+* TaskAPerms
+	* Edit existing pages
+	* Edit your user CSS/JSON/JavaScript
+	* Create, edit, and move pages
+* TaskBSuspiciousFiles
+	* TODO
