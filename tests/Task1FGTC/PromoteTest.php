@@ -4133,6 +4133,14 @@ Jill',
 		$this->assertSame( $expected, $result );
 	}
 
+	public function test_removeGTCFTCTemplate_forwardSlash() {
+		$talkPageWikicode = "{{GTCmain|The 20/20 Experience – 2 of 2|1}}\n";
+		$topicTitle = 'The 20/20 Experience – 2 of 2';
+		$result = $this->p->removeGTCFTCTemplate( $talkPageWikicode, $topicTitle );
+		$expected = '';
+		$this->assertSame( $expected, $result );
+	}
+
 	public function test_removeGTCFTCTemplate_lowercase() {
 		$talkPageWikicode =
 '{{ftc|Overview of Ben&Ben|1}}
