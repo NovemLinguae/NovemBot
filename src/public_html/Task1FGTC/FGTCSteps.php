@@ -82,7 +82,7 @@ class FGTCSteps {
 		if ( !$this->READ_ONLY_TEST_MODE ) {
 			$this->writeSuccessMessageOnArchivePage();
 		}
-		$this->addToUserspaceLog();
+		// $this->addToUserspaceLog();
 		// Also a visual aid to easily see where the end of the run is.
 		$this->printConsoleReminderAboutStep6();
 	}
