@@ -223,6 +223,9 @@ class HardCodedSocks {
 		// https://en.wikipedia.org/wiki/Wikipedia:List_of_resysopped_users
 		$data['formeradmin']['Ocsar'] = 1;
 
+		// Other
+		$data['formeradmin']['G-Man'] = 1;
+
 		/*
 		// https://gerrit.wikimedia.org/r/admin/groups/4cdcb3a1ef2e19d73bc9a97f1d0f109d2e0209cd,members
 		$data['mediawikiPlusTwo']['Aaron Schulz'] = 1;
