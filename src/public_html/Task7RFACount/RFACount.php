@@ -21,16 +21,21 @@ class RFACount {
 	}
 
 	public function countRFAs( $wikicode ) {
-		preg_match_all( '/\{\{Wikipedia:Requests for adminship\/[^\}]+\}\}/i', $wikicode, $matches );
+		preg_match_all(
+			'/\{\{\s*(?:Wikipedia:Requests for adminship\/|\/)([^\}\|]+)(?:\|[^\}]*)?\}\}/i',
+			$wikicode,
+			$matches
+		);
 
-		// don't count {{Wikipedia:Requests for adminship/Header}} and {{Wikipedia:Requests for adminship/bureaucratship}}
-		$count = count( $matches[0] ) - 2;
+		$count = 0;
+		foreach ( $matches[1] as $subpage ) {
+			// don't count {{Wikipedia:Requests for adminship/Header}}, {{Wikipedia:Requests for adminship/bureaucratship}}, {{/Header}}, and {{/bureaucratship}}
+			if ( $subpage === 'Header' || $subpage === 'bureaucratship' ) {
+				continue;
+			}
 
-		// if we get an impossible count, just return zero
-		if ( $count < 0 ) {
-			$count = 0;
+			$count++;
 		}
-
 		return $count;
 	}
 
